@@ -1,0 +1,30 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Imagem demonstrativa do Volkswagen Virtus MSI 2019">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#dbeafe"/>
+      <stop offset="0.55" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <linearGradient id="car" x1="0" x2="1">
+      <stop offset="0" stop-color="#1d4ed8"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#0f172a" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <path d="M0 392 C160 348 278 392 432 350 C560 316 706 330 960 286 L960 540 L0 540 Z" fill="#e2e8f0" opacity="0.9"/>
+  <g filter="url(#shadow)">
+    <path d="M196 335 C232 272 298 237 390 229 L566 229 C640 234 710 272 757 335 L806 349 C837 358 856 385 850 416 L843 452 L125 452 L119 415 C114 383 135 356 166 348 Z" fill="url(#car)"/>
+    <path d="M330 249 L415 249 L398 317 L255 317 C274 283 299 261 330 249 Z" fill="#dbeafe" opacity="0.92"/>
+    <path d="M433 249 L556 249 C599 252 637 276 668 317 L419 317 Z" fill="#dbeafe" opacity="0.88"/>
+    <path d="M183 356 L783 356 C803 356 821 371 825 391 L831 423 L137 423 L142 392 C146 371 163 356 183 356 Z" fill="#1d4ed8" opacity="0.95"/>
+    <circle cx="269" cy="428" r="55" fill="#0f172a"/>
+    <circle cx="269" cy="428" r="27" fill="#94a3b8"/>
+    <circle cx="691" cy="428" r="55" fill="#0f172a"/>
+    <circle cx="691" cy="428" r="27" fill="#94a3b8"/>
+    <rect x="736" y="369" width="58" height="18" rx="9" fill="#fef08a" opacity="0.9"/>
+    <rect x="161" y="369" width="50" height="16" rx="8" fill="#fee2e2" opacity="0.85"/>
+  </g>
+</svg>

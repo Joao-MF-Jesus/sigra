@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: sigra_postgres
+    environment:
+      POSTGRES_DB: sigra
+      POSTGRES_USER: sigra
+      POSTGRES_PASSWORD: sigra
+    ports:
+      - "5432:5432"
+    volumes:
+      - sigra_pgdata:/var/lib/postgresql/data
+
+volumes:
+  sigra_pgdata:
+

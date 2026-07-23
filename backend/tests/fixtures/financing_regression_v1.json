@@ -1,0 +1,415 @@
+{
+  "immutable": true,
+  "fixture_version": "financing-regression-v1",
+  "module_version": "1.0.3",
+  "calculation_method_version": "price-v1.2",
+  "currency": "BRL",
+  "money_tolerance": 0.01,
+  "calculator_scenarios": [
+    {
+      "name": "price_positive_monthly_rate",
+      "principal": 20500,
+      "monthly_rate_percent": 1.8,
+      "term_months": 36,
+      "expected": {
+        "regular_installment": 778.67,
+        "final_installment": 778.62,
+        "maximum_installment_in_schedule": 778.67,
+        "total_installments": 28032.07
+      }
+    },
+    {
+      "name": "price_zero_rate",
+      "principal": 12000,
+      "monthly_rate_percent": 0,
+      "term_months": 12,
+      "expected": {
+        "regular_installment": 1000.0,
+        "final_installment": 1000.0,
+        "maximum_installment_in_schedule": 1000.0,
+        "total_installments": 12000.0
+      }
+    },
+    {
+      "name": "final_installment_above_regular",
+      "principal": 100.05,
+      "monthly_rate_percent": 1.8,
+      "term_months": 36,
+      "expected": {
+        "regular_installment": 3.8,
+        "final_installment": 3.81,
+        "maximum_installment_in_schedule": 3.81,
+        "total_installments": 136.81
+      }
+    }
+  ],
+  "direct_scenarios": [
+    {
+      "name": "manual_price",
+      "payload": {
+        "vehicle_type": "car",
+        "vehicle_price": 30000,
+        "down_payment": 10000,
+        "term_months": 36,
+        "monthly_interest_rate_percent": 1.8,
+        "upfront_fees": 0,
+        "financed_fees": 0,
+        "financed_insurance": 0,
+        "financed_services": 0,
+        "desired_max_installment": 2000,
+        "available_monthly_budget": 3000,
+        "estimated_monthly_vehicle_cost": 620
+      },
+      "price_context": {
+        "used_price": 30000,
+        "catalog_price": null,
+        "manual_price": 30000,
+        "negotiated_price": null,
+        "price_source": "manual",
+        "vehicle": null,
+        "is_demonstration_data": false,
+        "warnings": []
+      },
+      "expected": {
+        "price_source": "manual",
+        "price_used": 30000.0,
+        "regular_installment": 759.68,
+        "final_installment": 759.56,
+        "maximum_installment_in_schedule": 759.68,
+        "total_installments": 27348.36,
+        "total_acquisition_outflow": 37348.36,
+        "total_financing_addition": 7348.36,
+        "budget_commitment_percentage": 45.99,
+        "financing_status": "within_installment_limit",
+        "monthly_budget_status": "within_budget",
+        "overall_status": "compatible"
+      }
+    },
+    {
+      "name": "controlled_catalog_price",
+      "payload": {
+        "vehicle_type": "car",
+        "vehicle_id": 77,
+        "down_payment": 20000,
+        "term_months": 48,
+        "monthly_interest_rate_percent": 1.5,
+        "upfront_fees": 0,
+        "financed_fees": 0,
+        "financed_insurance": 0,
+        "financed_services": 0,
+        "desired_max_installment": 2000,
+        "available_monthly_budget": 4000,
+        "estimated_monthly_vehicle_cost": 1500
+      },
+      "price_context": {
+        "used_price": 72000,
+        "catalog_price": 72000,
+        "manual_price": null,
+        "negotiated_price": null,
+        "price_source": "catalog",
+        "vehicle": {"id": 77, "vehicle_type": "car", "brand": "Fixture", "model": "Controlado", "year": 2024},
+        "is_demonstration_data": false,
+        "warnings": []
+      },
+      "expected": {
+        "price_source": "catalog",
+        "catalog_price": 72000.0,
+        "price_used": 72000.0,
+        "regular_installment": 1527.5,
+        "final_installment": 1527.5,
+        "maximum_installment_in_schedule": 1527.5,
+        "total_installments": 73320.0,
+        "total_acquisition_outflow": 93320.0,
+        "total_financing_addition": 21320.0,
+        "overall_status": "compatible"
+      }
+    },
+    {
+      "name": "controlled_negotiated_price",
+      "payload": {
+        "vehicle_type": "car",
+        "vehicle_id": 77,
+        "negotiated_price": 65000,
+        "down_payment": 20000,
+        "term_months": 48,
+        "monthly_interest_rate_percent": 1.5,
+        "upfront_fees": 0,
+        "financed_fees": 0,
+        "financed_insurance": 0,
+        "financed_services": 0,
+        "desired_max_installment": 2000,
+        "available_monthly_budget": 4000,
+        "estimated_monthly_vehicle_cost": 1500
+      },
+      "price_context": {
+        "used_price": 65000,
+        "catalog_price": 72000,
+        "manual_price": null,
+        "negotiated_price": 65000,
+        "price_source": "negotiated",
+        "vehicle": {"id": 77, "vehicle_type": "car", "brand": "Fixture", "model": "Controlado", "year": 2024},
+        "is_demonstration_data": false,
+        "warnings": []
+      },
+      "expected": {
+        "price_source": "negotiated",
+        "catalog_price": 72000.0,
+        "negotiated_price": 65000.0,
+        "price_used": 65000.0,
+        "regular_installment": 1321.87,
+        "final_installment": 1322.11,
+        "maximum_installment_in_schedule": 1322.11,
+        "total_installments": 63450.0,
+        "total_acquisition_outflow": 83450.0,
+        "total_financing_addition": 18450.0,
+        "overall_status": "compatible"
+      }
+    },
+    {
+      "name": "annual_cet_conversion",
+      "payload": {
+        "vehicle_type": "car",
+        "vehicle_price": 30000,
+        "down_payment": 10000,
+        "term_months": 36,
+        "effective_cost_rate_percent": 24,
+        "effective_cost_rate_period": "annual",
+        "effective_rate_includes_additional_costs": true,
+        "upfront_fees": 0,
+        "financed_fees": 0,
+        "financed_insurance": 0,
+        "financed_services": 0,
+        "desired_max_installment": 2000,
+        "available_monthly_budget": 3000,
+        "estimated_monthly_vehicle_cost": 620
+      },
+      "price_context": {
+        "used_price": 30000,
+        "catalog_price": null,
+        "manual_price": 30000,
+        "negotiated_price": null,
+        "price_source": "manual",
+        "vehicle": null,
+        "is_demonstration_data": false,
+        "warnings": []
+      },
+      "expected": {
+        "regular_installment": 760.76,
+        "final_installment": 760.8,
+        "maximum_installment_in_schedule": 760.8,
+        "total_installments": 27387.4,
+        "total_financing_addition": 7387.4,
+        "interest_estimate": null,
+        "rate.effective_monthly_rate_percent": 1.81,
+        "overall_status": "compatible"
+      }
+    },
+    {
+      "name": "financed_additional_costs",
+      "payload": {
+        "vehicle_type": "car",
+        "vehicle_price": 30000,
+        "down_payment": 10000,
+        "term_months": 36,
+        "monthly_interest_rate_percent": 1.8,
+        "upfront_fees": 0,
+        "financed_fees": 500,
+        "financed_insurance": 100,
+        "financed_services": 50,
+        "desired_max_installment": 2000,
+        "available_monthly_budget": 3000,
+        "estimated_monthly_vehicle_cost": 620
+      },
+      "price_context": {
+        "used_price": 30000,
+        "catalog_price": null,
+        "manual_price": 30000,
+        "negotiated_price": null,
+        "price_source": "manual",
+        "vehicle": null,
+        "is_demonstration_data": false,
+        "warnings": []
+      },
+      "expected": {
+        "financed_additional_costs": 650.0,
+        "total_financed_amount": 20650.0,
+        "regular_installment": 784.37,
+        "final_installment": 784.23,
+        "total_installments": 28237.18,
+        "total_financing_addition": 8237.18,
+        "overall_status": "compatible"
+      }
+    },
+    {
+      "name": "cash_purchase_over_monthly_budget",
+      "payload": {
+        "vehicle_type": "car",
+        "vehicle_price": 30000,
+        "down_payment": 30000,
+        "term_months": 12,
+        "monthly_interest_rate_percent": 0,
+        "upfront_fees": 0,
+        "financed_fees": 0,
+        "financed_insurance": 0,
+        "financed_services": 0,
+        "desired_max_installment": 0,
+        "available_monthly_budget": 500,
+        "estimated_monthly_vehicle_cost": 620
+      },
+      "price_context": {
+        "used_price": 30000,
+        "catalog_price": null,
+        "manual_price": 30000,
+        "negotiated_price": null,
+        "price_source": "manual",
+        "vehicle": null,
+        "is_demonstration_data": false,
+        "warnings": []
+      },
+      "expected": {
+        "regular_installment": 0.0,
+        "final_installment": 0.0,
+        "total_installments": 0.0,
+        "total_acquisition_outflow": 30000.0,
+        "total_monthly_outflow": 620.0,
+        "financing_status": "zero_financing_required",
+        "monthly_budget_status": "over_monthly_budget",
+        "overall_status": "over_monthly_budget"
+      }
+    },
+    {
+      "name": "final_installment_limit",
+      "payload": {
+        "vehicle_type": "car",
+        "vehicle_price": 100.05,
+        "down_payment": 0,
+        "term_months": 36,
+        "monthly_interest_rate_percent": 1.8,
+        "upfront_fees": 0,
+        "financed_fees": 0,
+        "financed_insurance": 0,
+        "financed_services": 0,
+        "desired_max_installment": 3.8,
+        "available_monthly_budget": 3000,
+        "estimated_monthly_vehicle_cost": 0
+      },
+      "price_context": {
+        "used_price": 100.05,
+        "catalog_price": null,
+        "manual_price": 100.05,
+        "negotiated_price": null,
+        "price_source": "manual",
+        "vehicle": null,
+        "is_demonstration_data": false,
+        "warnings": []
+      },
+      "expected": {
+        "regular_installment": 3.8,
+        "final_installment": 3.81,
+        "maximum_installment_in_schedule": 3.81,
+        "installment_within_user_limit": false,
+        "financing_status": "over_installment_limit",
+        "overall_status": "over_installment_limit"
+      }
+    }
+  ],
+  "reverse_scenarios": [
+    {
+      "name": "reverse_capacity",
+      "payload": {
+        "vehicle_type": "car",
+        "down_payment": 8000,
+        "maximum_installment": 900,
+        "term_months": 36,
+        "monthly_interest_rate_percent": 1.8,
+        "upfront_fees": 0,
+        "financed_fees": 500,
+        "financed_insurance": 0,
+        "financed_services": 0,
+        "available_monthly_budget": 1600,
+        "estimated_monthly_vehicle_cost": 600
+      },
+      "expected": {
+        "maximum_financed_amount": 23693.52,
+        "required_financed_additional_costs": 500.0,
+        "available_vehicle_principal": 23193.52,
+        "maximum_vehicle_price": 31193.52,
+        "regular_installment": 899.97,
+        "final_installment": 899.99,
+        "maximum_installment_in_schedule": 899.99,
+        "total_installments": 32398.94,
+        "financing_status": "within_installment_limit",
+        "monthly_budget_status": "near_limit",
+        "overall_status": "near_limit"
+      }
+    },
+    {
+      "name": "costs_above_reverse_capacity",
+      "payload": {
+        "vehicle_type": "car",
+        "down_payment": 8000,
+        "maximum_installment": 10,
+        "term_months": 36,
+        "monthly_interest_rate_percent": 1.8,
+        "upfront_fees": 0,
+        "financed_fees": 1000,
+        "financed_insurance": 0,
+        "financed_services": 0,
+        "available_monthly_budget": 1600,
+        "estimated_monthly_vehicle_cost": 600
+      },
+      "expected": {
+        "maximum_financed_amount": 263.26,
+        "required_financed_additional_costs": 1000.0,
+        "available_vehicle_principal": 0.0,
+        "total_financed_amount": 0.0,
+        "maximum_vehicle_price": 8000.0,
+        "maximum_installment_in_schedule": 0.0,
+        "financing_status": "insufficient_for_financed_costs",
+        "overall_status": "insufficient_for_financed_costs"
+      }
+    }
+  ],
+  "comparison_templates": {
+    "catalog_36": {"vehicle_id": 77, "price": 72000, "term_months": 36, "available_monthly_budget": 4000, "estimated_monthly_vehicle_cost": 1500},
+    "catalog_48": {"vehicle_id": 77, "price": 72000, "term_months": 48, "available_monthly_budget": 4000, "estimated_monthly_vehicle_cost": 1500},
+    "catalog_48_budget_5000": {"vehicle_id": 77, "price": 72000, "term_months": 48, "available_monthly_budget": 5000, "estimated_monthly_vehicle_cost": 1500},
+    "catalog_48_cost_1800": {"vehicle_id": 77, "price": 72000, "term_months": 48, "available_monthly_budget": 4000, "estimated_monthly_vehicle_cost": 1800},
+    "other_vehicle_48": {"vehicle_id": 88, "price": 68000, "term_months": 48, "available_monthly_budget": 4000, "estimated_monthly_vehicle_cost": 1500}
+  },
+  "comparison_scenarios": [
+    {
+      "name": "equivalent_financial_context",
+      "scenarios": [{"template": "catalog_36", "name": "A"}, {"template": "catalog_48", "name": "B"}],
+      "expected_context": {"same_vehicle": true, "same_price_basis": true, "comparison_scope": "same_vehicle_same_price", "same_monthly_budget_basis": true, "same_vehicle_cost_basis": true, "financial_context_comparable": true, "monthly_commitment_comparison_status": "comparable"},
+      "expected_highlights": {"lowest_installment": ["B"], "lowest_total_acquisition_outflow": ["A"], "lowest_total_financing_addition": ["A"], "lowest_total_installments": ["A"], "shortest_term": ["A"], "lowest_budget_commitment": ["B"], "highest_down_payment": ["A", "B"]},
+      "expected_suppressed_highlights": [],
+      "expected_highlight_values": {"lowest_installment": 1527.5, "lowest_total_acquisition_outflow": 87677.28, "lowest_total_financing_addition": 15677.28, "lowest_total_installments": 67677.28, "shortest_term": 36, "lowest_budget_commitment": 75.69, "highest_down_payment": 20000.0}
+    },
+    {
+      "name": "different_monthly_budgets",
+      "scenarios": [{"template": "catalog_36", "name": "A"}, {"template": "catalog_48_budget_5000", "name": "B"}],
+      "expected_context": {"same_monthly_budget_basis": false, "same_vehicle_cost_basis": true, "financial_context_comparable": false, "monthly_commitment_comparison_status": "different_monthly_budgets"},
+      "expected_suppressed_highlights": [{"criterion": "lowest_budget_commitment", "reason": "different_monthly_budgets"}]
+    },
+    {
+      "name": "different_vehicle_cost_bases",
+      "scenarios": [{"template": "catalog_36", "name": "A"}, {"template": "catalog_48_cost_1800", "name": "B"}],
+      "expected_context": {"same_monthly_budget_basis": true, "same_vehicle_cost_basis": false, "financial_context_comparable": false, "monthly_commitment_comparison_status": "different_vehicle_cost_bases"},
+      "expected_suppressed_highlights": [{"criterion": "lowest_budget_commitment", "reason": "different_vehicle_cost_bases"}]
+    },
+    {
+      "name": "different_vehicles",
+      "scenarios": [{"template": "catalog_36", "name": "A"}, {"template": "other_vehicle_48", "name": "B"}],
+      "expected_context": {"same_vehicle": false, "same_price_basis": false, "comparison_scope": "different_vehicles", "same_monthly_budget_basis": true, "same_vehicle_cost_basis": true, "financial_context_comparable": true, "monthly_commitment_comparison_status": "comparable"},
+      "expected_suppressed_highlights": []
+    },
+    {
+      "name": "complete_tie",
+      "scenarios": [{"template": "catalog_36", "name": "A"}, {"template": "catalog_36", "name": "B"}],
+      "expected_context": {"same_vehicle": true, "same_price_basis": true, "comparison_scope": "same_vehicle_same_price", "same_monthly_budget_basis": true, "same_vehicle_cost_basis": true, "financial_context_comparable": true, "monthly_commitment_comparison_status": "comparable"},
+      "expected_highlights": {"lowest_installment": ["A", "B"], "lowest_total_acquisition_outflow": ["A", "B"], "lowest_total_financing_addition": ["A", "B"], "lowest_total_installments": ["A", "B"], "shortest_term": ["A", "B"], "lowest_budget_commitment": ["A", "B"], "highest_down_payment": ["A", "B"]},
+      "expected_suppressed_highlights": []
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+[
+  {
+    "brand": "Honda",
+    "model": "CG 160 Fan",
+    "year": 2025,
+    "price": 18500,
+    "city_consumption": 38,
+    "road_consumption": 42,
+    "annual_maintenance_cost": 1800,
+    "reliability_score": 82,
+    "parts_availability_score": 90,
+    "depreciation_rate": 10,
+    "data_source": "demonstration",
+    "data_confidence": 35,
+    "is_demonstration": true,
+    "source_name": "Base demonstrativa SIGRA",
+    "data_sources": [
+      {
+        "data_group": "identity",
+        "source_type": "demonstration",
+        "source_name": "Base demonstrativa SIGRA",
+        "confidence": 35,
+        "is_primary": true
+      }
+    ],
+    "specifications": {
+      "engine_displacement_cc": 162.7,
+      "motorcycle_category": "street",
+      "wet_weight_kg": 119,
+      "seat_height_mm": 790,
+      "tank_capacity_l": 14,
+      "has_abs": false,
+      "recommended_experience": "beginner",
+      "urban_score": 88,
+      "road_score": 55,
+      "passenger_comfort_score": 55,
+      "luggage_score": 35
+    }
+  },
+  {
+    "brand": "Yamaha",
+    "model": "NMax 160 ABS",
+    "year": 2025,
+    "price": 22500,
+    "city_consumption": 35,
+    "road_consumption": 38,
+    "annual_maintenance_cost": 2100,
+    "reliability_score": 80,
+    "parts_availability_score": 78,
+    "depreciation_rate": 11,
+    "data_source": "demonstration",
+    "data_confidence": 35,
+    "is_demonstration": true,
+    "source_name": "Base demonstrativa SIGRA",
+    "data_sources": [
+      {
+        "data_group": "identity",
+        "source_type": "demonstration",
+        "source_name": "Base demonstrativa SIGRA",
+        "confidence": 35,
+        "is_primary": true
+      }
+    ],
+    "specifications": {
+      "engine_displacement_cc": 160,
+      "motorcycle_category": "scooter",
+      "wet_weight_kg": 131,
+      "seat_height_mm": 765,
+      "tank_capacity_l": 7.1,
+      "has_abs": true,
+      "recommended_experience": "beginner",
+      "urban_score": 92,
+      "road_score": 58,
+      "passenger_comfort_score": 68,
+      "luggage_score": 62
+    }
+  },
+  {
+    "brand": "Royal Enfield",
+    "model": "Himalayan 450",
+    "year": 2025,
+    "price": 32000,
+    "city_consumption": 27,
+    "road_consumption": 31,
+    "annual_maintenance_cost": 2800,
+    "reliability_score": 70,
+    "parts_availability_score": 62,
+    "depreciation_rate": 12,
+    "data_source": "demonstration",
+    "data_confidence": 30,
+    "is_demonstration": true,
+    "source_name": "Base demonstrativa SIGRA",
+    "data_sources": [
+      {
+        "data_group": "identity",
+        "source_type": "demonstration",
+        "source_name": "Base demonstrativa SIGRA",
+        "confidence": 30,
+        "is_primary": true
+      }
+    ],
+    "specifications": {
+      "engine_displacement_cc": 452,
+      "motorcycle_category": "adventure",
+      "wet_weight_kg": 196,
+      "seat_height_mm": 825,
+      "tank_capacity_l": 17,
+      "has_abs": true,
+      "recommended_experience": "intermediate",
+      "urban_score": 62,
+      "road_score": 85,
+      "passenger_comfort_score": 72,
+      "luggage_score": 80
+    }
+  },
+  {
+    "brand": "Honda",
+    "model": "CB 300F Twister",
+    "year": 2025,
+    "price": 25000,
+    "city_consumption": 30,
+    "road_consumption": 34,
+    "annual_maintenance_cost": 2200,
+    "reliability_score": 80,
+    "parts_availability_score": 85,
+    "depreciation_rate": 10,
+    "data_source": "demonstration",
+    "data_confidence": 35,
+    "is_demonstration": true,
+    "source_name": "Base demonstrativa SIGRA",
+    "data_sources": [
+      {
+        "data_group": "identity",
+        "source_type": "demonstration",
+        "source_name": "Base demonstrativa SIGRA",
+        "confidence": 35,
+        "is_primary": true
+      }
+    ],
+    "specifications": {
+      "engine_displacement_cc": 293.5,
+      "motorcycle_category": "naked",
+      "wet_weight_kg": 153,
+      "seat_height_mm": 789,
+      "tank_capacity_l": 13.8,
+      "has_abs": true,
+      "recommended_experience": "intermediate",
+      "urban_score": 80,
+      "road_score": 72,
+      "passenger_comfort_score": 60,
+      "luggage_score": 40
+    }
+  }
+]
