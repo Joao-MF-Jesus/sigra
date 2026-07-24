@@ -45,6 +45,18 @@ class ContinuousIntegrationConfigurationTest(unittest.TestCase):
             "needs: [backend-sqlite, backend-postgresql, frontend, e2e]",
             workflow,
         )
+        package_validation = workflow.split("  package-validation:\n", 1)[1].split(
+            "  academic-release:\n",
+            1,
+        )[0]
+        dependency_step = "python -m pip install -r backend/requirements.txt"
+        validation_step = "Validate release exclusions and integrity metadata"
+        self.assertIn("Install package validation dependencies", package_validation)
+        self.assertIn(dependency_step, package_validation)
+        self.assertLess(
+            package_validation.index(dependency_step),
+            package_validation.index(validation_step),
+        )
 
     def test_playwright_uses_controlled_database_and_single_worker(self):
         config = (ROOT / "frontend" / "playwright.config.js").read_text(encoding="utf-8")
