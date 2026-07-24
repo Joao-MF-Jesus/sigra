@@ -26,6 +26,8 @@ class ContinuousIntegrationConfigurationTest(unittest.TestCase):
             'SIGRA_RUN_POSTGRES_TESTS: "1"',
             "python scripts/wait_for_database.py --require-postgresql",
             "python scripts/validate_postgresql_schema.py",
+            "SIGRA_CANONICAL_SQLITE_PATH:",
+            "python scripts/bootstrap_ci_sqlite.py",
             "PostgreSQLIntegrationEnvironmentTest",
             "Create isolated PostgreSQL databases",
             "Validate Alembic cycle in disposable database",

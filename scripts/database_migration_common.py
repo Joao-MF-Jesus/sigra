@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import sys
 from datetime import date, datetime, timezone
 from decimal import Decimal, InvalidOperation
@@ -14,7 +15,9 @@ from sqlalchemy.engine import Connection, Engine, make_url
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 BACKEND_DIR = PROJECT_ROOT / "backend"
-CANONICAL_SQLITE_PATH = (BACKEND_DIR / "sigra.db").resolve()
+CANONICAL_SQLITE_PATH = Path(
+    os.getenv("SIGRA_CANONICAL_SQLITE_PATH", str(BACKEND_DIR / "sigra.db"))
+).expanduser().resolve()
 if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 

@@ -46,13 +46,25 @@ As portas podem ser alteradas por `SIGRA_E2E_BACKEND_PORT` e `SIGRA_E2E_FRONTEND
 
 A workflow `Quality` possui jobs separados:
 
-- `backend`: instalacao, suite completa, fixtures automotiva/financeira, HTTP 501 de motos e `compileall`;
+- `backend-sqlite`: cria uma fonte SQLite descartavel, executa a suite completa,
+  valida as fixtures automotiva/financeira, o HTTP 501 de motos e o `compileall`;
+- `backend-postgresql`: valida Alembic, importacao, equivalencia e a suite
+  completa com a integracao PostgreSQL habilitada;
 - `frontend`: `npm ci`, testes, build e auditoria de vulnerabilidades criticas;
 - `e2e`: sobe os dois servicos, instala Chromium e executa os smoke tests.
+- `package-validation`: gera e valida os dois pacotes sem publicar release;
 - `academic-release`: somente manual, gera e publica como artefato a cópia
   acadêmica controlada quando `workflow_dispatch` recebe a opção explícita.
 
 O E2E depende dos jobs unitarios. Diagnosticos do navegador sao publicados por sete dias somente quando a execucao falha. A workflow nao usa segredos e nao realiza deploy.
+
+O arquivo `backend/sigra.db` permanece ignorado e nunca e enviado ao GitHub. Para
+que um checkout limpo consiga exercitar exportacao e importacao, os jobs de
+backend executam `scripts/bootstrap_ci_sqlite.py` e configuram
+`SIGRA_CANONICAL_SQLITE_PATH` para `tmp/sigra-ci-source.db`. Essa fonte contem
+somente seeds versionados e uma ficha de contrato ja usada pelos testes. Ela e
+descartavel, nao altera o SQLite local e nao substitui a validacao integral da
+base canonica realizada no ambiente controlado.
 
 Se a máquina local não possuir o Chromium compatível, `npm run test:e2e` deve informar a ausência do executável. Isso é falha de instalação do navegador, não aprovação nem reprovação dos fluxos. A CI executa `npx playwright install --with-deps chromium` antes dos testes.
 

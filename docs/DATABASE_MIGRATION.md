@@ -10,6 +10,13 @@
 - importacao: dry-run por padrao e transacao unica;
 - seeds, scores e rankings nao sao recalculados.
 
+`SIGRA_CANONICAL_SQLITE_PATH` permite apontar os utilitarios para uma fonte
+descartavel em testes de infraestrutura. A CI usa essa configuracao com o
+arquivo gerado por `scripts/bootstrap_ci_sqlite.py`, porque bancos locais sao
+corretamente ignorados pelo Git. Sem essa variavel, a fonte oficial continua
+sendo exclusivamente `backend/sigra.db`; o bootstrap de CI se recusa a
+sobrescrever esse arquivo.
+
 ## 1. Diagnostico
 
 ```powershell
