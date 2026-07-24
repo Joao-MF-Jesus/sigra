@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
+import stat
 import subprocess
 import zipfile
 from dataclasses import dataclass
@@ -138,12 +140,117 @@ def _scan_text_for_secrets(path: Path) -> list[str]:
     return [name for name, pattern in SECRET_PATTERNS.items() if pattern.search(content)]
 
 
+def _git_tracked_files(root: Path) -> list[Path] | None:
+    try:
+        repository = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "--show-toplevel"],
+            capture_output=True,
+            check=True,
+            text=True,
+            encoding="utf-8",
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return None
+
+    repository_root = Path(repository.stdout.strip()).resolve()
+    if os.path.normcase(str(repository_root)) != os.path.normcase(str(root.resolve())):
+        return None
+
+    try:
+        tracked = subprocess.run(
+            ["git", "-C", str(root), "ls-files", "-z"],
+            capture_output=True,
+            check=True,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return None
+
+    relative_paths = []
+    for raw_path in tracked.stdout.split(b"\0"):
+        if not raw_path:
+            continue
+        relative = Path(raw_path.decode("utf-8", errors="surrogateescape"))
+        if relative.is_absolute() or ".." in relative.parts:
+            continue
+        relative_paths.append(relative)
+    return [
+        root / relative
+        for relative in sorted(relative_paths, key=lambda path: path.as_posix())
+    ]
+
+
+def _is_reparse_point(path: Path) -> bool:
+    try:
+        path_stat = path.lstat()
+    except OSError:
+        return False
+    if path.is_symlink():
+        return True
+    if hasattr(os.path, "isjunction") and os.path.isjunction(path):
+        return True
+    reparse_flag = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0)
+    return bool(getattr(path_stat, "st_file_attributes", 0) & reparse_flag)
+
+
+def _is_safe_regular_file(path: Path, root: Path) -> bool:
+    try:
+        relative = path.relative_to(root)
+    except ValueError:
+        return False
+    if relative.is_absolute() or ".." in relative.parts:
+        return False
+
+    current = root
+    for part in relative.parts:
+        current = current / part
+        if _is_reparse_point(current):
+            return False
+    try:
+        path_stat = path.lstat()
+        path.resolve(strict=True).relative_to(root.resolve())
+    except (OSError, ValueError):
+        return False
+    return stat.S_ISREG(path_stat.st_mode)
+
+
+def _walk_release_files(root: Path):
+    resolved_root = root.resolve()
+    for current, dirnames, filenames in os.walk(
+        resolved_root,
+        topdown=True,
+        followlinks=False,
+    ):
+        current_path = Path(current)
+        dirnames[:] = [
+            name
+            for name in dirnames
+            if name not in SKIP_DIRECTORIES
+            and not _is_reparse_point(current_path / name)
+        ]
+        dirnames.sort()
+        filenames.sort()
+        for filename in filenames:
+            yield current_path / filename
+
+
 def collect_release_files(root: Path) -> tuple[list[Path], int, list[dict]]:
+    root = root.resolve()
     included = []
     excluded_files = 0
     violations = []
-    for path in sorted(root.rglob("*")):
-        if not path.is_file():
+    tracked_files = _git_tracked_files(root)
+    candidates = tracked_files if tracked_files is not None else _walk_release_files(root)
+    for path in candidates:
+        if tracked_files is not None and not path.exists():
+            violations.append(
+                {
+                    "path": path.relative_to(root).as_posix(),
+                    "reason": "missing_tracked_file",
+                }
+            )
+            continue
+        if not _is_safe_regular_file(path, root):
+            excluded_files += 1
             continue
         reason = _skip_reason(path, root)
         if reason:
