@@ -55,7 +55,11 @@ def test_postgresql_contract_persistence_idempotency_and_downgrade(monkeypatch):
         assert {"meta", "bronze", "silver", "gold"}.issubset(db.get_schema_names())
         assert {"pipeline_run", "data_quality_issue"}.issubset(db.get_table_names(schema="meta"))
         assert set(db.get_table_names(schema="bronze")) == {"fipe_raw"}
-        assert db.get_table_names(schema="silver") == []
+        assert set(db.get_table_names(schema="silver")) == {
+            "vehicle_identity",
+            "vehicle_source_mapping",
+            "vehicle_price_history",
+        }
         assert db.get_table_names(schema="gold") == []
 
         pipeline_columns = {item["name"]: item for item in db.get_columns("pipeline_run", schema="meta")}
