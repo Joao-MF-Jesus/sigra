@@ -71,6 +71,8 @@ def test_postgresql_silver_contract_history_idempotency_and_downgrade(monkeypatc
         assert identity_columns["canonical_key"]["type"].length == 64
         assert isinstance(identity_columns["pipeline_run_id"]["type"], UUID)
         assert mapping_columns["vehicle_sk"]["nullable"] is True
+        assert mapping_columns["vehicle_type"]["nullable"] is False
+        assert mapping_columns["vehicle_type"]["type"].length == 20
         assert isinstance(mapping_columns["pipeline_run_id"]["type"], UUID)
         assert isinstance(price_columns["price_amount"]["type"], NUMERIC)
         assert price_columns["price_amount"]["type"].precision == 14
@@ -103,6 +105,7 @@ def test_postgresql_silver_contract_history_idempotency_and_downgrade(monkeypatc
             "ck_vehicle_source_mapping_status",
             "ck_vehicle_source_mapping_target",
             "ck_vehicle_source_mapping_review_notes",
+            "ck_vehicle_source_mapping_vehicle_type",
         }.issubset(mapping_checks)
         assert {
             "ck_vehicle_price_positive",
@@ -134,6 +137,23 @@ def test_postgresql_silver_contract_history_idempotency_and_downgrade(monkeypatc
             "uq_vehicle_source_mapping_current_key",
             "uq_vehicle_source_mapping_current_fipe",
         }.issubset(mapping_indexes)
+        mapping_index_contracts = {
+            item["name"]: item["column_names"]
+            for item in database.get_indexes(
+                "vehicle_source_mapping", schema="silver"
+            )
+        }
+        assert mapping_index_contracts["uq_vehicle_source_mapping_current_key"] == [
+            "source_name",
+            "vehicle_type",
+            "source_vehicle_key",
+        ]
+        assert mapping_index_contracts["uq_vehicle_source_mapping_current_fipe"] == [
+            "source_name",
+            "vehicle_type",
+            "fipe_code",
+            "year_code",
+        ]
         assert "uq_vehicle_price_current" in price_indexes
         assert "uq_data_quality_issue_open_silver" in quality_indexes
 
@@ -445,10 +465,11 @@ def test_postgresql_silver_contract_history_idempotency_and_downgrade(monkeypatc
                 connection.execute(
                     text(
                         """INSERT INTO silver.vehicle_source_mapping
-                        (vehicle_sk,source_name,source_vehicle_key,fipe_code,year_code,
-                         mapping_status,valid_from,pipeline_run_id,bronze_record_id)
-                        VALUES (:vehicle,'constraint','x','009991-1','2026-1',
-                                'pending',:valid_from,:run,:bronze)"""
+                        (vehicle_sk,source_name,vehicle_type,source_vehicle_key,
+                         fipe_code,year_code,mapping_status,valid_from,
+                         pipeline_run_id,bronze_record_id)
+                        VALUES (:vehicle,'constraint','car','x','009991-1','2026-1',
+                                 'pending',:valid_from,:run,:bronze)"""
                     ),
                     {
                         "vehicle": normal_identity["vehicle_sk"],
@@ -462,11 +483,11 @@ def test_postgresql_silver_contract_history_idempotency_and_downgrade(monkeypatc
                 connection.execute(
                     text(
                         """INSERT INTO silver.vehicle_source_mapping
-                        (vehicle_sk,source_name,source_vehicle_key,fipe_code,year_code,
-                         mapping_status,match_method,confidence,valid_from,
+                        (vehicle_sk,source_name,vehicle_type,source_vehicle_key,
+                         fipe_code,year_code,mapping_status,match_method,confidence,valid_from,
                          pipeline_run_id,bronze_record_id,review_notes)
-                        VALUES (NULL,'constraint','y','009992-1','2026-1',
-                                'ambiguous',NULL,NULL,:valid_from,:run,:bronze,NULL)"""
+                        VALUES (NULL,'constraint','car','y','009992-1','2026-1',
+                                 'ambiguous',NULL,NULL,:valid_from,:run,:bronze,NULL)"""
                     ),
                     {
                         "valid_from": started + timedelta(days=11),

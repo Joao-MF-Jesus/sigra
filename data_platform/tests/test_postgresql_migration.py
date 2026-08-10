@@ -60,7 +60,12 @@ def test_postgresql_contract_persistence_idempotency_and_downgrade(monkeypatch):
             "vehicle_source_mapping",
             "vehicle_price_history",
         }
-        assert db.get_table_names(schema="gold") == []
+        assert set(db.get_table_names(schema="gold")) == {
+            "vehicle_feature_dataset",
+            "vehicle_features_snapshot",
+            "vehicle_feature_dataset_activation",
+        }
+        assert "vehicle_features_current" in db.get_view_names(schema="gold")
 
         pipeline_columns = {item["name"]: item for item in db.get_columns("pipeline_run", schema="meta")}
         bronze_columns = {item["name"]: item for item in db.get_columns("fipe_raw", schema="bronze")}
@@ -76,6 +81,12 @@ def test_postgresql_contract_persistence_idempotency_and_downgrade(monkeypatch):
         assert isinstance(quality_columns["details"]["type"], JSONB)
         assert bronze_columns["year_code"]["type"].length == 30
         assert bronze_columns["payload_hash"]["type"].length == 64
+        mapping_columns = {
+            item["name"]: item
+            for item in db.get_columns("vehicle_source_mapping", schema="silver")
+        }
+        assert mapping_columns["vehicle_type"]["nullable"] is False
+        assert mapping_columns["vehicle_type"]["type"].length == 20
 
         pipeline_checks = {item["name"] for item in db.get_check_constraints("pipeline_run", schema="meta")}
         bronze_checks = {item["name"] for item in db.get_check_constraints("fipe_raw", schema="bronze")}

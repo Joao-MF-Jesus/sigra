@@ -35,6 +35,8 @@ def reconcile_legacy_vehicles(
     }
     mappings_by_key: dict[tuple[str, str], list[Mapping[str, Any]]] = {}
     for mapping in current_mappings:
+        if str(mapping.get("vehicle_type", "car")) != "car":
+            continue
         key = (str(mapping["fipe_code"]), str(mapping["year_code"]))
         mappings_by_key.setdefault(key, []).append(mapping)
 
@@ -124,9 +126,10 @@ def generate_legacy_coverage(engine: Engine) -> tuple[LegacyCoverageRow, ...]:
     with engine.connect() as connection:
         mappings = connection.execute(
             text(
-                """SELECT vehicle_sk,fipe_code,year_code,mapping_status
+                """SELECT vehicle_sk,vehicle_type,fipe_code,year_code,mapping_status
                 FROM silver.vehicle_source_mapping
-                WHERE valid_to IS NULL"""
+                WHERE valid_to IS NULL
+                  AND vehicle_type = 'car'"""
             )
         ).mappings().all()
     return reconcile_legacy_vehicles(

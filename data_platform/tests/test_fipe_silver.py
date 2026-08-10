@@ -397,6 +397,7 @@ def test_historical_mapping_reprocessing_validates_original_evidence_before_curr
     candidate = transform_bronze_record(bronze_record(payload, fipe_raw_id=77))
     persisted = {
         "source_name": candidate.bronze.source_name,
+        "vehicle_type": candidate.bronze.vehicle_type,
         "fipe_code": candidate.bronze.fipe_code,
         "year_code": candidate.bronze.year_code,
         "source_vehicle_key": candidate.source_vehicle_key,
@@ -405,6 +406,7 @@ def test_historical_mapping_reprocessing_validates_original_evidence_before_curr
     assert historical_mapping_matches(candidate, persisted)
     for field, incompatible in (
         ("source_name", "different-source"),
+        ("vehicle_type", "motorcycle"),
         ("fipe_code", "999999-9"),
         ("year_code", "2022-1"),
         ("source_vehicle_key", "999999-9:2022-1"),
@@ -478,18 +480,21 @@ def test_legacy_report_is_read_only_and_uses_ids_only_as_external_references():
     ]
     mappings = [
         {
+            "vehicle_type": "car",
             "fipe_code": "004517-9",
             "year_code": "2021-1",
             "mapping_status": "matched",
             "vehicle_sk": 901,
         },
         {
+            "vehicle_type": "car",
             "fipe_code": "004436-9",
             "year_code": "2018-1",
             "mapping_status": "ambiguous",
             "vehicle_sk": None,
         },
         {
+            "vehicle_type": "car",
             "fipe_code": "004421-0",
             "year_code": "2018-1",
             "mapping_status": "rejected",
@@ -507,6 +512,23 @@ def test_legacy_report_is_read_only_and_uses_ids_only_as_external_references():
     assert rows[0].vehicle_sk == 901
     assert rows[0].vehicle_sk != rows[0].legacy_vehicle_id
     assert all("canonical" not in row.as_dict() for row in rows)
+
+
+def test_legacy_car_reconciliation_ignores_other_vehicle_types():
+    profiles = {1: LegacyProfile("004517-9", "2021")}
+    cache = [{"vehicle_id": 1, "year_code": "2021-1"}]
+    mappings = [
+        {
+            "vehicle_type": "motorcycle",
+            "fipe_code": "004517-9",
+            "year_code": "2021-1",
+            "mapping_status": "matched",
+            "vehicle_sk": 999,
+        }
+    ]
+    rows = reconcile_legacy_vehicles(profiles, cache, mappings)
+    assert rows[0].mapping_status == "pending"
+    assert rows[0].vehicle_sk is None
 
 
 def test_current_legacy_inventory_report_covers_all_34_automobiles():

@@ -205,6 +205,7 @@ Relaciona a identidade canônica às identidades de cada fonte.
 | `mapping_id` | BIGINT | Chave primária |
 | `vehicle_sk` | BIGINT | FK para `silver.vehicle_identity` |
 | `source_name` | VARCHAR(80) | Ex.: FIPE |
+| `vehicle_type` | VARCHAR(20) | `car`, `motorcycle` ou `truck` |
 | `source_vehicle_key` | VARCHAR(160) | Identidade original da fonte |
 | `fipe_code` | VARCHAR(20) | Código FIPE quando aplicável |
 | `year_code` | VARCHAR(30) | Código de ano/combustível |
@@ -218,7 +219,9 @@ Relaciona a identidade canônica às identidades de cada fonte.
 
 Regras:
 
-- A combinação FIPE `fipe_code + year_code` deve possuir no máximo um mapeamento vigente.
+- A identidade da fonte é `source_name + vehicle_type + source_vehicle_key`.
+- A combinação FIPE `source_name + vehicle_type + fipe_code + year_code` deve possuir no máximo um mapeamento vigente.
+- O tipo é materializado pela linhagem Bronze e não inferido por código, cache ou ID legado.
 - Mapeamento ambíguo não publica preço na Gold.
 - Revisão manual deve preservar a justificativa.
 - O pareamento dos 34 automóveis atuais será migrado dos perfis fixos para esta tabela.
@@ -271,45 +274,36 @@ Registra falhas ou alertas detectados durante ingestão e transformação.
 | `created_at` | TIMESTAMPTZ | Gerado pelo banco |
 | `resolved_at` | TIMESTAMPTZ | Nulo enquanto aberto |
 
-Falhas críticas bloqueiam publicação na Gold. Alertas podem permitir publicação, desde que sejam contabilizados no relatório da execução.
+Falhas críticas bloqueiam publicação na Gold. Alertas podem permitir publicação, desde que sejam contabilizados no relatório da execução. `resolved_at` é nulo somente para issues `open`; `accepted`, `resolved` e `ignored` exigem timestamp de resolução e preservação da auditoria.
 
-## 10. Contrato `gold.vehicle_features_current`
+## 10. Contrato Gold Vehicle Features v1
 
-Produto de dados consumido pelo recomendador. Inicialmente pode ser uma view materializada ou view comum; a escolha será feita após medir o custo da consulta.
+A primeira Gold é um dataset físico versionado, não uma leitura operacional. Ela é formada por:
 
-| Campo | Origem | Observação |
-|---|---|---|
-| `vehicle_sk` | Silver | Identidade canônica |
-| `legacy_vehicle_id` | Mapeamento transitório | Compatibilidade com o sistema atual |
-| `brand` | Silver | Nome normalizado |
-| `model` | Silver | Nome normalizado |
-| `version` | Silver | Versão normalizada |
-| `year` | Silver | Ano-modelo |
-| `fuel_type` | Silver | Vocabulário controlado |
-| `current_price` | Histórico Silver | Último preço elegível |
-| `price_source` | Histórico Silver | Fonte explícita |
-| `price_reference_month` | Histórico Silver | Referência temporal |
-| `price_collected_at` | Histórico Silver | Momento da coleta |
-| `price_freshness_status` | Gold | `current`, `stale`, `expired`, `missing` |
-| `fuel_efficiency_km_l` | Silver futura | Nulo enquanto não validado |
-| `annual_maintenance_cost` | Silver futura | Nulo enquanto não validado |
-| `reliability_score` | Gold futura | Somente após método validado |
-| `parts_availability_score` | Gold futura | Somente após método validado |
-| `depreciation_rate` | Silver/Gold futura | Sempre versionada e temporal |
-| `data_confidence` | Gold | Cobertura e qualidade dos atributos |
-| `data_reference` | Gold | Referência mais adequada da publicação |
-| `dataset_version` | Meta | Versão da publicação |
-| `pipeline_run_id` | Meta | Execução que publicou o dataset |
-| `published_at` | Meta | Data da publicação |
+- `gold.vehicle_feature_dataset`: cabeçalho, fingerprint, contagens, cobertura e estado de ativação;
+- `gold.vehicle_features_snapshot`: linhas imutáveis por `dataset_version + vehicle_sk`;
+- `gold.vehicle_feature_dataset_activation`: eventos imutáveis de ativação, substituição e rollback;
+- `gold.vehicle_features_current`: view do único dataset ativo.
 
-Regras:
+O escopo v1 é exclusivamente `vehicle_type = 'car'` e fonte `Tabela FIPE via API Parallelum`. O pipeline lê somente Silver e Meta.
 
-- A Gold não inventa zeros para atributos ausentes.
-- Dado demonstrativo deve permanecer explicitamente identificado.
-- Uma linha Gold deve possuir linhagem até Silver, Bronze e execução.
-- Apenas mapeamentos `matched` entram na visão corrente.
-- Preço expirado pode ser exposto com status, mas não apresentado como atualizado.
-- A Nota SIGRA, o TCO personalizado e o ranking não são armazenados nesta tabela.
+O cabeçalho registra `expected_vehicle_count`, `published_vehicle_count`, `blocked_vehicle_count`, cobertura `NUMERIC(5,2)`, competência mínima e máxima, fingerprint SHA-256 e o último evento de ativação. O banco garante `blocked = expected - published`, cobertura mínima de 80%, numerador positivo e no máximo um dataset ativo.
+
+O snapshot preserva identidade, mapping, preço, código FIPE, `year_code` integral e runs Silver e Gold. Consumo, manutenção, seguro, confiabilidade, peças, depreciação, categoria, segmento e scores não pertencem ao contrato v1 e não são fabricados.
+
+Freshness é dinâmica na view:
+
+- `current`: até 45 dias;
+- `stale`: de 46 a 90 dias;
+- `expired`: acima de 90 dias.
+
+O snapshot armazena `base_quality_status`. A view só retorna `quality_status = 'passed'` quando a base é `passed` e o preço está `current`; qualquer warning original, dado stale ou expirado resulta em `warning`. Dados expirados permanecem visíveis.
+
+Mappings `pending`, `ambiguous` e `rejected` entram no denominador, não no snapshot, e recebem issue primária `GOLD_MAPPING_BLOCKED`. Crítica Silver aberta e não atribuível sem Bronze é bloqueio global. O pipeline Gold nunca consulta Bronze, cache, `public.vehicles` ou IDs 1–34.
+
+Publicação e rollback usam lock consultivo, isolamento `REPEATABLE READ` e transação atômica. Snapshots e eventos são protegidos por triggers contra `UPDATE` e `DELETE`. Repetir o fingerprint do dataset ativo é idempotente e não cria outro snapshot ou evento.
+
+A Nota SIGRA, o TCO personalizado e o ranking continuam fora da Gold e não são alterados nesta etapa.
 
 ## 11. Contrato da API após integração
 
@@ -362,13 +356,14 @@ Regras de compatibilidade:
 
 ### Gold
 
-- uma linha vigente por `vehicle_sk`;
-- `dataset_version` e `pipeline_run_id` obrigatórios;
+- uma linha por `dataset_version + vehicle_sk` e uma view do dataset ativo;
+- `dataset_version`, runs de linhagem e fingerprint obrigatórios;
 - linhagem completa;
-- contagem de registros dentro do limite esperado;
+- cobertura mínima de 80% com `NUMERIC`, nunca `FLOAT`;
+- bloqueados reconciliados com issues seguras;
 - nenhum preço demonstrativo rotulado como FIPE;
-- nenhuma publicação se houver falha crítica;
-- cobertura e atualidade publicadas junto ao dataset.
+- nenhuma ativação se houver falha crítica global;
+- snapshot imutável e freshness calculada dinamicamente.
 
 ## 13. Idempotência e reprocessamento
 

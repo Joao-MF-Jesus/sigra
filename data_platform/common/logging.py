@@ -5,11 +5,15 @@ from urllib.parse import urlsplit, urlunsplit
 
 
 _SECRET = re.compile(r"(?i)(password|passwd|token|api[_-]?key|secret)=([^&\s]+)")
+_AUTHENTICATED_URL = re.compile(
+    r"(?i)\b([a-z][a-z0-9+.-]*://)([^/\s@]+)@"
+)
 
 
 def sanitize(value: object, limit: int = 500) -> str:
     text = str(value)
     text = _SECRET.sub(r"\1=***", text)
+    text = _AUTHENTICATED_URL.sub(r"\1", text)
     try:
         parsed = urlsplit(text)
         if parsed.scheme and parsed.hostname and (parsed.username or parsed.password):

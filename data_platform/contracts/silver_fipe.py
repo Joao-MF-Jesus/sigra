@@ -110,6 +110,7 @@ class SilverTransformCandidate:
             self.source_vehicle_key
             and self.bronze.fipe_code
             and self.bronze.year_code
+            and self.bronze.vehicle_type in {"car", "motorcycle", "truck"}
         )
 
     @property

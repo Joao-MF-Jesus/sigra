@@ -26,6 +26,7 @@ def historical_mapping_matches(
     return all(
         (
             persisted_mapping["source_name"] == candidate.bronze.source_name,
+            persisted_mapping["vehicle_type"] == candidate.bronze.vehicle_type,
             persisted_mapping["fipe_code"] == candidate.bronze.fipe_code,
             persisted_mapping["year_code"] == candidate.bronze.year_code,
             persisted_mapping["source_vehicle_key"] == candidate.source_vehicle_key,
@@ -168,6 +169,27 @@ class SilverLoader:
             current_mapping = self._current_mapping(connection, candidate)
             mapping_id: int | None = None
             vehicle_sk: int | None = None
+
+            if (
+                current_mapping is not None
+                and current_mapping["source_vehicle_key"]
+                != candidate.source_vehicle_key
+            ):
+                issues_inserted += self._insert_dynamic_issue(
+                    connection,
+                    run_id,
+                    candidate,
+                    quality_issue(
+                        "SOURCE_MAPPING_KEY_CONFLICT",
+                        "Current source mapping has an incompatible deterministic key",
+                        severity="critical",
+                        entity_name="silver.vehicle_source_mapping",
+                    ),
+                )
+                return SilverPersistenceOutcome(
+                    rejected=True,
+                    issues_inserted=issues_inserted,
+                )
 
             if candidate.mapping_status != "matched":
                 if current_mapping is None:
@@ -322,8 +344,9 @@ class SilverLoader:
     ) -> Any | None:
         return connection.execute(
             text(
-                """SELECT mapping_id,vehicle_sk,source_name,source_vehicle_key,
-                    fipe_code,year_code,mapping_status,valid_from,valid_to
+                """SELECT mapping_id,vehicle_sk,source_name,vehicle_type,
+                    source_vehicle_key,fipe_code,year_code,mapping_status,
+                    valid_from,valid_to
                 FROM silver.vehicle_source_mapping
                 WHERE bronze_record_id=:bronze_record_id
                 FOR UPDATE"""
@@ -339,11 +362,13 @@ class SilverLoader:
         return connection.execute(
             text(
                 """SELECT mapping.mapping_id,mapping.vehicle_sk,
+                    mapping.vehicle_type,mapping.source_vehicle_key,
                     mapping.mapping_status,mapping.valid_from,identity.canonical_key
                 FROM silver.vehicle_source_mapping AS mapping
                 LEFT JOIN silver.vehicle_identity AS identity
                   ON identity.vehicle_sk = mapping.vehicle_sk
                 WHERE mapping.source_name=:source
+                  AND mapping.vehicle_type=:vehicle_type
                   AND mapping.fipe_code=:fipe_code
                   AND mapping.year_code=:year_code
                   AND mapping.valid_to IS NULL
@@ -351,6 +376,7 @@ class SilverLoader:
             ),
             {
                 "source": candidate.bronze.source_name,
+                "vehicle_type": candidate.bronze.vehicle_type,
                 "fipe_code": candidate.bronze.fipe_code,
                 "year_code": candidate.bronze.year_code,
             },
@@ -413,16 +439,18 @@ class SilverLoader:
         mapping_id = connection.execute(
             text(
                 """INSERT INTO silver.vehicle_source_mapping
-                (vehicle_sk,source_name,source_vehicle_key,fipe_code,year_code,
-                 mapping_status,match_method,confidence,valid_from,pipeline_run_id,
-                 bronze_record_id,review_notes)
-                VALUES (:vehicle_sk,:source,:source_key,:fipe_code,:year_code,
-                        :status,:method,:confidence,:valid_from,:run,:bronze,:notes)
+                (vehicle_sk,source_name,vehicle_type,source_vehicle_key,fipe_code,
+                 year_code,mapping_status,match_method,confidence,valid_from,
+                 pipeline_run_id,bronze_record_id,review_notes)
+                VALUES (:vehicle_sk,:source,:vehicle_type,:source_key,:fipe_code,
+                        :year_code,:status,:method,:confidence,:valid_from,:run,
+                        :bronze,:notes)
                 RETURNING mapping_id"""
             ),
             {
                 "vehicle_sk": vehicle_sk,
                 "source": candidate.bronze.source_name,
+                "vehicle_type": candidate.bronze.vehicle_type,
                 "source_key": candidate.source_vehicle_key,
                 "fipe_code": candidate.bronze.fipe_code,
                 "year_code": candidate.bronze.year_code,
