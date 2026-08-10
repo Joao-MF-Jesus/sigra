@@ -8,9 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy.orm import Session
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from app import models
-from app.config import cors_allowed_origins
+from app.config import cors_allowed_origins, load_runtime_settings
 from app.database import (
     DATABASE_SETTINGS,
     SessionLocal,
@@ -28,6 +29,10 @@ from app.fipe import (
     refresh_fipe_prices,
 )
 from app.financing.routes import router as financing_router
+from app.http_middleware import (
+    PublicDemoReadOnlyMiddleware,
+    RequestLoggingMiddleware,
+)
 from app.online_search import find_online_matches, search_online_cars
 from app.motorcycle_audit import audit_motorcycle_record
 from app.parts_analysis import (
@@ -134,20 +139,44 @@ async def lifespan(app: FastAPI):
             ensure_seed_data(db)
     else:
         check_database_connection()
+        if (
+            DATABASE_SETTINGS.is_published_environment
+            and not migration_is_up_to_date()
+        ):
+            raise RuntimeError(
+                "Schema remoto desatualizado. Execute Alembic antes do backend."
+            )
     ensure_fipe_prices_current()
     yield
 
 
-app = FastAPI(title="SIGRA API", version="0.1.0", lifespan=lifespan)
+RUNTIME_SETTINGS = load_runtime_settings()
+app = FastAPI(
+    title="SIGRA API",
+    version="0.1.0",
+    lifespan=lifespan,
+    docs_url="/docs" if RUNTIME_SETTINGS.api_docs_enabled else None,
+    redoc_url="/redoc" if RUNTIME_SETTINGS.api_docs_enabled else None,
+    openapi_url="/openapi.json" if RUNTIME_SETTINGS.api_docs_enabled else None,
+)
 
 ALGORITHM_VERSION = "2.1.2"
 WEIGHTS_VERSION = "cars-v1"
 MOTORCYCLE_MODULE_VERSION = "0.3.1"
 
+app.add_middleware(PublicDemoReadOnlyMiddleware)
+app.add_middleware(RequestLoggingMiddleware)
+if RUNTIME_SETTINGS.allowed_hosts:
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=list(RUNTIME_SETTINGS.allowed_hosts),
+    )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=cors_allowed_origins(),
-    allow_credentials=True,
+    allow_origins=cors_allowed_origins(
+        environment=RUNTIME_SETTINGS.environment,
+    ),
+    allow_credentials=not RUNTIME_SETTINGS.public_demo_mode,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -179,7 +208,9 @@ def health_check(db: Session = Depends(get_db)):
         "status": "ok",
         "app": "SIGRA API",
         "version": app.version,
-        "docs_url": "/docs",
+        "docs_url": app.docs_url,
+        "environment": DATABASE_SETTINGS.environment,
+        "public_demo_mode": RUNTIME_SETTINGS.public_demo_mode,
         "database": {
             "engine": DATABASE_SETTINGS.backend_name,
             "reachable": True,

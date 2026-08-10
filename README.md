@@ -524,6 +524,43 @@ Para testar rapidamente:
 5. Registre um problema ou consumo real.
 6. Volte para `Recomendacao` e recalcule para ver o ajuste por dados reais.
 
+## Homologacao publica
+
+A branch `deploy/homologation` prepara uma demonstracao publica com:
+
+- frontend Vite na Vercel;
+- API FastAPI persistente no Render;
+- PostgreSQL separado no Supabase;
+- `PUBLIC_DEMO_MODE=true`;
+- login, dados pessoais e escritas persistentes bloqueados;
+- recomendacao e financiamento mantidos como calculos sem estado;
+- CORS e hosts configurados explicitamente por ambiente;
+- schema criado somente por Alembic;
+- seed demonstrativo remoto idempotente e versionado;
+- smoke e Playwright externo sem SQLite ou teardown destrutivo.
+
+Os arquivos `render.yaml`, `frontend/vercel.json` e
+`.env.homologation.example` nao possuem credenciais reais. Autenticacao nas
+plataformas, criacao dos projetos, cadastro de secrets e deploy permanecem
+checkpoints manuais.
+
+Runbooks:
+
+- `docs/HOMOLOGATION_DEPLOY.md`
+- `docs/HOMOLOGATION_SECURITY.md`
+- `docs/HOMOLOGATION_BACKUP_RESTORE.md`
+- `docs/HOMOLOGATION_ROLLBACK.md`
+
+O bootstrap remoto deve ser ensaiado sem escrita antes da confirmacao:
+
+```powershell
+$env:DATABASE_ENV = "homologation"
+$env:DATABASE_URL = "<URL_SQLALCHEMY_DE_RUNTIME>"
+& ".\.venv-validation\Scripts\python.exe" scripts/bootstrap_homologation_data.py --dry-run
+```
+
+Nenhuma URL real com senha deve ser salva no repositorio ou enviada na conversa.
+
 ## Limitacoes conhecidas
 
 - A base de veiculos e demonstrativa.

@@ -6,8 +6,20 @@ import { getConfidence, getMaintenanceMetric, getRankingLabel, getRecommendation
 import { isLatestRequest, isRecommendationSubmitDisabled, shouldMarkResultsStale, validateRecommendationProfile } from "../src/features/recommendations/recommendationValidation.js";
 import { formatMotorcycleValue, formatReferenceDate, getDataSourceLabel, getMotorcycleCategoryLabel, getMotorcycleDataGroupLabel, getMotorcycleEconomicStatusLabel, getMotorcycleEligibilityLabel, getMotorcycleMetricStatusLabel, getMotorcycleReadinessLabel, getRiderExperienceLabel, getVisibleEconomicEstimates, getVisibleMotorcycleMetrics, groupMotorcycleSources, isDemonstrationMotorcycle, isIncompleteMotorcycle } from "../src/features/motorcycles/motorcycleModel.js";
 import { resolveVehicleModule, shouldRequestCarRecommendations } from "../src/features/motorcycles/motorcycleValidation.js";
+import { isEnabled } from "../src/config/runtime.js";
 
 const validProfile = { vehicle_type: "car", budget: "70000", monthly_limit: "1200", use_case: "cidade", recommendation_strategy: "cost_benefit", monthly_mileage: "1000", fuel_price: "6" };
+
+test("modo público oculta login e áreas persistentes sem credenciais pré-preenchidas", () => {
+  const source = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
+  assert.match(source, /Ambiente demonstrativo em modo somente leitura/);
+  assert.match(source, /!PUBLIC_DEMO_MODE && !currentUser/);
+  assert.match(source, /!PUBLIC_DEMO_MODE && currentUser\?\.role === "admin"/);
+  assert.match(source, /if \(!PUBLIC_DEMO_MODE\) loadOperationalData/);
+  assert.doesNotMatch(source, /admin123|usuario123/);
+  assert.equal(isEnabled("true"), true);
+  assert.equal(isEnabled("false"), false);
+});
 
 test("seed visual de motocicletas possui quatro modelos demonstrativos distintos", () => {
   const seed = JSON.parse(readFileSync(new URL("../../backend/data/motorcycles.demo.json", import.meta.url), "utf8"));

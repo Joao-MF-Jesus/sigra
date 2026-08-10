@@ -62,7 +62,14 @@ class ContinuousIntegrationConfigurationTest(unittest.TestCase):
         config = (ROOT / "frontend" / "playwright.config.js").read_text(encoding="utf-8")
         self.assertIn("workers: 1", config)
         self.assertIn("prepareE2EEnvironment", config)
-        self.assertIn('globalTeardown: "./e2e/global-teardown.js"', config)
+        self.assertIn(
+            'globalTeardown: externalEnvironment ? undefined : "./e2e/global-teardown.js"',
+            config,
+        )
+        self.assertIn(
+            "webServer: externalEnvironment ? undefined",
+            config,
+        )
         self.assertIn("DATABASE_URL: e2eEnvironment.databaseUrl", config)
         self.assertIn('FIPE_AUTO_REFRESH: "false"', config)
         self.assertIn("CORS_ALLOWED_ORIGINS: frontendUrl", config)

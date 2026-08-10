@@ -2,6 +2,7 @@ import copy
 import os
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
@@ -99,6 +100,72 @@ class ApiTest(unittest.TestCase):
                 json={"email": "admin@sigra.local", "password": "errada", "role": "admin"},
             )
             self.assertEqual(denied_login.status_code, 401)
+
+    def test_public_demo_is_read_only_without_affecting_stateless_flows(self):
+        recommendation_payload = {
+            "budget": 70000,
+            "monthly_limit": 2000,
+            "use_case": "cidade",
+        }
+        financing_payload = {
+            "vehicle_type": "car",
+            "vehicle_price": 30000,
+            "down_payment": 10000,
+            "term_months": 36,
+            "monthly_interest_rate_percent": 1.5,
+            "upfront_fees": 0,
+            "financed_fees": 0,
+            "financed_insurance": 0,
+            "financed_services": 0,
+            "available_monthly_budget": 3000,
+            "estimated_monthly_vehicle_cost": 600,
+        }
+        with patch.dict(os.environ, {"PUBLIC_DEMO_MODE": "true"}, clear=False):
+            with self.client() as client:
+                self.assertEqual(client.get("/health").status_code, 200)
+                self.assertEqual(client.get("/vehicles").status_code, 200)
+                recommendation = client.post(
+                    "/recommendations",
+                    json=recommendation_payload,
+                )
+                self.assertEqual(recommendation.status_code, 200)
+                self.assertTrue(recommendation.json())
+                financing = client.post(
+                    "/financing/simulate",
+                    json=financing_payload,
+                )
+                self.assertEqual(financing.status_code, 200, financing.text)
+                self.assertEqual(
+                    client.post("/motorcycles/recommendations").status_code,
+                    501,
+                )
+
+                for method, path, payload in (
+                    ("post", "/auth/login", {
+                        "email": "usuario@sigra.local",
+                        "password": "usuario123",
+                        "role": "user",
+                    }),
+                    ("post", "/users", {
+                        "name": "Publico",
+                        "email": "publico@example.com",
+                    }),
+                    ("post", "/vehicles", {}),
+                    ("post", "/expenses", {}),
+                    ("patch", "/motorcycles/1", {"price": 10000}),
+                    ("delete", "/motorcycles/1", None),
+                ):
+                    response = (
+                        getattr(client, method)(path, json=payload)
+                        if payload is not None
+                        else getattr(client, method)(path)
+                    )
+                    self.assertEqual(response.status_code, 403, path)
+                    self.assertEqual(
+                        response.json()["detail"]["code"],
+                        "demo_read_only",
+                    )
+                self.assertEqual(client.get("/expenses").status_code, 403)
 
     def test_motorcycle_crud_and_reserved_recommendation(self):
         payload = {

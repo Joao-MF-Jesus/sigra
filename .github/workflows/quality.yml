@@ -62,6 +62,12 @@ jobs:
       - name: Build frontend
         working-directory: frontend
         run: npm run build
+      - name: Build public homologation frontend
+        working-directory: frontend
+        env:
+          VITE_API_URL: https://sigra-api-homolog.example.invalid
+          VITE_PUBLIC_DEMO_MODE: "true"
+        run: npm run build
       - name: Audit critical vulnerabilities
         working-directory: frontend
         run: npm audit --audit-level=critical

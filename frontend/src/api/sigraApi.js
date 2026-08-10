@@ -1,4 +1,4 @@
-const API_URL = import.meta.env?.VITE_API_URL || "http://127.0.0.1:8000";
+import { API_URL } from "../config/runtime.js";
 
 export async function requestRecommendations(profile, { signal, fetchImpl = fetch } = {}) {
   const response = await fetchImpl(`${API_URL}/recommendations?envelope=true`, {

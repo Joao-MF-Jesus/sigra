@@ -90,6 +90,7 @@ def sqlite_settings(url: str = "sqlite:///:memory:") -> DatabaseSettings:
         pool_timeout=30,
         pool_recycle=1800,
         allow_sqlite_in_production=False,
+        ssl_required=False,
     )
 
 
@@ -136,6 +137,25 @@ class DatabaseConfigurationTest(unittest.TestCase):
         )
         self.assertTrue(settings.is_sqlite)
         self.assertFalse(settings.bootstrap_schema)
+        with self.assertRaises(RuntimeError):
+            load_database_settings(
+                {
+                    "DATABASE_ENV": "homologation",
+                    "DATABASE_URL": "sqlite:///:memory:",
+                }
+            )
+
+    def test_published_postgresql_requires_ssl_by_default(self):
+        settings = load_database_settings(
+            {
+                "DATABASE_ENV": "homologation",
+                "DATABASE_URL": (
+                    "postgresql://sigra:" + "secret@example.com/sigra"
+                ),
+            }
+        )
+        self.assertTrue(settings.ssl_required)
+        self.assertNotIn("secret", settings.safe_url)
 
     def test_invalid_database_configuration_is_rejected(self):
         for environment in ("unknown", "prod"):
@@ -169,6 +189,7 @@ class DatabaseConfigurationTest(unittest.TestCase):
             pool_timeout=5,
             pool_recycle=60,
             allow_sqlite_in_production=False,
+            ssl_required=False,
         )
         engine = create_database_engine(settings)
         try:
@@ -176,6 +197,37 @@ class DatabaseConfigurationTest(unittest.TestCase):
             self.assertEqual(engine.pool._max_overflow, 0)
         finally:
             engine.dispose()
+
+    def test_published_engine_passes_ssl_and_pool_settings_to_sqlalchemy(self):
+        settings = DatabaseSettings(
+            url=(
+                "postgresql+psycopg://sigra:"
+                + "secret@example.test/sigra"
+            ),
+            environment="homologation",
+            echo=False,
+            pool_size=3,
+            max_overflow=2,
+            pool_timeout=30,
+            pool_recycle=300,
+            allow_sqlite_in_production=False,
+            ssl_required=True,
+        )
+        fake_engine = Mock()
+        with patch("app.database.create_engine", return_value=fake_engine) as factory:
+            result = create_database_engine(settings)
+        self.assertIs(result, fake_engine)
+        _, keyword_arguments = factory.call_args
+        self.assertEqual(
+            keyword_arguments["connect_args"],
+            {
+                "options": "-c timezone=UTC",
+                "sslmode": "require",
+            },
+        )
+        self.assertTrue(keyword_arguments["pool_pre_ping"])
+        self.assertEqual(keyword_arguments["pool_size"], 3)
+        self.assertEqual(keyword_arguments["max_overflow"], 2)
 
     def test_session_dependency_rolls_back_and_closes_on_failure(self):
         fake_session = Mock()
@@ -477,20 +529,19 @@ class AlembicStructureTest(unittest.TestCase):
         env_source = (
             PROJECT_ROOT / "backend" / "alembic" / "env.py"
         ).read_text(encoding="utf-8")
-        self.assertIn("load_database_settings()", env_source)
+        self.assertIn("MIGRATION_DATABASE_URL", env_source)
+        self.assertIn("load_database_settings(migration_environment)", env_source)
         self.assertNotIn("password=", env_source)
 
-    def test_expected_head_matches_initial_revision(self):
+    def test_expected_head_matches_alembic_head(self):
+        from alembic.config import Config
+        from alembic.script import ScriptDirectory
+
         from app.database import EXPECTED_ALEMBIC_HEAD
 
-        revision = (
-            PROJECT_ROOT
-            / "backend"
-            / "alembic"
-            / "versions"
-            / "20260723_0001_initial_schema.py"
-        ).read_text(encoding="utf-8")
-        self.assertIn(
-            f'revision: str = "{EXPECTED_ALEMBIC_HEAD}"',
-            revision,
+        config = Config(str(PROJECT_ROOT / "backend" / "alembic.ini"))
+        script = ScriptDirectory.from_config(config)
+        self.assertEqual(
+            script.get_heads(),
+            [EXPECTED_ALEMBIC_HEAD],
         )
