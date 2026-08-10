@@ -255,15 +255,19 @@ def _insert_gold_scope_mapping(
 @pytest.mark.skipif(not POSTGRESQL_URL, reason="PostgreSQL real nao configurado")
 def test_gold_migration_backfill_constraints_and_safe_downgrade(monkeypatch):
     from alembic import command
+    from alembic.script import ScriptDirectory
     from sqlalchemy import create_engine, inspect, text
     from sqlalchemy.exc import DBAPIError, IntegrityError
 
     config = _config(monkeypatch)
+    expected_head = ScriptDirectory.from_config(config).get_current_head()
+    assert expected_head is not None
     command.upgrade(config, "head")
     command.downgrade(config, "20260723_0001")
     command.upgrade(config, "20260803_0003")
     engine = create_engine(POSTGRESQL_URL)
     collision_mapping_id = None
+    collision_bronze_id = None
     try:
         collected = datetime(2026, 8, 1, tzinfo=UTC)
         with engine.begin() as connection:
@@ -402,7 +406,7 @@ def test_gold_migration_backfill_constraints_and_safe_downgrade(monkeypatch):
                     WHERE vehicle_type='car'"""
                 )
             ).mappings().one()
-            bronze_id = _insert_bronze(
+            collision_bronze_id = _insert_bronze(
                 connection,
                 run_id,
                 ordinal=99,
@@ -429,7 +433,7 @@ def test_gold_migration_backfill_constraints_and_safe_downgrade(monkeypatch):
                         "year": existing["year_code"],
                         "valid_from": existing["valid_from"],
                         "run": run_id,
-                        "bronze": bronze_id,
+                        "bronze": collision_bronze_id,
                     },
                 ).scalar_one()
             )
@@ -444,26 +448,49 @@ def test_gold_migration_backfill_constraints_and_safe_downgrade(monkeypatch):
                     {"mapping": collision_mapping_id},
                 )
 
-        engine.dispose()
-        with pytest.raises((DBAPIError, RuntimeError)):
-            command.downgrade(config, "20260803_0003")
-        engine = create_engine(POSTGRESQL_URL)
-        with engine.connect() as connection:
-            assert connection.execute(
-                text(
-                    "SELECT COUNT(*) FROM silver.vehicle_source_mapping WHERE mapping_id=:mapping"
-                ),
-                {"mapping": collision_mapping_id},
-            ).scalar_one() == 1
-            assert connection.execute(
-                text("SELECT version_num FROM alembic_version")
-            ).scalar_one() == "20260803_0004"
-        with engine.begin() as connection:
-            connection.execute(
-                text("DELETE FROM silver.vehicle_source_mapping WHERE mapping_id=:mapping"),
-                {"mapping": collision_mapping_id},
-            )
-        engine.dispose()
+        try:
+            engine.dispose()
+            with pytest.raises((DBAPIError, RuntimeError)):
+                command.downgrade(config, "20260803_0003")
+            engine = create_engine(POSTGRESQL_URL)
+            with engine.connect() as connection:
+                assert connection.execute(
+                    text(
+                        "SELECT COUNT(*) FROM silver.vehicle_source_mapping "
+                        "WHERE mapping_id=:mapping"
+                    ),
+                    {"mapping": collision_mapping_id},
+                ).scalar_one() == 1
+                assert connection.execute(
+                    text("SELECT version_num FROM alembic_version")
+                ).scalar_one() == expected_head
+        finally:
+            engine.dispose()
+            cleanup_engine = create_engine(POSTGRESQL_URL)
+            try:
+                with cleanup_engine.begin() as connection:
+                    connection.execute(
+                        text(
+                            "DELETE FROM silver.vehicle_source_mapping "
+                            "WHERE mapping_id=:mapping "
+                            "AND bronze_record_id=:bronze"
+                        ),
+                        {
+                            "mapping": collision_mapping_id,
+                            "bronze": collision_bronze_id,
+                        },
+                    )
+                    connection.execute(
+                        text(
+                            "DELETE FROM bronze.fipe_raw "
+                            "WHERE fipe_raw_id=:bronze"
+                        ),
+                        {"bronze": collision_bronze_id},
+                    )
+            finally:
+                cleanup_engine.dispose()
+            command.upgrade(config, "head")
+
         command.downgrade(config, "20260803_0003")
         engine = create_engine(POSTGRESQL_URL)
         downgraded = inspect(engine)

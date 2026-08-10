@@ -447,3 +447,107 @@ O orquestrador será introduzido somente depois de o fluxo manual estar validado
 - primeiro recorte limitado à FIPE.
 
 Com este documento, a Etapa 2 está projetada. A próxima etapa é criar as migrations dos schemas `meta`, `bronze`, `silver` e `gold` e implementar a ingestão Bronze da FIPE, mantendo a aplicação atual desligada desse novo fluxo até a validação.
+
+## 18. Etapa 6 — Orquestração da plataforma
+
+A orquestração coordena o fluxo já validado sem incorporar suas regras:
+
+```text
+CLI ou scheduler
+      |
+      v
+runner independente -----> meta.orchestration_run
+      |                    meta.orchestration_step_run
+      +--> Bronze FIPE ---> meta.pipeline_run
+      +--> Silver FIPE ---> meta.pipeline_run
+      +--> Gold features -> meta.pipeline_run
+```
+
+O runner chama as APIs Python públicas das camadas na ordem Bronze → Silver →
+Gold. Ele não executa subprocessos e não é importado por FastAPI, recomendador,
+frontend ou BI. O adaptador Prefect depende do runner; o runner nunca depende de
+Prefect. Assim, outro scheduler pode substituir Prefect implementando somente a
+fronteira de dispatch, sem alterar ingestão, transformação ou publicação.
+
+### 18.1 Metadados e estados
+
+`meta.orchestration_run` representa a intenção idempotente do fluxo e registra
+nome/versão, gatilho manual/agendado, etapa inicial, parâmetros sanitizados,
+heartbeat, resultado e tempos. A unicidade de `flow_name + idempotency_key`
+impede duas materializações da mesma intenção.
+
+`meta.orchestration_step_run` é o histórico append-only das tentativas. Cada
+linha identifica Bronze, Silver ou Gold, sua dependência, tentativa, status,
+tempos, métricas resumidas e a FK para o `meta.pipeline_run` criado pela camada.
+Falha antes da criação do pipeline permite FK nula sem perder a evidência da
+tentativa.
+
+Os dois contratos usam o mesmo conjunto de estados:
+
+```text
+pending -> running -> succeeded
+                   -> partial
+                   -> failed
+                   -> skipped
+                   -> cancelled
+```
+
+Constraints asseguram tempos coerentes, tentativas positivas e estado terminal
+com `finished_at`. Triggers atualizam `updated_at`. A migration
+`20260810_0005` é PostgreSQL-only, no-op em SQLite e regride isoladamente para
+`20260803_0004`.
+
+### 18.2 Dependências, partial e retomada
+
+- Bronze com falha definitiva causa skip de Silver; esse skip bloqueia Gold.
+- Silver com falha definitiva causa skip de Gold.
+- `partial=continue` permite seguir, mas o resultado do fluxo permanece
+  `partial`; `stop` interrompe dependentes; `fail` também classifica o fluxo
+  como falha.
+- Execução iniciada explicitamente em Silver ou Gold registra as etapas
+  anteriores como skipped por escolha, não como falha de dependência.
+- Retomada reutiliza etapas `succeeded`/`partial` e cria nova tentativa somente
+  para a primeira etapa incompleta. Isso preserva a idempotência interna das
+  camadas e evita repetir transformações concluídas.
+- Um run `running` com heartbeat recente é considerado ativo; após o limite de
+  staleness, pode ser recuperado sob o mesmo lock e a mesma chave.
+
+### 18.3 Retry, timeout, concorrência e cancelamento
+
+Falhas de transporte, timeout e conexão são transitórias; violação de contrato
+e resultados definitivos não recebem retry automático. A política limita
+tentativas e aplica backoff exponencial. O timeout no core é cooperativo para
+não abandonar uma thread que ainda possa escrever; tasks Prefect adicionam um
+limite operacional externo e devolvem timeout ao mesmo classificador do runner.
+
+Um advisory lock PostgreSQL por fluxo impede execuções Bronze/Silver/Gold
+incompatíveis em paralelo. Cancelamento é observado antes de cada etapa e
+tentativa; o estado é persistido antes de liberar o lock.
+
+### 18.4 Observabilidade e segurança
+
+Os metadados permitem correlacionar `orchestration_run_id`, etapa, tentativa,
+duração, status e `pipeline_run_id`. Métricas whitelisted incluem recebidos,
+inseridos, deduplicados, rejeitados, publicados, bloqueados, cobertura e
+freshness quando o pipeline a fornecer.
+
+Parâmetros, erros e métricas passam por sanitização e limite de tamanho. Campos
+como payload, body, URL, senha, token e secret são redigidos. Não há cópia de
+payload FIPE nem armazenamento da URL de banco.
+
+### 18.5 Prefect e agenda
+
+O adaptador constrói um flow local e tasks Bronze, Silver e Gold com import
+tardio. Prefect permanece dependência opcional do runtime de dados e não entra
+nas dependências do backend. Os testes usam executores falsos e decorators
+locais, sem API, servidor ou chamadas externas. Em operação, schedule,
+deployment e infraestrutura Prefect ficam fora do repositório e apenas invocam
+o flow parametrizado.
+
+### 18.6 Rollback e limites de integração
+
+Rollback de dataset continua sendo executado pelo contrato Gold existente. O
+downgrade da Etapa 6 remove somente tabelas, enums, índices e triggers de
+orquestração; não altera dados Bronze/Silver/Gold nem runs de pipeline. A etapa
+não muda a fonte atual do backend, não agenda automaticamente um deployment e
+não liga a plataforma ao ciclo de vida da aplicação.

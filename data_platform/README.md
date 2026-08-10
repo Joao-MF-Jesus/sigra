@@ -1,4 +1,4 @@
-# Plataforma de dados — Etapa 5
+# Plataforma de dados — Etapa 6
 
 A plataforma de dados permanece independente do startup da FastAPI. As
 migrations são PostgreSQL-only e mantêm o banco SQLite operacional como no-op.
@@ -173,3 +173,125 @@ O downgrade verifica previamente colisões que seriam incompatíveis sem
 estrutura ou dado. Sem colisões, remove a Gold e restaura exatamente o contrato
 Silver `0003`. Em SQLite, upgrade, downgrade, publicação e rollback são
 deliberadamente no-op.
+
+## Orquestração Bronze → Silver → Gold
+
+A Etapa 6 adiciona uma camada de coordenação sem alterar regras das camadas. O
+núcleo em `data_platform.orchestration` chama diretamente as funções Python
+`run_pipeline`, `run_silver_pipeline` e `run_gold_publication`; não executa
+CLIs, subprocessos ou FastAPI. Bronze, Silver e Gold continuam utilizáveis de
+forma independente.
+
+A migration `20260810_0005` cria exclusivamente em PostgreSQL:
+
+- `meta.orchestration_run`, com fluxo/versão, gatilho, chave idempotente,
+  parâmetros sanitizados, status, heartbeat e tempos;
+- `meta.orchestration_step_run`, com etapa, tentativa, dependência, FK opcional
+  para `meta.pipeline_run`, métricas resumidas e erro sanitizado;
+- enums para status (`pending`, `running`, `succeeded`, `partial`, `failed`,
+  `skipped`, `cancelled`), etapa e gatilho;
+- constraints, índices e atualização automática de `updated_at`.
+
+Em SQLite, a migration permanece no-op deliberado. O downgrade da Etapa 6
+remove somente esses metadados e retorna ao head `20260803_0004`.
+
+### Execução local
+
+O banco analítico continua vindo de `DATA_PLATFORM_DATABASE_URL`; a URL nunca é
+incluída em parâmetros, métricas ou resultados. Exemplos:
+
+```powershell
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli run
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli run --from-step silver
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli run --from-step gold
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli run --dry-run
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli result <orchestration_run_id>
+```
+
+O `dry-run` produz somente um plano estruturado: não abre banco, não grava
+metadados e não chama a FIPE. `--source-reference`, `--git-commit`,
+`--trigger-type`, `--idempotency-key` e `--resume` permitem identificar e
+retomar uma execução sem incluir credenciais. `--partial-policy` aceita
+`continue`, `stop` ou `fail`.
+
+Os mesmos defaults podem vir de
+`DATA_PLATFORM_ORCHESTRATION_START_STEP`,
+`DATA_PLATFORM_ORCHESTRATION_TRIGGER_TYPE`,
+`DATA_PLATFORM_ORCHESTRATION_SOURCE_REFERENCE`,
+`DATA_PLATFORM_ORCHESTRATION_GIT_COMMIT`,
+`DATA_PLATFORM_ORCHESTRATION_IDEMPOTENCY_KEY`,
+`DATA_PLATFORM_ORCHESTRATION_PARTIAL_POLICY`,
+`DATA_PLATFORM_ORCHESTRATION_MAX_ATTEMPTS`,
+`DATA_PLATFORM_ORCHESTRATION_BACKOFF_SECONDS` e
+`DATA_PLATFORM_ORCHESTRATION_STEP_TIMEOUT_SECONDS`. Argumentos explícitos da
+CLI têm precedência.
+
+### Políticas operacionais
+
+- Bronze, Silver e Gold sempre respeitam a ordem; falha Bronze bloqueia Silver
+  e Gold, e falha Silver bloqueia Gold.
+- Resultado `partial` segue uma política explícita. O padrão `continue` executa
+  a próxima etapa e mantém o run final como `partial`.
+- Falhas transitórias usam tentativas limitadas e backoff exponencial. Resultado
+  definitivo (`failed`/`rejected`) não é repetido cegamente.
+- Uma etapa `succeeded` ou `partial` persistida não é repetida na retomada; uma
+  nova tentativa é criada apenas para a etapa incompleta.
+- A chave idempotente é persistida somente como SHA-256 e devolve o resultado
+  terminal existente. `--resume` reabre de modo explícito um run terminal
+  incompleto.
+- Um advisory lock PostgreSQL exclusivo impede fluxos incompatíveis
+  concorrentes. Heartbeat antigo permite recuperar um run `running` abandonado.
+- O timeout do núcleo é cooperativo por checkpoint seguro. No adaptador
+  Prefect, cada task também recebe timeout operacional; retries continuam sendo
+  decididos pelo núcleo, sem duas políticas concorrentes.
+- `Ctrl+C`/cancelamento é registrado como `cancelled` entre checkpoints, sem
+  iniciar a próxima etapa.
+
+### Prefect opcional e agendamento
+
+`data_platform.orchestration.prefect_flow` importa Prefect somente quando o
+flow é solicitado. Prefect não foi adicionado a `backend/requirements.txt` e o
+backend FastAPI não o importa. Um runtime operacional pode provisioná-lo como
+dependência opcional e executar localmente:
+
+```powershell
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli prefect
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli prefect --serve-cron "0 3 * * *" --timezone America/Sao_Paulo
+```
+
+Sem Prefect, esse comando retorna erro de configuração claro; o comando `run`
+continua funcional. O flow expõe tasks Bronze, Silver e Gold. `--serve-cron`
+configura um deployment local somente quando explicitamente solicitado; os
+testes substituem essa API por objetos locais e não iniciam servidor. Trocar
+Prefect por outro scheduler exige somente outro dispatcher/adaptador para o
+runner, sem mudança nos pipelines.
+
+Runs agendados usam o identificador do próprio flow run Prefect como material
+da chave idempotente quando o operador não fornece uma chave. Assim, ocorrências
+distintas do cron não se deduplicam entre si, enquanto retries da mesma
+ocorrência continuam correlacionados.
+
+### Monitoramento, retomada e rollback
+
+Consulte `result <orchestration_run_id>` ou as tabelas Meta para obter etapa,
+tentativa, duração, status, `pipeline_run_id`, contagens, cobertura e motivo
+seguro de falha/skip. Payload FIPE, endpoint, senha, token e URL autenticada não
+são persistidos. O rollback de dados continua sendo responsabilidade da Gold;
+o rollback da migration de orquestração não altera Bronze, Silver, Gold nem
+`meta.pipeline_run`.
+
+Limitações atuais: o timeout puro do núcleo depende de checkpoints cooperativos,
+e a agenda/deployment Prefect deve ser provisionada pelo ambiente operacional.
+Esta etapa não integra a orquestração ao startup da API nem ao frontend.
+
+### Testes da Etapa 6
+
+```powershell
+.\backend\.venv\Scripts\python.exe -m pytest data_platform\tests\test_orchestration.py -q -p no:cacheprovider
+.\backend\.venv\Scripts\python.exe -m pytest data_platform\tests -q -p no:cacheprovider
+```
+
+Os testes de `test_postgresql_orchestration.py` só usam
+`DATA_PLATFORM_TEST_POSTGRESQL_URL` quando o backend é PostgreSQL e o nome do
+banco termina em `_test`. Sem essa configuração, permanecem skipped e nenhuma
+URL é inventada ou exibida.
