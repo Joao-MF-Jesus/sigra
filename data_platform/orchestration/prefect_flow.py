@@ -109,7 +109,7 @@ def build_prefect_components(
             )
         return request
 
-    @prefect.flow(name="SIGRA Bronze Silver Gold", log_prints=False)
+    @prefect.flow(name="SIGRA Medallion Pipelines", log_prints=False)
     def orchestration_flow(request: OrchestrationRequest | None = None):
         resolved = runtime_request(request or OrchestrationRequest())
         return runner.run(resolved, dispatcher=dispatch)

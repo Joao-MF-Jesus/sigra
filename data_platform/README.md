@@ -1,4 +1,4 @@
-# Plataforma de dados — Etapa 7B
+# Plataforma de dados — Etapa 8B2
 
 A plataforma de dados permanece independente do startup da FastAPI. As
 migrations são PostgreSQL-only e mantêm o banco SQLite operacional como no-op.
@@ -416,10 +416,10 @@ ultrapassar o limite; esse valor deverá ser revisto após novos pilotos.
 CSV oficial ANP -> Bronze ANP -> Silver ANP -> Gold ANP shadow
 ```
 
-O pipeline não é chamado pela orquestração da Etapa 6 e não se conecta a PBEV,
-FastAPI, recomendador, frontend, financiamento ou BI. A integração com a
-orquestração fica explicitamente reservada para a Etapa 8B2, depois do piloto
-PostgreSQL.
+O pipeline continua sem conexão de dados com PBEV, FastAPI, recomendador,
+frontend, financiamento ou BI. A Etapa 8B2 apenas permite coordenar sua API
+Python pública pelo mesmo runner da plataforma; o resultado permanece Gold
+shadow e nunca substitui a Gold FIPE operacional.
 
 O modo Bronze é sempre `metadata_only`: os bytes originais do CSV não são
 persistidos no PostgreSQL nem no repositório. O arquivo existe somente no
@@ -469,3 +469,57 @@ usam CSVs sintéticos mínimos. O teste PostgreSQL executa somente quando
 com nome terminado em `_test`; a URL nunca é exibida. A migration
 `20260811_0007` é PostgreSQL-only, no-op em SQLite e bloqueia downgrade quando
 existe shadow ANP ativo.
+
+## Orquestração FIPE, PBEV e ANP — Etapa 8B2
+
+A orquestração existente foi ampliada sem duplicar framework. FIPE preserva as
+unidades Bronze → Silver → Gold; PBEV e ANP são registrados como unidades
+transacionais próprias porque suas APIs públicas já coordenam internamente as
+camadas medalhão. O runner chama diretamente `run_pbev_pipeline` e
+`run_anp_pipeline`, sem CLI intermediária ou subprocesso.
+
+Os modos explícitos são:
+
+- `fipe`: comportamento anterior e padrão, com suporte a `--from-step`;
+- `pbev`: executa somente o shadow PBEV e exige os seis ativos auditados no
+  diretório externo informado;
+- `anp`: executa somente o pipeline ANP oficial e mantém a publicação shadow;
+- `complete`: executa FIPE, PBEV e ANP, preservando os resultados concluídos de
+  cada ramo.
+
+```powershell
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli run
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli run --scope fipe --from-step silver
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli run --scope pbev --pbev-asset-dir "C:\caminho-externo\pbev"
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli run --scope anp
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli run --scope complete --pbev-asset-dir "C:\caminho-externo\pbev"
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli run --scope complete --dry-run
+.\backend\.venv\Scripts\python.exe -m data_platform.orchestration.cli prefect --scope anp --trigger-type scheduled --serve-cron "0 3 * * 1" --timezone America/Sao_Paulo --deployment-name sigra-anp-weekly
+```
+
+O `dry-run` é um plano puro: não carrega cliente, não abre banco, não resolve
+ativos PBEV, não cria arquivo temporário e não adquire lock. Prefect continua
+opcional e com import tardio; o mesmo parâmetro `--scope` vale para o comando
+`prefect`.
+O cron acima é apenas um exemplo semanal configurável; ele só inicia o
+deployment local quando o operador executa explicitamente `--serve-cron`.
+
+Cada recurso usa lock independente (`sigra-orchestration:fipe`, `:pbev` e
+`:anp`). O modo `complete` adquire os três em ordem determinística. Assim, runs
+isolados sem recurso comum podem coexistir, enquanto um fluxo completo não
+concorre com outro run que escreva no mesmo ramo. Retomada reutiliza toda
+unidade `succeeded`/`partial` e repete somente a incompleta. Retry automático é
+restrito às exceções transitórias já classificadas; erro de contrato ou
+resultado definitivo não recebe repetição cega.
+
+Em `complete`, falha de um ramo independente depois de outro concluído produz
+status global `partial`; as publicações anteriores não são revertidas. Dentro
+da FIPE, Bronze e Silver continuam bloqueando apenas seus dependentes. ANP e
+PBEV não se bloqueiam mutuamente. Status, tentativa, duração, último
+`pipeline_run_id` aplicável, métricas resumidas e erro sanitizado permanecem em
+`meta.orchestration_run` e `meta.orchestration_step_run`.
+
+A migration `20260811_0008` apenas amplia o enum de steps existente para
+`pbev` e `anp_fuel_prices`; não altera DDL, dados ou constraints dos pipelines.
+Ela é no-op em SQLite. O downgrade para `20260811_0007` é bloqueado enquanto existir
+histórico de orquestração PBEV/ANP, evitando descarte silencioso de auditoria.

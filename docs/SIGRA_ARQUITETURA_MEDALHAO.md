@@ -671,9 +671,10 @@ gold.anp_fuel_price_dataset -> gold.anp_fuel_price_snapshot
                             -> gold.anp_fuel_price_quality_result
 ```
 
-Não há aresta para a orquestração existente, PBEV, FastAPI, recomendador,
-frontend, financiamento, BI ou Gold FIPE. A integração da orquestração pertence
-à Etapa 8B2 e depende primeiro de piloto PostgreSQL descartável.
+Não há aresta de dados para PBEV, FastAPI, recomendador, frontend,
+financiamento, BI ou Gold FIPE. A Etapa 8B2 acrescenta somente a coordenação da
+API Python pública pelo runner analítico, após o piloto PostgreSQL descartável;
+o produto continua shadow e isolado dos consumidores operacionais.
 
 ### 20.1 Origem, transporte e Bronze
 
@@ -746,3 +747,73 @@ shadow anterior passa atomicamente a `retired`. Um índice parcial garante um
 único shadow ativo. Falha deixa zero publicação parcial; fingerprint já ativo é
 no-op. A migration `20260811_0007` é PostgreSQL-only, no-op em SQLite e retorna
 isoladamente a `20260810_0006` somente quando não há shadow ANP ativo.
+
+## 21. Etapa 8B2 — orquestração dos ramos FIPE, PBEV e ANP
+
+A Etapa 8B2 evolui o mesmo núcleo independente da Etapa 6. Não existe um
+segundo framework e nenhum pipeline é invocado por subprocesso:
+
+```text
+CLI ou scheduler opcional
+          |
+          v
+runner único ------------------> meta.orchestration_run
+  |                              meta.orchestration_step_run
+  +--> FIPE: Bronze -> Silver -> Gold
+  +--> PBEV: unidade pbev ------> Gold shadow PBEV
+  +--> ANP: unidade anp_fuel_prices -> Gold shadow ANP
+```
+
+PBEV e ANP aparecem como unidades únicas na orquestração porque suas APIs
+públicas já controlam internamente Bronze, Silver e Gold numa transação lógica.
+Criar três steps artificiais para cada ramo duplicaria responsabilidade e
+produziria retomada enganosa. A migration `20260811_0008` amplia somente o enum
+`meta.orchestration_step` com `pbev` e `anp_fuel_prices`; as tabelas, FKs,
+constraints e
+triggers da Etapa 6 são reutilizados. SQLite permanece no-op. O downgrade
+retorna a `20260811_0007` apenas quando não existe histórico que use os novos
+valores.
+
+### 21.1 Escopos, compatibilidade e dependências
+
+O escopo padrão continua `fipe`, preservando o comando anterior e
+`--from-step bronze|silver|gold`. Os escopos adicionais são `pbev`, `anp` e
+`complete`. O completo usa a ordem determinística FIPE → PBEV → ANP, mas as
+dependências são locais: Bronze bloqueia Silver, Silver bloqueia Gold, enquanto
+PBEV e ANP não dependem do resultado FIPE nem um do outro.
+
+Falha ANP após FIPE/PBEV concluídos produz run global `partial` e não reverte
+datasets anteriores. A mesma regra de isolamento vale para falha PBEV seguida
+de ANP bem-sucedida. Se nenhuma unidade completar, o run é `failed`.
+`succeeded` e `partial` persistidos são reutilizados por `--resume`; somente a
+unidade incompleta recebe nova tentativa.
+
+### 21.2 Concorrência, retry e cancelamento
+
+Locks são associados ao recurso (`sigra-orchestration:fipe`, `:pbev` e `:anp`),
+não a um bloqueio global. Escopos sem recurso comum podem coexistir. O escopo
+`complete` adquire os três locks em ordem fixa e, portanto, não concorre com
+nenhum run que escreva nos mesmos ramos. Os locks internos `pbev:<cycle_year>`
+e `anp:<source_reference>` continuam preservados nos loaders.
+
+Retry automático permanece limitado a transporte, conexão e timeout
+transitórios. Erros de hash, layout, contrato, quality gate e resultados
+definitivos não recebem retry cego. Checkpoints atualizam heartbeat e observam
+cancelamento/timeout entre estágios seguros. Prefect continua um adaptador
+opcional com import tardio; o runner e os pipelines não dependem dele.
+Uma periodicidade semanal pode ser fornecida externamente, por exemplo cron
+`0 3 * * 1` com timezone `America/Sao_Paulo`; nenhum deployment ou schedule é
+criado pelo repositório ou pelos testes.
+
+### 21.3 Idempotência, observabilidade e segurança
+
+Cada escopo possui `flow_name` próprio e chave idempotente SHA-256. O step
+registra tentativa, status, duração, métricas whitelisted, erro sanitizado e o
+último `pipeline_run_id` aplicável quando o pipeline retorna vários runs
+internos. Caminho externo PBEV, URL de banco, URL autenticada, credencial,
+payload, CSV e PDF não entram nos metadados de orquestração.
+
+O dry-run retorna apenas o plano do escopo: não abre banco, não adquire lock,
+não chama FIPE/ANP, não resolve PDFs PBEV e não cria arquivos. Esta etapa não
+agenda execução automaticamente e não conecta PBEV ou ANP a FastAPI,
+recomendador, frontend, financiamento, BI ou à Gold FIPE operacional.

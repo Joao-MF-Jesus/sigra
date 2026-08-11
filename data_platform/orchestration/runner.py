@@ -1,12 +1,17 @@
 from __future__ import annotations
 
+from contextlib import ExitStack
 from dataclasses import fields, is_dataclass
 from datetime import datetime
 from decimal import Decimal
+from pathlib import Path
 import time
 from typing import Any, Callable, Mapping, Sequence
 from uuid import UUID, uuid4
 
+from data_platform.anp.loader import AnpFuelPriceLoader
+from data_platform.anp.pipeline import AnpExecutionOptions, run_anp_pipeline
+from data_platform.anp.sources import ANP_LAST_FOUR_WEEKS_REFERENCE
 from data_platform.common.config import DataPlatformSettings
 from data_platform.common.database import create_platform_engine
 from data_platform.common.logging import sanitize
@@ -16,7 +21,7 @@ from data_platform.ingestion.fipe.loader import BronzeLoader
 from data_platform.ingestion.fipe.pipeline import run_pipeline
 from data_platform.ingestion.fipe.targets import legacy_car_targets
 from data_platform.orchestration.contracts import (
-    FLOW_NAME,
+    FIPE_STEP_ORDER,
     STEP_ORDER,
     TERMINAL_STATUSES,
     CancellationToken,
@@ -24,6 +29,7 @@ from data_platform.orchestration.contracts import (
     OrchestrationCancelled,
     OrchestrationRequest,
     OrchestrationResult,
+    OrchestrationScope,
     OrchestrationStatus,
     PartialPolicy,
     PipelineBindings,
@@ -34,6 +40,7 @@ from data_platform.orchestration.contracts import (
     StoredRun,
     StoredStepRun,
     sanitize_mapping,
+    scope_for_flow_name,
     utc_now,
 )
 from data_platform.orchestration.policies import ExecutionPolicy, is_transient_error
@@ -43,6 +50,8 @@ from data_platform.orchestration.repository import (
 )
 from data_platform.publication.loader import GoldLoader
 from data_platform.publication.pipeline import run_gold_publication
+from data_platform.pbev.loader import PbevLoader
+from data_platform.pbev.pipeline import PbevExecutionOptions, run_pbev_pipeline
 from data_platform.transformation.loader import SilverLoader
 from data_platform.transformation.pipeline import run_silver_pipeline
 
@@ -63,6 +72,13 @@ _METRIC_FIELDS = frozenset(
         "coverage_percentage",
         "fingerprint",
         "freshness_status",
+        "pipeline_run_ids",
+        "rows_received",
+        "observations_current",
+        "snapshots_published",
+        "assets_processed",
+        "rows_extracted",
+        "mappings_by_status",
     }
 )
 
@@ -80,6 +96,10 @@ def _safe_metric(value: Any) -> Any:
         return value
     if isinstance(value, Decimal):
         return format(value, "f")
+    if isinstance(value, Mapping):
+        return sanitize_mapping(value)
+    if isinstance(value, (list, tuple)):
+        return [_safe_metric(item) for item in value[:50]]
     return sanitize(value, limit=160)
 
 
@@ -108,6 +128,12 @@ def _pipeline_run_uuid(result: Any) -> UUID | None:
     raw = getattr(result, "pipeline_run_id", None)
     if raw is None and isinstance(result, Mapping):
         raw = result.get("pipeline_run_id")
+    if not raw:
+        candidates = getattr(result, "pipeline_run_ids", None)
+        if candidates is None and isinstance(result, Mapping):
+            candidates = result.get("pipeline_run_ids")
+        if candidates:
+            raw = tuple(candidates)[-1]
     if not raw:
         return None
     try:
@@ -141,7 +167,11 @@ def _normalize_pipeline_result(
         status=status,
         attempt_number=attempt_number,
         pipeline_run_id=str(pipeline_run_id) if pipeline_run_id else None,
-        metrics={**_result_metrics(result), "duration_seconds": duration_seconds},
+        metrics={
+            **_result_metrics(result),
+            "pipeline_status": status_value,
+            "duration_seconds": duration_seconds,
+        },
         error=(
             _result_error(result)
             or (f"unexpected pipeline status: {sanitize(raw_status)}" if status_value not in {
@@ -190,6 +220,7 @@ def _result_from_repository(
         started_at=run.started_at,
         finished_at=finished,
         idempotency_key=run.idempotency_key,
+        scope=scope_for_flow_name(run.flow_name),
         reused=reused,
         error=run.error_summary,
     )
@@ -227,11 +258,15 @@ class OrchestrationRunner:
         if request.dry_run:
             return self._dry_run(request, idempotency_key)
 
-        with self.repository.acquire_lock(f"{FLOW_NAME}:exclusive") as run_lock:
-            if not run_lock.acquired:
-                raise ConcurrentOrchestrationError(
-                    "an incompatible orchestration run is already active"
+        with ExitStack() as stack:
+            for lock_name in request.lock_names:
+                run_lock = stack.enter_context(
+                    self.repository.acquire_lock(lock_name)
                 )
+                if not run_lock.acquired:
+                    raise ConcurrentOrchestrationError(
+                        "an incompatible orchestration run is already active"
+                    )
             return self._run_locked(request, token, dispatch, idempotency_key)
 
     def _dry_run(
@@ -240,20 +275,27 @@ class OrchestrationRunner:
         idempotency_key: str,
     ) -> OrchestrationResult:
         now = self._now()
-        start_index = STEP_ORDER.index(request.start_at)
+        start_index = FIPE_STEP_ORDER.index(request.start_at)
         steps = tuple(
             StepResult(
                 step_name=step,
                 status=OrchestrationStatus.SKIPPED,
                 attempt_number=0,
-                metrics={"planned": index >= start_index},
+                metrics={
+                    "planned": step not in FIPE_STEP_ORDER or index >= start_index,
+                    **(
+                        {"publication_mode": "shadow"}
+                        if step in {StepName.PBEV, StepName.ANP}
+                        else {}
+                    ),
+                },
                 skip_reason=(
                     f"start_from_{request.start_at.value}"
-                    if index < start_index
+                    if step in FIPE_STEP_ORDER and index < start_index
                     else "dry_run"
                 ),
             )
-            for index, step in enumerate(STEP_ORDER)
+            for index, step in enumerate(request.steps)
         )
         return OrchestrationResult(
             orchestration_run_id=str(self._new_run_id()),
@@ -262,6 +304,7 @@ class OrchestrationRunner:
             started_at=now,
             finished_at=now,
             idempotency_key=idempotency_key,
+            scope=request.scope,
             dry_run=True,
         )
 
@@ -273,7 +316,7 @@ class OrchestrationRunner:
         idempotency_key: str,
     ) -> OrchestrationResult:
         now = self._now()
-        active = self.repository.get_active_run()
+        active = self.repository.get_active_run(flow_name=request.flow_name)
         if active is not None and active.idempotency_key != idempotency_key:
             if now - active.heartbeat_at < self.policy.stale_after:
                 raise ConcurrentOrchestrationError(
@@ -286,7 +329,10 @@ class OrchestrationRunner:
                 now,
                 "stale orchestration run superseded",
             )
-        run = self.repository.get_run_by_key(idempotency_key)
+        run = self.repository.get_run_by_key(
+            idempotency_key,
+            flow_name=request.flow_name,
+        )
         if run is not None:
             if run.status in TERMINAL_STATUSES and not request.resume:
                 return _result_from_repository(
@@ -364,23 +410,26 @@ class OrchestrationRunner:
         run_id = run.orchestration_run_id
         attempts = self.repository.list_step_attempts(run_id)
         latest = latest_step_attempts(attempts)
-        start_index = STEP_ORDER.index(request.start_at)
-        dependency: StoredStepRun | None = None
+        start_index = FIPE_STEP_ORDER.index(request.start_at)
         step_results: dict[StepName, StepResult] = {}
+        stored_results: dict[StepName, StoredStepRun] = {}
 
-        for index, step_name in enumerate(STEP_ORDER):
+        for step_name in request.steps:
             token.raise_if_cancelled()
             previous = latest.get(step_name)
-            if index < start_index:
+            if (
+                step_name in FIPE_STEP_ORDER
+                and FIPE_STEP_ORDER.index(step_name) < start_index
+            ):
                 if previous is None:
                     previous = self._record_skip(
                         run_id,
                         step_name,
-                        dependency,
+                        None,
                         f"start_from_{request.start_at.value}",
                         1,
                     )
-                dependency = previous
+                stored_results[step_name] = previous
                 step_results[step_name] = _stored_step_result(previous)
                 continue
 
@@ -388,15 +437,27 @@ class OrchestrationRunner:
                 OrchestrationStatus.SUCCEEDED,
                 OrchestrationStatus.PARTIAL,
             }:
-                dependency = previous
+                stored_results[step_name] = previous
                 step_results[step_name] = _stored_step_result(previous)
                 continue
 
-            dependency_result = step_results.get(STEP_ORDER[index - 1]) if index else None
+            dependency_name = {
+                StepName.SILVER: StepName.BRONZE,
+                StepName.GOLD: StepName.SILVER,
+            }.get(step_name)
+            dependency = (
+                stored_results.get(dependency_name)
+                if dependency_name is not None
+                else None
+            )
+            dependency_result = (
+                step_results.get(dependency_name)
+                if dependency_name is not None
+                else None
+            )
             dependency_block = self._dependency_block_reason(
                 dependency_result,
                 request,
-                index,
             )
             if dependency_block:
                 attempt_number = (
@@ -413,7 +474,7 @@ class OrchestrationRunner:
                     dependency_block,
                     attempt_number,
                 )
-                dependency = previous
+                stored_results[step_name] = previous
                 step_results[step_name] = _stored_step_result(previous)
                 continue
 
@@ -431,7 +492,7 @@ class OrchestrationRunner:
                 dispatch,
                 initial_attempt,
             )
-            dependency = completed
+            stored_results[step_name] = completed
             step_results[step_name] = result
             self.repository.heartbeat(run_id, self._now())
 
@@ -445,7 +506,6 @@ class OrchestrationRunner:
         self,
         dependency: StepResult | None,
         request: OrchestrationRequest,
-        index: int,
     ) -> str | None:
         if dependency is None:
             return None
@@ -495,6 +555,10 @@ class OrchestrationRunner:
                 cancellation_token=token,
                 deadline_monotonic=(
                     started_monotonic + timeout if timeout is not None else None
+                ),
+                heartbeat=lambda: self.repository.heartbeat(
+                    run_id,
+                    self._now(),
                 ),
             )
             try:
@@ -588,10 +652,23 @@ class OrchestrationRunner:
         considered = [
             result
             for step_name, result in results.items()
-            if STEP_ORDER.index(step_name) >= STEP_ORDER.index(request.start_at)
+            if step_name not in FIPE_STEP_ORDER
+            or FIPE_STEP_ORDER.index(step_name)
+            >= FIPE_STEP_ORDER.index(request.start_at)
         ]
         if any(item.status == OrchestrationStatus.CANCELLED for item in considered):
             return OrchestrationStatus.CANCELLED
+        if request.scope == OrchestrationScope.COMPLETE:
+            failed = any(item.status == OrchestrationStatus.FAILED for item in considered)
+            completed = any(
+                item.status in {
+                    OrchestrationStatus.SUCCEEDED,
+                    OrchestrationStatus.PARTIAL,
+                }
+                for item in considered
+            )
+            if failed and completed:
+                return OrchestrationStatus.PARTIAL
         if any(item.status == OrchestrationStatus.FAILED for item in considered):
             return OrchestrationStatus.FAILED
         if (
@@ -674,4 +751,60 @@ def build_default_bindings(
         finally:
             engine.dispose()
 
-    return PipelineBindings(bronze=bronze, silver=silver, gold=gold)
+    def pbev(context: StepExecutionContext):
+        context.checkpoint()
+        engine = create_platform_engine(settings.database_url)
+        try:
+            return run_pbev_pipeline(
+                PbevLoader(engine),
+                PbevExecutionOptions(
+                    asset_directory=(
+                        Path(context.request.pbev_asset_directory)
+                        if context.request.pbev_asset_directory
+                        else None
+                    ),
+                    trigger_type=(
+                        "retry"
+                        if context.attempt_number > 1
+                        else context.request.trigger_type.value
+                    ),
+                    source_reference=context.request.source_reference,
+                    git_commit=context.request.git_commit,
+                    timeout_seconds=context.remaining_seconds or 1800.0,
+                ),
+                cancellation_token=context.cancellation_token,
+                heartbeat=lambda _stage: context.checkpoint(),
+            )
+        finally:
+            engine.dispose()
+
+    def anp(context: StepExecutionContext):
+        context.checkpoint()
+        engine = create_platform_engine(settings.database_url)
+        try:
+            return run_anp_pipeline(
+                AnpFuelPriceLoader(engine),
+                AnpExecutionOptions(
+                    source_reference=(
+                        context.request.anp_source_reference
+                        or ANP_LAST_FOUR_WEEKS_REFERENCE
+                    ),
+                    trigger_type=(
+                        "retry"
+                        if context.attempt_number > 1
+                        else context.request.trigger_type.value
+                    ),
+                    git_commit=context.request.git_commit,
+                ),
+                heartbeat=lambda _stage: context.checkpoint(),
+            )
+        finally:
+            engine.dispose()
+
+    return PipelineBindings(
+        bronze=bronze,
+        silver=silver,
+        gold=gold,
+        pbev=pbev,
+        anp=anp,
+    )

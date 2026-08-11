@@ -6,11 +6,14 @@ import json
 import os
 from uuid import UUID
 
+from data_platform.anp.sources import ANP_LAST_FOUR_WEEKS_REFERENCE
 from data_platform.common.config import load_settings
 from data_platform.common.database import create_platform_engine
 from data_platform.common.logging import sanitize
 from data_platform.orchestration.contracts import (
     OrchestrationRequest,
+    OrchestrationScope,
+    FIPE_STEP_ORDER,
     PartialPolicy,
     PipelineBindings,
     StepName,
@@ -35,6 +38,10 @@ from data_platform.orchestration.runner import (
 
 
 def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
+    default_scope = os.getenv(
+        "DATA_PLATFORM_ORCHESTRATION_SCOPE",
+        OrchestrationScope.FIPE.value,
+    )
     default_start = os.getenv(
         "DATA_PLATFORM_ORCHESTRATION_START_STEP",
         StepName.BRONZE.value,
@@ -48,8 +55,14 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
         PartialPolicy.CONTINUE.value,
     )
     parser.add_argument(
+        "--scope",
+        choices=tuple(item.value for item in OrchestrationScope),
+        default=default_scope,
+        help="fipe (padrao), pbev, anp ou complete",
+    )
+    parser.add_argument(
         "--from-step",
-        choices=tuple(item.value for item in StepName),
+        choices=tuple(item.value for item in FIPE_STEP_ORDER),
         default=default_start,
     )
     parser.add_argument("--dry-run", action="store_true")
@@ -65,6 +78,18 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--git-commit",
         default=os.getenv("DATA_PLATFORM_ORCHESTRATION_GIT_COMMIT"),
+    )
+    parser.add_argument(
+        "--pbev-asset-dir",
+        default=os.getenv("PBEV_ASSET_DIR"),
+    )
+    parser.add_argument(
+        "--anp-source-reference",
+        choices=(ANP_LAST_FOUR_WEEKS_REFERENCE,),
+        default=os.getenv(
+            "DATA_PLATFORM_ORCHESTRATION_ANP_SOURCE_REFERENCE",
+            ANP_LAST_FOUR_WEEKS_REFERENCE,
+        ),
     )
     parser.add_argument(
         "--idempotency-key",
@@ -99,7 +124,7 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Orquestracao Bronze, Silver e Gold da plataforma SIGRA"
+        description="Orquestracao FIPE, PBEV e ANP da plataforma SIGRA"
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     run = subparsers.add_parser("run", help="Executa o nucleo local")
@@ -131,6 +156,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def _request(args: argparse.Namespace) -> OrchestrationRequest:
     return OrchestrationRequest(
+        scope=OrchestrationScope(args.scope),
         start_at=StepName(args.from_step),
         dry_run=args.dry_run,
         trigger_type=TriggerType(args.trigger_type),
@@ -138,6 +164,8 @@ def _request(args: argparse.Namespace) -> OrchestrationRequest:
         git_commit=args.git_commit,
         idempotency_key=args.idempotency_key,
         resume=args.resume,
+        pbev_asset_directory=args.pbev_asset_dir,
+        anp_source_reference=args.anp_source_reference,
     )
 
 
@@ -174,7 +202,13 @@ def main(argv=None) -> int:
         policy = _policy(args)
         if request.dry_run:
             repository = InMemoryOrchestrationRepository()
-            bindings = PipelineBindings(_unused, _unused, _unused)
+            bindings = PipelineBindings(
+                _unused,
+                _unused,
+                _unused,
+                _unused,
+                _unused,
+            )
         else:
             engine = create_platform_engine(settings.database_url)
             repository = PostgresqlOrchestrationRepository(engine)

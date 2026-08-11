@@ -12,11 +12,14 @@ from uuid import UUID, uuid4
 
 import pytest
 
+from data_platform.contracts.anp_fuel_prices import AnpPipelineResult
+from data_platform.orchestration.cli import build_parser
 from data_platform.orchestration.contracts import (
     FLOW_NAME,
     CancellationToken,
     ConcurrentOrchestrationError,
     OrchestrationRequest,
+    OrchestrationScope,
     OrchestrationStatus,
     PartialPolicy,
     PermanentStepError,
@@ -73,6 +76,8 @@ def bindings_for(executors=None, calls=None):
         executor(StepName.BRONZE),
         executor(StepName.SILVER),
         executor(StepName.GOLD),
+        executor(StepName.PBEV),
+        executor(StepName.ANP),
     )
 
 
@@ -587,3 +592,432 @@ def test_migration_declares_postgresql_metadata_and_sqlite_guard():
         'down_revision: Union[str, None] = "20260803_0004"',
     ):
         assert marker in migration
+
+    scope_migration = (
+        Path(__file__).parents[2]
+        / "backend"
+        / "alembic"
+        / "versions"
+        / "20260811_0008_data_platform_orchestration_scopes.py"
+    ).read_text(encoding="utf-8")
+    for marker in (
+        'down_revision: Union[str, None] = "20260811_0007"',
+        '"pbev", "anp_fuel_prices"',
+        "orchestration scope downgrade blocked",
+        "if not _is_postgresql()",
+    ):
+        assert marker in scope_migration
+
+
+@pytest.mark.parametrize(
+    "scope,expected_calls",
+    [
+        (OrchestrationScope.FIPE, [StepName.BRONZE, StepName.SILVER, StepName.GOLD]),
+        (OrchestrationScope.PBEV, [StepName.PBEV]),
+        (OrchestrationScope.ANP, [StepName.ANP]),
+        (OrchestrationScope.COMPLETE, list(StepName)),
+    ],
+)
+def test_explicit_scope_executes_only_its_declared_pipeline_units(
+    scope,
+    expected_calls,
+):
+    calls = []
+    runner, _ = make_runner(calls=calls)
+    outcome = runner.run(
+        OrchestrationRequest(scope=scope, idempotency_key=f"scope-{scope.value}")
+    )
+    assert outcome.status == OrchestrationStatus.SUCCEEDED
+    assert outcome.scope == scope
+    assert calls == expected_calls
+    assert [item.step_name for item in outcome.steps] == expected_calls
+
+
+def test_anp_deduplicated_is_successful_and_observable():
+    bronze_run = uuid4()
+    silver_run = uuid4()
+    gold_run = uuid4()
+    runner, _ = make_runner(
+        executors={
+            StepName.ANP: lambda _context: AnpPipelineResult(
+                status="deduplicated",
+                dataset_version="anp-shadow-test",
+                pipeline_run_ids=(bronze_run, silver_run, gold_run),
+                asset_sha256="a" * 64,
+                layout_fingerprint="b" * 64,
+                rows_received=42,
+                observations_current=40,
+                snapshots_published=12,
+                issues=0,
+            )
+        }
+    )
+    outcome = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="anp-deduplicated",
+        )
+    )
+    assert outcome.status == OrchestrationStatus.SUCCEEDED
+    assert outcome.steps[0].status == OrchestrationStatus.SUCCEEDED
+    assert outcome.steps[0].pipeline_run_id == str(gold_run)
+    assert outcome.steps[0].metrics["pipeline_status"] == "deduplicated"
+    assert outcome.steps[0].metrics["pipeline_run_ids"] == [
+        str(bronze_run),
+        str(silver_run),
+        str(gold_run),
+    ]
+    assert outcome.steps[0].metrics["rows_received"] == 42
+
+
+def test_complete_anp_failure_is_partial_and_preserves_completed_branches():
+    calls = []
+    runner, _ = make_runner(
+        calls=calls,
+        executors={
+            StepName.ANP: lambda _context: result("failed", error="anp blocked")
+        },
+    )
+    outcome = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.COMPLETE,
+            idempotency_key="complete-anp-failure",
+        )
+    )
+    assert calls == list(StepName)
+    assert outcome.status == OrchestrationStatus.PARTIAL
+    assert [item.status for item in outcome.steps[:-1]] == [
+        OrchestrationStatus.SUCCEEDED,
+    ] * 4
+    assert outcome.steps[-1].status == OrchestrationStatus.FAILED
+
+
+def test_complete_pbev_failure_does_not_block_anp():
+    calls = []
+    runner, _ = make_runner(
+        calls=calls,
+        executors={
+            StepName.PBEV: lambda _context: result("failed", error="pbev blocked")
+        },
+    )
+    outcome = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.COMPLETE,
+            idempotency_key="complete-pbev-failure",
+        )
+    )
+    assert calls == list(StepName)
+    assert outcome.status == OrchestrationStatus.PARTIAL
+    assert outcome.steps[-1].step_name == StepName.ANP
+    assert outcome.steps[-1].status == OrchestrationStatus.SUCCEEDED
+
+
+def test_resume_anp_retries_only_the_incomplete_pipeline_unit():
+    calls = []
+    attempts = 0
+
+    def anp(_context):
+        nonlocal attempts
+        attempts += 1
+        return result("failed") if attempts == 1 else result()
+
+    runner, _ = make_runner(
+        calls=calls,
+        executors={StepName.ANP: anp},
+        policy=ExecutionPolicy(max_attempts=1, backoff_seconds=0),
+    )
+    request = OrchestrationRequest(
+        scope=OrchestrationScope.ANP,
+        idempotency_key="resume-anp",
+    )
+    first = runner.run(request)
+    resumed = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="resume-anp",
+            resume=True,
+        )
+    )
+    assert first.status == OrchestrationStatus.FAILED
+    assert resumed.status == OrchestrationStatus.SUCCEEDED
+    assert calls == [StepName.ANP, StepName.ANP]
+
+
+def test_anp_transient_failure_retries_but_permanent_failure_does_not():
+    transient_calls = 0
+
+    def transient(_context):
+        nonlocal transient_calls
+        transient_calls += 1
+        if transient_calls == 1:
+            raise TransientStepError("temporary ANP transport error")
+        return result()
+
+    transient_runner, _ = make_runner(
+        executors={StepName.ANP: transient},
+    )
+    transient_outcome = transient_runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="anp-transient",
+        )
+    )
+    assert transient_outcome.status == OrchestrationStatus.SUCCEEDED
+    assert transient_calls == 2
+
+    permanent_calls = 0
+
+    def permanent(_context):
+        nonlocal permanent_calls
+        permanent_calls += 1
+        raise PermanentStepError("invalid ANP contract")
+
+    permanent_runner, _ = make_runner(
+        executors={StepName.ANP: permanent},
+    )
+    permanent_outcome = permanent_runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="anp-permanent",
+        )
+    )
+    assert permanent_outcome.status == OrchestrationStatus.FAILED
+    assert permanent_calls == 1
+
+
+def test_anp_and_pbev_orchestration_locks_are_isolated():
+    repository = InMemoryOrchestrationRepository()
+    pbev_runner, _ = make_runner(repository=repository)
+    anp_runner, _ = make_runner(repository=repository)
+    with repository.acquire_lock("sigra-orchestration:anp") as lock:
+        assert lock.acquired is True
+        pbev = pbev_runner.run(
+            OrchestrationRequest(
+                scope=OrchestrationScope.PBEV,
+                idempotency_key="isolated-pbev",
+            )
+        )
+        assert pbev.status == OrchestrationStatus.SUCCEEDED
+        with pytest.raises(ConcurrentOrchestrationError):
+            anp_runner.run(
+                OrchestrationRequest(
+                    scope=OrchestrationScope.ANP,
+                    idempotency_key="blocked-anp",
+                )
+            )
+
+
+def test_anp_dry_run_does_not_acquire_lock_or_execute_pipeline():
+    calls = []
+
+    class NoLockRepository(InMemoryOrchestrationRepository):
+        def acquire_lock(self, _lock_name):
+            raise AssertionError("dry-run must not acquire an orchestration lock")
+
+    runner, repository = make_runner(
+        repository=NoLockRepository(),
+        calls=calls,
+    )
+    outcome = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            dry_run=True,
+            idempotency_key="anp-dry-run",
+        )
+    )
+    assert outcome.status == OrchestrationStatus.SUCCEEDED
+    assert outcome.dry_run is True
+    assert calls == []
+    assert repository._runs == {}
+    assert outcome.steps[0].metrics == {
+        "planned": True,
+        "publication_mode": "shadow",
+    }
+
+
+def test_anp_timeout_is_persisted_without_retry_when_attempt_limit_is_one():
+    calls = []
+
+    def timeout(context):
+        time.sleep(0.01)
+        context.checkpoint()
+
+    runner, _ = make_runner(
+        calls=calls,
+        executors={StepName.ANP: timeout},
+        policy=ExecutionPolicy(
+            max_attempts=1,
+            backoff_seconds=0,
+            timeout_seconds={StepName.ANP: 0.001},
+        ),
+    )
+    outcome = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="anp-timeout",
+        )
+    )
+    assert outcome.status == OrchestrationStatus.FAILED
+    assert calls == [StepName.ANP]
+    assert "timed out" in (outcome.steps[0].error or "")
+
+
+def test_anp_checkpoint_updates_heartbeat_and_observes_cancellation():
+    class HeartbeatRepository(InMemoryOrchestrationRepository):
+        def __init__(self):
+            super().__init__()
+            self.heartbeat_calls = 0
+
+        def heartbeat(self, run_id, now):
+            self.heartbeat_calls += 1
+            super().heartbeat(run_id, now)
+
+    repository = HeartbeatRepository()
+
+    def checkpoints(context):
+        context.checkpoint()
+        context.checkpoint()
+        return result()
+
+    runner, _ = make_runner(
+        repository=repository,
+        executors={StepName.ANP: checkpoints},
+    )
+    succeeded = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="anp-heartbeat",
+        )
+    )
+    assert succeeded.status == OrchestrationStatus.SUCCEEDED
+    assert repository.heartbeat_calls >= 3
+
+    token = CancellationToken()
+
+    def cancel(context):
+        token.cancel()
+        context.checkpoint()
+
+    cancelled_runner, _ = make_runner(executors={StepName.ANP: cancel})
+    cancelled = cancelled_runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="anp-cancelled",
+        ),
+        cancellation_token=token,
+    )
+    assert cancelled.status == OrchestrationStatus.CANCELLED
+    assert cancelled.steps[0].status == OrchestrationStatus.CANCELLED
+
+
+def test_prefect_adapter_dispatches_anp_without_replicating_runner_logic(monkeypatch):
+    def decorator(**_options):
+        return lambda function: function
+
+    fake_prefect = SimpleNamespace(task=decorator, flow=decorator)
+    monkeypatch.setattr(importlib, "import_module", lambda _name: fake_prefect)
+    calls = []
+    runner, _ = make_runner(calls=calls)
+    outcome = build_prefect_components(runner).flow(
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="prefect-anp",
+        )
+    )
+    assert outcome.status == OrchestrationStatus.SUCCEEDED
+    assert calls == [StepName.ANP]
+
+
+def test_cli_keeps_legacy_fipe_default_and_exposes_explicit_scopes():
+    parser = build_parser()
+    legacy = parser.parse_args(["run", "--dry-run"])
+    anp = parser.parse_args(["run", "--scope", "anp", "--dry-run"])
+    complete = parser.parse_args(
+        ["run", "--scope", "complete", "--from-step", "silver", "--dry-run"]
+    )
+    assert legacy.scope == "fipe"
+    assert legacy.from_step == "bronze"
+    assert anp.scope == "anp"
+    assert complete.scope == "complete"
+    assert complete.from_step == "silver"
+
+
+def test_prefect_weekly_anp_schedule_is_configurable_without_real_deploy(monkeypatch):
+    served = {}
+
+    class FakeFlow:
+        def __init__(self, function):
+            self.function = function
+
+        def __call__(self, *args, **kwargs):
+            return self.function(*args, **kwargs)
+
+        def serve(self, **kwargs):
+            served.update(kwargs)
+            return "configured"
+
+    def flow_decorator(**_options):
+        return lambda function: FakeFlow(function)
+
+    fake_prefect = SimpleNamespace(
+        task=lambda **_options: lambda function: function,
+        flow=flow_decorator,
+    )
+    fake_schedules = SimpleNamespace(
+        Cron=lambda cron, timezone: {"cron": cron, "timezone": timezone}
+    )
+    monkeypatch.setattr(
+        importlib,
+        "import_module",
+        lambda name: fake_schedules if name == "prefect.schedules" else fake_prefect,
+    )
+    runner, _ = make_runner()
+    configured = serve_prefect_flow(
+        runner,
+        PrefectScheduleConfig(
+            "0 3 * * 1",
+            timezone="America/Sao_Paulo",
+            deployment_name="sigra-anp-weekly",
+        ),
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            trigger_type=TriggerType.SCHEDULED,
+        ),
+    )
+    assert configured == "configured"
+    assert served["name"] == "sigra-anp-weekly"
+    assert served["schedule"] == {
+        "cron": "0 3 * * 1",
+        "timezone": "America/Sao_Paulo",
+    }
+    assert served["parameters"]["request"].scope == OrchestrationScope.ANP
+
+
+def test_scope_metadata_redacts_credentials_and_does_not_persist_asset_path():
+    runner, repository = make_runner()
+    outcome = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="safe-anp-metadata",
+            pbev_asset_directory=r"C:\\private\\operator\\pbev",
+            parameters={
+                "password": "never-store",
+                "url": "sensitive-test-marker",
+            },
+        )
+    )
+    stored = repository.get_run(UUID(outcome.orchestration_run_id))
+    serialized = repr(stored)
+    assert stored.flow_name == "sigra_anp_fuel_prices_shadow"
+    assert stored.parameters["scope"] == "anp"
+    assert stored.parameters["pbev_asset_configured"] is True
+    assert "never-store" not in serialized
+    assert "private" not in serialized
+
+
+def test_orchestration_source_integrates_pbev_and_anp_without_subprocesses():
+    source = inspect.getsource(build_default_bindings)
+    assert "run_pbev_pipeline(" in source
+    assert "run_anp_pipeline(" in source
+    assert "import subprocess" not in source
+    assert "subprocess." not in source

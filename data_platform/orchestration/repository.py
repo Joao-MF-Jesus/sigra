@@ -30,9 +30,14 @@ class OrchestrationRepository(Protocol):
 
     def get_run(self, run_id: UUID) -> StoredRun | None: ...
 
-    def get_run_by_key(self, idempotency_key: str) -> StoredRun | None: ...
+    def get_run_by_key(
+        self,
+        idempotency_key: str,
+        *,
+        flow_name: str = FLOW_NAME,
+    ) -> StoredRun | None: ...
 
-    def get_active_run(self) -> StoredRun | None: ...
+    def get_active_run(self, *, flow_name: str = FLOW_NAME) -> StoredRun | None: ...
 
     def create_run(
         self,
@@ -167,18 +172,23 @@ class PostgresqlOrchestrationRepository:
             ).mappings().one_or_none()
         return _stored_run(row) if row is not None else None
 
-    def get_run_by_key(self, idempotency_key: str) -> StoredRun | None:
+    def get_run_by_key(
+        self,
+        idempotency_key: str,
+        *,
+        flow_name: str = FLOW_NAME,
+    ) -> StoredRun | None:
         with self.engine.connect() as connection:
             row = connection.execute(
                 text(
                     """SELECT * FROM meta.orchestration_run
                     WHERE flow_name=:flow AND idempotency_key=:key"""
                 ),
-                {"flow": FLOW_NAME, "key": idempotency_key},
+                {"flow": flow_name, "key": idempotency_key},
             ).mappings().one_or_none()
         return _stored_run(row) if row is not None else None
 
-    def get_active_run(self) -> StoredRun | None:
+    def get_active_run(self, *, flow_name: str = FLOW_NAME) -> StoredRun | None:
         with self.engine.connect() as connection:
             row = connection.execute(
                 text(
@@ -187,7 +197,7 @@ class PostgresqlOrchestrationRepository:
                     ORDER BY heartbeat_at DESC
                     LIMIT 1"""
                 ),
-                {"flow": FLOW_NAME},
+                {"flow": flow_name},
             ).mappings().one_or_none()
         return _stored_run(row) if row is not None else None
 
@@ -210,11 +220,11 @@ class PostgresqlOrchestrationRepository:
                 ),
                 {
                     "run": run_id,
-                    "flow": FLOW_NAME,
+                    "flow": request.flow_name,
                     "version": FLOW_VERSION,
                     "key": idempotency_key,
                     "trigger": request.trigger_type.value,
-                    "start": request.start_at.value,
+                    "start": request.first_step.value,
                     "now": now,
                     "parameters": json.dumps(
                         request.safe_parameters,
@@ -371,7 +381,7 @@ class InMemoryOrchestrationRepository:
         self._mutex = threading.RLock()
         self._locks: dict[str, threading.Lock] = {}
         self._runs: dict[UUID, StoredRun] = {}
-        self._keys: dict[str, UUID] = {}
+        self._keys: dict[tuple[str, str], UUID] = {}
         self._steps: dict[int, StoredStepRun] = {}
         self._next_step_id = 1
 
@@ -384,17 +394,22 @@ class InMemoryOrchestrationRepository:
         with self._mutex:
             return self._runs.get(run_id)
 
-    def get_run_by_key(self, idempotency_key: str) -> StoredRun | None:
+    def get_run_by_key(
+        self,
+        idempotency_key: str,
+        *,
+        flow_name: str = FLOW_NAME,
+    ) -> StoredRun | None:
         with self._mutex:
-            run_id = self._keys.get(idempotency_key)
+            run_id = self._keys.get((flow_name, idempotency_key))
             return self._runs.get(run_id) if run_id is not None else None
 
-    def get_active_run(self) -> StoredRun | None:
+    def get_active_run(self, *, flow_name: str = FLOW_NAME) -> StoredRun | None:
         with self._mutex:
             active = [
                 run
                 for run in self._runs.values()
-                if run.flow_name == FLOW_NAME
+                if run.flow_name == flow_name
                 and run.status == OrchestrationStatus.RUNNING
             ]
             return max(active, key=lambda run: run.heartbeat_at) if active else None
@@ -408,11 +423,11 @@ class InMemoryOrchestrationRepository:
     ) -> StoredRun:
         run = StoredRun(
             orchestration_run_id=run_id,
-            flow_name=FLOW_NAME,
+            flow_name=request.flow_name,
             flow_version=FLOW_VERSION,
             idempotency_key=idempotency_key,
             trigger_type=request.trigger_type,
-            start_step=request.start_at,
+            start_step=request.first_step,
             status=OrchestrationStatus.RUNNING,
             started_at=now,
             finished_at=None,
@@ -420,10 +435,11 @@ class InMemoryOrchestrationRepository:
             parameters=request.safe_parameters,
         )
         with self._mutex:
-            if idempotency_key in self._keys:
-                return self._runs[self._keys[idempotency_key]]
+            key = (request.flow_name, idempotency_key)
+            if key in self._keys:
+                return self._runs[self._keys[key]]
             self._runs[run_id] = run
-            self._keys[idempotency_key] = run_id
+            self._keys[key] = run_id
         return run
 
     def reopen_run(self, run_id: UUID, now: datetime) -> StoredRun:

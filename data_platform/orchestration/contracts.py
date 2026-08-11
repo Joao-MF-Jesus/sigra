@@ -14,7 +14,7 @@ from data_platform.common.logging import sanitize
 
 
 FLOW_NAME = "sigra_fipe_medallion"
-FLOW_VERSION = "orchestration-v1"
+FLOW_VERSION = "orchestration-v2"
 
 
 class OrchestrationStatus(StrEnum):
@@ -31,6 +31,15 @@ class StepName(StrEnum):
     BRONZE = "bronze"
     SILVER = "silver"
     GOLD = "gold"
+    PBEV = "pbev"
+    ANP = "anp_fuel_prices"
+
+
+class OrchestrationScope(StrEnum):
+    FIPE = "fipe"
+    PBEV = "pbev"
+    ANP = "anp"
+    COMPLETE = "complete"
 
 
 class TriggerType(StrEnum):
@@ -46,7 +55,23 @@ class PartialPolicy(StrEnum):
     FAIL = "fail"
 
 
-STEP_ORDER = (StepName.BRONZE, StepName.SILVER, StepName.GOLD)
+FIPE_STEP_ORDER = (StepName.BRONZE, StepName.SILVER, StepName.GOLD)
+STEP_ORDER = (*FIPE_STEP_ORDER, StepName.PBEV, StepName.ANP)
+FLOW_NAMES = {
+    OrchestrationScope.FIPE: FLOW_NAME,
+    OrchestrationScope.PBEV: "sigra_pbev_shadow",
+    OrchestrationScope.ANP: "sigra_anp_fuel_prices_shadow",
+    OrchestrationScope.COMPLETE: "sigra_medallion_complete",
+}
+
+
+def scope_for_flow_name(flow_name: str) -> OrchestrationScope:
+    return next(
+        (scope for scope, name in FLOW_NAMES.items() if name == flow_name),
+        OrchestrationScope.FIPE,
+    )
+
+
 TERMINAL_STATUSES = frozenset(
     {
         OrchestrationStatus.SUCCEEDED,
@@ -110,15 +135,56 @@ class OrchestrationRequest:
     idempotency_key: str | None = None
     resume: bool = False
     parameters: Mapping[str, Any] = field(default_factory=dict)
+    scope: OrchestrationScope = OrchestrationScope.FIPE
+    pbev_asset_directory: str | None = None
+    anp_source_reference: str | None = None
+
+    def __post_init__(self) -> None:
+        if self.start_at not in FIPE_STEP_ORDER:
+            raise ValueError("start_at is restricted to FIPE Bronze, Silver or Gold")
+
+    @property
+    def flow_name(self) -> str:
+        return FLOW_NAMES[self.scope]
+
+    @property
+    def steps(self) -> tuple[StepName, ...]:
+        if self.scope == OrchestrationScope.FIPE:
+            return FIPE_STEP_ORDER
+        if self.scope == OrchestrationScope.PBEV:
+            return (StepName.PBEV,)
+        if self.scope == OrchestrationScope.ANP:
+            return (StepName.ANP,)
+        return STEP_ORDER
+
+    @property
+    def first_step(self) -> StepName:
+        return self.start_at if self.scope in {
+            OrchestrationScope.FIPE,
+            OrchestrationScope.COMPLETE,
+        } else self.steps[0]
+
+    @property
+    def lock_names(self) -> tuple[str, ...]:
+        resources = {
+            OrchestrationScope.FIPE: ("fipe",),
+            OrchestrationScope.PBEV: ("pbev",),
+            OrchestrationScope.ANP: ("anp",),
+            OrchestrationScope.COMPLETE: ("fipe", "pbev", "anp"),
+        }[self.scope]
+        return tuple(f"sigra-orchestration:{item}" for item in resources)
 
     @property
     def safe_parameters(self) -> dict[str, Any]:
         return sanitize_mapping(
             {
                 **self.parameters,
+                "scope": self.scope.value,
                 "start_at": self.start_at.value,
                 "dry_run": self.dry_run,
                 "source_reference": self.source_reference,
+                "anp_source_reference": self.anp_source_reference,
+                "pbev_asset_configured": bool(self.pbev_asset_directory),
                 "git_commit": self.git_commit,
             }
         )
@@ -128,7 +194,7 @@ class OrchestrationRequest:
             return hashlib.sha256(str(self.idempotency_key).encode("utf-8")).hexdigest()
         encoded = json.dumps(
             {
-                "flow": FLOW_NAME,
+                "flow": self.flow_name,
                 "version": FLOW_VERSION,
                 "trigger": self.trigger_type.value,
                 "parameters": self.safe_parameters,
@@ -194,6 +260,7 @@ class OrchestrationResult:
     dry_run: bool = False
     reused: bool = False
     error: str | None = None
+    scope: OrchestrationScope = OrchestrationScope.FIPE
 
     def to_json(self) -> str:
         return json.dumps(asdict(self), ensure_ascii=False, default=str)
@@ -222,6 +289,7 @@ class StepExecutionContext:
     attempt_number: int
     cancellation_token: CancellationToken
     deadline_monotonic: float | None
+    heartbeat: Callable[[], None] | None = None
 
     @property
     def remaining_seconds(self) -> float | None:
@@ -233,6 +301,8 @@ class StepExecutionContext:
         self.cancellation_token.raise_if_cancelled()
         if self.deadline_monotonic is not None and time.perf_counter() >= self.deadline_monotonic:
             raise StepTimeoutError(f"{self.step_name.value} step timed out")
+        if self.heartbeat is not None:
+            self.heartbeat()
 
 
 StepExecutor = Callable[[StepExecutionContext], Any]
@@ -244,13 +314,22 @@ class PipelineBindings:
     bronze: StepExecutor
     silver: StepExecutor
     gold: StepExecutor
+    pbev: StepExecutor | None = None
+    anp: StepExecutor | None = None
 
     def for_step(self, step_name: StepName) -> StepExecutor:
-        return {
+        executor = {
             StepName.BRONZE: self.bronze,
             StepName.SILVER: self.silver,
             StepName.GOLD: self.gold,
+            StepName.PBEV: self.pbev,
+            StepName.ANP: self.anp,
         }[step_name]
+        if executor is None:
+            raise PermanentStepError(
+                f"no pipeline binding configured for {step_name.value}"
+            )
+        return executor
 
 
 class OrchestrationError(RuntimeError):

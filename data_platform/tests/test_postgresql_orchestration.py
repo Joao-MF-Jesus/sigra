@@ -166,7 +166,13 @@ def test_postgresql_orchestration_migration_contract_and_reupgrade(monkeypatch):
             "skipped",
             "cancelled",
         )
-        assert enums["orchestration_step"] == ("bronze", "silver", "gold")
+        assert enums["orchestration_step"] == (
+            "bronze",
+            "silver",
+            "gold",
+            "pbev",
+            "anp_fuel_prices",
+        )
         assert enums["orchestration_trigger"] == (
             "manual",
             "scheduled",
@@ -196,6 +202,7 @@ def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkey
 
     from data_platform.orchestration.contracts import (
         OrchestrationRequest,
+        OrchestrationScope,
         OrchestrationStatus,
         StepName,
         utc_now,
@@ -282,6 +289,45 @@ def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkey
         assert completed.metrics_summary["token"] == "***"
         assert "never-store" not in repr((persisted, attempts))
 
+        anp_request = OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="postgres-anp-history",
+        )
+        anp_run = repository.create_run(
+            uuid4(),
+            anp_request,
+            anp_request.resolved_idempotency_key(),
+            started,
+        )
+        anp_step = repository.create_step_attempt(
+            anp_run.orchestration_run_id,
+            StepName.ANP,
+            1,
+            None,
+            started,
+        )
+        repository.finish_step_attempt(
+            anp_step.orchestration_step_run_id,
+            OrchestrationStatus.SUCCEEDED,
+            started + timedelta(seconds=1),
+            pipeline_run_id=pipeline_run_id,
+            metrics={"pipeline_status": "deduplicated"},
+        )
+        repository.finish_run(
+            anp_run.orchestration_run_id,
+            OrchestrationStatus.SUCCEEDED,
+            started + timedelta(seconds=2),
+        )
+        persisted_anp = repository.get_run_by_key(
+            anp_request.resolved_idempotency_key(),
+            flow_name=anp_request.flow_name,
+        )
+        assert persisted_anp is not None
+        assert persisted_anp.flow_name == "sigra_anp_fuel_prices_shadow"
+        assert repository.list_step_attempts(
+            anp_run.orchestration_run_id
+        )[0].step_name == StepName.ANP
+
         with pytest.raises(IntegrityError):
             with engine.begin() as connection:
                 connection.execute(
@@ -307,4 +353,150 @@ def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkey
             with repository.acquire_lock("postgres-lock-test") as second_lock:
                 assert second_lock.acquired is False
     finally:
+        engine.dispose()
+
+
+@REQUIRES_SAFE_POSTGRESQL
+def test_postgresql_orchestration_anp_idempotency_resume_partial_and_isolation(
+    monkeypatch,
+):
+    from alembic import command
+    from sqlalchemy import create_engine, text
+
+    from data_platform.orchestration.contracts import (
+        OrchestrationRequest,
+        OrchestrationScope,
+        OrchestrationStatus,
+        PipelineBindings,
+        StepName,
+    )
+    from data_platform.orchestration.policies import ExecutionPolicy
+    from data_platform.orchestration.repository import (
+        PostgresqlOrchestrationRepository,
+    )
+    from data_platform.orchestration.runner import OrchestrationRunner
+
+    config = _config(monkeypatch)
+    command.upgrade(config, "head")
+    engine = create_engine(POSTGRESQL_URL)
+    repository = PostgresqlOrchestrationRepository(engine)
+
+    def succeeded(_context):
+        return {"status": "succeeded", "records_inserted": 1}
+
+    try:
+        with engine.begin() as connection:
+            connection.execute(text("DELETE FROM meta.orchestration_step_run"))
+            connection.execute(text("DELETE FROM meta.orchestration_run"))
+            anp_datasets_before = connection.execute(
+                text("SELECT COUNT(*) FROM gold.anp_fuel_price_dataset")
+            ).scalar_one()
+
+        success_bindings = PipelineBindings(
+            succeeded,
+            succeeded,
+            succeeded,
+            succeeded,
+            lambda _context: {"status": "deduplicated"},
+        )
+        runner = OrchestrationRunner(
+            repository,
+            success_bindings,
+            policy=ExecutionPolicy(max_attempts=1, backoff_seconds=0),
+        )
+        request = OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="postgres-anp-idempotent",
+        )
+        first = runner.run(request)
+        second = runner.run(request)
+        assert first.status == OrchestrationStatus.SUCCEEDED
+        assert second.reused is True
+        assert second.orchestration_run_id == first.orchestration_run_id
+
+        resume_calls = 0
+
+        def fail_then_succeed(_context):
+            nonlocal resume_calls
+            resume_calls += 1
+            return {"status": "failed" if resume_calls == 1 else "succeeded"}
+
+        resume_runner = OrchestrationRunner(
+            repository,
+            PipelineBindings(
+                succeeded,
+                succeeded,
+                succeeded,
+                succeeded,
+                fail_then_succeed,
+            ),
+            policy=ExecutionPolicy(max_attempts=1, backoff_seconds=0),
+        )
+        resume_request = OrchestrationRequest(
+            scope=OrchestrationScope.ANP,
+            idempotency_key="postgres-anp-resume",
+        )
+        failed = resume_runner.run(resume_request)
+        resumed = resume_runner.run(
+            OrchestrationRequest(
+                scope=OrchestrationScope.ANP,
+                idempotency_key="postgres-anp-resume",
+                resume=True,
+            )
+        )
+        assert failed.status == OrchestrationStatus.FAILED
+        assert resumed.status == OrchestrationStatus.SUCCEEDED
+        assert resumed.orchestration_run_id == failed.orchestration_run_id
+        assert resume_calls == 2
+
+        complete_runner = OrchestrationRunner(
+            repository,
+            PipelineBindings(
+                succeeded,
+                succeeded,
+                succeeded,
+                succeeded,
+                lambda _context: {"status": "failed", "errors": ("blocked",)},
+            ),
+            policy=ExecutionPolicy(max_attempts=1, backoff_seconds=0),
+        )
+        partial = complete_runner.run(
+            OrchestrationRequest(
+                scope=OrchestrationScope.COMPLETE,
+                idempotency_key="postgres-complete-partial",
+            )
+        )
+        assert partial.status == OrchestrationStatus.PARTIAL
+        assert [item.status for item in partial.steps[:-1]] == [
+            OrchestrationStatus.SUCCEEDED,
+        ] * 4
+        assert partial.steps[-1].step_name == StepName.ANP
+        assert partial.steps[-1].status == OrchestrationStatus.FAILED
+
+        with repository.acquire_lock("sigra-orchestration:anp") as anp_lock:
+            assert anp_lock.acquired is True
+            with repository.acquire_lock("sigra-orchestration:pbev") as pbev_lock:
+                assert pbev_lock.acquired is True
+            with repository.acquire_lock("sigra-orchestration:anp") as duplicate:
+                assert duplicate.acquired is False
+
+        with engine.connect() as connection:
+            counts = connection.execute(
+                text(
+                    """SELECT
+                        (SELECT COUNT(*) FROM meta.orchestration_run) AS runs,
+                        (SELECT COUNT(*) FROM meta.orchestration_step_run) AS steps,
+                        (SELECT COUNT(*) FROM meta.orchestration_step_run
+                         WHERE step_name='anp_fuel_prices') AS anp_steps,
+                        (SELECT COUNT(*) FROM gold.anp_fuel_price_dataset) AS datasets"""
+                )
+            ).mappings().one()
+        assert counts["runs"] == 3
+        assert counts["steps"] == 8
+        assert counts["anp_steps"] == 4
+        assert counts["datasets"] == anp_datasets_before
+    finally:
+        with engine.begin() as connection:
+            connection.execute(text("DELETE FROM meta.orchestration_step_run"))
+            connection.execute(text("DELETE FROM meta.orchestration_run"))
         engine.dispose()

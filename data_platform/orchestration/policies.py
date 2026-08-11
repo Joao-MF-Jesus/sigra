@@ -23,6 +23,8 @@ class ExecutionPolicy:
             StepName.BRONZE: 300.0,
             StepName.SILVER: 300.0,
             StepName.GOLD: 300.0,
+            StepName.PBEV: 1800.0,
+            StepName.ANP: 600.0,
         }
     )
     partial_policy: PartialPolicy = PartialPolicy.CONTINUE
