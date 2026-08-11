@@ -551,3 +551,104 @@ downgrade da Etapa 6 remove somente tabelas, enums, índices e triggers de
 orquestração; não altera dados Bronze/Silver/Gold nem runs de pipeline. A etapa
 não muda a fonte atual do backend, não agenda automaticamente um deployment e
 não liga a plataforma ao ciclo de vida da aplicação.
+
+## 19. Etapa 7B — PBE Veicular interno e Gold shadow
+
+A integração PBE Veicular é um ramo analítico separado do fluxo FIPE:
+
+```text
+ativos oficiais externos
+        |
+        v
+bronze.pbev_source_asset + bronze.pbev_raw_row
+        |
+        v
+silver.pbev_vehicle_mapping -> silver.vehicle_efficiency_observation
+        |
+        v
+gold.vehicle_efficiency_dataset -> gold.vehicle_efficiency_snapshot
+                                -> gold.vehicle_efficiency_quality_result
+```
+
+Não existe aresta para FastAPI, frontend, recomendador, financiamento, BI,
+`gold.vehicle_feature_dataset` ou `gold.vehicle_features_current`. O resultado é
+somente `shadow_published`, nunca uma fonte ativa do SIGRA. Falha nesse ramo não
+interrompe nem reverte Bronze, Silver ou Gold FIPE.
+
+### 19.1 Fonte, licença e armazenamento
+
+O contrato aceita somente os seis ativos oficiais do Inmetro auditados para os
+ciclos 2017–2022. URL oficial HTTPS, MIME, assinatura PDF, tamanho, páginas,
+SHA-256, layout, licença e atribuição são gates anteriores à transformação. Um
+novo hash é um novo ativo em quarentena, exige validação de layout e não herda o
+baseline automaticamente.
+
+Nesta etapa, `storage_mode=metadata_only` e `document_bytes=NULL` são
+obrigatórios. Os PDFs ficam fora do repositório e do ZIP; não há redistribuição
+de documentos ou linhas transformadas. A proveniência registra Inmetro/PBE
+Veicular, `CC-BY-ND-3.0` e URL da licença. Exposição futura depende de revisão
+jurídica de finalidade, atribuição, armazenamento e redistribuição.
+
+### 19.2 Parser e semântica
+
+`pbev-pdf-v1` implementa quatro famílias: `pbev-l1-2017-2019-v1`,
+`pbev-l2-2020-v1`, `pbev-l3-2021-v1` e `pbev-l4-2022-v1`. A grade vetorial é o
+único caminho automaticamente aceito. Texto posicionado é fallback restrito a
+layout conhecido e coloca o ativo em revisão; OCR automático é proibido.
+Layout/unidade desconhecidos e páginas incompletas bloqueiam Silver e Gold.
+
+Valores brutos e células normalizadas preservam a evidência. `-`, `\` e vazio
+viram `NULL`; ausência nunca vira zero. Conversões usam `Decimal`. Até 2021,
+NMHC, CO e NOx são grandezas em g/km; em 2022, NMOG+NOx, CO e CHO são grandezas
+em mg/km. O modelo não funde NMHC com NMOG+NOx, e toda conversão equivalente
+mantém valor/unidade de origem e versão da transformação.
+
+### 19.3 Matching, histórico e baseline
+
+`pbev-match-v1` pontua marca 10, modelo 20, ciclo 10, versão 20, motor 15,
+transmissão 10, combustível/propulsão 10 e carroceria 5. Conflitos materiais são
+eliminatórios. Um único líder compatível com pontuação >=95 pode ser `matched`;
+múltiplos líderes semanticamente equivalentes também podem ser `matched` quando
+suas métricas materiais são idênticas. A faixa de 75–94 é `pending` quando ainda
+não existe evidência suficiente para um match seguro. Líderes com identidades
+semânticas diferentes ou métricas materiais divergentes permanecem
+`ambiguous`; conflito de catálogo é `rejected`; e ausência é `not_found`. Só
+`matched` possui `vehicle_sk` Silver real, gera observação e pode ser publicado.
+Decisões `pending`, `ambiguous`, `rejected` ou `not_found` nunca são publicadas.
+Decisões são imutáveis/append-only; revisão cria uma decisão que referencia a
+anterior por `supersedes_mapping_id`.
+
+O baseline de 34 identidades é contextual aos seis hashes, parser, matcher e
+catálogo auditados. Duas materializações idempotentes no PostgreSQL local
+descartável revisaram formalmente o baseline para 18 matched, 6 ambiguous, 3
+rejected, 3 not_found e 4 pending (52,94%). As referências 19, 20 e 22 foram
+rebaixadas de matched para pending por ausência de evidência suficiente de
+transmissão; a referência 33 permaneceu pending. A revisão é governança de
+qualidade baseada em evidência reproduzível, não relaxamento arbitrário.
+Regressão abaixo de 18 bloqueia o shadow, e aumento acima de 18 exige evidência
+de revisão registrada. Comfort/Vision, Attractive/Drive e as demais
+ambiguidades auditadas não são corrigidas silenciosamente.
+
+### 19.4 Gold shadow, qualidade e operação
+
+Cada publicação cria dataset físico imutável em `building`; depois dos gates,
+ele substitui atomicamente o último `shadow_published`, que passa a `retired`.
+Uma impressão digital idempotente cobre hashes, parser, matcher, mappings e
+linhagem. O último shadow válido permanece em caso de falha. Nunca se publica
+dataset vazio, identidade duplicada ou decisão não matched.
+
+Os gates registram origem, hash, MIME, páginas, layout, parser, unidades,
+contagens, estados, linhagem, unicidade, baseline, licença e atribuição. O ramo
+executa APIs Python diretamente, sem subprocessos. Locks `pbev:<cycle_year>`,
+heartbeat, cancelamento e timeout usam checkpoints seguros. Retry automático é
+restrito a timeout/TLS transitório, 408, 429 e 5xx e respeita `Retry-After`;
+falhas permanentes de hash/layout/unidade não recebem retry cego. Dry-run não
+resolve ativos, não importa o parser PDF, não abre banco, não chama rede e não
+escreve.
+
+Os testes padrão usam somente estruturas sintéticas mínimas e não chamam rede.
+Validação com documentos oficiais depende de `PBEV_TEST_ASSET_DIR` externo. O
+teste PostgreSQL depende de `DATA_PLATFORM_TEST_POSTGRESQL_URL` apontando para
+banco descartável terminado em `_test`. A migration `20260810_0006` é
+PostgreSQL-only e no-op em SQLite; seu downgrade bloqueia um shadow ativo e,
+quando seguro, retorna isoladamente a `20260810_0005`.

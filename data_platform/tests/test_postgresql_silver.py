@@ -4,14 +4,15 @@ from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 import hashlib
 import json
-import os
 from pathlib import Path
 from uuid import uuid4
 
 import pytest
 
+from data_platform.tests.postgresql_safety import disposable_postgresql_url
 
-POSTGRESQL_URL = os.getenv("DATA_PLATFORM_TEST_POSTGRESQL_URL")
+
+POSTGRESQL_URL = disposable_postgresql_url()
 
 
 def _canonical_hash(payload):
@@ -52,6 +53,8 @@ def test_postgresql_silver_contract_history_idempotency_and_downgrade(monkeypatc
             "vehicle_identity",
             "vehicle_source_mapping",
             "vehicle_price_history",
+            "pbev_vehicle_mapping",
+            "vehicle_efficiency_observation",
         }
 
         identity_columns = {
@@ -519,6 +522,8 @@ def test_postgresql_silver_contract_history_idempotency_and_downgrade(monkeypatc
             "vehicle_identity",
             "vehicle_source_mapping",
             "vehicle_price_history",
+            "pbev_vehicle_mapping",
+            "vehicle_efficiency_observation",
         }
         with engine.connect() as connection:
             assert connection.execute(text("SELECT COUNT(*) FROM silver.vehicle_identity")).scalar_one() == 0

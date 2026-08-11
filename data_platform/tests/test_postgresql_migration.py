@@ -2,14 +2,15 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 import json
-import os
 from pathlib import Path
 from uuid import uuid4
 
 import pytest
 
+from data_platform.tests.postgresql_safety import disposable_postgresql_url
 
-POSTGRESQL_URL = os.getenv("DATA_PLATFORM_TEST_POSTGRESQL_URL")
+
+POSTGRESQL_URL = disposable_postgresql_url()
 
 
 @pytest.mark.skipif(not POSTGRESQL_URL, reason="PostgreSQL real nao configurado")
@@ -54,16 +55,25 @@ def test_postgresql_contract_persistence_idempotency_and_downgrade(monkeypatch):
         db = inspect(engine)
         assert {"meta", "bronze", "silver", "gold"}.issubset(db.get_schema_names())
         assert {"pipeline_run", "data_quality_issue"}.issubset(db.get_table_names(schema="meta"))
-        assert set(db.get_table_names(schema="bronze")) == {"fipe_raw"}
+        assert set(db.get_table_names(schema="bronze")) == {
+            "fipe_raw",
+            "pbev_source_asset",
+            "pbev_raw_row",
+        }
         assert set(db.get_table_names(schema="silver")) == {
             "vehicle_identity",
             "vehicle_source_mapping",
             "vehicle_price_history",
+            "pbev_vehicle_mapping",
+            "vehicle_efficiency_observation",
         }
         assert set(db.get_table_names(schema="gold")) == {
             "vehicle_feature_dataset",
             "vehicle_features_snapshot",
             "vehicle_feature_dataset_activation",
+            "vehicle_efficiency_dataset",
+            "vehicle_efficiency_snapshot",
+            "vehicle_efficiency_quality_result",
         }
         assert "vehicle_features_current" in db.get_view_names(schema="gold")
 

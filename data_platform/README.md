@@ -1,4 +1,4 @@
-# Plataforma de dados — Etapa 6
+# Plataforma de dados — Etapa 7B
 
 A plataforma de dados permanece independente do startup da FastAPI. As
 migrations são PostgreSQL-only e mantêm o banco SQLite operacional como no-op.
@@ -16,6 +16,14 @@ frontend continuam sem integração com a plataforma nesta etapa.
 - `gold.vehicle_features_snapshot`;
 - `gold.vehicle_feature_dataset_activation`;
 - view `gold.vehicle_features_current`.
+
+A Etapa 7B acrescenta, sem conectar consumidores:
+
+- `bronze.pbev_source_asset` e `bronze.pbev_raw_row`;
+- `silver.pbev_vehicle_mapping`, sua view de decisão corrente e
+  `silver.vehicle_efficiency_observation`;
+- `gold.vehicle_efficiency_dataset`, `gold.vehicle_efficiency_snapshot` e
+  `gold.vehicle_efficiency_quality_result`.
 
 A Silver lê exclusivamente registros `bronze.fipe_raw` com
 `ingestion_status = 'received'`, HTTP 2xx e payload JSONB não nulo. Eventos
@@ -295,3 +303,100 @@ Os testes de `test_postgresql_orchestration.py` só usam
 `DATA_PLATFORM_TEST_POSTGRESQL_URL` quando o backend é PostgreSQL e o nome do
 banco termina em `_test`. Sem essa configuração, permanecem skipped e nenhuma
 URL é inventada ou exibida.
+
+## PBE Veicular interno e shadow
+
+O ramo PBEV é analítico, independente e de uso interno:
+
+```text
+PDFs oficiais externos -> Bronze PBEV -> Silver mapping -> Gold shadow
+```
+
+Ele não é importado pela FastAPI, frontend, recomendador, financiamento ou BI;
+não altera `gold.vehicle_feature_dataset`, ranking nem dados demonstrativos. O
+Gold PBEV usa somente `building`, `shadow_published` e `retired`; nunca publica
+um dataset `active` para consumidores.
+
+Os seis PDFs de 2017 a 2022 devem permanecer em diretório externo. O modo desta
+etapa é obrigatoriamente `metadata_only`: somente metadados, hashes, células
+internas e linhagem são persistidos; `document_bytes` permanece nulo. PDFs e
+linhas transformadas não podem ser redistribuídos em Git, ZIP ou documentação.
+O uso registra atribuição ao Instituto Nacional de Metrologia, Qualidade e
+Tecnologia (Inmetro), PBE Veicular, e licença `CC-BY-ND-3.0`. Exposição ou
+redistribuição futura exige revisão jurídica específica.
+
+O parser `pbev-pdf-v1` aceita exclusivamente os hashes auditados e quatro
+famílias de layout versionadas. Ele valida HTTPS oficial, MIME, assinatura,
+tamanho, páginas, SHA-256, layout, licença, atribuição e unidades. Grade vetorial
+é o caminho normal; fallback de texto posicionado exige revisão explícita. OCR
+não é usado. Drift, hash diferente, página incompleta ou unidade desconhecida
+bloqueiam Silver/Gold. Ausência vira `NULL`, nunca zero, e decimais não passam
+por `float`. NMHC/CO/NOx em g/km até 2021 permanecem semanticamente separados
+de NMOG+NOx/CO/CHO em mg/km em 2022.
+
+O matcher `pbev-match-v1` usa marca 10, modelo 20, ciclo 10, versão 20, motor 15,
+transmissão 10, combustível/propulsão 10 e carroceria 5. Um único líder
+compatível, sem conflito e com ao menos 95 pontos é `matched`; múltiplos líderes
+semanticamente equivalentes também podem ser `matched` quando suas métricas
+materiais são idênticas. A faixa de 75–94 é `pending` quando ainda não existe
+evidência suficiente para um match seguro. Líderes com identidades semânticas
+diferentes ou métricas materiais divergentes permanecem `ambiguous`; conflito
+do catálogo é `rejected` e ausência é `not_found`. Somente `matched` pode ser
+publicado. Decisões `pending`, `ambiguous`, `rejected` ou `not_found` nunca são
+publicadas. Decisões são append-only e revisão manual cria supersessão.
+`vehicle_sk` sempre vem da Silver real; IDs 1–34 são somente referências
+externas e `sample_data` não participa do matching.
+
+Para os seis hashes, parser, matcher e catálogo auditados, duas materializações
+idempotentes no PostgreSQL local descartável revisaram formalmente o baseline
+das 34 identidades para 18 `matched`, 6 `ambiguous`, 3 `rejected`, 3
+`not_found` e 4 `pending`, com cobertura publicável de 52,94%. As referências
+19, 20 e 22 foram rebaixadas de `matched` para `pending` por ausência de
+evidência suficiente de transmissão; a referência 33 permaneceu `pending`.
+Trata-se de governança de qualidade baseada em evidência reproduzível, não de
+relaxamento arbitrário. Regressão abaixo de 18 bloqueia publicação; aumento
+requer evidência de revisão. Somente `matched` entra no Gold shadow. Os gates
+também exigem origem, hash, MIME, páginas, layout, unidades, linhagem,
+reconciliação dos estados, dataset não vazio, unicidade de `vehicle_sk`, licença
+e atribuição.
+
+### Execução manual e testes
+
+Instale as dependências já fixadas do projeto no runtime de dados antes do
+processamento. `pdfplumber==0.11.9` foi escolhido por ser suficiente para grade
+vetorial/texto posicionado, possuir licença MIT e não adicionar OCR.
+
+```powershell
+$env:PBEV_ASSET_DIR = "C:\caminho-externo\pbev"
+$env:DATA_PLATFORM_DATABASE_URL = "postgresql+psycopg://..."
+.\backend\.venv\Scripts\python.exe -m data_platform.pbev.cli run
+.\backend\.venv\Scripts\python.exe -m data_platform.pbev.cli run --dry-run
+```
+
+O dry-run não resolve o diretório, não importa a biblioteca PDF, não abre banco,
+não chama rede e não escreve. O download é uma ação explícita separada; retries
+são limitados a timeout/TLS transitório, 408, 429 e 5xx, respeitando
+`Retry-After`. Locks são `pbev:<cycle_year>`, e o pipeline expõe checkpoints de
+heartbeat, cancelamento e timeout. Uma falha PBEV não altera nem bloqueia FIPE.
+
+Testes oficiais são opt-in e apontam para os ativos externos:
+
+```powershell
+$env:PBEV_TEST_ASSET_DIR = "C:\caminho-externo\pbev"
+.\backend\.venv\Scripts\python.exe -m pytest data_platform\tests\test_pbev.py -q -p no:cacheprovider
+```
+
+O teste PostgreSQL só executa quando `DATA_PLATFORM_TEST_POSTGRESQL_URL` indica
+PostgreSQL descartável com nome terminado em `_test`; a URL nunca é impressa.
+Sem a variável, o teste fica explicitamente skipped.
+
+Rollback apenas da Etapa 7B:
+
+```powershell
+.\backend\.venv\Scripts\python.exe -m alembic -c backend\alembic.ini downgrade 20260810_0005
+```
+
+O downgrade bloqueia se houver shadow PBEV ativo, remove somente objetos PBEV e
+preserva FIPE e orquestração. SQLite continua no-op. Antes de qualquer uso fora
+do ambiente interno shadow, a área jurídica deve revisar licença, atribuição,
+armazenamento, redistribuição e contrato dos consumidores.

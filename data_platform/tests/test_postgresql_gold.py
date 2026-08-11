@@ -4,14 +4,15 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, date, datetime, timedelta
 from hashlib import sha256
 import json
-import os
 from pathlib import Path
 from uuid import UUID, uuid4
 
 import pytest
 
+from data_platform.tests.postgresql_safety import disposable_postgresql_url
 
-POSTGRESQL_URL = os.getenv("DATA_PLATFORM_TEST_POSTGRESQL_URL")
+
+POSTGRESQL_URL = disposable_postgresql_url()
 SOURCE_NAME = "Tabela FIPE via API Parallelum"
 
 
@@ -367,6 +368,9 @@ def test_gold_migration_backfill_constraints_and_safe_downgrade(monkeypatch):
             "vehicle_feature_dataset",
             "vehicle_features_snapshot",
             "vehicle_feature_dataset_activation",
+            "vehicle_efficiency_dataset",
+            "vehicle_efficiency_snapshot",
+            "vehicle_efficiency_quality_result",
         }
         assert "vehicle_features_current" in database.get_view_names(schema="gold")
 
