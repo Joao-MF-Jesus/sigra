@@ -817,3 +817,60 @@ O dry-run retorna apenas o plano do escopo: não abre banco, não adquire lock,
 não chama FIPE/ANP, não resolve PDFs PBEV e não cria arquivos. Esta etapa não
 agenda execução automaticamente e não conecta PBEV ou ANP a FastAPI,
 recomendador, frontend, financiamento, BI ou à Gold FIPE operacional.
+
+## 22. Etapa 9, Lote 1 — contrato da Gold analítica integrada
+
+O primeiro lote da Etapa 9 materializa apenas o contrato estrutural da Gold
+analítica integrada FIPE + PBEV + ANP. A migration `20260811_0009`, filha da
+`20260811_0008`, é PostgreSQL-only e no-op em SQLite. Loader, pipeline, CLI,
+orquestração e integrações operacionais ficam explicitamente fora deste lote.
+
+### 22.1 Objetos e linhagem Gold-only
+
+O agregado usa `gold.integrated_vehicle_cost_dataset` e as evidências
+`snapshot`, `projection_snapshot`, `flex_comparison_snapshot`,
+`geography_request`, `exclusion`, `quality_rule_catalog`, `quality_result`,
+`activation`, `invalidation` e `coverage_baseline`, todos com o prefixo
+`integrated_vehicle_cost_`. A versão integrada é `VARCHAR(96)`; versões-fonte
+e FKs filhas permanecem compatíveis com `VARCHAR(80)`.
+
+As únicas linhagens veiculares e de preço aceitas são os registros Gold
+canônicos `vehicle_features_snapshot(gold_record_id)`,
+`vehicle_efficiency_snapshot(gold_record_id)` e
+`anp_fuel_price_snapshot(snapshot_id)`. Não há FK de identidade para Silver e
+nenhum dado PBEV/ANP passa a integrar a Gold FIPE operacional.
+
+### 22.2 Grãos e reconciliação
+
+O snapshot é único por dataset, veículo, combustível, geografia solicitada e
+semana ANP. Ele não contém `scenario_code`. A projeção é única por dataset,
+snapshot e `mixed_1000_v1`, com 1.000 km mensais e 12.000 km anuais. Portanto,
+os conjuntos publicados de veículos e cenários são obtidos da projeção unida
+ao snapshot; snapshot sem projeção não é publicação.
+
+Exclusão de veículo não carrega cenário. Exclusão de cenário exige a chave
+completa de veículo, `mixed_1000_v1`, combustível, geografia e semana. A
+linhagem da exclusão é Gold-only, e triggers impedem tanto inserir projeção já
+excluída quanto excluir uma projeção existente. As funções de reconciliação
+usam `EXCEPT` e `UNION` sobre chaves completas e expõem conjuntos ausentes e
+inesperados, impedindo que contagens coincidentes ocultem identidades trocadas.
+
+### 22.3 Qualidade, ativação e rollback
+
+A política `integrated-vehicle-cost-quality-v1` cataloga 29 hard gates
+críticos com status esperado `passed` e sete controles estatísticos ANP com
+status esperado `not_calibrated`. Cada resultado é identificado por dataset,
+versão da política e regra; evidência de outra versão não satisfaz ativação.
+Somente um dataset reconciliado, com todos os resultados requeridos e sem
+regressão pendente de revisão manual, pode gerar um evento de ativação.
+
+As coberturas canônicas são `catalog_coverage_pct` e `pbev_coverage_pct`, ambas
+decimais. `coverage_regression_status` aceita `not_applicable`, `passed` e
+`manual_review_required`; não existe estado `failed`. Regressão bloqueia
+ativação e também rollback até revisão manual.
+
+Eventos `publish`, `replace` e `rollback` atualizam o shadow atomicamente e
+preservam a versão anterior. Invalidação ativa aposenta o dataset sem apagar
+evidência. Snapshots, projeções, comparações flex, resultados, ativações,
+invalidações e baselines são append-only. O downgrade é defensivo: remove
+somente a `20260811_0009` quando não há dataset nem evidência integrada.

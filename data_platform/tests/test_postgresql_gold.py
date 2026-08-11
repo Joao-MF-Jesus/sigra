@@ -374,6 +374,17 @@ def test_gold_migration_backfill_constraints_and_safe_downgrade(monkeypatch):
             "anp_fuel_price_dataset",
             "anp_fuel_price_snapshot",
             "anp_fuel_price_quality_result",
+            "integrated_vehicle_cost_dataset",
+            "integrated_vehicle_cost_snapshot",
+            "integrated_vehicle_cost_projection_snapshot",
+            "integrated_vehicle_cost_flex_comparison_snapshot",
+            "integrated_vehicle_cost_geography_request",
+            "integrated_vehicle_cost_exclusion",
+            "integrated_vehicle_cost_quality_rule_catalog",
+            "integrated_vehicle_cost_quality_result",
+            "integrated_vehicle_cost_activation",
+            "integrated_vehicle_cost_invalidation",
+            "integrated_vehicle_cost_coverage_baseline",
         }
         assert "vehicle_features_current" in database.get_view_names(schema="gold")
 

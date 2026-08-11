@@ -523,3 +523,38 @@ A migration `20260811_0008` apenas amplia o enum de steps existente para
 `pbev` e `anp_fuel_prices`; não altera DDL, dados ou constraints dos pipelines.
 Ela é no-op em SQLite. O downgrade para `20260811_0007` é bloqueado enquanto existir
 histórico de orquestração PBEV/ANP, evitando descarte silencioso de auditoria.
+
+## Gold analítica integrada — Etapa 9, Lote 1
+
+O Lote 1 cria somente a fundação estrutural PostgreSQL da análise integrada de
+custo veicular FIPE + PBEV + ANP. Não há loader, pipeline, CLI, unidade de
+orquestração nem leitura por FastAPI, recomendador, frontend ou BI neste lote.
+A migration `20260811_0009` é no-op em SQLite e referencia exclusivamente os
+snapshots Gold canônicos: `gold.vehicle_features_snapshot`,
+`gold.vehicle_efficiency_snapshot` e `gold.anp_fuel_price_snapshot`.
+
+O dataset integrado usa versões de até 96 caracteres e fixa versões-fonte de
+até 80. Seu snapshot tem grão por dataset, veículo, combustível, geografia
+exata solicitada e semana ANP; deliberadamente não contém `scenario_code`. A
+projeção acrescenta o cenário único `mixed_1000_v1` (1.000 km/mês e 12.000
+km/ano). Assim, veículos e cenários publicados são sempre derivados das
+projeções unidas aos snapshots, nunca da mera presença de um snapshot.
+
+Exclusões são evidência Gold append-only e têm grãos separados para veículo e
+cenário. Triggers impedem conflito nos dois sentidos entre exclusão e projeção.
+A reconciliação compara conjuntos completos com `EXCEPT`/`UNION`, registrando
+chaves ausentes e inesperadas; igualdade de contagens não é suficiente.
+
+O catálogo inicial possui 29 hard gates críticos, todos com expectativa
+`passed`, e preserva os sete controles estatísticos ANP como
+`not_calibrated`. A identidade da evidência inclui dataset, versão da política
+e código da regra, de modo que resultado de outra política não autoriza
+ativação. Coberturas usam `catalog_coverage_pct` e `pbev_coverage_pct` em
+`NUMERIC`; regressão aceita somente `not_applicable`, `passed` ou
+`manual_review_required`, e este último bloqueia ativação e rollback.
+
+Publicação permanece exclusivamente shadow e atômica por eventos `publish`,
+`replace` e `rollback`. Snapshots, projeções, comparações flex, resultados de
+qualidade, ativações, invalidações e baselines são imutáveis. O downgrade da
+`20260811_0009` remove apenas seus próprios objetos e bloqueia se houver dataset
+ou evidência integrada, evitando descarte silencioso.
