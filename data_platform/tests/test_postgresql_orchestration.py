@@ -1,29 +1,14 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
-import os
 from pathlib import Path
 from uuid import uuid4
 
 import pytest
-from sqlalchemy.engine import make_url
+from data_platform.tests.postgresql_safety import disposable_postgresql_url
 
 
-def _safe_test_url() -> str | None:
-    raw = os.getenv("DATA_PLATFORM_TEST_POSTGRESQL_URL", "").strip()
-    if not raw:
-        return None
-    try:
-        parsed = make_url(raw)
-    except Exception:
-        return None
-    database = (parsed.database or "").casefold()
-    if parsed.get_backend_name() != "postgresql" or not database.endswith("_test"):
-        return None
-    return raw
-
-
-POSTGRESQL_URL = _safe_test_url()
+POSTGRESQL_URL = disposable_postgresql_url()
 REQUIRES_SAFE_POSTGRESQL = pytest.mark.skipif(
     not POSTGRESQL_URL,
     reason="PostgreSQL descartavel terminado em _test nao configurado",

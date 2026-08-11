@@ -59,6 +59,8 @@ def test_postgresql_contract_persistence_idempotency_and_downgrade(monkeypatch):
             "fipe_raw",
             "pbev_source_asset",
             "pbev_raw_row",
+            "anp_source_asset",
+            "anp_fuel_price_raw",
         }
         assert set(db.get_table_names(schema="silver")) == {
             "vehicle_identity",
@@ -66,6 +68,7 @@ def test_postgresql_contract_persistence_idempotency_and_downgrade(monkeypatch):
             "vehicle_price_history",
             "pbev_vehicle_mapping",
             "vehicle_efficiency_observation",
+            "anp_fuel_price_observation",
         }
         assert set(db.get_table_names(schema="gold")) == {
             "vehicle_feature_dataset",
@@ -74,8 +77,12 @@ def test_postgresql_contract_persistence_idempotency_and_downgrade(monkeypatch):
             "vehicle_efficiency_dataset",
             "vehicle_efficiency_snapshot",
             "vehicle_efficiency_quality_result",
+            "anp_fuel_price_dataset",
+            "anp_fuel_price_snapshot",
+            "anp_fuel_price_quality_result",
         }
         assert "vehicle_features_current" in db.get_view_names(schema="gold")
+        assert "anp_fuel_price_observation_current" in db.get_view_names(schema="silver")
 
         pipeline_columns = {item["name"]: item for item in db.get_columns("pipeline_run", schema="meta")}
         bronze_columns = {item["name"]: item for item in db.get_columns("fipe_raw", schema="bronze")}

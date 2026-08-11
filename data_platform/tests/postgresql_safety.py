@@ -15,6 +15,11 @@ def disposable_postgresql_url() -> str | None:
     except Exception:
         return None
     database = (parsed.database or "").casefold()
-    if parsed.get_backend_name() != "postgresql" or not database.endswith("_test"):
+    host = (parsed.host or "").casefold()
+    if (
+        parsed.get_backend_name() != "postgresql"
+        or host not in {"localhost", "127.0.0.1", "::1"}
+        or not database.endswith("_test")
+    ):
         return None
     return raw

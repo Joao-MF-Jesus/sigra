@@ -400,3 +400,72 @@ O downgrade bloqueia se houver shadow PBEV ativo, remove somente objetos PBEV e
 preserva FIPE e orquestração. SQLite continua no-op. Antes de qualquer uso fora
 do ambiente interno shadow, a área jurídica deve revisar licença, atribuição,
 armazenamento, redistribuição e contrato dos consumidores.
+
+## Preços de combustíveis ANP — fundação shadow
+
+A Etapa 8B1 adiciona um pipeline manual e independente para o download oficial
+do dataset CSV móvel de preços de gasolina e etanol da ANP. A fonte não é uma
+API. O único host permitido inicialmente é `www.gov.br`, com HTTPS obrigatório,
+redirects restritos ao mesmo host, streaming, timeout e retry somente para
+timeout, 408, 429 e 5xx. O limite operacional inicial é 32 MiB: aproximadamente
+quatro vezes o asset de 7.908.850 bytes observado no piloto. O cliente valida
+`Content-Length`, quando presente, e também interrompe o próprio stream ao
+ultrapassar o limite; esse valor deverá ser revisto após novos pilotos.
+
+```text
+CSV oficial ANP -> Bronze ANP -> Silver ANP -> Gold ANP shadow
+```
+
+O pipeline não é chamado pela orquestração da Etapa 6 e não se conecta a PBEV,
+FastAPI, recomendador, frontend, financiamento ou BI. A integração com a
+orquestração fica explicitamente reservada para a Etapa 8B2, depois do piloto
+PostgreSQL.
+
+O modo Bronze é sempre `metadata_only`: os bytes originais do CSV não são
+persistidos no PostgreSQL nem no repositório. O arquivo existe somente no
+diretório temporário do sistema durante download e parsing, sendo removido em
+sucesso ou falha. Metadados, hashes e período ficam em
+`bronze.anp_source_asset`; as linhas parseadas e sua linhagem ficam em
+`bronze.anp_fuel_price_raw` como JSONB append-only.
+
+O parser `anp-csv-v1` exige o header ordenado auditado, ponto e vírgula e UTF-8
+com ou sem BOM. Coluna ausente, extra, desconhecida ou reordenada é layout drift
+e bloqueia a publicação. Dinheiro é convertido diretamente para `Decimal`, sem
+passar por `float`. Gasolina C comum, gasolina C aditivada e etanol hidratado
+permanecem produtos distintos; diesel, GNV e GLP são reconhecíveis, mas ficam
+fora do recurso atual. Gasolina C comum e etanol hidratado são produtos
+essenciais do recurso e devem estar presentes. Gasolina C aditivada continua
+reconhecida, processada, separada e opcional.
+
+A Silver mantém razão social e endereço normalizados para a finalidade interna,
+mas CNPJ bruto existe somente na Bronze restrita. A Silver guarda apenas hash
+determinístico do CNPJ; ausência ou invalidade usa identidade alternativa
+controlada e issue sanitizada. Gold nunca contém CNPJ, razão social, endereço ou
+payload Bronze. Mesma identidade e conteúdo deduplicam; divergência dentro do
+mesmo asset é conflito; correção posterior cria supersessão append-only, issue
+crítica e exige revisão.
+
+A Gold agrega por produto, semana e geografia municipal/estadual. Mediana é a
+métrica preferencial para futura estimativa de custo e média permanece
+disponível, junto a mínimo, máximo, quartis e IQR. Todos os cálculos usam
+`Decimal`. Amostra, estabelecimentos, cobertura, freshness, extremos, dispersão
+e variação semanal começam como `not_calibrated`, sem thresholds inventados.
+O hard gate `ANP_REQUIRED_PRODUCTS_PRESENT` bloqueia a publicação se gasolina C
+comum ou etanol hidratado estiver ausente; ausência somente de gasolina C
+aditivada não bloqueia. Hard gates aprovados ativam atomicamente um único
+`shadow_published`; falha preserva o shadow anterior e não deixa publicação
+parcial. Fingerprint igual ao shadow ativo é no-op.
+
+Execução manual e dry-run:
+
+```powershell
+.\backend\.venv\Scripts\python.exe -m data_platform.anp.cli --source-reference anp-last-four-weeks-gasoline-ethanol --dry-run
+.\backend\.venv\Scripts\python.exe -m data_platform.anp.cli --source-reference anp-last-four-weeks-gasoline-ethanol
+```
+
+O dry-run não abre banco, não chama rede e não cria arquivo. Os testes comuns
+usam CSVs sintéticos mínimos. O teste PostgreSQL executa somente quando
+`DATA_PLATFORM_TEST_POSTGRESQL_URL` aponta para PostgreSQL local descartável
+com nome terminado em `_test`; a URL nunca é exibida. A migration
+`20260811_0007` é PostgreSQL-only, no-op em SQLite e bloqueia downgrade quando
+existe shadow ANP ativo.

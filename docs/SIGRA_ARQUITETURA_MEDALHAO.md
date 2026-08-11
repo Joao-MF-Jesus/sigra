@@ -652,3 +652,97 @@ teste PostgreSQL depende de `DATA_PLATFORM_TEST_POSTGRESQL_URL` apontando para
 banco descartável terminado em `_test`. A migration `20260810_0006` é
 PostgreSQL-only e no-op em SQLite; seu downgrade bloqueia um shadow ativo e,
 quando seguro, retorna isoladamente a `20260810_0005`.
+
+## 20. Etapa 8B1 — preços de combustíveis ANP em Gold shadow
+
+A fundação ANP é um ramo analítico independente e manual:
+
+```text
+download oficial de dataset CSV em www.gov.br
+        |
+        v
+bronze.anp_source_asset -> bronze.anp_fuel_price_raw
+        |
+        v
+silver.anp_fuel_price_observation_current
+        |
+        v
+gold.anp_fuel_price_dataset -> gold.anp_fuel_price_snapshot
+                            -> gold.anp_fuel_price_quality_result
+```
+
+Não há aresta para a orquestração existente, PBEV, FastAPI, recomendador,
+frontend, financiamento, BI ou Gold FIPE. A integração da orquestração pertence
+à Etapa 8B2 e depende primeiro de piloto PostgreSQL descartável.
+
+### 20.1 Origem, transporte e Bronze
+
+A fonte é o download oficial do CSV móvel de gasolina e etanol publicado pela
+ANP, não uma API. O contrato exige HTTPS, allowlist inicial `www.gov.br`,
+redirect no mesmo host, status e MIME CSV válidos, rejeição de HTML, streaming,
+SHA-256 e tamanho calculados durante a leitura. Retry é limitado a timeout, 408,
+429 e 5xx. O limite operacional inicial é 32 MiB, aproximadamente quatro vezes
+o asset de 7.908.850 bytes observado no piloto. `Content-Length` acima desse
+limite é rejeitado, mas não é a única defesa: o contador do stream interrompe a
+transferência ao ultrapassar o limite e o parcial é removido. O limite fica
+sujeito a revisão após novos pilotos. URL autenticada, conteúdo e parâmetros
+sensíveis não entram em logs ou erros.
+
+`storage_mode=metadata_only` é invariável. Os bytes originais existem somente
+em arquivo no diretório temporário do sistema durante o parsing e são removidos
+em sucesso ou falha. Nenhum CSV ou ZIP é persistido no banco ou repositório. A
+tabela de asset conserva página oficial, URL sanitizada, período, horário UTC,
+metadados HTTP, tamanho, hashes e fingerprint; a tabela de raw conserva as
+linhas parseadas em JSONB, com número, parser e linhagem. Ambas são append-only.
+
+O parser aceita ponto e vírgula e UTF-8 com ou sem BOM, únicos encodings
+comprovados no piloto. O header completo e ordenado participa do schema
+fingerprint. Qualquer coluna ausente, extra, desconhecida ou reordenada é layout
+drift, coloca o asset em quarentena e bloqueia Silver e Gold. Valores monetários
+são `Decimal` desde o parsing; `float` não participa do fluxo.
+
+### 20.2 Silver, identidade e privacidade
+
+O vocabulário distingue `gasoline_c_common`, `gasoline_c_additized` e
+`ethanol_hydrated`; eles nunca são consolidados ou escolhidos automaticamente.
+`gasoline_c_common` e `ethanol_hydrated` são essenciais para este recurso.
+`gasoline_c_additized` permanece reconhecida, processada, separada e opcional.
+Diesel B S500/S10, GNV e GLP P13 são reconhecíveis, mas bloqueados por estarem
+fora do recurso atual. UF, região, unidade, data e preços são hard gates. Não se
+inventa código IBGE.
+
+CNPJ bruto permanece somente na Bronze restrita. A Silver guarda hash
+determinístico e usa fallback de identidade controlado, com issue sanitizada,
+quando o CNPJ é ausente ou inválido. Issues e erros nunca contêm CNPJ, razão
+social ou endereço. A Gold não contém nenhum desses campos nem payload Bronze.
+
+Observações Silver são imutáveis. Mesma chave e conteúdo deduplicam; conteúdos
+divergentes para a mesma chave dentro do asset formam conflito. Uma correção em
+asset posterior insere nova observação com `supersedes_observation_id`, preserva
+o histórico e abre issue crítica para revisão. A view corrente é derivada por
+ausência de sucessor, sem update ou delete do histórico.
+
+### 20.3 Agregação, qualidade e publicação
+
+O snapshot tem grão de dataset, produto, semana e nível geográfico municipal ou
+estadual. Média, mediana, mínimo, máximo, percentis 25/75 e IQR usam somente
+`Decimal`; mediana é a medida preferencial para futura estimativa de custo. O
+fingerprint cobre valores ordenados, estabelecimentos anonimizados e linhagem
+do asset.
+
+Origem oficial, resposta válida, CSV/schema/período reconhecidos, produto,
+moeda BRL, unidade por litro, preço positivo, geografia, linhagem, unicidade,
+fingerprints, ausência de issue crítica e publicação exclusivamente shadow são
+hard gates. `ANP_REQUIRED_PRODUCTS_PRESENT` exige simultaneamente gasolina C
+comum e etanol hidratado; ausência de gasolina aditivada, isoladamente, não
+reprova. Amostra mínima, estabelecimentos, cobertura municipal, freshness,
+extremos, dispersão e variação semanal ficam explicitamente
+`not_calibrated` até o piloto fornecer evidência; não são marcados como aprovados
+nem reprovados.
+
+O dataset nasce `building`; snapshots e quality results entram na mesma
+transação. Somente depois dos hard gates ele se torna `shadow_published` e o
+shadow anterior passa atomicamente a `retired`. Um índice parcial garante um
+único shadow ativo. Falha deixa zero publicação parcial; fingerprint já ativo é
+no-op. A migration `20260811_0007` é PostgreSQL-only, no-op em SQLite e retorna
+isoladamente a `20260810_0006` somente quando não há shadow ANP ativo.

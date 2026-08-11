@@ -371,6 +371,9 @@ def test_gold_migration_backfill_constraints_and_safe_downgrade(monkeypatch):
             "vehicle_efficiency_dataset",
             "vehicle_efficiency_snapshot",
             "vehicle_efficiency_quality_result",
+            "anp_fuel_price_dataset",
+            "anp_fuel_price_snapshot",
+            "anp_fuel_price_quality_result",
         }
         assert "vehicle_features_current" in database.get_view_names(schema="gold")
 
