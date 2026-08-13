@@ -874,3 +874,72 @@ preservam a versão anterior. Invalidação ativa aposenta o dataset sem apagar
 evidência. Snapshots, projeções, comparações flex, resultados, ativações,
 invalidações e baselines são append-only. O downgrade é defensivo: remove
 somente a `20260811_0009` quando não há dataset nem evidência integrada.
+
+## 23. Etapa 9, Lote 2 — materialização e publicação integrada
+
+O Lote 2 implementa a unidade operacional que preenche os objetos da migration
+`20260811_0009`; nenhuma migration ou contrato paralelo é criado. A fronteira
+permanece analítica e shadow:
+
+```text
+Gold FIPE ativa -----+
+Gold PBEV shadow ----+--> plano integrado determinístico
+Gold ANP shadow -----+        |
+                              v
+                  dataset + snapshots + projeções
+                  + exclusões + qualidade + ativação
+```
+
+### 23.1 Seleção, corte analítico e cálculo
+
+A seleção exige exatamente um dataset ativo e aprovado por fonte. As versões e
+fingerprints são fixadas no cabeçalho integrado e as linhas preservam FKs para
+os três snapshots Gold. Todas as leituras pertencem à mesma visão transacional
+`REPEATABLE READ`; evidência futura ao corte analítico é rejeitada.
+
+A geografia é municipal ou estadual exata, sem fallback. A semana ANP é única e
+deve conter gasolina C comum e etanol hidratado; gasolina aditivada é opcional.
+O materializador usa somente as fórmulas `Decimal` do contrato e o cenário
+`mixed_1000_v1`. Nenhum campo do snapshot é completado por Bronze, Silver,
+cache, legado ou serviço externo. Ausência de PBEV matched ou de consumo
+material suficiente gera exclusão de veículo com motivo controlado.
+
+### 23.2 Atomicidade, concorrência e qualidade
+
+Um advisory lock transacional estável serializa a publicação integrada. Dataset,
+requisição, snapshots, projeções, comparações flex, exclusões, resultados dos 29
+hard gates, sete controles ANP `not_calibrated` e evento de ativação pertencem à
+mesma transação. Exceção faz rollback integral; nenhuma publicação parcial fica
+visível.
+
+A reconciliação persistida usa as funções de conjunto do Lote 1 e confirma que
+todo veículo FIPE aparece como projeção ou exclusão e que todo cenário esperado
+aparece exatamente uma vez. Conflitos projeção/exclusão continuam bloqueados
+pelos triggers nos dois sentidos. Regressão contra o baseline grava o dataset e
+a evidência como `manual_review_required`, sem inserir ativação, aposentar o
+shadow corrente ou executar rollback automático.
+
+### 23.3 Idempotência, supersessão e rollback
+
+O fingerprint canônico inclui versões e hashes das fontes, políticas, requisição
+geográfica, projeções, exclusões, comparações e estados dos gates. Relógio,
+UUID do run e credenciais ficam fora. Fingerprint já ativo retorna
+`deduplicated`, sem novos dados ou evento. Conteúdo material novo recebe versão
+nova e, se aprovado, substitui atomicamente o shadow anterior.
+
+Rollback exige alvo previamente publicado e retirado, não invalidado, com
+qualidade aprovada e sem `manual_review_required`. O evento troca a ativação na
+mesma transação e preserva todos os snapshots, exclusões e resultados históricos.
+Solicitar rollback para o dataset já ativo é no-op idempotente.
+
+### 23.4 CLI, dry-run e limites
+
+A CLI independente expõe `publish`, `dry-run` e `rollback`. O dry-run é puro e
+determinístico: não cria engine, não abre banco, não adquire lock, não executa
+FIPE/PBEV/ANP, não chama rede e não cria arquivo. Publicação e rollback produzem
+JSON sanitizado e código de saída não zero em falha.
+
+O Lote 2 não é registrado como nova unidade de orquestração e não possui aresta
+para FastAPI, recomendador, frontend, financiamento ou BI. SQLite continua no-op
+analítico. A validação real permanece opt-in e aceita somente PostgreSQL local
+descartável com nome terminado em `_test`.

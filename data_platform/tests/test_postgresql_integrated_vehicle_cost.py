@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from datetime import UTC, date, datetime, timedelta
+from decimal import Decimal
+from hashlib import sha256
 from pathlib import Path
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import pytest
 
@@ -10,6 +12,319 @@ from data_platform.tests.postgresql_safety import disposable_postgresql_url
 
 
 POSTGRESQL_URL = disposable_postgresql_url()
+
+
+def _seed_pbev_gold(connection, *, run_id, vehicle_sk: int) -> str:
+    from sqlalchemy import text
+
+    suffix = uuid4().hex[:12]
+    now = datetime.now(UTC) - timedelta(seconds=2)
+    asset_id = connection.execute(
+        text(
+            """INSERT INTO bronze.pbev_source_asset
+            (pipeline_run_id,source_system,official_page_url,download_url_sanitized,
+             document_title,cycle_year,accessed_at,content_type,byte_length,page_count,
+             sha256,layout_family,document_metadata,document_bytes,storage_mode,
+             license_code,attribution_text,license_url,asset_status,validation_details)
+            VALUES (:run,'inmetro_pbev','https://www.gov.br/inmetro/fixture',
+                    'https://www.gov.br/inmetro/fixture.pdf','PBEV fixture',2022,
+                    :now,'application/pdf',1,1,:hash,'pbev-l4-2022-v1','{}'::jsonb,
+                    NULL,'metadata_only','CC-BY-ND-3.0','Inmetro PBE Veicular',
+                    'https://creativecommons.org/licenses/by-nd/3.0/',
+                    'accepted','{}'::jsonb)
+            RETURNING asset_id"""
+        ),
+        {"run": run_id, "now": now, "hash": sha256(f"asset-{suffix}".encode()).hexdigest()},
+    ).scalar_one()
+    raw_id = connection.execute(
+        text(
+            """INSERT INTO bronze.pbev_raw_row
+            (asset_id,pipeline_run_id,page_number,row_number,source_record_key,
+             parser_version,layout_family,schema_fingerprint,raw_cells,raw_text,
+             row_hash,extraction_status,extraction_method,extracted_at)
+            VALUES (:asset,:run,1,1,:source_key,'pbev-pdf-v1','pbev-l4-2022-v1',
+                    :schema_hash,'[]'::jsonb,'fixture',:row_hash,'parsed',
+                    'vector_grid',:now)
+            RETURNING pbev_raw_row_id"""
+        ),
+        {
+            "asset": asset_id,
+            "run": run_id,
+            "source_key": f"fixture-{suffix}",
+            "schema_hash": sha256(b"pbev-schema").hexdigest(),
+            "row_hash": sha256(f"row-{suffix}".encode()).hexdigest(),
+            "now": now,
+        },
+    ).scalar_one()
+    mapping_id = connection.execute(
+        text(
+            """INSERT INTO silver.pbev_vehicle_mapping
+            (pipeline_run_id,source_system,target_identity_hash,target_identity_evidence,
+             target_vehicle_type,selected_raw_row_id,vehicle_sk,mapping_status,
+             match_method,confidence,review_required,matcher_version,evidence,
+             decision_reason,effective_at)
+            VALUES (:run,'inmetro_pbev',:identity,'{}'::jsonb,'car',:raw,:vehicle,
+                    'matched','exact_rule',100,FALSE,'pbev-match-v1','{}'::jsonb,
+                    'fixture exact match',:now)
+            RETURNING mapping_decision_id"""
+        ),
+        {
+            "run": run_id,
+            "identity": sha256(f"identity-{suffix}".encode()).hexdigest(),
+            "raw": raw_id,
+            "vehicle": vehicle_sk,
+            "now": now,
+        },
+    ).scalar_one()
+    observation_id = connection.execute(
+        text(
+            """INSERT INTO silver.vehicle_efficiency_observation
+            (pipeline_run_id,vehicle_sk,mapping_decision_id,pbev_raw_row_id,cycle_year,
+             source_reference_date,category_name,brand_name,model_name,version_name,
+             motor_description,transmission_code,propulsion_type,fuel_type,
+             emission_schema_version,emission_raw,consumption_raw,
+             ethanol_city_km_l,ethanol_highway_km_l,fossil_city_km_l,
+             fossil_highway_km_l,energy_mj_km,methodology_reference,quality_status,
+             observed_at)
+            VALUES (:run,:vehicle,:mapping,:raw,2022,'2022-01-01','Carros','Brand 1',
+                    'Model 1','Flex','1.6','AUT','combustion','flex','pbev-2022-v1',
+                    '{}'::jsonb,'{}'::jsonb,7.0000,10.0000,10.0000,15.0000,
+                    2.0000,'PBEV fixture','passed',:now)
+            RETURNING observation_id"""
+        ),
+        {
+            "run": run_id,
+            "vehicle": vehicle_sk,
+            "mapping": mapping_id,
+            "raw": raw_id,
+            "now": now,
+        },
+    ).scalar_one()
+    dataset_version = f"pbev-integrated-fixture-{suffix}"
+    dataset_fingerprint = sha256(f"pbev-dataset-{suffix}".encode()).hexdigest()
+    connection.execute(
+        text(
+            """INSERT INTO gold.vehicle_efficiency_dataset
+            (dataset_version,publication_run_id,source_system,source_asset_manifest,
+             source_asset_set_hash,parser_version,matcher_version,status,
+             is_active_shadow,universe_count,eligible_count,matched_count,pending_count,
+             ambiguous_count,rejected_count,not_found_count,published_count,
+             coverage_percentage,coverage_report,dataset_fingerprint,quality_status)
+            VALUES (:dataset,:run,'inmetro_pbev','[]'::jsonb,:asset_hash,
+                    'pbev-pdf-v1','pbev-match-v1','building',FALSE,1,1,1,0,0,0,0,1,
+                    100.00,'{}'::jsonb,:fingerprint,'passed')"""
+        ),
+        {
+            "dataset": dataset_version,
+            "run": run_id,
+            "asset_hash": sha256(f"asset-set-{suffix}".encode()).hexdigest(),
+            "fingerprint": dataset_fingerprint,
+        },
+    )
+    connection.execute(
+        text(
+            """INSERT INTO gold.vehicle_efficiency_snapshot
+            (dataset_version,publication_run_id,vehicle_sk,mapping_decision_id,
+             observation_id,asset_id,pbev_raw_row_id,cycle_year,brand_name,model_name,
+             version_name,motor_description,transmission_code,propulsion_type,fuel_type,
+             emission_schema_version,ethanol_city_km_l,ethanol_highway_km_l,
+             fossil_city_km_l,fossil_highway_km_l,energy_mj_km,parser_version,
+             matcher_version,data_confidence,quality_status,published_at)
+            VALUES (:dataset,:run,:vehicle,:mapping,:observation,:asset,:raw,2022,
+                    'Brand 1','Model 1','Flex','1.6','AUT','combustion','flex',
+                    'pbev-2022-v1',7.0000,10.0000,10.0000,15.0000,2.0000,
+                    'pbev-pdf-v1','pbev-match-v1',100,'passed',:now)"""
+        ),
+        {
+            "dataset": dataset_version,
+            "run": run_id,
+            "vehicle": vehicle_sk,
+            "mapping": mapping_id,
+            "observation": observation_id,
+            "asset": asset_id,
+            "raw": raw_id,
+            "now": now,
+        },
+    )
+    connection.execute(
+        text(
+            """UPDATE gold.vehicle_efficiency_dataset
+            SET status='shadow_published',is_active_shadow=TRUE,published_at=:now
+            WHERE dataset_version=:dataset"""
+        ),
+        {"dataset": dataset_version, "now": now},
+    )
+    return dataset_version
+
+
+def _seed_anp_gold(
+    connection,
+    *,
+    run_id,
+    gasoline_price: Decimal,
+    include_ethanol: bool = True,
+) -> str:
+    from sqlalchemy import text
+
+    suffix = uuid4().hex[:12]
+    dataset_version = f"anp-integrated-fixture-{suffix}"
+    prices = [("gasoline_c_common", gasoline_price)]
+    if include_ethanol:
+        prices.append(("ethanol_hydrated", Decimal("4.0000")))
+    connection.execute(
+        text(
+            """INSERT INTO gold.anp_fuel_price_dataset
+            (dataset_version,publication_run_id,source_asset_manifest,
+             source_asset_set_hash,parser_version,normalizer_version,
+             aggregation_version,reference_period_start,reference_period_end,
+             status,is_active_shadow,observation_count,snapshot_count,
+             dataset_fingerprint,quality_status)
+            VALUES (:dataset,:run,'[]'::jsonb,:source_hash,'anp-csv-v1','anp-normalizer-v1',
+                    'anp-aggregation-v1','2026-08-03','2026-08-09','building',FALSE,
+                    :count,:count,:fingerprint,'passed')"""
+        ),
+        {
+            "dataset": dataset_version,
+            "run": run_id,
+            "source_hash": sha256(f"anp-source-{suffix}".encode()).hexdigest(),
+            "count": len(prices),
+            "fingerprint": sha256(f"anp-dataset-{suffix}".encode()).hexdigest(),
+        },
+    )
+    for product, price in prices:
+        connection.execute(
+            text(
+                """INSERT INTO gold.anp_fuel_price_snapshot
+                (dataset_version,publication_run_id,product_code,week_start,week_end,
+                 geography_level,geography_key,municipality_name,state_code,
+                 currency_code,unit_code,mean_price,median_price,minimum_price,
+                 maximum_price,percentile_25,percentile_75,interquartile_range,
+                 observation_count,establishment_count,last_collection_date,
+                 freshness_days,sampling_status,dispersion_status,quality_status,
+                 snapshot_fingerprint)
+                VALUES (:dataset,:run,:product,'2026-08-03','2026-08-09','municipality',
+                        'sao-paulo-sp','Sao Paulo','SP','BRL','liter',:price,:price,
+                        :minimum,:maximum,:p25,:p75,0.2000,10,5,'2026-08-09',0,
+                        'not_calibrated','not_calibrated','passed',:fingerprint)"""
+            ),
+            {
+                "dataset": dataset_version,
+                "run": run_id,
+                "product": product,
+                "price": price,
+                "minimum": price - Decimal("0.2000"),
+                "maximum": price + Decimal("0.2000"),
+                "p25": price - Decimal("0.1000"),
+                "p75": price + Decimal("0.1000"),
+                "fingerprint": sha256(f"{dataset_version}-{product}".encode()).hexdigest(),
+            },
+        )
+    connection.execute(
+        text(
+            """UPDATE gold.anp_fuel_price_dataset
+            SET status='retired',is_active_shadow=FALSE,retired_at=CURRENT_TIMESTAMP
+            WHERE is_active_shadow"""
+        )
+    )
+    connection.execute(
+        text(
+            """UPDATE gold.anp_fuel_price_dataset
+            SET status='shadow_published',is_active_shadow=TRUE,published_at=CURRENT_TIMESTAMP
+            WHERE dataset_version=:dataset"""
+        ),
+        {"dataset": dataset_version},
+    )
+    return dataset_version
+
+
+def _capture_publication_cycle_fixture(
+    connection,
+    *,
+    integrated_dataset_versions: set[str],
+    pipeline_run_ids: set[UUID],
+) -> dict[str, tuple[object, ...]]:
+    from sqlalchemy import text
+
+    integrated_versions = sorted(integrated_dataset_versions)
+    run_ids = sorted(pipeline_run_ids, key=str)
+    version_parameters = {"dataset_versions": integrated_versions}
+    dataset_rows = connection.execute(
+        text(
+            """SELECT dataset_version,dataset_fingerprint,publication_run_id
+            FROM gold.integrated_vehicle_cost_dataset
+            WHERE dataset_version=ANY(CAST(:dataset_versions AS VARCHAR[]))
+            ORDER BY dataset_version"""
+        ),
+        version_parameters,
+    ).mappings().all()
+    assert {str(row["dataset_version"]) for row in dataset_rows} == set(
+        integrated_versions
+    )
+
+    evidence_specs = (
+        ("geography_request_ids", "integrated_vehicle_cost_geography_request", "geography_request_id"),
+        ("snapshot_ids", "integrated_vehicle_cost_snapshot", "snapshot_id"),
+        ("projection_ids", "integrated_vehicle_cost_projection_snapshot", "projection_id"),
+        ("flex_comparison_ids", "integrated_vehicle_cost_flex_comparison_snapshot", "flex_comparison_id"),
+        ("exclusion_ids", "integrated_vehicle_cost_exclusion", "exclusion_id"),
+        ("quality_result_ids", "integrated_vehicle_cost_quality_result", "quality_result_id"),
+        ("activation_event_ids", "integrated_vehicle_cost_activation", "activation_event_id"),
+        ("invalidation_event_ids", "integrated_vehicle_cost_invalidation", "invalidation_event_id"),
+        ("baseline_event_ids", "integrated_vehicle_cost_coverage_baseline", "baseline_event_id"),
+    )
+    captured: dict[str, tuple[object, ...]] = {
+        "dataset_versions": tuple(integrated_versions),
+        "dataset_fingerprints": tuple(
+            str(row["dataset_fingerprint"]) for row in dataset_rows
+        ),
+        "dataset_publication_run_ids": tuple(
+            row["publication_run_id"] for row in dataset_rows
+        ),
+        "pipeline_run_ids": tuple(run_ids),
+    }
+    for key, table_name, id_column in evidence_specs:
+        captured[key] = tuple(
+            connection.execute(
+                text(
+                    f"""SELECT {id_column}
+                    FROM gold.{table_name}
+                    WHERE dataset_version=ANY(
+                        CAST(:dataset_versions AS VARCHAR[])
+                    )
+                    ORDER BY {id_column}"""
+                ),
+                version_parameters,
+            ).scalars()
+        )
+
+    activation_rows = connection.execute(
+        text(
+            """SELECT activation_event_id,activation_run_id,activation_type
+            FROM gold.integrated_vehicle_cost_activation
+            WHERE dataset_version=ANY(CAST(:dataset_versions AS VARCHAR[]))
+            ORDER BY activation_event_id"""
+        ),
+        version_parameters,
+    ).mappings().all()
+    captured["activation_run_ids"] = tuple(
+        row["activation_run_id"] for row in activation_rows
+    )
+    captured["rollback_event_ids"] = tuple(
+        row["activation_event_id"]
+        for row in activation_rows
+        if row["activation_type"] == "rollback"
+    )
+    recorded_runs = set(
+        connection.execute(
+            text(
+                """SELECT pipeline_run_id FROM meta.pipeline_run
+                WHERE pipeline_run_id=ANY(CAST(:pipeline_run_ids AS UUID[]))"""
+            ),
+            {"pipeline_run_ids": run_ids},
+        ).scalars()
+    )
+    assert recorded_runs == set(run_ids)
+    return captured
 
 
 @pytest.mark.skipif(
@@ -253,3 +568,437 @@ def test_postgresql_integrated_vehicle_cost_schema_constraints_and_catalog(monke
         assert heads == ["20260811_0009"]
     finally:
         engine.dispose()
+
+
+@pytest.mark.skipif(
+    not POSTGRESQL_URL,
+    reason="PostgreSQL real local descartavel nao configurado",
+)
+def test_postgresql_integrated_vehicle_cost_publication_cycle(monkeypatch):
+    from contextlib import contextmanager
+
+    from alembic import command
+    from sqlalchemy import create_engine, text
+    from sqlalchemy.exc import DBAPIError
+
+    import data_platform.integrated_vehicle_cost.pipeline as integrated_pipeline
+    import data_platform.publication.loader as gold_loader_module
+    from data_platform.integrated_vehicle_cost.loader import IntegratedVehicleCostLoader
+    from data_platform.integrated_vehicle_cost.pipeline import (
+        IntegratedPublicationError,
+        IntegratedPublicationRequest,
+        IntegratedVehicleCostOptions,
+        rollback_integrated_vehicle_cost,
+        run_integrated_vehicle_cost_pipeline,
+    )
+    from data_platform.publication.loader import GoldLoader
+    from data_platform.publication.pipeline import run_gold_publication
+    from data_platform.tests.test_postgresql_gold import (
+        _config,
+        _insert_gold_scope_mapping,
+        _insert_run,
+        _reset_database,
+    )
+
+    config = _config(monkeypatch)
+    _reset_database(config)
+    engine = create_engine(POSTGRESQL_URL, pool_pre_ping=True)
+    sentinel_run_id = uuid4()
+    sentinel_at = datetime.now(UTC)
+    with engine.begin() as sentinel_connection:
+        sentinel_connection.execute(
+            text(
+                """INSERT INTO meta.pipeline_run
+                (pipeline_run_id,pipeline_name,pipeline_version,dataset_version,
+                 trigger_type,status,started_at,finished_at,records_received)
+                VALUES (:run,'integrated_cleanup_sentinel','test-v1',:dataset,
+                        'manual','succeeded',:started,:finished,0)"""
+            ),
+            {
+                "run": sentinel_run_id,
+                "dataset": f"cleanup-sentinel-{sentinel_run_id.hex[:12]}",
+                "started": sentinel_at,
+                "finished": sentinel_at,
+            },
+        )
+    request = IntegratedPublicationRequest(
+        geography_level="municipality",
+        geography_key="sao-paulo-sp",
+        week_start=date(2026, 8, 3),
+        include_additized=False,
+    )
+    options = IntegratedVehicleCostOptions(request=request)
+    integrated_dataset_versions: set[str] = set()
+    fipe_dataset_versions: set[str] = set()
+    pbev_dataset_versions: set[str] = set()
+    anp_dataset_versions: set[str] = set()
+    pipeline_run_ids: set[UUID] = set()
+    captured_identifiers: dict[str, tuple[object, ...]] = {}
+    fixture_connection = engine.connect().execution_options(
+        isolation_level="REPEATABLE READ"
+    )
+    fixture_transaction = fixture_connection.begin()
+
+    class NestedTransactionEngine:
+        def __init__(self, connection):
+            self.connection = connection
+            self.dialect = connection.dialect
+
+        @contextmanager
+        def begin(self):
+            nested = self.connection.begin_nested()
+            try:
+                yield self.connection
+                nested.commit()
+            except BaseException:
+                if nested.is_active:
+                    nested.rollback()
+                raise
+
+    @contextmanager
+    def fixture_gold_publication_transaction():
+        nested = fixture_connection.begin_nested()
+        try:
+            GoldLoader.acquire_lock(fixture_connection)
+            yield fixture_connection
+            nested.commit()
+        except BaseException:
+            if nested.is_active:
+                nested.rollback()
+            raise
+
+    @contextmanager
+    def fixture_integrated_publication_transaction():
+        nested = fixture_connection.begin_nested()
+        try:
+            fixture_connection.execute(
+                text(
+                    "SELECT pg_advisory_xact_lock(hashtext('integrated_vehicle_cost'))"
+                )
+            )
+            yield fixture_connection
+            nested.commit()
+        except BaseException:
+            if nested.is_active:
+                nested.rollback()
+            raise
+
+    transaction_timestamp = fixture_connection.execute(
+        text("SELECT CURRENT_TIMESTAMP")
+    ).scalar_one()
+
+    class TransactionDateTime:
+        @classmethod
+        def now(cls, timezone=None):
+            if timezone is None:
+                return transaction_timestamp.replace(tzinfo=None)
+            return transaction_timestamp.astimezone(timezone)
+
+    monkeypatch.setattr(integrated_pipeline, "datetime", TransactionDateTime)
+    monkeypatch.setattr(gold_loader_module, "datetime", TransactionDateTime)
+
+    def capture_integrated_result(result):
+        if result.dataset_version is not None:
+            integrated_dataset_versions.add(result.dataset_version)
+        if result.pipeline_run_id is not None:
+            pipeline_run_ids.add(UUID(result.pipeline_run_id))
+        return result
+
+    try:
+        silver_run = _insert_run(
+            fixture_connection,
+            name="integrated_fipe_fixture",
+        )
+        pipeline_run_ids.add(silver_run)
+        _, vehicle_sk, _ = _insert_gold_scope_mapping(
+            fixture_connection,
+            silver_run,
+            ordinal=1,
+            matched=True,
+        )
+        assert vehicle_sk is not None
+
+        gold_loader = GoldLoader(NestedTransactionEngine(fixture_connection))
+        gold_loader.publication_transaction = fixture_gold_publication_transaction
+        fipe_result = run_gold_publication(
+            gold_loader,
+            source_reference="integrated-publication-fixture",
+        )
+        if fipe_result.dataset_version is not None:
+            fipe_dataset_versions.add(fipe_result.dataset_version)
+        if fipe_result.pipeline_run_id is not None:
+            pipeline_run_ids.add(UUID(fipe_result.pipeline_run_id))
+        assert fipe_result.status == "succeeded"
+
+        pbev_run = _insert_run(
+            fixture_connection,
+            name="integrated_pbev_fixture",
+        )
+        pipeline_run_ids.add(pbev_run)
+        pbev_dataset_versions.add(
+            _seed_pbev_gold(
+                fixture_connection,
+                run_id=pbev_run,
+                vehicle_sk=vehicle_sk,
+            )
+        )
+        anp_run = _insert_run(
+            fixture_connection,
+            name="integrated_anp_fixture",
+        )
+        pipeline_run_ids.add(anp_run)
+        anp_dataset_versions.add(
+            _seed_anp_gold(
+                fixture_connection,
+                run_id=anp_run,
+                gasoline_price=Decimal("6.0000"),
+            )
+        )
+
+        loader = IntegratedVehicleCostLoader(
+            NestedTransactionEngine(fixture_connection)
+        )
+        loader.publication_transaction = fixture_integrated_publication_transaction
+        first = capture_integrated_result(
+            run_integrated_vehicle_cost_pipeline(loader, options)
+        )
+        duplicate = capture_integrated_result(
+            run_integrated_vehicle_cost_pipeline(loader, options)
+        )
+        assert first.status == "succeeded"
+        assert first.activation_type == "publish"
+        assert first.published_vehicle_count == 1
+        assert first.published_scenario_count == 2
+        assert duplicate.status == "deduplicated"
+        assert duplicate.dataset_version == first.dataset_version
+
+        assert fixture_connection.execute(
+            text("SELECT COUNT(*) FROM gold.integrated_vehicle_cost_dataset")
+        ).scalar_one() == 1
+        assert fixture_connection.execute(
+            text("SELECT COUNT(*) FROM gold.integrated_vehicle_cost_snapshot")
+        ).scalar_one() == 2
+        assert fixture_connection.execute(
+            text(
+                "SELECT COUNT(*) FROM gold.integrated_vehicle_cost_projection_snapshot"
+            )
+        ).scalar_one() == 2
+        assert fixture_connection.execute(
+            text("SELECT COUNT(*) FROM gold.integrated_vehicle_cost_quality_result")
+        ).scalar_one() == 36
+        assert fixture_connection.execute(
+            text("SELECT COUNT(*) FROM gold.integrated_vehicle_cost_activation")
+        ).scalar_one() == 1
+
+        replacement_anp_run = _insert_run(
+            fixture_connection,
+            name="integrated_anp_replacement_fixture",
+        )
+        pipeline_run_ids.add(replacement_anp_run)
+        anp_dataset_versions.add(
+            _seed_anp_gold(
+                fixture_connection,
+                run_id=replacement_anp_run,
+                gasoline_price=Decimal("6.1000"),
+            )
+        )
+
+        replacement = capture_integrated_result(
+            run_integrated_vehicle_cost_pipeline(loader, options)
+        )
+        replacement_duplicate = capture_integrated_result(
+            run_integrated_vehicle_cost_pipeline(loader, options)
+        )
+        assert replacement.status == "succeeded"
+        assert replacement.activation_type == "replace"
+        assert replacement.previous_dataset_version == first.dataset_version
+        assert replacement_duplicate.status == "deduplicated"
+        assert replacement_duplicate.dataset_version == replacement.dataset_version
+
+        immutable_before = fixture_connection.execute(
+            text(
+                """SELECT row_to_json(snapshot_row)::text
+                FROM gold.integrated_vehicle_cost_snapshot AS snapshot_row
+                ORDER BY dataset_version,snapshot_id"""
+            )
+        ).scalars().all()
+        rollback = capture_integrated_result(
+            rollback_integrated_vehicle_cost(loader, first.dataset_version)
+        )
+        repeated_rollback = capture_integrated_result(
+            rollback_integrated_vehicle_cost(
+                loader,
+                first.dataset_version,
+            )
+        )
+        assert rollback.status == "succeeded"
+        assert rollback.activation_type == "rollback"
+        assert rollback.previous_dataset_version == replacement.dataset_version
+        assert repeated_rollback.status == "deduplicated"
+
+        immutable_after = fixture_connection.execute(
+            text(
+                """SELECT row_to_json(snapshot_row)::text
+                FROM gold.integrated_vehicle_cost_snapshot AS snapshot_row
+                ORDER BY dataset_version,snapshot_id"""
+            )
+        ).scalars().all()
+        assert immutable_after == immutable_before
+        counts_before_failure = fixture_connection.execute(
+            text(
+                """SELECT
+                    (SELECT COUNT(*) FROM gold.integrated_vehicle_cost_dataset),
+                    (SELECT COUNT(*) FROM gold.integrated_vehicle_cost_activation),
+                    (SELECT COUNT(*) FROM gold.integrated_vehicle_cost_quality_result)"""
+            )
+        ).one()
+
+        invalid_anp_run = _insert_run(
+            fixture_connection,
+            name="integrated_anp_missing_product_fixture",
+        )
+        pipeline_run_ids.add(invalid_anp_run)
+        anp_dataset_versions.add(
+            _seed_anp_gold(
+                fixture_connection,
+                run_id=invalid_anp_run,
+                gasoline_price=Decimal("6.2000"),
+                include_ethanol=False,
+            )
+        )
+        with pytest.raises(IntegratedPublicationError, match="required fuel product"):
+            run_integrated_vehicle_cost_pipeline(loader, options)
+        counts_after_failure = fixture_connection.execute(
+            text(
+                """SELECT
+                    (SELECT COUNT(*) FROM gold.integrated_vehicle_cost_dataset),
+                    (SELECT COUNT(*) FROM gold.integrated_vehicle_cost_activation),
+                    (SELECT COUNT(*) FROM gold.integrated_vehicle_cost_quality_result)"""
+            )
+        ).one()
+        active_integrated = fixture_connection.execute(
+            text(
+                """SELECT dataset_version
+                FROM gold.integrated_vehicle_cost_dataset
+                WHERE is_active_shadow"""
+            )
+        ).scalar_one()
+        assert counts_after_failure == counts_before_failure
+        assert active_integrated == first.dataset_version
+
+        captured_identifiers = _capture_publication_cycle_fixture(
+            fixture_connection,
+            integrated_dataset_versions=integrated_dataset_versions,
+            pipeline_run_ids=pipeline_run_ids,
+        )
+        assert set(captured_identifiers["dataset_versions"]) == (
+            integrated_dataset_versions
+        )
+        assert len(set(captured_identifiers["dataset_fingerprints"])) == 2
+        assert len(captured_identifiers["snapshot_ids"]) == 4
+        assert len(captured_identifiers["projection_ids"]) == 4
+        assert len(captured_identifiers["quality_result_ids"]) == 72
+        assert len(captured_identifiers["activation_event_ids"]) == 3
+        assert len(captured_identifiers["rollback_event_ids"]) == 1
+
+        guard_savepoint = fixture_connection.begin_nested()
+        try:
+            with pytest.raises(DBAPIError, match="downgrade blocked"):
+                fixture_connection.execute(
+                    text("SELECT gold.assert_integrated_downgrade_safe()")
+                )
+        finally:
+            guard_savepoint.rollback()
+    finally:
+        try:
+            if fixture_transaction.is_active:
+                fixture_transaction.rollback()
+        finally:
+            fixture_connection.close()
+            engine.dispose()
+
+        verification_engine = create_engine(POSTGRESQL_URL, pool_pre_ping=True)
+        try:
+            with verification_engine.connect() as verification_connection:
+                for table_name in (
+                    "integrated_vehicle_cost_geography_request",
+                    "integrated_vehicle_cost_snapshot",
+                    "integrated_vehicle_cost_projection_snapshot",
+                    "integrated_vehicle_cost_flex_comparison_snapshot",
+                    "integrated_vehicle_cost_exclusion",
+                    "integrated_vehicle_cost_quality_result",
+                    "integrated_vehicle_cost_activation",
+                    "integrated_vehicle_cost_invalidation",
+                    "integrated_vehicle_cost_coverage_baseline",
+                    "integrated_vehicle_cost_dataset",
+                ):
+                    assert verification_connection.execute(
+                        text(
+                            f"""SELECT COUNT(*) FROM gold.{table_name}
+                            WHERE dataset_version=ANY(
+                                CAST(:dataset_versions AS VARCHAR[])
+                            )"""
+                        ),
+                        {"dataset_versions": sorted(integrated_dataset_versions)},
+                    ).scalar_one() == 0
+                for table_name, dataset_versions in (
+                    ("vehicle_feature_dataset", fipe_dataset_versions),
+                    ("vehicle_efficiency_dataset", pbev_dataset_versions),
+                    ("anp_fuel_price_dataset", anp_dataset_versions),
+                ):
+                    assert verification_connection.execute(
+                        text(
+                            f"""SELECT COUNT(*) FROM gold.{table_name}
+                            WHERE dataset_version=ANY(
+                                CAST(:dataset_versions AS VARCHAR[])
+                            )"""
+                        ),
+                        {"dataset_versions": sorted(dataset_versions)},
+                    ).scalar_one() == 0
+                assert verification_connection.execute(
+                    text(
+                        """SELECT COUNT(*) FROM meta.pipeline_run
+                        WHERE pipeline_run_id=ANY(
+                            CAST(:pipeline_run_ids AS UUID[])
+                        )"""
+                    ),
+                    {"pipeline_run_ids": sorted(pipeline_run_ids, key=str)},
+                ).scalar_one() == 0
+                assert verification_connection.execute(
+                    text(
+                        """SELECT COUNT(*) FROM meta.pipeline_run
+                        WHERE pipeline_run_id=:sentinel"""
+                    ),
+                    {"sentinel": sentinel_run_id},
+                ).scalar_one() == 1
+                verification_connection.execute(
+                    text("SELECT gold.assert_integrated_downgrade_safe()")
+                )
+        finally:
+            try:
+                with verification_engine.begin() as sentinel_cleanup_connection:
+                    deleted_sentinel = sentinel_cleanup_connection.execute(
+                        text(
+                            """DELETE FROM meta.pipeline_run
+                            WHERE pipeline_run_id=:sentinel"""
+                        ),
+                        {"sentinel": sentinel_run_id},
+                    )
+                    assert deleted_sentinel.rowcount == 1
+            finally:
+                verification_engine.dispose()
+
+        try:
+            command.downgrade(config, "20260811_0008")
+        finally:
+            command.upgrade(config, "head")
+
+        head_engine = create_engine(POSTGRESQL_URL, pool_pre_ping=True)
+        try:
+            with head_engine.connect() as head_connection:
+                restored_head = head_connection.execute(
+                    text("SELECT version_num FROM alembic_version")
+                ).scalar_one()
+        finally:
+            head_engine.dispose()
+        assert restored_head == "20260811_0009"

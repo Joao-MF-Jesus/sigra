@@ -558,3 +558,56 @@ Publicação permanece exclusivamente shadow e atômica por eventos `publish`,
 qualidade, ativações, invalidações e baselines são imutáveis. O downgrade da
 `20260811_0009` remove apenas seus próprios objetos e bloqueia se houver dataset
 ou evidência integrada, evitando descarte silencioso.
+
+## Gold analítica integrada — Etapa 9, Lote 2
+
+O módulo `data_platform.integrated_vehicle_cost` materializa e publica o contrato
+estrutural do Lote 1 sem criar migration adicional. Ele seleciona somente os
+datasets Gold ativos e aprovados de FIPE, PBEV e ANP, fixa suas versões e
+fingerprints e executa todas as leituras e escritas sob `REPEATABLE READ` e um
+advisory lock transacional exclusivo. Bronze, Silver, caches e fontes externas
+não participam dessa unidade.
+
+A requisição exige semana ANP e geografia municipal ou estadual exatas. Não há
+fallback nacional ou imputação. Gasolina C comum e etanol hidratado são
+obrigatórios; gasolina aditivada permanece opcional e separada. Veículos sem
+PBEV Gold matched ou sem consumo material suficiente entram como exclusões Gold
+auditáveis e não recebem projeções inventadas.
+
+As projeções reutilizam exclusivamente `calculate_projection`, `Decimal` e o
+cenário `mixed_1000_v1`: participação urbana/rodoviária de 50%/50%, 1.000 km por
+mês e 12.000 km por ano. O snapshot continua sem `scenario_code`; o código está
+somente na projeção. Comparações flex usam gasolina comum e etanol do mesmo
+veículo, semana e geografia.
+
+Na mesma transação são persistidos dataset, requisição geográfica, snapshots,
+projeções, comparações flex, exclusões, 29 hard gates, sete controles ANP em
+`not_calibrated` e, quando autorizado, o evento de ativação. A reconciliação do
+banco valida conjuntos completos por `UNION`, `EXCEPT` e `INTERSECT`. Uma
+regressão de cobertura persiste a tentativa como `manual_review_required`, mas
+não ativa nem substitui o shadow corrente.
+
+O fingerprint é determinístico e cobre fontes, políticas, requisição,
+projeções, exclusões, comparações e evidência de qualidade, sem relógio ou run
+ID. Reexecutar o mesmo conteúdo retorna `deduplicated` sem criar dataset,
+snapshot, exclusão, quality result ou ativação. Conteúdo material novo gera
+substituição atômica. Rollback explícito aceita somente dataset publicado,
+retirado, não invalidado e sem revisão pendente; repetir rollback para o dataset
+já ativo é idempotente. Evidências históricas não sofrem update ou delete.
+
+Execução manual:
+
+```powershell
+.\backend\.venv\Scripts\python.exe -m data_platform.integrated_vehicle_cost.cli dry-run --geography-level municipality --geography-key sao-paulo-sp --week-start 2026-08-03
+.\backend\.venv\Scripts\python.exe -m data_platform.integrated_vehicle_cost.cli publish --geography-level municipality --geography-key sao-paulo-sp --week-start 2026-08-03
+.\backend\.venv\Scripts\python.exe -m data_platform.integrated_vehicle_cost.cli rollback integrated-cost-v1-...
+```
+
+O dry-run retorna somente plano JSON determinístico e sanitizado: não lê
+variável de banco, não cria engine, não adquire lock, não chama pipelines-fonte,
+não acessa rede e não cria arquivos. A CLI de publicação/rollback lê
+`DATA_PLATFORM_DATABASE_URL` somente fora do dry-run. SQLite permanece no-op.
+
+O produto continua exclusivamente Gold shadow. Este lote não altera
+orquestração e não cria integração com FastAPI, recomendador, frontend,
+financiamento ou BI.
