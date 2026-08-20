@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import replace
+from datetime import date
 import json
 import os
 from uuid import UUID
@@ -37,6 +38,13 @@ from data_platform.orchestration.runner import (
 )
 
 
+def _date(value: str) -> date:
+    try:
+        return date.fromisoformat(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("use YYYY-MM-DD") from exc
+
+
 def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
     default_scope = os.getenv(
         "DATA_PLATFORM_ORCHESTRATION_SCOPE",
@@ -58,7 +66,7 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
         "--scope",
         choices=tuple(item.value for item in OrchestrationScope),
         default=default_scope,
-        help="fipe (padrao), pbev, anp ou complete",
+        help="fipe (padrao), pbev, anp, integrated_vehicle_cost ou complete",
     )
     parser.add_argument(
         "--from-step",
@@ -90,6 +98,14 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
             "DATA_PLATFORM_ORCHESTRATION_ANP_SOURCE_REFERENCE",
             ANP_LAST_FOUR_WEEKS_REFERENCE,
         ),
+    )
+    parser.add_argument("--integrated-geography-level", choices=("municipality", "state"))
+    parser.add_argument("--integrated-geography-key")
+    parser.add_argument("--integrated-week-start", type=_date)
+    parser.add_argument(
+        "--integrated-include-additized",
+        action=argparse.BooleanOptionalAction,
+        default=True,
     )
     parser.add_argument(
         "--idempotency-key",
@@ -124,7 +140,7 @@ def _add_run_arguments(parser: argparse.ArgumentParser) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Orquestracao FIPE, PBEV e ANP da plataforma SIGRA"
+        description="Orquestracao FIPE, PBEV, ANP e Gold integrada da plataforma SIGRA"
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     run = subparsers.add_parser("run", help="Executa o nucleo local")
@@ -166,6 +182,10 @@ def _request(args: argparse.Namespace) -> OrchestrationRequest:
         resume=args.resume,
         pbev_asset_directory=args.pbev_asset_dir,
         anp_source_reference=args.anp_source_reference,
+        integrated_geography_level=args.integrated_geography_level,
+        integrated_geography_key=args.integrated_geography_key,
+        integrated_week_start=args.integrated_week_start,
+        integrated_include_additized=args.integrated_include_additized,
     )
 
 

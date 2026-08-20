@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from enum import StrEnum
 import hashlib
 import json
@@ -14,7 +14,7 @@ from data_platform.common.logging import sanitize
 
 
 FLOW_NAME = "sigra_fipe_medallion"
-FLOW_VERSION = "orchestration-v2"
+FLOW_VERSION = "orchestration-v3"
 
 
 class OrchestrationStatus(StrEnum):
@@ -33,12 +33,14 @@ class StepName(StrEnum):
     GOLD = "gold"
     PBEV = "pbev"
     ANP = "anp_fuel_prices"
+    INTEGRATED_VEHICLE_COST = "integrated_vehicle_cost"
 
 
 class OrchestrationScope(StrEnum):
     FIPE = "fipe"
     PBEV = "pbev"
     ANP = "anp"
+    INTEGRATED_VEHICLE_COST = "integrated_vehicle_cost"
     COMPLETE = "complete"
 
 
@@ -56,11 +58,17 @@ class PartialPolicy(StrEnum):
 
 
 FIPE_STEP_ORDER = (StepName.BRONZE, StepName.SILVER, StepName.GOLD)
-STEP_ORDER = (*FIPE_STEP_ORDER, StepName.PBEV, StepName.ANP)
+STEP_ORDER = (
+    *FIPE_STEP_ORDER,
+    StepName.PBEV,
+    StepName.ANP,
+    StepName.INTEGRATED_VEHICLE_COST,
+)
 FLOW_NAMES = {
     OrchestrationScope.FIPE: FLOW_NAME,
     OrchestrationScope.PBEV: "sigra_pbev_shadow",
     OrchestrationScope.ANP: "sigra_anp_fuel_prices_shadow",
+    OrchestrationScope.INTEGRATED_VEHICLE_COST: "sigra_integrated_vehicle_cost",
     OrchestrationScope.COMPLETE: "sigra_medallion_complete",
 }
 
@@ -138,10 +146,39 @@ class OrchestrationRequest:
     scope: OrchestrationScope = OrchestrationScope.FIPE
     pbev_asset_directory: str | None = None
     anp_source_reference: str | None = None
+    integrated_geography_level: str | None = None
+    integrated_geography_key: str | None = None
+    integrated_week_start: date | None = None
+    integrated_include_additized: bool = True
 
     def __post_init__(self) -> None:
         if self.start_at not in FIPE_STEP_ORDER:
             raise ValueError("start_at is restricted to FIPE Bronze, Silver or Gold")
+        if (
+            self.scope
+            in {
+                OrchestrationScope.INTEGRATED_VEHICLE_COST,
+                OrchestrationScope.COMPLETE,
+            }
+            and not self.dry_run
+        ):
+            if self.integrated_geography_level not in {"municipality", "state"}:
+                raise ValueError(
+                    "integrated geography level is required for a real run"
+                )
+            if (
+                not self.integrated_geography_key
+                or len(self.integrated_geography_key) > 200
+            ):
+                raise ValueError(
+                    "integrated geography key is required for a real run"
+                )
+            if not isinstance(self.integrated_week_start, date):
+                raise ValueError(
+                    "integrated week start is required for a real run"
+                )
+            if not isinstance(self.integrated_include_additized, bool):
+                raise ValueError("integrated include_additized must be boolean")
 
     @property
     def flow_name(self) -> str:
@@ -155,6 +192,8 @@ class OrchestrationRequest:
             return (StepName.PBEV,)
         if self.scope == OrchestrationScope.ANP:
             return (StepName.ANP,)
+        if self.scope == OrchestrationScope.INTEGRATED_VEHICLE_COST:
+            return (StepName.INTEGRATED_VEHICLE_COST,)
         return STEP_ORDER
 
     @property
@@ -170,7 +209,15 @@ class OrchestrationRequest:
             OrchestrationScope.FIPE: ("fipe",),
             OrchestrationScope.PBEV: ("pbev",),
             OrchestrationScope.ANP: ("anp",),
-            OrchestrationScope.COMPLETE: ("fipe", "pbev", "anp"),
+            OrchestrationScope.INTEGRATED_VEHICLE_COST: (
+                "integrated_vehicle_cost",
+            ),
+            OrchestrationScope.COMPLETE: (
+                "fipe",
+                "pbev",
+                "anp",
+                "integrated_vehicle_cost",
+            ),
         }[self.scope]
         return tuple(f"sigra-orchestration:{item}" for item in resources)
 
@@ -185,6 +232,10 @@ class OrchestrationRequest:
                 "source_reference": self.source_reference,
                 "anp_source_reference": self.anp_source_reference,
                 "pbev_asset_configured": bool(self.pbev_asset_directory),
+                "integrated_geography_level": self.integrated_geography_level,
+                "integrated_geography_key": self.integrated_geography_key,
+                "integrated_week_start": self.integrated_week_start,
+                "integrated_include_additized": self.integrated_include_additized,
                 "git_commit": self.git_commit,
             }
         )
@@ -316,6 +367,7 @@ class PipelineBindings:
     gold: StepExecutor
     pbev: StepExecutor | None = None
     anp: StepExecutor | None = None
+    integrated_vehicle_cost: StepExecutor | None = None
 
     def for_step(self, step_name: StepName) -> StepExecutor:
         executor = {
@@ -324,6 +376,7 @@ class PipelineBindings:
             StepName.GOLD: self.gold,
             StepName.PBEV: self.pbev,
             StepName.ANP: self.anp,
+            StepName.INTEGRATED_VEHICLE_COST: self.integrated_vehicle_cost,
         }[step_name]
         if executor is None:
             raise PermanentStepError(

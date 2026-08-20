@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from uuid import uuid4
 
@@ -172,6 +172,7 @@ def test_postgresql_orchestration_migration_contract_and_reupgrade(monkeypatch):
             "gold",
             "pbev",
             "anp_fuel_prices",
+            "integrated_vehicle_cost",
         )
         assert enums["orchestration_trigger"] == (
             "manual",
@@ -192,6 +193,98 @@ def test_postgresql_orchestration_migration_contract_and_reupgrade(monkeypatch):
     finally:
         engine.dispose()
     command.upgrade(config, "head")
+
+
+@REQUIRES_SAFE_POSTGRESQL
+def test_postgresql_integrated_orchestration_history_blocks_only_0010_downgrade(
+    monkeypatch,
+):
+    from alembic import command
+    from sqlalchemy import create_engine, text
+    from sqlalchemy.exc import ProgrammingError
+
+    config = _config(monkeypatch)
+    command.upgrade(config, "head")
+    engine = create_engine(POSTGRESQL_URL)
+    started = datetime.now(UTC)
+    run_id = uuid4()
+    parent_run_id = uuid4()
+    try:
+        with engine.begin() as connection:
+            connection.execute(text("DELETE FROM meta.orchestration_step_run"))
+            connection.execute(text("DELETE FROM meta.orchestration_run"))
+            connection.execute(
+                text(
+                    """INSERT INTO meta.orchestration_run
+                    (orchestration_run_id,flow_name,flow_version,idempotency_key,
+                     trigger_type,start_step,status,started_at,finished_at,
+                     heartbeat_at,parameters)
+                    VALUES (:run,'sigra_integrated_vehicle_cost','orchestration-v3',
+                            :key,'manual','integrated_vehicle_cost','succeeded',
+                            :started,:started,:started,'{}'::jsonb)"""
+                ),
+                {"run": run_id, "key": "1" * 64, "started": started},
+            )
+        with pytest.raises(ProgrammingError, match="downgrade blocked by history"):
+            command.downgrade(config, "20260811_0009")
+        with engine.begin() as connection:
+            assert connection.execute(
+                text(
+                    """SELECT COUNT(*) FROM meta.orchestration_run
+                    WHERE orchestration_run_id=:run
+                      AND start_step='integrated_vehicle_cost'"""
+                ),
+                {"run": run_id},
+            ).scalar_one() == 1
+            connection.execute(
+                text("DELETE FROM meta.orchestration_run WHERE orchestration_run_id=:run"),
+                {"run": run_id},
+            )
+
+        command.downgrade(config, "20260811_0009")
+        command.upgrade(config, "head")
+        with engine.begin() as connection:
+            connection.execute(
+                text(
+                    """INSERT INTO meta.orchestration_run
+                    (orchestration_run_id,flow_name,flow_version,idempotency_key,
+                     trigger_type,start_step,status,started_at,finished_at,
+                     heartbeat_at,parameters)
+                    VALUES (:run,'sigra_medallion_complete','orchestration-v3',
+                            :key,'manual','gold','succeeded',
+                            :started,:started,:started,'{}'::jsonb)"""
+                ),
+                {"run": parent_run_id, "key": "2" * 64, "started": started},
+            )
+            connection.execute(
+                text(
+                    """INSERT INTO meta.orchestration_step_run
+                    (orchestration_run_id,step_name,attempt_number,status,
+                     started_at,finished_at,metrics_summary)
+                    VALUES (:run,'integrated_vehicle_cost',1,'succeeded',
+                            :started,:started,'{}'::jsonb)"""
+                ),
+                {"run": parent_run_id, "started": started},
+            )
+        with pytest.raises(ProgrammingError, match="downgrade blocked by history"):
+            command.downgrade(config, "20260811_0009")
+    finally:
+        with engine.begin() as connection:
+            connection.execute(
+                text(
+                    "DELETE FROM meta.orchestration_step_run WHERE orchestration_run_id=:run"
+                ),
+                {"run": parent_run_id},
+            )
+            connection.execute(
+                text(
+                    """DELETE FROM meta.orchestration_run
+                    WHERE orchestration_run_id IN (:first,:second)"""
+                ),
+                {"first": run_id, "second": parent_run_id},
+            )
+        engine.dispose()
+        command.upgrade(config, "head")
 
 
 @REQUIRES_SAFE_POSTGRESQL
@@ -360,8 +453,10 @@ def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkey
 def test_postgresql_orchestration_anp_idempotency_resume_partial_and_isolation(
     monkeypatch,
 ):
+    from collections import Counter
+
     from alembic import command
-    from sqlalchemy import create_engine, text
+    from sqlalchemy import bindparam, create_engine, text
 
     from data_platform.orchestration.contracts import (
         OrchestrationRequest,
@@ -380,14 +475,14 @@ def test_postgresql_orchestration_anp_idempotency_resume_partial_and_isolation(
     command.upgrade(config, "head")
     engine = create_engine(POSTGRESQL_URL)
     repository = PostgresqlOrchestrationRepository(engine)
+    test_token = uuid4().hex
+    created_run_ids: list[str] = []
 
     def succeeded(_context):
         return {"status": "succeeded", "records_inserted": 1}
 
     try:
         with engine.begin() as connection:
-            connection.execute(text("DELETE FROM meta.orchestration_step_run"))
-            connection.execute(text("DELETE FROM meta.orchestration_run"))
             anp_datasets_before = connection.execute(
                 text("SELECT COUNT(*) FROM gold.anp_fuel_price_dataset")
             ).scalar_one()
@@ -406,9 +501,10 @@ def test_postgresql_orchestration_anp_idempotency_resume_partial_and_isolation(
         )
         request = OrchestrationRequest(
             scope=OrchestrationScope.ANP,
-            idempotency_key="postgres-anp-idempotent",
+            idempotency_key=f"postgres-anp-idempotent-{test_token}",
         )
         first = runner.run(request)
+        created_run_ids.append(first.orchestration_run_id)
         second = runner.run(request)
         assert first.status == OrchestrationStatus.SUCCEEDED
         assert second.reused is True
@@ -434,13 +530,14 @@ def test_postgresql_orchestration_anp_idempotency_resume_partial_and_isolation(
         )
         resume_request = OrchestrationRequest(
             scope=OrchestrationScope.ANP,
-            idempotency_key="postgres-anp-resume",
+            idempotency_key=f"postgres-anp-resume-{test_token}",
         )
         failed = resume_runner.run(resume_request)
+        created_run_ids.append(failed.orchestration_run_id)
         resumed = resume_runner.run(
             OrchestrationRequest(
                 scope=OrchestrationScope.ANP,
-                idempotency_key="postgres-anp-resume",
+                idempotency_key=f"postgres-anp-resume-{test_token}",
                 resume=True,
             )
         )
@@ -463,15 +560,21 @@ def test_postgresql_orchestration_anp_idempotency_resume_partial_and_isolation(
         partial = complete_runner.run(
             OrchestrationRequest(
                 scope=OrchestrationScope.COMPLETE,
-                idempotency_key="postgres-complete-partial",
+                idempotency_key=f"postgres-complete-partial-{test_token}",
+                integrated_geography_level="state",
+                integrated_geography_key="SP",
+                integrated_week_start=date(2026, 8, 3),
             )
         )
+        created_run_ids.append(partial.orchestration_run_id)
         assert partial.status == OrchestrationStatus.PARTIAL
-        assert [item.status for item in partial.steps[:-1]] == [
+        assert [item.status for item in partial.steps[:-2]] == [
             OrchestrationStatus.SUCCEEDED,
         ] * 4
-        assert partial.steps[-1].step_name == StepName.ANP
-        assert partial.steps[-1].status == OrchestrationStatus.FAILED
+        assert partial.steps[-2].step_name == StepName.ANP
+        assert partial.steps[-2].status == OrchestrationStatus.FAILED
+        assert partial.steps[-1].step_name == StepName.INTEGRATED_VEHICLE_COST
+        assert partial.steps[-1].status == OrchestrationStatus.SKIPPED
 
         with repository.acquire_lock("sigra-orchestration:anp") as anp_lock:
             assert anp_lock.acquired is True
@@ -481,22 +584,156 @@ def test_postgresql_orchestration_anp_idempotency_resume_partial_and_isolation(
                 assert duplicate.acquired is False
 
         with engine.connect() as connection:
-            counts = connection.execute(
+            step_rows = connection.execute(
                 text(
-                    """SELECT
-                        (SELECT COUNT(*) FROM meta.orchestration_run) AS runs,
-                        (SELECT COUNT(*) FROM meta.orchestration_step_run) AS steps,
-                        (SELECT COUNT(*) FROM meta.orchestration_step_run
-                         WHERE step_name='anp_fuel_prices') AS anp_steps,
-                        (SELECT COUNT(*) FROM gold.anp_fuel_price_dataset) AS datasets"""
+                    """SELECT orchestration_run_id,pipeline_run_id,
+                              step_name::text AS step_name,
+                              status::text AS status,attempt_number
+                    FROM meta.orchestration_step_run
+                    WHERE orchestration_run_id IN :run_ids
+                    ORDER BY orchestration_run_id,step_name,attempt_number"""
+                ).bindparams(bindparam("run_ids", expanding=True)),
+                {"run_ids": created_run_ids},
+            ).mappings().all()
+            anp_datasets_after = connection.execute(
+                text("SELECT COUNT(*) FROM gold.anp_fuel_price_dataset")
+            ).scalar_one()
+
+        rows_by_run = Counter(
+            str(row["orchestration_run_id"]) for row in step_rows
+        )
+        units = Counter(row["step_name"] for row in step_rows)
+        statuses = Counter(row["status"] for row in step_rows)
+        scenario_signatures = {
+            run_id: Counter(
+                (
+                    row["step_name"],
+                    row["status"],
+                    row["attempt_number"],
                 )
-            ).mappings().one()
-        assert counts["runs"] == 3
-        assert counts["steps"] == 8
-        assert counts["anp_steps"] == 4
-        assert counts["datasets"] == anp_datasets_before
+                for row in step_rows
+                if str(row["orchestration_run_id"]) == run_id
+            )
+            for run_id in created_run_ids
+        }
+        identities = {
+            (
+                str(row["orchestration_run_id"]),
+                row["step_name"],
+                row["attempt_number"],
+            )
+            for row in step_rows
+        }
+        integrated_steps = [
+            row
+            for row in step_rows
+            if row["step_name"] == StepName.INTEGRATED_VEHICLE_COST.value
+        ]
+
+        assert len(step_rows) == 9
+        assert len(set(created_run_ids)) == 3
+        assert rows_by_run == Counter(
+            {
+                first.orchestration_run_id: 1,
+                failed.orchestration_run_id: 2,
+                partial.orchestration_run_id: 6,
+            }
+        )
+        assert units == Counter(
+            {
+                StepName.BRONZE.value: 1,
+                StepName.SILVER.value: 1,
+                StepName.GOLD.value: 1,
+                StepName.PBEV.value: 1,
+                StepName.ANP.value: 4,
+                StepName.INTEGRATED_VEHICLE_COST.value: 1,
+            }
+        )
+        assert statuses == Counter(
+            {
+                OrchestrationStatus.SUCCEEDED.value: 6,
+                OrchestrationStatus.FAILED.value: 2,
+                OrchestrationStatus.SKIPPED.value: 1,
+            }
+        )
+        assert scenario_signatures == {
+            first.orchestration_run_id: Counter(
+                {(StepName.ANP.value, OrchestrationStatus.SUCCEEDED.value, 1): 1}
+            ),
+            failed.orchestration_run_id: Counter(
+                {
+                    (
+                        StepName.ANP.value,
+                        OrchestrationStatus.FAILED.value,
+                        1,
+                    ): 1,
+                    (
+                        StepName.ANP.value,
+                        OrchestrationStatus.SUCCEEDED.value,
+                        2,
+                    ): 1,
+                }
+            ),
+            partial.orchestration_run_id: Counter(
+                {
+                    (
+                        StepName.BRONZE.value,
+                        OrchestrationStatus.SUCCEEDED.value,
+                        1,
+                    ): 1,
+                    (
+                        StepName.SILVER.value,
+                        OrchestrationStatus.SUCCEEDED.value,
+                        1,
+                    ): 1,
+                    (
+                        StepName.GOLD.value,
+                        OrchestrationStatus.SUCCEEDED.value,
+                        1,
+                    ): 1,
+                    (
+                        StepName.PBEV.value,
+                        OrchestrationStatus.SUCCEEDED.value,
+                        1,
+                    ): 1,
+                    (
+                        StepName.ANP.value,
+                        OrchestrationStatus.FAILED.value,
+                        1,
+                    ): 1,
+                    (
+                        StepName.INTEGRATED_VEHICLE_COST.value,
+                        OrchestrationStatus.SKIPPED.value,
+                        1,
+                    ): 1,
+                }
+            ),
+        }
+        assert len(integrated_steps) == 1
+        assert integrated_steps[0]["status"] == OrchestrationStatus.SKIPPED.value
+        assert (
+            str(integrated_steps[0]["orchestration_run_id"])
+            == partial.orchestration_run_id
+        )
+        assert integrated_steps[0]["pipeline_run_id"] is None
+        assert len(identities) == len(step_rows)
+        assert all(row["pipeline_run_id"] is None for row in step_rows)
+        assert anp_datasets_after == anp_datasets_before
     finally:
-        with engine.begin() as connection:
-            connection.execute(text("DELETE FROM meta.orchestration_step_run"))
-            connection.execute(text("DELETE FROM meta.orchestration_run"))
+        if created_run_ids:
+            with engine.begin() as connection:
+                connection.execute(
+                    text(
+                        """DELETE FROM meta.orchestration_step_run
+                        WHERE orchestration_run_id IN :run_ids"""
+                    ).bindparams(bindparam("run_ids", expanding=True)),
+                    {"run_ids": created_run_ids},
+                )
+                connection.execute(
+                    text(
+                        """DELETE FROM meta.orchestration_run
+                        WHERE orchestration_run_id IN :run_ids"""
+                    ).bindparams(bindparam("run_ids", expanding=True)),
+                    {"run_ids": created_run_ids},
+                )
         engine.dispose()

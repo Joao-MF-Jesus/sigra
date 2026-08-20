@@ -29,6 +29,7 @@ from app.fipe import (
     refresh_fipe_prices,
 )
 from app.financing.routes import router as financing_router
+from app.integrated_gold.routes import router as integrated_gold_router
 from app.http_middleware import (
     PublicDemoReadOnlyMiddleware,
     RequestLoggingMiddleware,
@@ -182,6 +183,7 @@ app.add_middleware(
 )
 
 app.include_router(financing_router)
+app.include_router(integrated_gold_router)
 
 
 class RecommendationRequest(BaseModel):

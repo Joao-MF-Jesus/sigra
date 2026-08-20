@@ -25,6 +25,7 @@ class ExecutionPolicy:
             StepName.GOLD: 300.0,
             StepName.PBEV: 1800.0,
             StepName.ANP: 600.0,
+            StepName.INTEGRATED_VEHICLE_COST: 600.0,
         }
     )
     partial_policy: PartialPolicy = PartialPolicy.CONTINUE

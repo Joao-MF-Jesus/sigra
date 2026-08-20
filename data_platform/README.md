@@ -611,3 +611,36 @@ não acessa rede e não cria arquivos. A CLI de publicação/rollback lê
 O produto continua exclusivamente Gold shadow. Este lote não altera
 orquestração e não cria integração com FastAPI, recomendador, frontend,
 financiamento ou BI.
+
+## Gold integrada — orquestração e consumo somente leitura
+
+A migration `20260811_0010`, filha direta da `20260811_0009`, registra
+`integrated_vehicle_cost` como unidade canônica própria do ENUM
+`meta.orchestration_step`. O valor `gold` continua significando exclusivamente
+a Gold FIPE. Em PostgreSQL, as colunas `orchestration_run.start_step` e
+`orchestration_step_run.step_name` aceitam a nova unidade; SQLite permanece
+no-op. O downgrade é bloqueado se qualquer uma dessas colunas contiver histórico
+integrado e nunca apaga ou converte auditoria automaticamente.
+
+No escopo `complete`, a ordem termina em `gold`, `pbev`, `anp_fuel_prices` e
+`integrated_vehicle_cost`; a unidade integrada só inicia depois das três fontes
+concluídas. Ela possui lock, heartbeat, tentativas, métricas e retomada próprios.
+Geografia e semana são parâmetros explícitos. A execução chama diretamente
+`run_integrated_vehicle_cost_pipeline` em Python, sem CLI interna ou subprocesso.
+O dry-run continua anterior a engine, lock, rede e qualquer gravação.
+
+A API versionada `/api/v1/integrated-vehicle-cost` é exclusivamente de leitura.
+O repositório conhece somente a view contratual versionada
+`gold.integrated_vehicle_cost_consumption_v1`, que projeta apenas o dataset
+integrado ativo, `shadow_published`,
+com hard gates e qualidade aprovados, sem regressão em revisão manual e sem
+invalidação. Não há fallback para Bronze, Silver, legado ou fonte externa. Os
+endpoints oferecem metadata, listagem paginada/ordenada por allowlist e detalhe
+por `vehicle_sk`; valores decimais permanecem decimais.
+
+`mixed_1000_v1` é identificado na resposta somente como baseline analítico
+publicado. Ele não se torna perfil fixo de cliente. Esta etapa não inventa
+quilometragem, participação urbana/rodoviária ou outro parâmetro personalizado;
+qualquer evolução desse consumo deverá exigir entradas explícitas do usuário.
+Não há integração automática com recomendador, frontend ou BI e a publicação
+continua shadow.

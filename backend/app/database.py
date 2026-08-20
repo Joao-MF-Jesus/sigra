@@ -14,7 +14,7 @@ from app.config import (
 
 DATABASE_SETTINGS = load_database_settings()
 DATABASE_URL = DATABASE_SETTINGS.url
-EXPECTED_ALEMBIC_HEAD = "20260811_0009"
+EXPECTED_ALEMBIC_HEAD = "20260811_0010"
 
 
 def resolve_database_url(configured_url: str | None = None) -> str:

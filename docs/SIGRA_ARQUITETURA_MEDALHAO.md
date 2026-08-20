@@ -943,3 +943,41 @@ O Lote 2 não é registrado como nova unidade de orquestração e não possui ar
 para FastAPI, recomendador, frontend, financiamento ou BI. SQLite continua no-op
 analítico. A validação real permanece opt-in e aceita somente PostgreSQL local
 descartável com nome terminado em `_test`.
+
+## 24. Etapa 10 — orquestração e consumo controlado da Gold integrada
+
+A migration `20260811_0010` transforma a publicação integrada em unidade
+canônica independente da orquestração. A separação é estrutural: `gold` preserva
+o significado de Gold FIPE, enquanto `integrated_vehicle_cost` recebe histórico,
+tentativas, lock e retomada próprios. A migration altera o ENUM usado por
+`meta.orchestration_run.start_step` e `meta.orchestration_step_run.step_name`, é
+no-op em SQLite e bloqueia downgrade quando qualquer uma das colunas registra a
+nova unidade. Nenhum histórico é removido, renomeado ou convertido.
+
+No escopo `complete`, a Gold integrada sucede Gold FIPE, PBEV shadow e ANP
+shadow. Falha de uma fonte impede somente a unidade integrada; ramos já
+concluídos permanecem auditados e o resultado global torna-se `partial`. Retomar
+repete apenas a unidade incompleta. A publicação integrada é chamada diretamente
+como função Python e conserva a política de retry somente para exceções
+transitórias. Parâmetros de geografia e semana são obrigatoriamente explícitos
+para uma execução real. O modo dry-run não abre banco, não adquire lock, não
+chama rede e não grava arquivos.
+
+### 24.1 Fronteira de consumo
+
+O consumo HTTP fica atrás de uma camada de repositório somente leitura e de uma
+API versionada em `/api/v1/integrated-vehicle-cost`. O repositório consulta
+somente `gold.integrated_vehicle_cost_consumption_v1`, sem conhecer as tabelas
+físicas subjacentes. A seleção aceita somente um
+dataset integrado ativo, publicado em shadow, elegível pelos hard gates e pela
+qualidade, sem `manual_review_required` e sem evento de invalidação. Dataset
+retirado/supersedido, inválido ou em revisão não é retornado. Não existem
+consultas de fallback a Bronze, Silver, cache ou legado.
+
+Listagem e detalhe são paginados, filtráveis e ordenados por uma allowlist
+determinística. Os valores financeiros e de consumo preservam `Decimal`; nenhuma
+recomendação ou cálculo operacional é refeito no endpoint. O cenário persistido
+`mixed_1000_v1` é rotulado como baseline analítico, não como perfil implícito de
+cliente. Personalização futura deverá receber parâmetros explícitos, sem defaults
+inventados. Frontend, recomendador e BI permanecem fora desta aresta e nenhuma
+promoção operacional é disparada pela leitura.

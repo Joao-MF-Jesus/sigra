@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import date, timedelta
 import importlib
 import inspect
 from pathlib import Path
@@ -41,6 +41,13 @@ from data_platform.orchestration.repository import InMemoryOrchestrationReposito
 from data_platform.orchestration.runner import OrchestrationRunner, build_default_bindings
 
 
+INTEGRATED_REQUEST_ARGS = {
+    "integrated_geography_level": "state",
+    "integrated_geography_key": "SP",
+    "integrated_week_start": date(2026, 8, 3),
+}
+
+
 @dataclass(frozen=True)
 class PipelineResult:
     status: str = "succeeded"
@@ -78,6 +85,7 @@ def bindings_for(executors=None, calls=None):
         executor(StepName.GOLD),
         executor(StepName.PBEV),
         executor(StepName.ANP),
+        executor(StepName.INTEGRATED_VEHICLE_COST),
     )
 
 
@@ -569,6 +577,7 @@ def test_orchestration_source_uses_python_functions_not_subprocesses():
     assert "run_pipeline(" in source
     assert "run_silver_pipeline(" in source
     assert "run_gold_publication(" in source
+    assert "run_integrated_vehicle_cost_pipeline(" in source
     assert "import subprocess" not in source
     assert "subprocess." not in source
 
@@ -615,6 +624,10 @@ def test_migration_declares_postgresql_metadata_and_sqlite_guard():
         (OrchestrationScope.FIPE, [StepName.BRONZE, StepName.SILVER, StepName.GOLD]),
         (OrchestrationScope.PBEV, [StepName.PBEV]),
         (OrchestrationScope.ANP, [StepName.ANP]),
+        (
+            OrchestrationScope.INTEGRATED_VEHICLE_COST,
+            [StepName.INTEGRATED_VEHICLE_COST],
+        ),
         (OrchestrationScope.COMPLETE, list(StepName)),
     ],
 )
@@ -625,7 +638,19 @@ def test_explicit_scope_executes_only_its_declared_pipeline_units(
     calls = []
     runner, _ = make_runner(calls=calls)
     outcome = runner.run(
-        OrchestrationRequest(scope=scope, idempotency_key=f"scope-{scope.value}")
+        OrchestrationRequest(
+            scope=scope,
+            idempotency_key=f"scope-{scope.value}",
+            **(
+                INTEGRATED_REQUEST_ARGS
+                if scope
+                in {
+                    OrchestrationScope.INTEGRATED_VEHICLE_COST,
+                    OrchestrationScope.COMPLETE,
+                }
+                else {}
+            ),
+        )
     )
     assert outcome.status == OrchestrationStatus.SUCCEEDED
     assert outcome.scope == scope
@@ -682,14 +707,17 @@ def test_complete_anp_failure_is_partial_and_preserves_completed_branches():
         OrchestrationRequest(
             scope=OrchestrationScope.COMPLETE,
             idempotency_key="complete-anp-failure",
+            **INTEGRATED_REQUEST_ARGS,
         )
     )
-    assert calls == list(StepName)
+    assert calls == list(StepName)[:-1]
     assert outcome.status == OrchestrationStatus.PARTIAL
-    assert [item.status for item in outcome.steps[:-1]] == [
+    assert [item.status for item in outcome.steps[:-2]] == [
         OrchestrationStatus.SUCCEEDED,
     ] * 4
-    assert outcome.steps[-1].status == OrchestrationStatus.FAILED
+    assert outcome.steps[-2].status == OrchestrationStatus.FAILED
+    assert outcome.steps[-1].status == OrchestrationStatus.SKIPPED
+    assert outcome.steps[-1].skip_reason == "dependency_anp_fuel_prices_failed"
 
 
 def test_complete_pbev_failure_does_not_block_anp():
@@ -704,12 +732,181 @@ def test_complete_pbev_failure_does_not_block_anp():
         OrchestrationRequest(
             scope=OrchestrationScope.COMPLETE,
             idempotency_key="complete-pbev-failure",
+            **INTEGRATED_REQUEST_ARGS,
+        )
+    )
+    assert calls == list(StepName)[:-1]
+    assert outcome.status == OrchestrationStatus.PARTIAL
+    assert outcome.steps[-2].step_name == StepName.ANP
+    assert outcome.steps[-2].status == OrchestrationStatus.SUCCEEDED
+    assert outcome.steps[-1].step_name == StepName.INTEGRATED_VEHICLE_COST
+    assert outcome.steps[-1].status == OrchestrationStatus.SKIPPED
+
+
+def test_complete_runs_integrated_only_after_all_required_sources():
+    calls = []
+    runner, _ = make_runner(calls=calls)
+    outcome = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.COMPLETE,
+            idempotency_key="complete-integrated-order",
+            **INTEGRATED_REQUEST_ARGS,
+        )
+    )
+    assert outcome.status == OrchestrationStatus.SUCCEEDED
+    assert calls == list(StepName)
+    assert calls[-4:] == [
+        StepName.GOLD,
+        StepName.PBEV,
+        StepName.ANP,
+        StepName.INTEGRATED_VEHICLE_COST,
+    ]
+
+
+def test_integrated_failure_after_sources_marks_complete_run_partial():
+    calls = []
+    runner, _ = make_runner(
+        calls=calls,
+        executors={
+            StepName.INTEGRATED_VEHICLE_COST: lambda _context: result(
+                "failed", error="integrated blocked"
+            )
+        },
+    )
+    outcome = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.COMPLETE,
+            idempotency_key="complete-integrated-failure",
+            **INTEGRATED_REQUEST_ARGS,
         )
     )
     assert calls == list(StepName)
     assert outcome.status == OrchestrationStatus.PARTIAL
-    assert outcome.steps[-1].step_name == StepName.ANP
-    assert outcome.steps[-1].status == OrchestrationStatus.SUCCEEDED
+    assert outcome.steps[-1].status == OrchestrationStatus.FAILED
+
+
+def test_resume_retries_only_incomplete_integrated_unit():
+    calls = []
+    attempts = 0
+
+    def integrated(_context):
+        nonlocal attempts
+        attempts += 1
+        return result("failed" if attempts == 1 else "succeeded")
+
+    runner, _ = make_runner(
+        calls=calls,
+        executors={StepName.INTEGRATED_VEHICLE_COST: integrated},
+    )
+    request = OrchestrationRequest(
+        scope=OrchestrationScope.INTEGRATED_VEHICLE_COST,
+        idempotency_key="resume-integrated",
+        **INTEGRATED_REQUEST_ARGS,
+    )
+    assert runner.run(request).status == OrchestrationStatus.FAILED
+    resumed = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.INTEGRATED_VEHICLE_COST,
+            idempotency_key="resume-integrated",
+            resume=True,
+            **INTEGRATED_REQUEST_ARGS,
+        )
+    )
+    assert resumed.status == OrchestrationStatus.SUCCEEDED
+    assert calls == [
+        StepName.INTEGRATED_VEHICLE_COST,
+        StepName.INTEGRATED_VEHICLE_COST,
+    ]
+
+
+def test_integrated_retries_only_transient_exceptions():
+    calls = []
+    attempts = 0
+
+    def transient(_context):
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            raise TransientStepError("temporary integrated source contention")
+        return result("succeeded")
+
+    runner, _ = make_runner(
+        calls=calls,
+        executors={StepName.INTEGRATED_VEHICLE_COST: transient},
+    )
+    outcome = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.INTEGRATED_VEHICLE_COST,
+            idempotency_key="integrated-transient-retry",
+            **INTEGRATED_REQUEST_ARGS,
+        )
+    )
+    assert outcome.status == OrchestrationStatus.SUCCEEDED
+    assert calls == [
+        StepName.INTEGRATED_VEHICLE_COST,
+        StepName.INTEGRATED_VEHICLE_COST,
+    ]
+
+
+def test_complete_resume_reuses_sources_and_repeats_only_partial_integrated_unit():
+    calls = []
+    attempts = 0
+
+    def integrated(_context):
+        nonlocal attempts
+        attempts += 1
+        return result("partial" if attempts == 1 else "succeeded")
+
+    runner, _ = make_runner(
+        calls=calls,
+        executors={StepName.INTEGRATED_VEHICLE_COST: integrated},
+    )
+    request = OrchestrationRequest(
+        scope=OrchestrationScope.COMPLETE,
+        idempotency_key="complete-resume-integrated",
+        **INTEGRATED_REQUEST_ARGS,
+    )
+    assert runner.run(request).status == OrchestrationStatus.PARTIAL
+    resumed = runner.run(
+        OrchestrationRequest(
+            scope=OrchestrationScope.COMPLETE,
+            idempotency_key="complete-resume-integrated",
+            resume=True,
+            **INTEGRATED_REQUEST_ARGS,
+        )
+    )
+    assert resumed.status == OrchestrationStatus.SUCCEEDED
+    assert calls[:-1] == list(StepName)
+    assert calls[-1] == StepName.INTEGRATED_VEHICLE_COST
+
+
+def test_integrated_lock_is_independent_and_dry_run_is_pure():
+    repository = InMemoryOrchestrationRepository()
+    calls = []
+    runner, _ = make_runner(repository=repository, calls=calls)
+    with repository.acquire_lock("sigra-orchestration:fipe") as fipe_lock:
+        assert fipe_lock.acquired is True
+        live = runner.run(
+            OrchestrationRequest(
+                scope=OrchestrationScope.INTEGRATED_VEHICLE_COST,
+                idempotency_key="integrated-independent-lock",
+                **INTEGRATED_REQUEST_ARGS,
+            )
+        )
+    assert live.status == OrchestrationStatus.SUCCEEDED
+    calls.clear()
+    request = OrchestrationRequest(
+        scope=OrchestrationScope.INTEGRATED_VEHICLE_COST,
+        dry_run=True,
+        idempotency_key="integrated-dry-run",
+    )
+    outcome = runner.run(request)
+    assert outcome.dry_run is True
+    assert calls == []
+    assert repository.get_run_by_key(
+        request.resolved_idempotency_key(),
+        flow_name=request.flow_name,
+    ) is None
 
 
 def test_resume_anp_retries_only_the_incomplete_pipeline_unit():
@@ -935,11 +1132,27 @@ def test_cli_keeps_legacy_fipe_default_and_exposes_explicit_scopes():
     complete = parser.parse_args(
         ["run", "--scope", "complete", "--from-step", "silver", "--dry-run"]
     )
+    integrated = parser.parse_args(
+        [
+            "run",
+            "--scope",
+            "integrated_vehicle_cost",
+            "--integrated-geography-level",
+            "state",
+            "--integrated-geography-key",
+            "SP",
+            "--integrated-week-start",
+            "2026-08-03",
+            "--dry-run",
+        ]
+    )
     assert legacy.scope == "fipe"
     assert legacy.from_step == "bronze"
     assert anp.scope == "anp"
     assert complete.scope == "complete"
     assert complete.from_step == "silver"
+    assert integrated.scope == "integrated_vehicle_cost"
+    assert str(integrated.integrated_week_start) == "2026-08-03"
 
 
 def test_prefect_weekly_anp_schedule_is_configurable_without_real_deploy(monkeypatch):

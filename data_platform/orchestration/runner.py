@@ -20,6 +20,12 @@ from data_platform.ingestion.fipe.client import FipeHttpClient
 from data_platform.ingestion.fipe.loader import BronzeLoader
 from data_platform.ingestion.fipe.pipeline import run_pipeline
 from data_platform.ingestion.fipe.targets import legacy_car_targets
+from data_platform.integrated_vehicle_cost.loader import IntegratedVehicleCostLoader
+from data_platform.integrated_vehicle_cost.pipeline import (
+    IntegratedPublicationRequest,
+    IntegratedVehicleCostOptions,
+    run_integrated_vehicle_cost_pipeline,
+)
 from data_platform.orchestration.contracts import (
     FIPE_STEP_ORDER,
     STEP_ORDER,
@@ -32,6 +38,7 @@ from data_platform.orchestration.contracts import (
     OrchestrationScope,
     OrchestrationStatus,
     PartialPolicy,
+    PermanentStepError,
     PipelineBindings,
     StepDispatcher,
     StepExecutionContext,
@@ -79,6 +86,13 @@ _METRIC_FIELDS = frozenset(
         "assets_processed",
         "rows_extracted",
         "mappings_by_status",
+        "previous_dataset_version",
+        "activation_type",
+        "published_vehicle_count",
+        "excluded_vehicle_count",
+        "published_scenario_count",
+        "catalog_coverage_pct",
+        "pbev_coverage_pct",
     }
 )
 
@@ -156,6 +170,7 @@ def _normalize_pipeline_result(
         "succeeded": OrchestrationStatus.SUCCEEDED,
         "deduplicated": OrchestrationStatus.SUCCEEDED,
         "partial": OrchestrationStatus.PARTIAL,
+        "manual_review_required": OrchestrationStatus.PARTIAL,
         "failed": OrchestrationStatus.FAILED,
         "rejected": OrchestrationStatus.FAILED,
         "skipped": OrchestrationStatus.SKIPPED,
@@ -285,7 +300,11 @@ class OrchestrationRunner:
                     "planned": step not in FIPE_STEP_ORDER or index >= start_index,
                     **(
                         {"publication_mode": "shadow"}
-                        if step in {StepName.PBEV, StepName.ANP}
+                        if step in {
+                            StepName.PBEV,
+                            StepName.ANP,
+                            StepName.INTEGRATED_VEHICLE_COST,
+                        }
                         else {}
                     ),
                 },
@@ -433,18 +452,23 @@ class OrchestrationRunner:
                 step_results[step_name] = _stored_step_result(previous)
                 continue
 
-            if previous is not None and previous.status in {
-                OrchestrationStatus.SUCCEEDED,
-                OrchestrationStatus.PARTIAL,
-            }:
+            if previous is not None and (
+                previous.status == OrchestrationStatus.SUCCEEDED
+                or (
+                    previous.status == OrchestrationStatus.PARTIAL
+                    and step_name != StepName.INTEGRATED_VEHICLE_COST
+                )
+            ):
                 stored_results[step_name] = previous
                 step_results[step_name] = _stored_step_result(previous)
                 continue
 
-            dependency_name = {
+            dependency_names = {
                 StepName.SILVER: StepName.BRONZE,
                 StepName.GOLD: StepName.SILVER,
-            }.get(step_name)
+                StepName.INTEGRATED_VEHICLE_COST: StepName.ANP,
+            }
+            dependency_name = dependency_names.get(step_name)
             dependency = (
                 stored_results.get(dependency_name)
                 if dependency_name is not None
@@ -455,10 +479,18 @@ class OrchestrationRunner:
                 if dependency_name is not None
                 else None
             )
-            dependency_block = self._dependency_block_reason(
-                dependency_result,
-                request,
-            )
+            if (
+                step_name == StepName.INTEGRATED_VEHICLE_COST
+                and request.scope == OrchestrationScope.COMPLETE
+            ):
+                dependency_block = self._integrated_dependency_block_reason(
+                    step_results
+                )
+            else:
+                dependency_block = self._dependency_block_reason(
+                    dependency_result,
+                    request,
+                )
             if dependency_block:
                 attempt_number = (
                     max(
@@ -521,6 +553,25 @@ class OrchestrationRunner:
             if self.policy.partial_policy == PartialPolicy.CONTINUE:
                 return None
             return f"dependency_{dependency.step_name.value}_partial"
+        return None
+
+    @staticmethod
+    def _integrated_dependency_block_reason(
+        results: Mapping[StepName, StepResult],
+    ) -> str | None:
+        for dependency_name in (
+            StepName.GOLD,
+            StepName.PBEV,
+            StepName.ANP,
+        ):
+            dependency = results.get(dependency_name)
+            if dependency is None:
+                return f"dependency_{dependency_name.value}_missing"
+            if dependency.status != OrchestrationStatus.SUCCEEDED:
+                return (
+                    f"dependency_{dependency_name.value}_"
+                    f"{dependency.status.value}"
+                )
         return None
 
     def _execute_step_with_retries(
@@ -801,10 +852,44 @@ def build_default_bindings(
         finally:
             engine.dispose()
 
+    def integrated_vehicle_cost(context: StepExecutionContext):
+        context.checkpoint()
+        request = context.request
+        if (
+            request.integrated_geography_level is None
+            or request.integrated_geography_key is None
+            or request.integrated_week_start is None
+        ):
+            raise PermanentStepError(
+                "integrated vehicle cost requires explicit geography and week"
+            )
+        engine = create_platform_engine(settings.database_url)
+        try:
+            return run_integrated_vehicle_cost_pipeline(
+                IntegratedVehicleCostLoader(engine),
+                IntegratedVehicleCostOptions(
+                    request=IntegratedPublicationRequest(
+                        geography_level=request.integrated_geography_level,
+                        geography_key=request.integrated_geography_key,
+                        week_start=request.integrated_week_start,
+                        include_additized=request.integrated_include_additized,
+                    ),
+                    trigger_type=(
+                        "retry"
+                        if context.attempt_number > 1
+                        else context.request.trigger_type.value
+                    ),
+                    git_commit=context.request.git_commit,
+                ),
+            )
+        finally:
+            engine.dispose()
+
     return PipelineBindings(
         bronze=bronze,
         silver=silver,
         gold=gold,
         pbev=pbev,
         anp=anp,
+        integrated_vehicle_cost=integrated_vehicle_cost,
     )
