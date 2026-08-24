@@ -981,3 +981,46 @@ recomendação ou cálculo operacional é refeito no endpoint. O cenário persis
 cliente. Personalização futura deverá receber parâmetros explícitos, sem defaults
 inventados. Frontend, recomendador e BI permanecem fora desta aresta e nenhuma
 promoção operacional é disparada pela leitura.
+
+## 25. Simulação configurável sobre a Gold integrada
+
+O endpoint `POST /api/v1/integrated-vehicle-cost/simulate` recebe um cenário
+completo: quilometragem mensal, distribuição urbana/rodoviária totalizando
+exatamente 100%, horizonte positivo, UF, município opcional, semana de
+referência, combustível ou estratégia de menor custo, preço manual opcional,
+eficiências urbana e rodoviária opcionais e filtros. Contratos HTTP estritos
+rejeitam booleanos, `float`, NaN, infinitos, omissões e valores fora dos limites
+defensivos. O motor puro usa somente `Decimal` e quantização explícita.
+
+O consumo mensal é `distância × (proporção urbana / eficiência urbana +
+proporção rodoviária / eficiência rodoviária)`. O custo mensal multiplica os
+litros pelo preço, e o custo do horizonte multiplica o custo mensal pela
+quantidade de meses. Litros e custos anuais são derivados do resultado mensal;
+nenhuma etapa usa conversão intermediária para `float`.
+
+O repositório é somente leitura e consulta exclusivamente a view contratual da
+Gold integrada ativa, publicada, aprovada, não invalidada e sem revisão manual,
+além das exclusões do mesmo dataset. Não consulta Bronze ou Silver. No modo ANP,
+produto, geografia e semana devem coincidir exatamente. No modo manual, o preço
+vem apenas do cliente e não recebe fallback ANP. Eficiências omitidas exigem
+evidência PBEV Gold publicada; eficiências informadas são marcadas como entrada
+do usuário. Nenhuma localidade, período, produto, preço ou eficiência alternativos
+são selecionados implicitamente.
+
+Gasolina comum, gasolina aditivada e etanol são seleções explícitas.
+`lowest_projected_cost` avalia somente combustíveis compatíveis presentes na
+evidência. Ausência e ambiguidade produzem motivos auditáveis. O ranking usa
+custo mensal, custo por quilômetro, identidade e combustível; o desempate é
+determinístico. O fingerprint serializa cenário, resultados, exclusões e
+versões FIPE/PBEV/ANP/Gold integrada, sem relógio ou UUID.
+
+A resposta separa o resultado personalizado da comparação canônica: informa
+origens `user_input`, `pbev_gold`, `anp_gold` e `canonical_policy`, parâmetros,
+eficiências, preço, geografia, semana quando aplicável, custos mensal/anual/no
+horizonte, diferença para `mixed_1000_v1`, fórmula, avisos, limitações e timestamp
+da resposta. O baseline permanece evidência publicada para comparação, ranking,
+auditoria e regressão; não atua como default do cliente e não é alterado. Não há
+persistência de preferência, escrita Gold, lock, pipeline, rede ou chamada
+externa. Financiamento, manutenção, seguro, IPVA, depreciação, frontend,
+recomendador e BI permanecem fora do consumo. O head Alembic permanece
+`20260811_0010`.

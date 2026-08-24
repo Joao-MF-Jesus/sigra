@@ -16,6 +16,16 @@ from app.integrated_gold.service import (
     IntegratedVehicleNotFoundError,
     service_for_session,
 )
+from app.integrated_gold.simulation_schemas import (
+    VehicleCostSimulationRequest,
+    VehicleCostSimulationResponse,
+)
+from app.integrated_gold.simulation_service import (
+    VehicleCostSimulationConflictError,
+    VehicleCostSimulationService,
+    VehicleCostSimulationUnavailableError,
+    simulation_service_for_session,
+)
 
 
 router = APIRouter(
@@ -30,6 +40,12 @@ def get_integrated_gold_service(
     return service_for_session(db)
 
 
+def get_vehicle_cost_simulation_service(
+    db: Session = Depends(get_db),
+) -> VehicleCostSimulationService:
+    return simulation_service_for_session(db)
+
+
 def _unavailable(exc: IntegratedGoldUnavailableError) -> HTTPException:
     return HTTPException(
         status_code=503,
@@ -38,6 +54,44 @@ def _unavailable(exc: IntegratedGoldUnavailableError) -> HTTPException:
             "message": str(exc),
         },
     )
+
+
+def _simulation_unavailable(
+    exc: VehicleCostSimulationUnavailableError,
+) -> HTTPException:
+    return HTTPException(
+        status_code=503,
+        detail={
+            "code": "vehicle_cost_simulation_unavailable",
+            "message": str(exc),
+        },
+    )
+
+
+def _simulation_conflict(exc: VehicleCostSimulationConflictError) -> HTTPException:
+    return HTTPException(
+        status_code=409,
+        detail={
+            "code": "vehicle_cost_simulation_selection_conflict",
+            "message": str(exc),
+        },
+    )
+
+
+@router.post("/simulate", response_model=VehicleCostSimulationResponse)
+def simulate_vehicle_cost(
+    request: VehicleCostSimulationRequest,
+    service: VehicleCostSimulationService = Depends(
+        get_vehicle_cost_simulation_service
+    ),
+):
+    try:
+        result = service.simulate(request.to_contract())
+    except VehicleCostSimulationConflictError as exc:
+        raise _simulation_conflict(exc) from exc
+    except VehicleCostSimulationUnavailableError as exc:
+        raise _simulation_unavailable(exc) from exc
+    return VehicleCostSimulationResponse.model_validate(result)
 
 
 @router.get("/metadata", response_model=IntegratedDatasetMetadata)

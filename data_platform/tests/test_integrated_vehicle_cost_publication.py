@@ -232,6 +232,9 @@ class FakeLoader:
     def load_current_baseline(self, _connection):
         return self.baseline
 
+    def transaction_timestamp(self, _connection):
+        return datetime(2026, 8, 11, tzinfo=UTC)
+
     def find_dataset_by_fingerprint(self, _connection, fingerprint):
         return next(
             (item for item in self.datasets.values() if item["dataset_fingerprint"] == fingerprint),

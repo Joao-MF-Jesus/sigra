@@ -211,8 +211,6 @@ def test_postgresql_integrated_orchestration_history_blocks_only_0010_downgrade(
     parent_run_id = uuid4()
     try:
         with engine.begin() as connection:
-            connection.execute(text("DELETE FROM meta.orchestration_step_run"))
-            connection.execute(text("DELETE FROM meta.orchestration_run"))
             connection.execute(
                 text(
                     """INSERT INTO meta.orchestration_run
@@ -223,7 +221,7 @@ def test_postgresql_integrated_orchestration_history_blocks_only_0010_downgrade(
                             :key,'manual','integrated_vehicle_cost','succeeded',
                             :started,:started,:started,'{}'::jsonb)"""
                 ),
-                {"run": run_id, "key": "1" * 64, "started": started},
+                {"run": run_id, "key": run_id.hex * 2, "started": started},
             )
         with pytest.raises(ProgrammingError, match="downgrade blocked by history"):
             command.downgrade(config, "20260811_0009")
@@ -254,7 +252,11 @@ def test_postgresql_integrated_orchestration_history_blocks_only_0010_downgrade(
                             :key,'manual','gold','succeeded',
                             :started,:started,:started,'{}'::jsonb)"""
                 ),
-                {"run": parent_run_id, "key": "2" * 64, "started": started},
+                {
+                    "run": parent_run_id,
+                    "key": parent_run_id.hex * 2,
+                    "started": started,
+                },
             )
             connection.execute(
                 text(
@@ -290,7 +292,7 @@ def test_postgresql_integrated_orchestration_history_blocks_only_0010_downgrade(
 @REQUIRES_SAFE_POSTGRESQL
 def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkeypatch):
     from alembic import command
-    from sqlalchemy import create_engine, text
+    from sqlalchemy import bindparam, create_engine, text
     from sqlalchemy.exc import IntegrityError
 
     from data_platform.orchestration.contracts import (
@@ -310,12 +312,10 @@ def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkey
     repository = PostgresqlOrchestrationRepository(engine)
     pipeline_run_id = uuid4()
     started = datetime.now(UTC)
+    test_token = uuid4().hex
+    created_run_ids: list[str] = []
     try:
         with engine.begin() as connection:
-            connection.execute(
-                text("DELETE FROM meta.orchestration_step_run")
-            )
-            connection.execute(text("DELETE FROM meta.orchestration_run"))
             connection.execute(
                 text(
                     """INSERT INTO meta.pipeline_run
@@ -332,7 +332,7 @@ def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkey
             )
 
         request = OrchestrationRequest(
-            idempotency_key="postgres-history",
+            idempotency_key=f"postgres-history-{test_token}",
             parameters={"password": "never-store", "batch": 7},
         )
         run = repository.create_run(
@@ -341,6 +341,7 @@ def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkey
             request.resolved_idempotency_key(),
             started,
         )
+        created_run_ids.append(run.orchestration_run_id)
         first = repository.create_step_attempt(
             run.orchestration_run_id,
             StepName.BRONZE,
@@ -384,7 +385,7 @@ def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkey
 
         anp_request = OrchestrationRequest(
             scope=OrchestrationScope.ANP,
-            idempotency_key="postgres-anp-history",
+            idempotency_key=f"postgres-anp-history-{test_token}",
         )
         anp_run = repository.create_run(
             uuid4(),
@@ -392,6 +393,7 @@ def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkey
             anp_request.resolved_idempotency_key(),
             started,
         )
+        created_run_ids.append(anp_run.orchestration_run_id)
         anp_step = repository.create_step_attempt(
             anp_run.orchestration_run_id,
             StepName.ANP,
@@ -446,7 +448,33 @@ def test_postgresql_orchestration_repository_history_idempotency_and_lock(monkey
             with repository.acquire_lock("postgres-lock-test") as second_lock:
                 assert second_lock.acquired is False
     finally:
-        engine.dispose()
+        try:
+            with engine.begin() as connection:
+                if created_run_ids:
+                    run_ids_parameter = bindparam("run_ids", expanding=True)
+                    connection.execute(
+                        text(
+                            """DELETE FROM meta.orchestration_step_run
+                            WHERE orchestration_run_id IN :run_ids"""
+                        ).bindparams(run_ids_parameter),
+                        {"run_ids": created_run_ids},
+                    )
+                    connection.execute(
+                        text(
+                            """DELETE FROM meta.orchestration_run
+                            WHERE orchestration_run_id IN :run_ids"""
+                        ).bindparams(run_ids_parameter),
+                        {"run_ids": created_run_ids},
+                    )
+                connection.execute(
+                    text(
+                        """DELETE FROM meta.pipeline_run
+                        WHERE pipeline_run_id=:pipeline_run_id"""
+                    ),
+                    {"pipeline_run_id": pipeline_run_id},
+                )
+        finally:
+            engine.dispose()
 
 
 @REQUIRES_SAFE_POSTGRESQL

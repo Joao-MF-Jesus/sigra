@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
-from datetime import UTC, datetime
+from datetime import datetime
 from decimal import Decimal
 import json
 from typing import Iterator, Mapping, Sequence
@@ -83,6 +83,36 @@ class IntegratedVehicleCostLoader:
             raise
         finally:
             connection.close()
+
+    @staticmethod
+    def transaction_timestamp(connection: Connection) -> datetime:
+        return connection.execute(text("SELECT CURRENT_TIMESTAMP")).scalar_one()
+
+    @staticmethod
+    def lifecycle_timestamp(
+        connection: Connection,
+        *,
+        dataset_version: str,
+        previous_dataset_version: str | None = None,
+    ) -> datetime:
+        return connection.execute(
+            text(
+                """SELECT GREATEST(
+                    clock_timestamp(),
+                    target.created_at,
+                    COALESCE(target.last_activated_at,target.created_at),
+                    COALESCE(previous.last_activated_at,target.created_at)
+                )
+                FROM gold.integrated_vehicle_cost_dataset AS target
+                LEFT JOIN gold.integrated_vehicle_cost_dataset AS previous
+                  ON previous.dataset_version=:previous
+                WHERE target.dataset_version=:dataset"""
+            ),
+            {
+                "dataset": dataset_version,
+                "previous": previous_dataset_version,
+            },
+        ).scalar_one()
 
     @staticmethod
     def load_active_sources(connection: Connection) -> ActiveGoldSources:
@@ -265,7 +295,7 @@ class IntegratedVehicleCostLoader:
                 """INSERT INTO meta.pipeline_run
                 (pipeline_run_id,pipeline_name,pipeline_version,dataset_version,
                  trigger_type,status,started_at,source_reference,git_commit)
-                VALUES (:run,:name,:version,:dataset,:trigger,'running',:started,
+                VALUES (:run,:name,:version,:dataset,:trigger,'running',clock_timestamp(),
                         'gold-fipe+pbev+anp',:git_commit)"""
             ),
             {
@@ -274,7 +304,6 @@ class IntegratedVehicleCostLoader:
                 "version": PIPELINE_VERSION,
                 "dataset": dataset_version,
                 "trigger": trigger_type,
-                "started": datetime.now(UTC),
                 "git_commit": git_commit,
             },
         )
@@ -294,7 +323,9 @@ class IntegratedVehicleCostLoader:
         connection.execute(
             text(
                 """UPDATE meta.pipeline_run
-                SET status=:status,finished_at=:finished,records_received=:received,
+                SET status=:status,
+                    finished_at=GREATEST(clock_timestamp(),started_at),
+                    records_received=:received,
                     records_inserted=:inserted,records_deduplicated=:deduplicated,
                     records_rejected=:rejected,error_summary=:error
                 WHERE pipeline_run_id=:run"""
@@ -302,7 +333,6 @@ class IntegratedVehicleCostLoader:
             {
                 "run": run_id,
                 "status": status,
-                "finished": datetime.now(UTC),
                 "received": received,
                 "inserted": inserted,
                 "deduplicated": deduplicated,
@@ -532,7 +562,6 @@ class IntegratedVehicleCostLoader:
                 },
             )
 
-        evaluated_at = datetime.now(UTC)
         for result in plan.quality_results:
             connection.execute(
                 text(
@@ -542,7 +571,7 @@ class IntegratedVehicleCostLoader:
                      details,evaluated_at)
                     VALUES (:dataset,:policy,:rule,:run,:kind,:severity,:status,
                             CAST(:observed AS jsonb),:expected,CAST(:details AS jsonb),
-                            :evaluated)"""
+                            clock_timestamp())"""
                 ),
                 {
                     "dataset": dataset_version,
@@ -555,7 +584,6 @@ class IntegratedVehicleCostLoader:
                     "observed": _json(result.observed_value),
                     "expected": result.expected_condition,
                     "details": _json(result.details),
-                    "evaluated": evaluated_at,
                 },
             )
 
@@ -570,6 +598,11 @@ class IntegratedVehicleCostLoader:
         if unreconciled:
             raise IntegratedPublicationError("integrated persisted sets are not reconciled")
         if activation_type is not None:
+            activated_at = IntegratedVehicleCostLoader.lifecycle_timestamp(
+                connection,
+                dataset_version=dataset_version,
+                previous_dataset_version=previous_dataset_version,
+            )
             connection.execute(
                 text(
                     """INSERT INTO gold.integrated_vehicle_cost_activation
@@ -583,7 +616,7 @@ class IntegratedVehicleCostLoader:
                     "run": run_id,
                     "previous": previous_dataset_version,
                     "activation_type": activation_type,
-                    "activated": datetime.now(UTC),
+                    "activated": activated_at,
                     "details": _json(
                         {
                             "quality_policy_version": INTEGRATED_QUALITY_POLICY_VERSION,
@@ -601,6 +634,11 @@ class IntegratedVehicleCostLoader:
         dataset_version: str,
         previous_dataset_version: str,
     ) -> None:
+        activated_at = IntegratedVehicleCostLoader.lifecycle_timestamp(
+            connection,
+            dataset_version=dataset_version,
+            previous_dataset_version=previous_dataset_version,
+        )
         connection.execute(
             text(
                 """INSERT INTO gold.integrated_vehicle_cost_activation
@@ -613,7 +651,7 @@ class IntegratedVehicleCostLoader:
                 "dataset": dataset_version,
                 "run": run_id,
                 "previous": previous_dataset_version,
-                "activated": datetime.now(UTC),
+                "activated": activated_at,
                 "details": _json({"operation": "explicit_rollback"}),
             },
         )

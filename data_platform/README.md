@@ -644,3 +644,46 @@ quilometragem, participação urbana/rodoviária ou outro parâmetro personaliza
 qualquer evolução desse consumo deverá exigir entradas explícitas do usuário.
 Não há integração automática com recomendador, frontend ou BI e a publicação
 continua shadow.
+
+## Simulação configurável de custo veicular
+
+`POST /api/v1/integrated-vehicle-cost/simulate` executa uma simulação stateless
+e somente leitura. A requisição informa explicitamente quilometragem mensal,
+percentuais urbano e rodoviário, horizonte em meses, UF, município opcional,
+semana ANP, combustível ou estratégia de menor custo, preço manual opcional,
+eficiências urbana e rodoviária opcionais, filtro de veículos e limite de
+resultados. Distância e horizonte devem ser positivos, a soma dos percentuais
+deve ser exatamente 100 e preço ou eficiência informados devem ser positivos.
+Limites defensivos rejeitam distância mensal acima de 100.000 km, horizonte
+acima de 120 meses e preço ou eficiência acima de 1.000 nas respectivas
+unidades. Valores decimais são strings ou inteiros; booleanos, `float`, NaN e
+infinitos são rejeitados sem conversão intermediária para `float`.
+
+No modo ANP, produto, geografia e semana devem coincidir exatamente com a Gold
+integrada ativa e elegível. No modo manual, o preço vem exclusivamente da
+entrada do cliente e não é combinado silenciosamente com preço ANP; a semana
+ANP não é apresentada como origem desse preço. Eficiências omitidas usam apenas
+evidência PBEV Gold publicada do veículo. Não existe fallback de localidade,
+período, produto, preço ou eficiência. Ausência ou ambiguidade gera exclusão ou
+erro com código auditável. Gasolina comum, gasolina aditivada e etanol são
+seleções explícitas; `lowest_projected_cost` avalia somente evidências
+compatíveis disponíveis, sem inventar combustível.
+
+Com proporções `Decimal`, o consumo mensal é `distância mensal × (percentual
+urbano / eficiência urbana + percentual rodoviário / eficiência rodoviária)`;
+o custo mensal é `consumo mensal × preço`, e o custo do horizonte é `custo
+mensal × meses`. Litros mensais e anuais, custos, diferenças contra o baseline e
+arredondamentos usam quantizações centralizadas. O ranking ordena custo mensal,
+custo por quilômetro, identidade e combustível; o desempate de combustível é
+documentado e determinístico. O fingerprint contém cenário, resultados,
+exclusões e linhagem, sem relógio ou identificador aleatório.
+
+A resposta ecoa os parâmetros normalizados, eficiências e preço utilizados,
+origens `user_input`, `pbev_gold`, `anp_gold` e `canonical_policy`, versões das
+fontes, custos mensal/anual/no horizonte, comparação com `mixed_1000_v1`,
+avisos, limitações e timestamp da resposta. O baseline canônico continua sendo
+a projeção publicada para comparação, ranking, auditoria e regressão; ele não
+fornece defaults nem é alterado pela simulação personalizada. A requisição não
+grava banco, executa pipeline, adquire lock ou chama rede. Financiamento,
+manutenção, seguro, IPVA, depreciação, frontend, recomendador e BI permanecem
+fora do motor.

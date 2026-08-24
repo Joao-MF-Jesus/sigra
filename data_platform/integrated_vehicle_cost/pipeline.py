@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, is_dataclass
-from datetime import UTC, date, datetime, timedelta
+from datetime import date, datetime, timedelta
 from decimal import Decimal, ROUND_HALF_UP
 from enum import Enum
 import hashlib
@@ -736,7 +736,7 @@ def run_integrated_vehicle_cost_pipeline(
         )
 
     with loader.publication_transaction() as connection:
-        cutoff = datetime.now(UTC)
+        cutoff = loader.transaction_timestamp(connection)
         sources = loader.load_active_sources(connection)
         vehicles = loader.load_vehicle_inputs(connection, sources)
         fuel_prices = loader.load_fuel_prices(connection, sources, options.request)

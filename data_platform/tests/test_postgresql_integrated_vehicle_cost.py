@@ -327,6 +327,78 @@ def _capture_publication_cycle_fixture(
     return captured
 
 
+_SIMULATION_READ_ONLY_TABLES = (
+    "gold.integrated_vehicle_cost_dataset",
+    "gold.integrated_vehicle_cost_geography_request",
+    "gold.integrated_vehicle_cost_snapshot",
+    "gold.integrated_vehicle_cost_projection_snapshot",
+    "gold.integrated_vehicle_cost_flex_comparison_snapshot",
+    "gold.integrated_vehicle_cost_exclusion",
+    "gold.integrated_vehicle_cost_quality_result",
+    "gold.integrated_vehicle_cost_activation",
+    "gold.integrated_vehicle_cost_invalidation",
+    "gold.integrated_vehicle_cost_coverage_baseline",
+    "meta.pipeline_run",
+)
+
+
+def _simulation_storage_fingerprints(connection) -> dict[str, tuple[int, str]]:
+    from sqlalchemy import text
+
+    return {
+        table_name: tuple(
+            connection.execute(
+                text(
+                    f"""SELECT COUNT(*),
+                               COALESCE(
+                                   md5(string_agg(
+                                       row_to_json(row_value)::text,
+                                       '' ORDER BY row_to_json(row_value)::text
+                                   )),
+                                   md5('')
+                               )
+                        FROM {table_name} AS row_value"""
+                )
+            ).one()
+        )
+        for table_name in _SIMULATION_READ_ONLY_TABLES
+    }
+
+
+def _post_postgresql_simulation(connection, payload: dict[str, object]):
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+    from sqlalchemy.orm import Session
+
+    from app.integrated_gold.routes import (
+        get_vehicle_cost_simulation_service,
+        router,
+    )
+    from app.integrated_gold.simulation_repository import (
+        VehicleCostSimulationRepository,
+    )
+    from app.integrated_gold.simulation_service import (
+        VehicleCostSimulationService,
+    )
+
+    session = Session(bind=connection, join_transaction_mode="create_savepoint")
+    service = VehicleCostSimulationService(VehicleCostSimulationRepository(session))
+    application = FastAPI()
+    application.include_router(router)
+    application.dependency_overrides[get_vehicle_cost_simulation_service] = (
+        lambda: service
+    )
+    try:
+        with TestClient(application) as client:
+            return client.post(
+                "/api/v1/integrated-vehicle-cost/simulate",
+                json=payload,
+            )
+    finally:
+        application.dependency_overrides.clear()
+        session.close()
+
+
 @pytest.mark.skipif(
     not POSTGRESQL_URL,
     reason="PostgreSQL real local descartavel nao configurado",
@@ -601,6 +673,7 @@ def test_postgresql_integrated_vehicle_cost_publication_cycle(monkeypatch):
     )
 
     config = _config(monkeypatch)
+    monkeypatch.syspath_prepend(str(Path(__file__).parents[2] / "backend"))
     _reset_database(config)
     engine = create_engine(POSTGRESQL_URL, pool_pre_ping=True)
     sentinel_run_id = uuid4()
@@ -790,6 +863,180 @@ def test_postgresql_integrated_vehicle_cost_publication_cycle(monkeypatch):
             text("SELECT COUNT(*) FROM gold.integrated_vehicle_cost_activation")
         ).scalar_one() == 1
 
+        unknown_vehicle_sk = fixture_connection.execute(
+            text(
+                """SELECT COALESCE(MAX(vehicle_sk),0) + 1000000
+                FROM gold.integrated_vehicle_cost_snapshot"""
+            )
+        ).scalar_one()
+        simulation_payload = {
+            "monthly_distance_km": "1375.50",
+            "city_percentage": "35.00",
+            "highway_percentage": "65.00",
+            "state_code": "SP",
+            "municipality": "sao-paulo-sp",
+            "reference_week_start": "2026-08-03",
+            "fuel_strategy": "gasoline_c_common",
+            "horizon_months": 12,
+            "vehicle_sks": [vehicle_sk, unknown_vehicle_sk],
+            "max_results": 10,
+        }
+        simulation_storage_before = _simulation_storage_fingerprints(
+            fixture_connection
+        )
+        gasoline_response = _post_postgresql_simulation(
+            fixture_connection,
+            simulation_payload,
+        )
+        repeated_response = _post_postgresql_simulation(
+            fixture_connection,
+            simulation_payload,
+        )
+        ethanol_response = _post_postgresql_simulation(
+            fixture_connection,
+            {**simulation_payload, "fuel_strategy": "ethanol_hydrated"},
+        )
+        lowest_cost_response = _post_postgresql_simulation(
+            fixture_connection,
+            {**simulation_payload, "fuel_strategy": "lowest_projected_cost"},
+        )
+        longer_distance_response = _post_postgresql_simulation(
+            fixture_connection,
+            {**simulation_payload, "monthly_distance_km": "2000.00"},
+        )
+        city_heavy_response = _post_postgresql_simulation(
+            fixture_connection,
+            {
+                **simulation_payload,
+                "city_percentage": "80.00",
+                "highway_percentage": "20.00",
+            },
+        )
+        assert all(
+            response.status_code == 200
+            for response in (
+                gasoline_response,
+                repeated_response,
+                ethanol_response,
+                lowest_cost_response,
+                longer_distance_response,
+                city_heavy_response,
+            )
+        )
+        gasoline_body = gasoline_response.json()
+        repeated_body = repeated_response.json()
+        ethanol_body = ethanol_response.json()
+        lowest_cost_body = lowest_cost_response.json()
+        longer_distance_body = longer_distance_response.json()
+        city_heavy_body = city_heavy_response.json()
+        assert repeated_body["fingerprint"] == gasoline_body["fingerprint"]
+        assert {
+            key: value
+            for key, value in repeated_body.items()
+            if key != "response_timestamp"
+        } == {
+            key: value
+            for key, value in gasoline_body.items()
+            if key != "response_timestamp"
+        }
+        assert gasoline_body["scenario"] == {
+            **simulation_payload,
+            "manual_fuel_price_brl": None,
+            "city_consumption_km_l": None,
+            "highway_consumption_km_l": None,
+            "vehicle_sks": [vehicle_sk, unknown_vehicle_sk],
+        }
+        assert gasoline_body["results"][0]["fuel_code"] == "gasoline_c_common"
+        assert gasoline_body["results"][0]["fuel_price_origin"] == "anp_gold"
+        assert gasoline_body["results"][0]["canonical_scenario_code"] == (
+            "mixed_1000_v1"
+        )
+        assert ethanol_body["results"][0]["fuel_code"] == "ethanol_hydrated"
+        assert lowest_cost_body["results"][0]["fuel_code"] == "ethanol_hydrated"
+        assert gasoline_body["results"][0]["sources"][
+            "integrated_dataset_version"
+        ] == first.dataset_version
+        assert gasoline_body["evaluated_vehicle_count"] == 2
+        assert gasoline_body["eligible_vehicle_count"] == 1
+        assert gasoline_body["excluded_vehicle_count"] == 1
+        assert gasoline_body["exclusions"] == [
+            {
+                "vehicle_sk": unknown_vehicle_sk,
+                "reason_code": "VEHICLE_NOT_IN_ACTIVE_INTEGRATED_GOLD",
+                "detail": "no published active Gold evidence exists for the vehicle",
+            }
+        ]
+        assert Decimal(
+            longer_distance_body["results"][0]["monthly_fuel_cost_brl"]
+        ) > Decimal(gasoline_body["results"][0]["monthly_fuel_cost_brl"])
+        assert (
+            city_heavy_body["results"][0]["monthly_fuel_cost_brl"]
+            != gasoline_body["results"][0]["monthly_fuel_cost_brl"]
+        )
+        assert longer_distance_body["fingerprint"] != gasoline_body["fingerprint"]
+        assert city_heavy_body["fingerprint"] != gasoline_body["fingerprint"]
+        assert _simulation_storage_fingerprints(fixture_connection) == (
+            simulation_storage_before
+        )
+
+        no_active_savepoint = fixture_connection.begin_nested()
+        try:
+            active_timestamps = fixture_connection.execute(
+                text(
+                    """SELECT created_at,last_activated_at,
+                              CURRENT_TIMESTAMP AS transaction_started_at,
+                              clock_timestamp() AS effective_now
+                    FROM gold.integrated_vehicle_cost_dataset
+                    WHERE dataset_version=:dataset_version"""
+                ),
+                {"dataset_version": first.dataset_version},
+            ).mappings().one()
+            assert (
+                active_timestamps["last_activated_at"]
+                >= active_timestamps["created_at"]
+            )
+            assert (
+                active_timestamps["last_activated_at"]
+                > active_timestamps["transaction_started_at"]
+            )
+            assert (
+                active_timestamps["effective_now"]
+                >= active_timestamps["last_activated_at"]
+            )
+            retired_at = loader.lifecycle_timestamp(
+                fixture_connection,
+                dataset_version=first.dataset_version,
+            )
+            assert retired_at >= active_timestamps["last_activated_at"]
+            fixture_connection.execute(
+                text(
+                    """UPDATE gold.integrated_vehicle_cost_dataset
+                    SET status='retired',is_active_shadow=FALSE,
+                        retired_at=:retired_at
+                    WHERE dataset_version=:dataset_version"""
+                ),
+                {
+                    "dataset_version": first.dataset_version,
+                    "retired_at": retired_at,
+                },
+            )
+            unavailable_response = _post_postgresql_simulation(
+                fixture_connection,
+                simulation_payload,
+            )
+            assert unavailable_response.status_code == 503
+            assert unavailable_response.json() == {
+                "detail": {
+                    "code": "vehicle_cost_simulation_unavailable",
+                    "message": "no active and eligible integrated Gold dataset",
+                }
+            }
+        finally:
+            no_active_savepoint.rollback()
+        assert _simulation_storage_fingerprints(fixture_connection) == (
+            simulation_storage_before
+        )
+
         replacement_anp_run = _insert_run(
             fixture_connection,
             name="integrated_anp_replacement_fixture",
@@ -814,6 +1061,15 @@ def test_postgresql_integrated_vehicle_cost_publication_cycle(monkeypatch):
         assert replacement.previous_dataset_version == first.dataset_version
         assert replacement_duplicate.status == "deduplicated"
         assert replacement_duplicate.dataset_version == replacement.dataset_version
+        replacement_response = _post_postgresql_simulation(
+            fixture_connection,
+            simulation_payload,
+        )
+        assert replacement_response.status_code == 200
+        replacement_sources = replacement_response.json()["results"][0]["sources"]
+        replacement_source_version = replacement_sources["integrated_dataset_version"]
+        assert replacement_source_version == replacement.dataset_version
+        assert replacement_source_version != first.dataset_version
 
         immutable_before = fixture_connection.execute(
             text(
