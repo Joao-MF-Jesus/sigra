@@ -1,5 +1,5 @@
 import React from "react";
-import { formatCurrency, formatScore } from "./recommendationModel.js";
+import { formatCurrency, formatScore, getMultifactorUnavailablePresentation } from "./recommendationModel.js";
 
 function versionRows(sources = {}) {
   return [
@@ -13,7 +13,7 @@ function versionRows(sources = {}) {
 export default function MultifactorBreakdown({ item, compact = false }) {
   const multifactor = item?.multifactor;
   if (!multifactor?.enabled) return null;
-  if (multifactor.status !== "ranked") return <section className="multifactor-breakdown unavailable" data-testid="multifactor-unavailable"><h4>Perfil multifator indisponível</h4><p>{multifactor.detail || "Não há identidade Gold inequívoca e elegível para este veículo."}</p><small>Código: {multifactor.reason_code}</small></section>;
+  if (multifactor.status !== "ranked") return <section className="multifactor-breakdown unavailable" data-testid="multifactor-unavailable"><h4>Evidência multifator não disponível</h4><p>{getMultifactorUnavailablePresentation(multifactor.reason_code)}</p><small>O veículo continua visível no baseline, sem nota multifator inventada.</small></section>;
   const cost = multifactor.cost || {};
   const rows = compact ? (multifactor.components || []).slice(0, 3) : (multifactor.components || []);
   return <section className="multifactor-breakdown" data-testid="multifactor-breakdown">

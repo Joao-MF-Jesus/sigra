@@ -91,3 +91,53 @@ export function getConfidence(item) {
     level: item?.confidence?.level ?? item?.recommendation_summary?.confidence?.level,
   });
 }
+
+const RECOMMENDATION_ERROR_PRESENTATIONS = Object.freeze({
+  validation: Object.freeze({
+    kind: "validation",
+    title: "Revise os dados informados",
+    message: "Algum parâmetro não foi aceito. Confira o formulário antes de tentar novamente.",
+    retryable: false,
+  }),
+  conflict: Object.freeze({
+    kind: "conflict",
+    title: "Não foi possível associar a evidência Gold",
+    message: "Há mais de uma identidade publicada compatível. O SIGRA não escolheu uma delas automaticamente.",
+    retryable: false,
+  }),
+  unavailable: Object.freeze({
+    kind: "unavailable",
+    title: "Gold integrada temporariamente indisponível",
+    message: "O ranking configurável exige um dataset publicado e elegível. Tente novamente quando essa evidência estiver disponível.",
+    retryable: true,
+  }),
+  error: Object.freeze({
+    kind: "error",
+    title: "Não foi possível calcular a recomendação",
+    message: "O serviço não concluiu a análise. Tente novamente sem alterar os dados já preenchidos.",
+    retryable: true,
+  }),
+});
+
+export function getRecommendationErrorPresentation(error) {
+  if (error?.status === 422) return RECOMMENDATION_ERROR_PRESENTATIONS.validation;
+  if (error?.status === 409 || error?.code === "multifactor_gold_identity_conflict") {
+    return RECOMMENDATION_ERROR_PRESENTATIONS.conflict;
+  }
+  if (error?.status === 503 || error?.code === "multifactor_gold_unavailable") {
+    return RECOMMENDATION_ERROR_PRESENTATIONS.unavailable;
+  }
+  return RECOMMENDATION_ERROR_PRESENTATIONS.error;
+}
+
+const MULTIFACTOR_UNAVAILABLE_PRESENTATIONS = Object.freeze({
+  LEGACY_IDENTITY_UNAVAILABLE: "A identidade deste veículo está incompleta no catálogo de recomendação.",
+  GOLD_IDENTITY_NOT_FOUND: "Não existe uma identidade Gold publicada e inequívoca para este veículo.",
+  GOLD_IDENTITY_AMBIGUOUS: "Mais de uma identidade Gold publicada corresponde a este veículo; nenhuma foi escolhida automaticamente.",
+  MULTIFACTOR_EVIDENCE_UNAVAILABLE: "Falta evidência publicada para calcular todos os critérios selecionados.",
+});
+
+export function getMultifactorUnavailablePresentation(reasonCode) {
+  return MULTIFACTOR_UNAVAILABLE_PRESENTATIONS[reasonCode]
+    || "A evidência necessária para o ranking multifator não está disponível.";
+}

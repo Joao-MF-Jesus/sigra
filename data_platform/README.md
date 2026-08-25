@@ -715,3 +715,51 @@ resultado derivado possuem origens distintas. `mixed_1000_v1` permanece apenas
 como baseline analítico. Orçamento acima de R$ 200 mil exige autorização
 explícita; não existe teto oculto. Preferências e resultados não são persistidos
 e os datasets publicados não são alterados.
+
+## Experiência de recomendação ponta a ponta
+
+A jornada demonstrável começa no objetivo do cliente, passa pelo uso e pelas
+preferências e termina no cenário financeiro opcional. O caminho histórico
+continua sendo o padrão quando a composição multifator não é solicitada. Quando
+ativada, a experiência aplica um único cenário a todas as alternativas
+comparáveis e apresenta ranking, posição histórica, contribuições por critério,
+origens e limitações antes de abrir o detalhe e a simulação do veículo.
+
+Os estados da interface são explícitos: pronto para preencher, carregando,
+resultado vazio, conflito de identidade, Gold indisponível e sucesso. Conflito
+ou indisponibilidade nunca promove associação automática, não inventa nota zero
+e não oculta o veículo do baseline. Mensagens apresentadas ao usuário são
+sanitizadas; códigos técnicos permanecem no contrato auditável do backend. A
+interface não calcula custo financeiro e não persiste formulário, pesos ou
+resultado derivado.
+
+As fontes continuam separadas por responsabilidade:
+
+- o catálogo histórico fornece o baseline de recomendação;
+- a Gold integrada elegível fornece a evidência publicada de FIPE, PBEV e ANP;
+- o formulário fornece somente parâmetros do cliente;
+- o backend produz a simulação e a composição multifator com `Decimal`;
+- `mixed_1000_v1` aparece apenas como referência analítica publicada.
+
+Limites visíveis incluem ausência ou ambiguidade de identidade Gold, falta de
+evidência para um critério ponderado e indisponibilidade do dataset elegível.
+Não há fallback para outra identidade, período, geografia, combustível ou
+fonte, nem integração implícita com financiamento, BI ou escrita na Gold.
+
+### Roteiro de demonstração (5–8 minutos)
+
+1. **Contexto (30 s):** abrir a recomendação e explicar que o ranking histórico
+   permanece disponível e que nenhuma preferência é salva.
+2. **Necessidade (1 min):** preencher categoria, orçamento, limite mensal, forma
+   de uso, prioridade, distância e preço de combustível.
+3. **Cenário multifator (2 min):** ativar a comparação, informar divisão
+   urbano/rodoviário, estratégia, geografia e semana ANP; explicar em linguagem
+   simples o efeito de dois ou três pesos.
+4. **Resultado (1–2 min):** calcular, mostrar quantidade comparada, posição
+   histórica, nota multifator e reconciliação das contribuições.
+5. **Evidência (1 min):** abrir os detalhes, identificar fonte publicada,
+   limitações e um caso não disponível sem nota inventada.
+6. **Simulação (1 min):** reutilizar o veículo no simulador do detalhe e mostrar
+   que o backend calcula o custo sem alterar ranking ou dataset.
+7. **Estado controlado (30 s):** apresentar um estado vazio, conflito ou
+   indisponibilidade e destacar a ausência de fallback silencioso.

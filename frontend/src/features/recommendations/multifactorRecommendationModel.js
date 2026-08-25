@@ -22,6 +22,16 @@ const WEIGHT_LABELS = Object.freeze({
   legacy_quality: "Qualidade histórica",
 });
 
+export const MULTIFACTOR_WEIGHT_DESCRIPTIONS = Object.freeze({
+  total_cost: "Favorece menor custo de combustível no cenário informado.",
+  usage_fit: "Mede a compatibilidade com a forma de uso selecionada.",
+  comfort: "Considera apenas evidências de conforto disponíveis.",
+  safety: "Prioriza os indicadores de segurança do catálogo.",
+  performance: "Valoriza a resposta esperada em uso rodoviário.",
+  efficiency: "Compara consumo e eficiência publicados.",
+  legacy_quality: "Resume manutenção, confiabilidade, peças e revenda sem repetir custo ou adequação.",
+});
+
 const DECIMAL_PATTERN = /^\d+(?:\.\d+)?$/;
 
 function decimalString(value) {
@@ -123,6 +133,7 @@ export function multifactorWeightSummary(profile) {
   const entries = MULTIFACTOR_WEIGHT_FIELDS.map((code) => ({
     code,
     label: WEIGHT_LABELS[code],
+    description: MULTIFACTOR_WEIGHT_DESCRIPTIONS[code],
     value: Number(decimalString(profile[`weight_${code}`]) || 0),
   }));
   const total = entries.reduce((sum, item) => sum + item.value, 0);

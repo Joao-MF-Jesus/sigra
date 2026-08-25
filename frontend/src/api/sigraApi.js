@@ -9,14 +9,23 @@ export async function requestRecommendations(profile, { signal, fetchImpl = fetc
   });
 
   if (!response.ok) {
-    let detail = "";
+    let code = "";
     try {
       const body = await response.json();
-      detail = typeof body?.detail === "string" ? body.detail : "";
+      const candidate = body?.detail && typeof body.detail === "object"
+        ? body.detail.code
+        : "";
+      code = typeof candidate === "string" && /^[a-z0-9_]{1,80}$/.test(candidate)
+        ? candidate
+        : "";
     } catch {
       // The HTTP status remains the useful diagnostic when the body is not JSON.
     }
-    throw new Error(detail || `Falha ao calcular recomendação (HTTP ${response.status}).`);
+    const error = new Error(`Falha ao calcular recomendação (HTTP ${response.status}).`);
+    error.name = "SigraApiError";
+    error.status = response.status;
+    error.code = code;
+    throw error;
   }
 
   const data = await response.json();

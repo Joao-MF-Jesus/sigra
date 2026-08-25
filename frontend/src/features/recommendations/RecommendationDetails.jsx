@@ -30,6 +30,7 @@ export default function RecommendationDetails({ item, metadata, profile, onClose
     <section className="modal-section confidence-details"><h3>Confiança dos dados</h3><ConfidenceIndicator item={item} /><p>A Nota SIGRA mede a compatibilidade do veículo com o perfil informado. A confiança mede a cobertura, atualidade e qualidade dos dados utilizados.</p>{confidenceDetails.length > 0 && <ul>{confidenceDetails.map((text) => <li key={text}>{text}</li>)}</ul>}<p>{confidence.disclaimer}</p><p>Referência temporal: {metadata?.data_reference || "não informada"}. Confiança classificada como {confidenceView.level}.</p></section>
     <section className="modal-section"><h3>Explicação completa</h3><ul>{(item.explanations || []).map((text) => <li key={text}>{text}</li>)}</ul></section>
     <MultifactorBreakdown item={item} />
+    <section className="modal-section recommendation-simulation-context" aria-labelledby="vehicle-simulation-title"><h3 id="vehicle-simulation-title">Simule este veículo no seu cenário</h3><p>Use a mesma necessidade de deslocamento para aprofundar o custo de combustível. O cálculo permanece no backend e não altera o ranking nem a Gold publicada.</p></section>
     <VehicleCostSimulationPanel vehicle={vehicle} profile={profile} />
     <div className="modal-actions"><button className="ghost-button" type="button" onClick={() => onParts(item)}>Ver peças</button><button className="ghost-button" type="button" onClick={() => onCompare(item)}>Comparar</button></div>
   </section></div>;

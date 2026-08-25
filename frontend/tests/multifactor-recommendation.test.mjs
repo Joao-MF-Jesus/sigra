@@ -3,10 +3,12 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
   MULTIFACTOR_DEFAULT_WEIGHTS,
+  MULTIFACTOR_WEIGHT_DESCRIPTIONS,
   buildMultifactorProfile,
   multifactorWeightSummary,
   resetMultifactorWeightFields,
 } from "../src/features/recommendations/multifactorRecommendationModel.js";
+import { getMultifactorUnavailablePresentation } from "../src/features/recommendations/recommendationModel.js";
 import { validateRecommendationProfile } from "../src/features/recommendations/recommendationValidation.js";
 
 const legacy = {
@@ -81,16 +83,36 @@ test("pesos são editáveis, normalizados para apresentação e restauráveis", 
   assert.equal(summary.total, 57);
   assert.ok(summary.entries.every((item) => Number.isFinite(item.normalizedPercentage)));
   assert.deepEqual(resetMultifactorWeightFields(profile), Object.fromEntries(Object.entries(MULTIFACTOR_DEFAULT_WEIGHTS).map(([code, value]) => [`weight_${code}`, value])));
+  assert.match(MULTIFACTOR_WEIGHT_DESCRIPTIONS.total_cost, /custo de combustível/i);
+  assert.match(MULTIFACTOR_WEIGHT_DESCRIPTIONS.legacy_quality, /sem repetir custo ou adequação/i);
 });
 
 test("frontend coleta parâmetros e exibe explicação sem duplicar fórmula financeira", () => {
   const fields = readFileSync(new URL("../src/features/recommendations/MultifactorProfileFields.jsx", import.meta.url), "utf8");
   const breakdown = readFileSync(new URL("../src/features/recommendations/MultifactorBreakdown.jsx", import.meta.url), "utf8");
   const model = readFileSync(new URL("../src/features/recommendations/multifactorRecommendationModel.js", import.meta.url), "utf8");
-  assert.match(fields, /Perfil multifator opcional/);
+  assert.match(fields, /Cenário financeiro e pesos \(opcional\)/);
   assert.match(fields, /Os cálculos financeiros são realizados exclusivamente pelo backend/);
   assert.match(breakdown, /Custo de combustível projetado/);
   assert.match(breakdown, /mixed_1000_v1 é apenas a referência analítica/);
   assert.match(breakdown, /integrated_dataset_version/);
   assert.doesNotMatch(`${fields}\n${model}`, /monthly_fuel_cost|annual_fuel_cost|fuel_cost_per_km/);
+});
+
+test("evidência ausente permanece indisponível e nunca vira nota zero ou detalhe técnico", () => {
+  assert.match(getMultifactorUnavailablePresentation("GOLD_IDENTITY_NOT_FOUND"), /não existe uma identidade Gold/i);
+  assert.match(getMultifactorUnavailablePresentation("GOLD_IDENTITY_AMBIGUOUS"), /nenhuma foi escolhida automaticamente/i);
+  const breakdown = readFileSync(new URL("../src/features/recommendations/MultifactorBreakdown.jsx", import.meta.url), "utf8");
+  assert.match(breakdown, /getMultifactorUnavailablePresentation/);
+  assert.match(breakdown, /sem nota multifator inventada/i);
+  assert.doesNotMatch(breakdown, /multifactor\.detail/);
+});
+
+test("campos do cenário e pesos possuem rótulos e erros acessíveis", () => {
+  const fields = readFileSync(new URL("../src/features/recommendations/MultifactorProfileFields.jsx", import.meta.url), "utf8");
+  assert.match(fields, /Cenário financeiro e pesos \(opcional\)/);
+  assert.match(fields, /Necessidade de deslocamento/);
+  assert.match(fields, /htmlFor=/);
+  assert.match(fields, /aria-invalid/);
+  assert.match(fields, /role="alert"/);
 });

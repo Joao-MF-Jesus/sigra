@@ -6,6 +6,7 @@ import RecommendationPage from "./features/recommendations/RecommendationPage.js
 import FinancingPage from "./features/financing/FinancingPage.jsx";
 import { isLatestRequest, shouldMarkResultsStale, validateRecommendationProfile } from "./features/recommendations/recommendationValidation.js";
 import { MULTIFACTOR_DEFAULT_WEIGHTS, resetMultifactorWeightFields } from "./features/recommendations/multifactorRecommendationModel.js";
+import { getRecommendationErrorPresentation } from "./features/recommendations/recommendationModel.js";
 import { API_URL, PUBLIC_DEMO_MODE } from "./config/runtime.js";
 
 
@@ -85,7 +86,7 @@ function App() {
   const [recommendations, setRecommendations] = useState([]);
   const [recommendationMetadata, setRecommendationMetadata] = useState(null);
   const [recommendationErrors, setRecommendationErrors] = useState({});
-  const [recommendationError, setRecommendationError] = useState("");
+  const [recommendationError, setRecommendationError] = useState(null);
   const [recommendationLoading, setRecommendationLoading] = useState(false);
   const [recommendationStale, setRecommendationStale] = useState(false);
   const [recommendationHasCalculated, setRecommendationHasCalculated] = useState(false);
@@ -186,7 +187,7 @@ function App() {
     const profileVersion = recommendationProfileVersion.current;
     recommendationRequestId.current = requestId;
     setRecommendationLoading(true);
-    setRecommendationError("");
+    setRecommendationError(null);
     try {
       const data = await requestRecommendations(validation.payload, { signal: controller.signal });
       if (!isLatestRequest(requestId, recommendationRequestId.current)) return;
@@ -199,7 +200,7 @@ function App() {
     } catch (error) {
       if (error?.name === "AbortError" || !isLatestRequest(requestId, recommendationRequestId.current)) return;
       setRecommendationHasCalculated(true);
-      setRecommendationError("Não foi possível calcular sua recomendação. Verifique a conexão com o serviço e tente novamente.");
+      setRecommendationError(getRecommendationErrorPresentation(error));
       setRecommendationStale(recommendations.length > 0);
       setStatus("Serviço de recomendação indisponível.");
     } finally {

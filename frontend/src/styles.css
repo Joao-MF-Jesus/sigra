@@ -1585,6 +1585,18 @@ ul {
   justify-content: space-between;
 }
 
+.multifactor-subheading {
+  font-size: 0.86rem;
+  margin: 4px 0 0;
+}
+
+.weight-description {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
 .multifactor-breakdown {
   background: color-mix(in srgb, var(--surface) 92%, var(--accent));
   border: 1px solid var(--border);
@@ -1625,10 +1637,76 @@ ul {
   margin: 0;
 }
 
+.recommendation-journey {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.recommendation-journey li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+}
+
+.recommendation-journey span,
+.recommendation-success-summary span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.recommendation-state-card {
+  border-radius: 10px;
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.recommendation-state-card.conflict {
+  border-color: #b88200;
+}
+
+.recommendation-state-card.unavailable {
+  border-color: #8a6d1d;
+}
+
+.recommendation-success-summary {
+  align-items: baseline;
+  display: flex;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.recommendation-simulation-context {
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+}
+
+.recommendation-form input:focus-visible,
+.recommendation-form select:focus-visible,
+.recommendation-form button:focus-visible,
+.recommendation-state-card button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 60%, white);
+  outline-offset: 2px;
+}
+
 @media (max-width: 760px) {
+  .recommendation-journey,
   .multifactor-grid,
   .multifactor-components > div {
     grid-template-columns: 1fr;
+  }
+
+  .recommendation-success-summary,
+  .multifactor-weight-heading {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
 

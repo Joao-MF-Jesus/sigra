@@ -1061,3 +1061,55 @@ persistidas, a Gold ativa não é mutada e `mixed_1000_v1` permanece referência
 analítica. A resposta separa dado publicado, entrada do usuário, cálculo
 derivado e evidência indisponível. Não há nova migration, pipeline ou integração
 com financiamento ou BI; o head continua `20260811_0010`.
+
+## 27. Experiência integrada de recomendação
+
+A camada de experiência organiza o contrato existente sem criar um segundo
+motor de decisão:
+
+```text
+objetivo + uso + preferências + cenário do cliente
+                       |
+                       v
+       ranking histórico ou composição multifator opt-in
+                       |
+          +------------+-------------+
+          |                          |
+          v                          v
+ explicação e linhagem       evidência indisponível
+          |                  sem associação ou nota
+          v
+ detalhe do veículo -> simulação configurável no backend
+```
+
+O frontend valida formato e completude do formulário, mas toda composição de
+score e todo cálculo financeiro continuam no backend com `Decimal`. A mesma
+requisição de cenário atende todos os veículos comparáveis. A soma das
+contribuições explicadas reconcilia com a nota multifator; o ranking histórico
+permanece visível e inalterado como baseline. `legacy_quality` não incorpora
+custo, TCO ou adequação já contabilizados.
+
+A associação Gold exige identidade normalizada inequívoca. Ausência,
+ambiguidade ou falta de evidência produz estado não disponível, sem aproximação,
+fallback ou nota zero. O consumo permanece somente leitura sobre dataset ativo,
+publicado, aprovado, não invalidado e fora de revisão manual. Preferências,
+pesos e resultados não são persistidos e nenhum dataset Gold é modificado.
+
+Os estados `loading`, `empty`, `conflict`, `unavailable` e `success` possuem
+apresentações distintas e mensagens sanitizadas. A interface preserva foco
+visível, associação entre rótulo e campo, indicação acessível de erro e layout
+de uma coluna em telas estreitas. O detalhe conecta explicação e simulação, mas
+não replica fórmula financeira nem promove PBEV ou ANP shadow a uso operacional
+fora do contrato Gold integrado.
+
+### 27.1 Critérios de demonstração e homologação
+
+- omitir o perfil multifator deve produzir o mesmo payload e ranking histórico;
+- um cenário deve ser aplicado uniformemente a todos os comparáveis;
+- contribuição ausente deve ser exibida como não disponível, nunca como zero;
+- conflito de identidade deve impedir associação automática;
+- custo, fontes, baseline e limitações devem ser explicáveis no detalhe;
+- alterar parâmetros depois do cálculo deve marcar o resultado como desatualizado;
+- o simulador deve consumir apenas a resposta financeira do backend;
+- nenhuma preferência ou resposta derivada pode gerar escrita;
+- desktop e telas estreitas devem preservar leitura, foco e ações essenciais.
