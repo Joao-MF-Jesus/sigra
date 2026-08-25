@@ -2,7 +2,8 @@ import copy
 import os
 import tempfile
 import unittest
-from unittest.mock import patch
+from types import SimpleNamespace
+from unittest.mock import MagicMock, patch
 
 from fastapi.testclient import TestClient
 
@@ -611,6 +612,82 @@ class ApiTest(unittest.TestCase):
                 self.assertEqual(best_choices, [])
                 self.assertTrue(road[0]["is_best_available_reference"])
             self.assertNotEqual(city[0]["vehicle"]["id"], road[0]["vehicle"]["id"])
+
+    def test_multifactor_recommendation_is_explicit_stateless_and_sanitized(self):
+        from app.integrated_gold.simulation_service import (
+            VehicleCostSimulationUnavailableError,
+        )
+
+        payload = {
+            "budget": 250000,
+            "monthly_limit": 3500,
+            "use_case": "cidade",
+            "multifactor_profile": {
+                "enabled": True,
+                "allow_budget_above_200k": True,
+                "scenario": {
+                    "monthly_distance_km": "1250.00",
+                    "city_percentage": "60.00",
+                    "highway_percentage": "40.00",
+                    "state_code": "SP",
+                    "municipality": "Sao Paulo",
+                    "reference_week_start": "2026-08-17",
+                    "fuel_strategy": "gasoline_c_common",
+                    "horizon_months": 18,
+                },
+                "weights": {
+                    "total_cost": "25",
+                    "usage_fit": "20",
+                    "comfort": "10",
+                    "safety": "15",
+                    "performance": "10",
+                    "efficiency": "10",
+                    "legacy_quality": "10",
+                },
+            },
+        }
+        service = MagicMock()
+        service.simulate.return_value = SimpleNamespace(fingerprint="f" * 64)
+
+        def fake_ranking(items, simulation, weights):
+            self.assertEqual(simulation.fingerprint, "f" * 64)
+            self.assertEqual(sum(weights.values()), 100)
+            output = copy.deepcopy(items)
+            output[0]["multifactor"] = {"status": "ranked", "position": 1}
+            return output
+
+        with self.client() as client, patch(
+            "app.main.simulation_service_for_session",
+            return_value=service,
+        ), patch("app.main.apply_multifactor_ranking", side_effect=fake_ranking):
+            response = client.post("/recommendations?envelope=true", json=payload)
+            self.assertEqual(response.status_code, 200, response.text)
+            data = response.json()
+            self.assertTrue(data["multifactor_profile"]["enabled"])
+            self.assertTrue(data["multifactor_profile"]["stateless"])
+            self.assertTrue(data["multifactor_profile"]["active_gold_unchanged"])
+            self.assertEqual(
+                data["multifactor_profile"]["simulation_fingerprint"],
+                "f" * 64,
+            )
+            service.simulate.assert_called_once()
+
+            unauthorized = copy.deepcopy(payload)
+            unauthorized["multifactor_profile"]["allow_budget_above_200k"] = False
+            denied = client.post("/recommendations?envelope=true", json=unauthorized)
+            self.assertEqual(denied.status_code, 422)
+
+        unavailable_service = MagicMock()
+        unavailable_service.simulate.side_effect = VehicleCostSimulationUnavailableError(
+            "internal storage detail"
+        )
+        with self.client() as client, patch(
+            "app.main.simulation_service_for_session",
+            return_value=unavailable_service,
+        ):
+            unavailable = client.post("/recommendations?envelope=true", json=payload)
+            self.assertEqual(unavailable.status_code, 503)
+            self.assertNotIn("internal storage detail", unavailable.text)
 
     def test_recommendations_without_viable_options_still_return_comparative_list(self):
         with self.client() as client:

@@ -1028,3 +1028,36 @@ na Gold, mantém percentuais urbano/rodoviário sincronizados, valida os campos 
 envia o cenário ao endpoint. Somente a resposta do backend fornece os custos,
 fontes e avisos; nenhuma fórmula financeira ou preferência é mantida no cliente.
 O head Alembic permanece `20260811_0010`.
+
+## 26. Composição multifator do recomendador
+
+A recomendação multifator é uma composição stateless e opcional sobre o
+ranking existente. Sem `multifactor_profile`, o caminho legado não recebe campo
+novo e preserva integralmente ordem, score, empates, elegibilidade e mensagens.
+Com o perfil habilitado, o backend executa uma única simulação configurável para
+o conjunto Gold elegível e aplica exatamente o mesmo cenário a todos os
+veículos comparáveis.
+
+O conjunto de critérios é `total_cost`, `usage_fit`, `comfort`, `safety`,
+`performance`, `efficiency` e `legacy_quality`. Custo de combustível e
+eficiência vêm da Gold e do cenário; `legacy_quality` contém apenas manutenção,
+confiabilidade, peças e revenda. Critérios financeiros, TCO e adequação já
+presentes no recomendador não são reutilizados nesse agrupamento, evitando
+dupla contagem. Pesos devem ser `Decimal` finitos entre zero e cem, com ao menos
+um valor positivo, e são normalizados deterministicamente.
+
+Associação entre catálogo legado e Gold exige marca, modelo e ano exatos após
+normalização controlada. Zero ou múltiplas identidades tornam a evidência
+indisponível; não há aproximação ou fallback silencioso. O mesmo vale para
+conforto ausente quando seu peso é positivo. O resultado explica score bruto,
+peso de entrada, peso normalizado, contribuição, score final, posição, baseline
+histórico, desempates, custos e versões FIPE/PBEV/ANP/Gold integrada. Empates
+usam score multifator, posição histórica e identificador do veículo nessa
+ordem.
+
+O frontend coleta cenário, autorização para orçamento acima de R$ 200 mil e
+pesos editáveis, mas não calcula custos financeiros. Preferências não são
+persistidas, a Gold ativa não é mutada e `mixed_1000_v1` permanece referência
+analítica. A resposta separa dado publicado, entrada do usuário, cálculo
+derivado e evidência indisponível. Não há nova migration, pipeline ou integração
+com financiamento ou BI; o head continua `20260811_0010`.

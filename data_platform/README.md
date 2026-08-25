@@ -690,3 +690,28 @@ motor. No fluxo de detalhes do veículo, o frontend consulta a listagem pública
 da Gold para exigir uma identidade `vehicle_sk` inequívoca, valida os parâmetros
 antes do envio e apresenta resultados, fontes e limitações devolvidos pela API.
 Ele não reproduz fórmulas, não persiste preferências e não escreve na Gold.
+
+## Recomendação multifator orientada pelo perfil
+
+`POST /recommendations` mantém o contrato histórico quando
+`multifactor_profile` é omitido: ordem, Nota SIGRA, empates, mensagens e
+elegibilidade continuam produzidos pelo recomendador existente. A extensão é
+opt-in e stateless. Quando habilitada, ela aplica um único cenário explícito a
+todos os veículos comparáveis, consulta somente a Gold integrada ativa e
+elegível e reutiliza o motor `Decimal` da simulação. Nenhuma fórmula financeira
+é copiada para a rota ou para o frontend.
+
+Os pesos de custo de combustível, adequação ao uso, conforto, segurança,
+desempenho rodoviário, eficiência e qualidade histórica são decimais finitos,
+não negativos e normalizados de forma determinística. Custo e eficiência Gold
+ficam isolados dos componentes históricos para impedir dupla contagem. Conforto
+sem evidência não vira zero inventado: o veículo fica indisponível no ranking
+multifator. Identidade Gold ausente ou ambígua também não recebe fallback.
+
+A resposta mostra posição e nota históricas, valores brutos, peso informado,
+peso normalizado, contribuição, nota final, desempate, custos, versões das
+fontes, avisos e limitações. Dado Gold publicado, parâmetro do usuário e
+resultado derivado possuem origens distintas. `mixed_1000_v1` permanece apenas
+como baseline analítico. Orçamento acima de R$ 200 mil exige autorização
+explícita; não existe teto oculto. Preferências e resultados não são persistidos
+e os datasets publicados não são alterados.

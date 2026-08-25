@@ -5,6 +5,7 @@ import RecommendationForm from "./features/recommendations/RecommendationForm.js
 import RecommendationPage from "./features/recommendations/RecommendationPage.jsx";
 import FinancingPage from "./features/financing/FinancingPage.jsx";
 import { isLatestRequest, shouldMarkResultsStale, validateRecommendationProfile } from "./features/recommendations/recommendationValidation.js";
+import { MULTIFACTOR_DEFAULT_WEIGHTS, resetMultifactorWeightFields } from "./features/recommendations/multifactorRecommendationModel.js";
 import { API_URL, PUBLIC_DEMO_MODE } from "./config/runtime.js";
 
 
@@ -65,6 +66,21 @@ function App() {
     recommendation_strategy: "cost_benefit",
     monthly_mileage: "1000",
     fuel_price: "6",
+    multifactor_enabled: false,
+    allow_budget_above_200k: false,
+    multifactor_monthly_distance_km: "1000",
+    multifactor_city_percentage: "50",
+    multifactor_highway_percentage: "50",
+    multifactor_fuel_strategy: "gasoline_c_common",
+    multifactor_price_mode: "anp",
+    multifactor_manual_fuel_price_brl: "",
+    multifactor_horizon_months: "12",
+    multifactor_state_code: "SP",
+    multifactor_municipality: "",
+    multifactor_reference_week_start: "",
+    multifactor_city_consumption_km_l: "",
+    multifactor_highway_consumption_km_l: "",
+    ...Object.fromEntries(Object.entries(MULTIFACTOR_DEFAULT_WEIGHTS).map(([code, value]) => [`weight_${code}`, value])),
   });
   const [recommendations, setRecommendations] = useState([]);
   const [recommendationMetadata, setRecommendationMetadata] = useState(null);
@@ -466,6 +482,13 @@ function App() {
     setRecommendationStale(shouldMarkResultsStale(recommendationHasCalculated));
   }
 
+  function resetMultifactorWeights() {
+    recommendationProfileVersion.current += 1;
+    setProfile((current) => ({ ...current, ...resetMultifactorWeightFields(current) }));
+    setRecommendationErrors((current) => ({ ...current, multifactor_weights: undefined }));
+    setRecommendationStale(shouldMarkResultsStale(recommendationHasCalculated));
+  }
+
   function toggleVehicle(id) {
     setSelectedIds((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id],
@@ -709,6 +732,7 @@ function App() {
             errors={recommendationErrors}
             loading={recommendationLoading}
             onChange={updateProfile}
+            onResetMultifactorWeights={resetMultifactorWeights}
             onSubmit={runRecommendation}
           />}
         </aside>

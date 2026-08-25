@@ -1,9 +1,10 @@
 import React from "react";
 import { isRecommendationSubmitDisabled } from "./recommendationValidation.js";
+import MultifactorProfileFields from "./MultifactorProfileFields.jsx";
 
 const FieldError = ({ message }) => message ? <small className="field-error">{message}</small> : null;
 
-export default function RecommendationForm({ profile, errors, loading, onChange, onSubmit }) {
+export default function RecommendationForm({ profile, errors, loading, onChange, onResetMultifactorWeights, onSubmit }) {
   const disabled = isRecommendationSubmitDisabled({ loading, vehicleType: profile.vehicle_type });
   return (
     <form className="recommendation-form" data-testid="recommendation-form" onSubmit={onSubmit} noValidate>
@@ -50,7 +51,8 @@ export default function RecommendationForm({ profile, errors, loading, onChange,
             <input data-testid="recommendation-fuel-price" type="number" step="0.01" value={profile.fuel_price} onChange={(event) => onChange("fuel_price", event.target.value)} />
             <FieldError message={errors.fuel_price} />
           </label></fieldset>
-          <fieldset><legend>7. Cálculo</legend><button data-testid="recommendation-submit" type="submit" disabled={disabled}>{loading ? "Calculando..." : "Calcular recomendação"}</button></fieldset>
+          <MultifactorProfileFields profile={profile} errors={errors} onChange={onChange} onResetWeights={onResetMultifactorWeights} />
+          <fieldset><legend>8. Cálculo</legend><button data-testid="recommendation-submit" type="submit" disabled={disabled}>{loading ? "Calculando..." : "Calcular recomendação"}</button></fieldset>
         </>
       )}
     </form>

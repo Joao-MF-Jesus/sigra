@@ -6,7 +6,7 @@ from typing import Literal
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from sqlalchemy.orm import Session
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
@@ -43,6 +43,11 @@ from app.parts_analysis import (
     calculate_vehicle_parts_summary,
 )
 from app.parts_catalog import get_parts_catalog
+from app.multifactor_recommendation import (
+    MULTIFACTOR_POLICY_VERSION,
+    apply_multifactor_ranking,
+)
+from app.multifactor_schemas import MultifactorRecommendationProfile
 from app.recommender import RecommendationProfile, recommend
 from app.repository import (
     create_consumption_report,
@@ -108,6 +113,11 @@ from app.schemas import (
 from app.vehicle_history import build_preventive_alerts, build_recommendation_feedback, calculate_model_statistics
 from app.vehicle_domain import CarUseCase, RecommendationStrategy, VehicleType
 from app.vehicle_queries import car_query, get_car
+from app.integrated_gold.simulation_service import (
+    VehicleCostSimulationConflictError,
+    VehicleCostSimulationUnavailableError,
+    simulation_service_for_session,
+)
 
 
 LOGGER = logging.getLogger(__name__)
@@ -199,6 +209,19 @@ class RecommendationRequest(BaseModel):
         default=RecommendationStrategy.COST_BENEFIT,
         examples=["cost_benefit"],
     )
+    multifactor_profile: MultifactorRecommendationProfile | None = None
+
+    @model_validator(mode="after")
+    def validate_multifactor_budget_authorization(self):
+        if (
+            self.multifactor_profile is not None
+            and self.budget > 200_000
+            and not self.multifactor_profile.allow_budget_above_200k
+        ):
+            raise ValueError(
+                "budget above BRL 200000 requires explicit multifactor authorization"
+            )
+        return self
 
 
 @app.get("/health")
@@ -641,9 +664,59 @@ def create_recommendations(
         }
         for item in results
     ]
+    multifactor_metadata = None
+    if request.multifactor_profile is not None:
+        try:
+            simulation = simulation_service_for_session(db).simulate(
+                request.multifactor_profile.scenario.to_contract()
+            )
+            payload = apply_multifactor_ranking(
+                payload,
+                simulation,
+                request.multifactor_profile.weights.as_mapping(),
+            )
+        except VehicleCostSimulationConflictError as exc:
+            raise HTTPException(
+                status_code=409,
+                detail={
+                    "code": "multifactor_gold_identity_conflict",
+                    "message": "multifactor recommendation found conflicting Gold evidence",
+                },
+            ) from exc
+        except VehicleCostSimulationUnavailableError as exc:
+            raise HTTPException(
+                status_code=503,
+                detail={
+                    "code": "multifactor_gold_unavailable",
+                    "message": "eligible integrated Gold is unavailable for multifactor recommendation",
+                },
+            ) from exc
+        multifactor_metadata = {
+            "enabled": True,
+            "policy_version": MULTIFACTOR_POLICY_VERSION,
+            "scenario": request.multifactor_profile.scenario.model_dump(),
+            "weights": request.multifactor_profile.weights.model_dump(),
+            "simulation_fingerprint": simulation.fingerprint,
+            "ranked_count": len(
+                [
+                    item
+                    for item in payload
+                    if item.get("multifactor", {}).get("status") == "ranked"
+                ]
+            ),
+            "unavailable_count": len(
+                [
+                    item
+                    for item in payload
+                    if item.get("multifactor", {}).get("status") == "unavailable"
+                ]
+            ),
+            "stateless": True,
+            "active_gold_unchanged": True,
+        }
     if not envelope:
         return payload
-    return {
+    response = {
         "algorithm_version": ALGORITHM_VERSION,
         "weights_version": WEIGHTS_VERSION,
         "vehicle_type": "car",
@@ -653,6 +726,9 @@ def create_recommendations(
         "vehicle_processing": vehicle_processing,
         "recommendations": payload,
     }
+    if multifactor_metadata is not None:
+        response["multifactor_profile"] = multifactor_metadata
+    return response
 
 
 @app.get("/parts", response_model=list[PartRead])

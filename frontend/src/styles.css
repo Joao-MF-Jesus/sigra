@@ -1568,6 +1568,70 @@ ul {
   opacity: 0.65;
 }
 
+.multifactor-profile {
+  display: grid;
+  gap: 10px;
+}
+
+.multifactor-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.multifactor-weight-heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.multifactor-breakdown {
+  background: color-mix(in srgb, var(--surface) 92%, var(--accent));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-top: 12px;
+  padding: 12px;
+}
+
+.multifactor-breakdown.unavailable {
+  border-color: #b88200;
+}
+
+.multifactor-breakdown h4,
+.multifactor-breakdown p {
+  margin: 0 0 8px;
+}
+
+.multifactor-components,
+.multifactor-sources {
+  display: grid;
+  gap: 6px;
+}
+
+.multifactor-components > div,
+.multifactor-sources > div {
+  align-items: center;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto;
+}
+
+.multifactor-sources > div {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+}
+
+.multifactor-sources dt,
+.multifactor-sources dd {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .multifactor-grid,
+  .multifactor-components > div {
+    grid-template-columns: 1fr;
+  }
+}
+
 .development-state,
 .development-page,
 .recommendation-empty-state,
