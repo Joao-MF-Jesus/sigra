@@ -1022,5 +1022,9 @@ da resposta. O baseline permanece evidência publicada para comparação, rankin
 auditoria e regressão; não atua como default do cliente e não é alterado. Não há
 persistência de preferência, escrita Gold, lock, pipeline, rede ou chamada
 externa. Financiamento, manutenção, seguro, IPVA, depreciação, frontend,
-recomendador e BI permanecem fora do consumo. O head Alembic permanece
-`20260811_0010`.
+recomendador e BI permanecem fora do motor de cálculo. O frontend disponibiliza
+o cenário no detalhe do veículo: resolve explicitamente a identidade publicada
+na Gold, mantém percentuais urbano/rodoviário sincronizados, valida os campos e
+envia o cenário ao endpoint. Somente a resposta do backend fornece os custos,
+fontes e avisos; nenhuma fórmula financeira ou preferência é mantida no cliente.
+O head Alembic permanece `20260811_0010`.

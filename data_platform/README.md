@@ -685,5 +685,8 @@ avisos, limitações e timestamp da resposta. O baseline canônico continua send
 a projeção publicada para comparação, ranking, auditoria e regressão; ele não
 fornece defaults nem é alterado pela simulação personalizada. A requisição não
 grava banco, executa pipeline, adquire lock ou chama rede. Financiamento,
-manutenção, seguro, IPVA, depreciação, frontend, recomendador e BI permanecem
-fora do motor.
+manutenção, seguro, IPVA, depreciação, recomendador e BI permanecem fora do
+motor. No fluxo de detalhes do veículo, o frontend consulta a listagem pública
+da Gold para exigir uma identidade `vehicle_sk` inequívoca, valida os parâmetros
+antes do envio e apresenta resultados, fontes e limitações devolvidos pela API.
+Ele não reproduz fórmulas, não persiste preferências e não escreve na Gold.

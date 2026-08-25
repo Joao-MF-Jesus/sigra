@@ -841,6 +841,136 @@ ul {
   white-space: nowrap;
 }
 
+.vehicle-simulation {
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+
+.vehicle-simulation h3,
+.vehicle-simulation h4 {
+  margin: 0;
+}
+
+.vehicle-simulation-form,
+.vehicle-simulation-result {
+  display: grid;
+  gap: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--surface-muted);
+}
+
+.vehicle-simulation-form fieldset {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.vehicle-simulation-form legend {
+  padding: 0 6px;
+  color: var(--text);
+  font-weight: 850;
+}
+
+.vehicle-simulation-form label {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  color: var(--soft-text);
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+.vehicle-simulation-grid,
+.vehicle-simulation-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.vehicle-simulation-form input,
+.vehicle-simulation-form select {
+  min-width: 0;
+}
+
+.vehicle-simulation-error,
+.vehicle-simulation-warning,
+.vehicle-simulation-warnings {
+  border-left: 3px solid var(--warning);
+  margin: 0;
+  padding: 10px 12px;
+  color: var(--soft-text);
+  background: color-mix(in srgb, var(--warning) 9%, var(--surface));
+}
+
+.vehicle-simulation-error {
+  border-left-color: var(--danger-text);
+}
+
+.vehicle-simulation-result-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vehicle-simulation-result-heading > span {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--soft-text);
+  background: var(--surface);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.vehicle-simulation-metrics article {
+  display: grid;
+  gap: 4px;
+  border-radius: 6px;
+  padding: 10px;
+  background: var(--metric-bg);
+}
+
+.vehicle-simulation-metrics span,
+.vehicle-simulation-metrics small {
+  color: var(--muted);
+}
+
+.vehicle-simulation-sources {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.vehicle-simulation-sources div {
+  min-width: 0;
+}
+
+.vehicle-simulation-sources dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.vehicle-simulation-sources dd {
+  margin: 3px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.vehicle-simulation-disclaimer {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  font-size: 0.82rem;
+}
+
 .spec-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1385,6 +1515,16 @@ ul {
   }
 
   .modal-header {
+    display: grid;
+  }
+
+  .vehicle-simulation-grid,
+  .vehicle-simulation-metrics,
+  .vehicle-simulation-sources {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicle-simulation-result-heading {
     display: grid;
   }
 }

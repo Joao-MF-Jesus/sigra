@@ -1,12 +1,13 @@
 import React from "react";
 import ConfidenceIndicator from "./ConfidenceIndicator.jsx";
 import { formatCurrency, formatScore, getConfidence, getMaintenanceMetric, getPartsMetric, getRecommendationStatusLabel } from "./recommendationModel.js";
+import VehicleCostSimulationPanel from "../vehicle-cost-simulation/VehicleCostSimulationPanel.jsx";
 
 function DetailGrid({ items }) {
   return <dl className="spec-list modal-spec-list">{items.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>;
 }
 
-export default function RecommendationDetails({ item, metadata, onClose, onParts, onCompare }) {
+export default function RecommendationDetails({ item, metadata, profile, onClose, onParts, onCompare }) {
   if (!item) return null;
   const vehicle = item.vehicle;
   const confidence = item.confidence || item.recommendation_summary?.confidence || {};
@@ -27,6 +28,7 @@ export default function RecommendationDetails({ item, metadata, onClose, onParts
     {Number.isFinite(Number(item.decision_score)) && <p className="field-hint">Indicador complementar que combina compatibilidade e valor percebido. Ele não determina isoladamente a posição no ranking.</p>}
     <section className="modal-section confidence-details"><h3>Confiança dos dados</h3><ConfidenceIndicator item={item} /><p>A Nota SIGRA mede a compatibilidade do veículo com o perfil informado. A confiança mede a cobertura, atualidade e qualidade dos dados utilizados.</p>{confidenceDetails.length > 0 && <ul>{confidenceDetails.map((text) => <li key={text}>{text}</li>)}</ul>}<p>{confidence.disclaimer}</p><p>Referência temporal: {metadata?.data_reference || "não informada"}. Confiança classificada como {confidenceView.level}.</p></section>
     <section className="modal-section"><h3>Explicação completa</h3><ul>{(item.explanations || []).map((text) => <li key={text}>{text}</li>)}</ul></section>
+    <VehicleCostSimulationPanel vehicle={vehicle} profile={profile} />
     <div className="modal-actions"><button className="ghost-button" type="button" onClick={() => onParts(item)}>Ver peças</button><button className="ghost-button" type="button" onClick={() => onCompare(item)}>Comparar</button></div>
   </section></div>;
 }

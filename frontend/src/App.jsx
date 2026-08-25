@@ -1347,6 +1347,7 @@ function App() {
       <RecommendationDetails
         item={selectedRecommendationDetails}
         metadata={recommendationMetadata}
+        profile={profile}
         onClose={() => setSelectedRecommendationDetails(null)}
         onParts={(item) => { setActiveTab("parts"); setPartsVehicleId(item.vehicle.id); loadPartsAnalysis(item.vehicle.id); setSelectedRecommendationDetails(null); }}
         onCompare={(item) => { if (!selectedIds.includes(item.vehicle.id)) toggleVehicle(item.vehicle.id); setActiveTab("comparison"); setSelectedRecommendationDetails(null); }}
