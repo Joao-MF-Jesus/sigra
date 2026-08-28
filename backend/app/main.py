@@ -6,11 +6,12 @@ from typing import Literal
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from sqlalchemy.orm import Session
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from app import models
-from app.config import cors_allowed_origins
+from app.config import cors_allowed_origins, load_runtime_settings
 from app.database import (
     DATABASE_SETTINGS,
     SessionLocal,
@@ -28,6 +29,11 @@ from app.fipe import (
     refresh_fipe_prices,
 )
 from app.financing.routes import router as financing_router
+from app.integrated_gold.routes import router as integrated_gold_router
+from app.http_middleware import (
+    PublicDemoReadOnlyMiddleware,
+    RequestLoggingMiddleware,
+)
 from app.online_search import find_online_matches, search_online_cars
 from app.motorcycle_audit import audit_motorcycle_record
 from app.parts_analysis import (
@@ -37,6 +43,11 @@ from app.parts_analysis import (
     calculate_vehicle_parts_summary,
 )
 from app.parts_catalog import get_parts_catalog
+from app.multifactor_recommendation import (
+    MULTIFACTOR_POLICY_VERSION,
+    apply_multifactor_ranking,
+)
+from app.multifactor_schemas import MultifactorRecommendationProfile
 from app.recommender import RecommendationProfile, recommend
 from app.repository import (
     create_consumption_report,
@@ -102,6 +113,11 @@ from app.schemas import (
 from app.vehicle_history import build_preventive_alerts, build_recommendation_feedback, calculate_model_statistics
 from app.vehicle_domain import CarUseCase, RecommendationStrategy, VehicleType
 from app.vehicle_queries import car_query, get_car
+from app.integrated_gold.simulation_service import (
+    VehicleCostSimulationConflictError,
+    VehicleCostSimulationUnavailableError,
+    simulation_service_for_session,
+)
 
 
 LOGGER = logging.getLogger(__name__)
@@ -134,25 +150,50 @@ async def lifespan(app: FastAPI):
             ensure_seed_data(db)
     else:
         check_database_connection()
+        if (
+            DATABASE_SETTINGS.is_published_environment
+            and not migration_is_up_to_date()
+        ):
+            raise RuntimeError(
+                "Schema remoto desatualizado. Execute Alembic antes do backend."
+            )
     ensure_fipe_prices_current()
     yield
 
 
-app = FastAPI(title="SIGRA API", version="0.1.0", lifespan=lifespan)
+RUNTIME_SETTINGS = load_runtime_settings()
+app = FastAPI(
+    title="SIGRA API",
+    version="0.1.0",
+    lifespan=lifespan,
+    docs_url="/docs" if RUNTIME_SETTINGS.api_docs_enabled else None,
+    redoc_url="/redoc" if RUNTIME_SETTINGS.api_docs_enabled else None,
+    openapi_url="/openapi.json" if RUNTIME_SETTINGS.api_docs_enabled else None,
+)
 
 ALGORITHM_VERSION = "2.1.2"
 WEIGHTS_VERSION = "cars-v1"
 MOTORCYCLE_MODULE_VERSION = "0.3.1"
 
+app.add_middleware(PublicDemoReadOnlyMiddleware)
+app.add_middleware(RequestLoggingMiddleware)
+if RUNTIME_SETTINGS.allowed_hosts:
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=list(RUNTIME_SETTINGS.allowed_hosts),
+    )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=cors_allowed_origins(),
-    allow_credentials=True,
+    allow_origins=cors_allowed_origins(
+        environment=RUNTIME_SETTINGS.environment,
+    ),
+    allow_credentials=not RUNTIME_SETTINGS.public_demo_mode,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 app.include_router(financing_router)
+app.include_router(integrated_gold_router)
 
 
 class RecommendationRequest(BaseModel):
@@ -168,6 +209,19 @@ class RecommendationRequest(BaseModel):
         default=RecommendationStrategy.COST_BENEFIT,
         examples=["cost_benefit"],
     )
+    multifactor_profile: MultifactorRecommendationProfile | None = None
+
+    @model_validator(mode="after")
+    def validate_multifactor_budget_authorization(self):
+        if (
+            self.multifactor_profile is not None
+            and self.budget > 200_000
+            and not self.multifactor_profile.allow_budget_above_200k
+        ):
+            raise ValueError(
+                "budget above BRL 200000 requires explicit multifactor authorization"
+            )
+        return self
 
 
 @app.get("/health")
@@ -179,7 +233,9 @@ def health_check(db: Session = Depends(get_db)):
         "status": "ok",
         "app": "SIGRA API",
         "version": app.version,
-        "docs_url": "/docs",
+        "docs_url": app.docs_url,
+        "environment": DATABASE_SETTINGS.environment,
+        "public_demo_mode": RUNTIME_SETTINGS.public_demo_mode,
         "database": {
             "engine": DATABASE_SETTINGS.backend_name,
             "reachable": True,
@@ -608,9 +664,59 @@ def create_recommendations(
         }
         for item in results
     ]
+    multifactor_metadata = None
+    if request.multifactor_profile is not None:
+        try:
+            simulation = simulation_service_for_session(db).simulate(
+                request.multifactor_profile.scenario.to_contract()
+            )
+            payload = apply_multifactor_ranking(
+                payload,
+                simulation,
+                request.multifactor_profile.weights.as_mapping(),
+            )
+        except VehicleCostSimulationConflictError as exc:
+            raise HTTPException(
+                status_code=409,
+                detail={
+                    "code": "multifactor_gold_identity_conflict",
+                    "message": "multifactor recommendation found conflicting Gold evidence",
+                },
+            ) from exc
+        except VehicleCostSimulationUnavailableError as exc:
+            raise HTTPException(
+                status_code=503,
+                detail={
+                    "code": "multifactor_gold_unavailable",
+                    "message": "eligible integrated Gold is unavailable for multifactor recommendation",
+                },
+            ) from exc
+        multifactor_metadata = {
+            "enabled": True,
+            "policy_version": MULTIFACTOR_POLICY_VERSION,
+            "scenario": request.multifactor_profile.scenario.model_dump(),
+            "weights": request.multifactor_profile.weights.model_dump(),
+            "simulation_fingerprint": simulation.fingerprint,
+            "ranked_count": len(
+                [
+                    item
+                    for item in payload
+                    if item.get("multifactor", {}).get("status") == "ranked"
+                ]
+            ),
+            "unavailable_count": len(
+                [
+                    item
+                    for item in payload
+                    if item.get("multifactor", {}).get("status") == "unavailable"
+                ]
+            ),
+            "stateless": True,
+            "active_gold_unchanged": True,
+        }
     if not envelope:
         return payload
-    return {
+    response = {
         "algorithm_version": ALGORITHM_VERSION,
         "weights_version": WEIGHTS_VERSION,
         "vehicle_type": "car",
@@ -620,6 +726,9 @@ def create_recommendations(
         "vehicle_processing": vehicle_processing,
         "recommendations": payload,
     }
+    if multifactor_metadata is not None:
+        response["multifactor_profile"] = multifactor_metadata
+    return response
 
 
 @app.get("/parts", response_model=list[PartRead])

@@ -4,6 +4,7 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Mapping
+from urllib.parse import urlparse
 
 from sqlalchemy.engine import URL, make_url
 from sqlalchemy.exc import ArgumentError
@@ -17,7 +18,14 @@ DEFAULT_CORS_ALLOWED_ORIGINS = (
 BACKEND_DIR = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = BACKEND_DIR.parent
 DEFAULT_DATABASE_PATH = (BACKEND_DIR / "sigra.db").resolve()
-DATABASE_ENVIRONMENTS = {"development", "test", "integration", "production"}
+DATABASE_ENVIRONMENTS = {
+    "development",
+    "test",
+    "integration",
+    "homologation",
+    "production",
+}
+PUBLISHED_DATABASE_ENVIRONMENTS = {"homologation", "production"}
 
 
 def _boolean(
@@ -122,6 +130,7 @@ class DatabaseSettings:
     pool_timeout: int
     pool_recycle: int
     allow_sqlite_in_production: bool
+    ssl_required: bool = False
 
     @property
     def backend_name(self) -> str:
@@ -138,6 +147,10 @@ class DatabaseSettings:
     @property
     def bootstrap_schema(self) -> bool:
         return self.is_sqlite and self.environment in {"development", "test"}
+
+    @property
+    def is_published_environment(self) -> bool:
+        return self.environment in PUBLISHED_DATABASE_ENVIRONMENTS
 
     @property
     def safe_url(self) -> str:
@@ -186,22 +199,112 @@ def load_database_settings(
             default=False,
             variable_name="ALLOW_SQLITE_IN_PRODUCTION",
         ),
+        ssl_required=_boolean(
+            values.get("DATABASE_SSL_REQUIRED"),
+            default=environment in PUBLISHED_DATABASE_ENVIRONMENTS,
+            variable_name="DATABASE_SSL_REQUIRED",
+        ),
     )
     if (
-        settings.environment == "production"
+        settings.is_published_environment
         and settings.is_sqlite
         and not settings.allow_sqlite_in_production
     ):
         raise RuntimeError(
-            "SQLite nao e permitido em production. Configure PostgreSQL em "
+            "SQLite nao e permitido em ambiente publicado. Configure PostgreSQL em "
             "DATABASE_URL ou use o override emergencial documentado."
         )
     return settings
 
 
-def cors_allowed_origins(raw_extra_origins: str | None = None) -> list[str]:
+@dataclass(frozen=True)
+class RuntimeSettings:
+    environment: str
+    public_demo_mode: bool
+    api_docs_enabled: bool
+    allowed_hosts: tuple[str, ...]
+
+    @property
+    def is_published_environment(self) -> bool:
+        return self.environment in PUBLISHED_DATABASE_ENVIRONMENTS
+
+
+def _comma_separated_values(raw_value: str | None) -> list[str]:
+    return [
+        value.strip()
+        for value in (raw_value or "").split(",")
+        if value.strip()
+    ]
+
+
+def allowed_hosts(raw_hosts: str | None = None) -> list[str]:
+    raw_value = os.getenv("ALLOWED_HOSTS", "") if raw_hosts is None else raw_hosts
+    hosts = []
+    for host in _comma_separated_values(raw_value):
+        if host == "*":
+            continue
+        if "://" in host or "/" in host:
+            raise ValueError("ALLOWED_HOSTS deve conter somente nomes de host.")
+        hosts.append(host)
+    return list(dict.fromkeys(hosts))
+
+
+def load_runtime_settings(
+    environ: Mapping[str, str] | None = None,
+) -> RuntimeSettings:
+    values = os.environ if environ is None else environ
+    environment = values.get("DATABASE_ENV", "development").strip().casefold()
+    if environment not in DATABASE_ENVIRONMENTS:
+        allowed = ", ".join(sorted(DATABASE_ENVIRONMENTS))
+        raise ValueError(f"DATABASE_ENV invalido. Valores aceitos: {allowed}.")
+    public_demo = _boolean(
+        values.get("PUBLIC_DEMO_MODE"),
+        default=False,
+        variable_name="PUBLIC_DEMO_MODE",
+    )
+    return RuntimeSettings(
+        environment=environment,
+        public_demo_mode=public_demo,
+        api_docs_enabled=_boolean(
+            values.get("API_DOCS_ENABLED"),
+            default=not public_demo,
+            variable_name="API_DOCS_ENABLED",
+        ),
+        allowed_hosts=tuple(allowed_hosts(values.get("ALLOWED_HOSTS", ""))),
+    )
+
+
+def public_demo_mode() -> bool:
+    return _boolean(
+        os.getenv("PUBLIC_DEMO_MODE"),
+        default=False,
+        variable_name="PUBLIC_DEMO_MODE",
+    )
+
+
+def cors_allowed_origins(
+    raw_extra_origins: str | None = None,
+    *,
+    environment: str | None = None,
+) -> list[str]:
     """Return explicit CORS origins without enabling a wildcard implicitly."""
     raw_value = os.getenv("CORS_ALLOWED_ORIGINS", "") if raw_extra_origins is None else raw_extra_origins
-    extras = [origin.strip() for origin in raw_value.split(",") if origin.strip()]
-    configured = [*DEFAULT_CORS_ALLOWED_ORIGINS, *(origin for origin in extras if origin != "*")]
+    active_environment = (
+        environment or os.getenv("DATABASE_ENV", "development")
+    ).strip().casefold()
+    published = active_environment in PUBLISHED_DATABASE_ENVIRONMENTS
+    extras = []
+    for origin in _comma_separated_values(raw_value):
+        if origin == "*":
+            continue
+        parsed = urlparse(origin)
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+            raise ValueError(f"Origem CORS invalida: {origin}")
+        if published and parsed.scheme != "https":
+            raise ValueError(
+                "CORS em ambiente publicado aceita somente origens HTTPS."
+            )
+        extras.append(origin.rstrip("/"))
+    defaults = [] if published else list(DEFAULT_CORS_ALLOWED_ORIGINS)
+    configured = [*defaults, *extras]
     return list(dict.fromkeys(configured))

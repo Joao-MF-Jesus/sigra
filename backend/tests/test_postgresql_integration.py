@@ -107,6 +107,7 @@ class PostgreSQLIntegrationTest(unittest.TestCase):
             os.environ["DATABASE_ENV"] = cls.previous_database_env
 
     def test_schema_revision_tables_constraints_numeric_json_and_timezone(self):
+        from app.database import EXPECTED_ALEMBIC_HEAD
         from database_migration_common import (
             MONEY_COLUMNS,
             expected_table_order,
@@ -150,7 +151,7 @@ class PostgreSQLIntegrationTest(unittest.TestCase):
             revision = connection.execute(
                 text("SELECT version_num FROM alembic_version")
             ).scalar_one()
-            self.assertEqual(revision, "20260723_0001")
+            self.assertEqual(revision, EXPECTED_ALEMBIC_HEAD)
             price = connection.execute(
                 text("SELECT price FROM vehicles ORDER BY id LIMIT 1")
             ).scalar_one()

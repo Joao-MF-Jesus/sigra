@@ -5,18 +5,10 @@ import RecommendationForm from "./features/recommendations/RecommendationForm.js
 import RecommendationPage from "./features/recommendations/RecommendationPage.jsx";
 import FinancingPage from "./features/financing/FinancingPage.jsx";
 import { isLatestRequest, shouldMarkResultsStale, validateRecommendationProfile } from "./features/recommendations/recommendationValidation.js";
+import { MULTIFACTOR_DEFAULT_WEIGHTS, resetMultifactorWeightFields } from "./features/recommendations/multifactorRecommendationModel.js";
+import { getRecommendationErrorPresentation } from "./features/recommendations/recommendationModel.js";
+import { API_URL, PUBLIC_DEMO_MODE } from "./config/runtime.js";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
-
-function loadSavedSession() {
-  try {
-    const savedUser = localStorage.getItem("sigra-session");
-    return savedUser ? JSON.parse(savedUser) : null;
-  } catch {
-    localStorage.removeItem("sigra-session");
-    return null;
-  }
-}
 
 function formatCurrency(value) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(value || 0));
@@ -63,8 +55,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loginRole, setLoginRole] = useState("user");
   const [loginForm, setLoginForm] = useState({
-    email: "usuario@sigra.local",
-    password: "usuario123",
+    email: "",
+    password: "",
   });
   const [loginError, setLoginError] = useState("");
   const [profile, setProfile] = useState({
@@ -75,11 +67,26 @@ function App() {
     recommendation_strategy: "cost_benefit",
     monthly_mileage: "1000",
     fuel_price: "6",
+    multifactor_enabled: false,
+    allow_budget_above_200k: false,
+    multifactor_monthly_distance_km: "1000",
+    multifactor_city_percentage: "50",
+    multifactor_highway_percentage: "50",
+    multifactor_fuel_strategy: "gasoline_c_common",
+    multifactor_price_mode: "anp",
+    multifactor_manual_fuel_price_brl: "",
+    multifactor_horizon_months: "12",
+    multifactor_state_code: "SP",
+    multifactor_municipality: "",
+    multifactor_reference_week_start: "",
+    multifactor_city_consumption_km_l: "",
+    multifactor_highway_consumption_km_l: "",
+    ...Object.fromEntries(Object.entries(MULTIFACTOR_DEFAULT_WEIGHTS).map(([code, value]) => [`weight_${code}`, value])),
   });
   const [recommendations, setRecommendations] = useState([]);
   const [recommendationMetadata, setRecommendationMetadata] = useState(null);
   const [recommendationErrors, setRecommendationErrors] = useState({});
-  const [recommendationError, setRecommendationError] = useState("");
+  const [recommendationError, setRecommendationError] = useState(null);
   const [recommendationLoading, setRecommendationLoading] = useState(false);
   const [recommendationStale, setRecommendationStale] = useState(false);
   const [recommendationHasCalculated, setRecommendationHasCalculated] = useState(false);
@@ -141,7 +148,11 @@ function App() {
     fuel_type: "flex",
     notes: "",
   });
-  const [status, setStatus] = useState("Modo visitante: simule recomendações sem cadastro.");
+  const [status, setStatus] = useState(
+    PUBLIC_DEMO_MODE
+      ? "Homologação acadêmica com dados demonstrativos."
+      : "Modo visitante: simule recomendações sem cadastro.",
+  );
 
   async function loadVehicles() {
     try {
@@ -176,7 +187,7 @@ function App() {
     const profileVersion = recommendationProfileVersion.current;
     recommendationRequestId.current = requestId;
     setRecommendationLoading(true);
-    setRecommendationError("");
+    setRecommendationError(null);
     try {
       const data = await requestRecommendations(validation.payload, { signal: controller.signal });
       if (!isLatestRequest(requestId, recommendationRequestId.current)) return;
@@ -189,7 +200,7 @@ function App() {
     } catch (error) {
       if (error?.name === "AbortError" || !isLatestRequest(requestId, recommendationRequestId.current)) return;
       setRecommendationHasCalculated(true);
-      setRecommendationError("Não foi possível calcular sua recomendação. Verifique a conexão com o serviço e tente novamente.");
+      setRecommendationError(getRecommendationErrorPresentation(error));
       setRecommendationStale(recommendations.length > 0);
       setStatus("Serviço de recomendação indisponível.");
     } finally {
@@ -397,6 +408,10 @@ function App() {
 
   async function submitLogin(event) {
     event.preventDefault();
+    if (PUBLIC_DEMO_MODE) {
+      setLoginError("Login desabilitado no ambiente demonstrativo público.");
+      return;
+    }
     setLoginError("");
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
@@ -423,11 +438,7 @@ function App() {
   function chooseLoginRole(role) {
     setLoginRole(role);
     setLoginError("");
-    setLoginForm(
-      role === "admin"
-        ? { email: "admin@sigra.local", password: "admin123" }
-        : { email: "usuario@sigra.local", password: "usuario123" },
-    );
+    setLoginForm({ email: "", password: "" });
   }
 
   function logout() {
@@ -444,8 +455,9 @@ function App() {
 
   useEffect(() => {
     loadVehicles();
-    loadOperationalData();
+    if (!PUBLIC_DEMO_MODE) loadOperationalData();
     searchOnlineCars({ preventDefault() {} });
+    if (PUBLIC_DEMO_MODE) localStorage.removeItem("sigra-session");
     return () => recommendationAbortController.current?.abort();
   }, []);
 
@@ -468,6 +480,13 @@ function App() {
     recommendationProfileVersion.current += 1;
     setProfile((current) => ({ ...current, [field]: value }));
     setRecommendationErrors((current) => ({ ...current, [field]: undefined }));
+    setRecommendationStale(shouldMarkResultsStale(recommendationHasCalculated));
+  }
+
+  function resetMultifactorWeights() {
+    recommendationProfileVersion.current += 1;
+    setProfile((current) => ({ ...current, ...resetMultifactorWeightFields(current) }));
+    setRecommendationErrors((current) => ({ ...current, multifactor_weights: undefined }));
     setRecommendationStale(shouldMarkResultsStale(recommendationHasCalculated));
   }
 
@@ -632,6 +651,18 @@ function App() {
 
   return (
     <main className="app-shell">
+      {PUBLIC_DEMO_MODE && (
+        <div
+          className="demo-mode-banner"
+          data-testid="public-demo-banner"
+          role="status"
+        >
+          <strong>Ambiente demonstrativo em modo somente leitura</strong>
+          <span>
+            Recomendações e simulações não representam proposta comercial.
+          </span>
+        </div>
+      )}
       <section className="workspace">
         <aside className="control-panel">
           <div>
@@ -642,18 +673,19 @@ function App() {
 
           <div className="session-panel">
             <div>
-              <span>{currentUser ? (currentUser.role === "admin" ? "Administrador" : "Usuario") : "Visitante"}</span>
-              <strong>{currentUser ? currentUser.name : "Simulacao livre"}</strong>
-              {!currentUser && <small>Faça login para salvar dados e acompanhar seu histórico.</small>}
+              <span>{PUBLIC_DEMO_MODE ? "Homologação" : (currentUser ? (currentUser.role === "admin" ? "Administrador" : "Usuario") : "Visitante")}</span>
+              <strong>{PUBLIC_DEMO_MODE ? "Demonstração pública" : (currentUser ? currentUser.name : "Simulacao livre")}</strong>
+              {!PUBLIC_DEMO_MODE && !currentUser && <small>Faça login para salvar dados e acompanhar seu histórico.</small>}
+              {PUBLIC_DEMO_MODE && <small>Nenhum dado pessoal pode ser gravado neste ambiente.</small>}
             </div>
-            {currentUser && (
+            {!PUBLIC_DEMO_MODE && currentUser && (
               <button className="ghost-button" type="button" onClick={logout}>
                 Sair
               </button>
             )}
           </div>
 
-          {!currentUser && (
+          {!PUBLIC_DEMO_MODE && !currentUser && (
             <section className="login-panel">
               <p>O modo visitante permite simular recomendacoes sem cadastro.</p>
               <div className="theme-toggle" aria-label="Selecionar perfil">
@@ -701,6 +733,7 @@ function App() {
             errors={recommendationErrors}
             loading={recommendationLoading}
             onChange={updateProfile}
+            onResetMultifactorWeights={resetMultifactorWeights}
             onSubmit={runRecommendation}
           />}
         </aside>
@@ -713,22 +746,26 @@ function App() {
             <button className={activeTab === "comparison" ? "active" : ""} onClick={() => setActiveTab("comparison")}>
               Comparacao
             </button>
-            <button className={activeTab === "expenses" ? "active" : ""} onClick={() => setActiveTab("expenses")}>
-              Despesas
-            </button>
+            {!PUBLIC_DEMO_MODE && (
+              <button className={activeTab === "expenses" ? "active" : ""} onClick={() => setActiveTab("expenses")}>
+                Despesas
+              </button>
+            )}
             <button data-testid="nav-financing" className={activeTab === "financing" ? "active" : ""} onClick={() => setActiveTab("financing")}>
               Financiamento
             </button>
-            <button className={activeTab === "my-car" ? "active" : ""} onClick={() => setActiveTab("my-car")}>
-              Meu carro
-            </button>
+            {!PUBLIC_DEMO_MODE && (
+              <button className={activeTab === "my-car" ? "active" : ""} onClick={() => setActiveTab("my-car")}>
+                Meu carro
+              </button>
+            )}
             <button className={activeTab === "parts" ? "active" : ""} onClick={() => setActiveTab("parts")}>
               Peças
             </button>
             <button className={activeTab === "online" ? "active" : ""} onClick={() => setActiveTab("online")}>
               Busca online
             </button>
-            {currentUser?.role === "admin" && (
+            {!PUBLIC_DEMO_MODE && currentUser?.role === "admin" && (
               <button className={activeTab === "admin" ? "active" : ""} onClick={() => setActiveTab("admin")}>
                 Admin
               </button>
@@ -1335,6 +1372,7 @@ function App() {
       <RecommendationDetails
         item={selectedRecommendationDetails}
         metadata={recommendationMetadata}
+        profile={profile}
         onClose={() => setSelectedRecommendationDetails(null)}
         onParts={(item) => { setActiveTab("parts"); setPartsVehicleId(item.vehicle.id); loadPartsAnalysis(item.vehicle.id); setSelectedRecommendationDetails(null); }}
         onCompare={(item) => { if (!selectedIds.includes(item.vehicle.id)) toggleVehicle(item.vehicle.id); setActiveTab("comparison"); setSelectedRecommendationDetails(null); }}

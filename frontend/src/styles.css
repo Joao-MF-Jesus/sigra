@@ -75,6 +75,25 @@ select {
   padding: 18px;
 }
 
+.demo-mode-banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1500px;
+  margin: 0 auto 14px;
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: var(--text);
+  background: var(--surface);
+  font-size: 0.9rem;
+}
+
+.demo-mode-banner span {
+  color: var(--soft-text);
+}
+
 .auth-shell {
   display: grid;
   place-items: center;
@@ -822,6 +841,136 @@ ul {
   white-space: nowrap;
 }
 
+.vehicle-simulation {
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+
+.vehicle-simulation h3,
+.vehicle-simulation h4 {
+  margin: 0;
+}
+
+.vehicle-simulation-form,
+.vehicle-simulation-result {
+  display: grid;
+  gap: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--surface-muted);
+}
+
+.vehicle-simulation-form fieldset {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.vehicle-simulation-form legend {
+  padding: 0 6px;
+  color: var(--text);
+  font-weight: 850;
+}
+
+.vehicle-simulation-form label {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  color: var(--soft-text);
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+.vehicle-simulation-grid,
+.vehicle-simulation-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.vehicle-simulation-form input,
+.vehicle-simulation-form select {
+  min-width: 0;
+}
+
+.vehicle-simulation-error,
+.vehicle-simulation-warning,
+.vehicle-simulation-warnings {
+  border-left: 3px solid var(--warning);
+  margin: 0;
+  padding: 10px 12px;
+  color: var(--soft-text);
+  background: color-mix(in srgb, var(--warning) 9%, var(--surface));
+}
+
+.vehicle-simulation-error {
+  border-left-color: var(--danger-text);
+}
+
+.vehicle-simulation-result-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vehicle-simulation-result-heading > span {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--soft-text);
+  background: var(--surface);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.vehicle-simulation-metrics article {
+  display: grid;
+  gap: 4px;
+  border-radius: 6px;
+  padding: 10px;
+  background: var(--metric-bg);
+}
+
+.vehicle-simulation-metrics span,
+.vehicle-simulation-metrics small {
+  color: var(--muted);
+}
+
+.vehicle-simulation-sources {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.vehicle-simulation-sources div {
+  min-width: 0;
+}
+
+.vehicle-simulation-sources dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.vehicle-simulation-sources dd {
+  margin: 3px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.vehicle-simulation-disclaimer {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  font-size: 0.82rem;
+}
+
 .spec-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1368,6 +1517,16 @@ ul {
   .modal-header {
     display: grid;
   }
+
+  .vehicle-simulation-grid,
+  .vehicle-simulation-metrics,
+  .vehicle-simulation-sources {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicle-simulation-result-heading {
+    display: grid;
+  }
 }
 .recommendation-form {
   display: grid;
@@ -1407,6 +1566,148 @@ ul {
 .recommendation-form button:disabled {
   cursor: wait;
   opacity: 0.65;
+}
+
+.multifactor-profile {
+  display: grid;
+  gap: 10px;
+}
+
+.multifactor-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.multifactor-weight-heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.multifactor-subheading {
+  font-size: 0.86rem;
+  margin: 4px 0 0;
+}
+
+.weight-description {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.multifactor-breakdown {
+  background: color-mix(in srgb, var(--surface) 92%, var(--accent));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-top: 12px;
+  padding: 12px;
+}
+
+.multifactor-breakdown.unavailable {
+  border-color: #b88200;
+}
+
+.multifactor-breakdown h4,
+.multifactor-breakdown p {
+  margin: 0 0 8px;
+}
+
+.multifactor-components,
+.multifactor-sources {
+  display: grid;
+  gap: 6px;
+}
+
+.multifactor-components > div,
+.multifactor-sources > div {
+  align-items: center;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto;
+}
+
+.multifactor-sources > div {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+}
+
+.multifactor-sources dt,
+.multifactor-sources dd {
+  margin: 0;
+}
+
+.recommendation-journey {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.recommendation-journey li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+}
+
+.recommendation-journey span,
+.recommendation-success-summary span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.recommendation-state-card {
+  border-radius: 10px;
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.recommendation-state-card.conflict {
+  border-color: #b88200;
+}
+
+.recommendation-state-card.unavailable {
+  border-color: #8a6d1d;
+}
+
+.recommendation-success-summary {
+  align-items: baseline;
+  display: flex;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.recommendation-simulation-context {
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+}
+
+.recommendation-form input:focus-visible,
+.recommendation-form select:focus-visible,
+.recommendation-form button:focus-visible,
+.recommendation-state-card button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 60%, white);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .recommendation-journey,
+  .multifactor-grid,
+  .multifactor-components > div {
+    grid-template-columns: 1fr;
+  }
+
+  .recommendation-success-summary,
+  .multifactor-weight-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
 }
 
 .development-state,

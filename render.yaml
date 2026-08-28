@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: sigra-api-homolog
+    runtime: python
+    plan: free
+    rootDir: backend
+    branch: deploy/homologation
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeployTrigger: off
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: DATABASE_ENV
+        value: homologation
+      - key: PUBLIC_DEMO_MODE
+        value: "true"
+      - key: API_DOCS_ENABLED
+        value: "false"
+      - key: DATABASE_ECHO
+        value: "false"
+      - key: DATABASE_SSL_REQUIRED
+        value: "true"
+      - key: DATABASE_POOL_SIZE
+        value: "3"
+      - key: DATABASE_MAX_OVERFLOW
+        value: "2"
+      - key: DATABASE_POOL_TIMEOUT
+        value: "30"
+      - key: DATABASE_POOL_RECYCLE
+        value: "300"
+      - key: FIPE_AUTO_REFRESH
+        value: "false"
+      - key: ALLOWED_HOSTS
+        value: sigra-api-homolog.onrender.com
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: DATABASE_URL
+        sync: false

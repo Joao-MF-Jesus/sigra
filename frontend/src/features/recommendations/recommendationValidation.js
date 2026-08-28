@@ -1,4 +1,5 @@
 import { shouldRequestCarRecommendations } from "../../domain/vehicleTypes.js";
+import { buildMultifactorProfile } from "./multifactorRecommendationModel.js";
 
 export const VALID_USE_CASES = ["cidade", "familia", "trabalho", "estrada", "app", "suv"];
 export const VALID_STRATEGIES = [
@@ -53,6 +54,10 @@ export function validateRecommendationProfile(profile) {
   } else {
     payload.recommendation_strategy = profile.recommendation_strategy;
   }
+
+  const multifactor = buildMultifactorProfile(profile, payload.budget);
+  Object.assign(errors, multifactor.errors);
+  if (multifactor.payload) payload.multifactor_profile = multifactor.payload;
 
   return { errors, payload, isValid: Object.keys(errors).length === 0 };
 }

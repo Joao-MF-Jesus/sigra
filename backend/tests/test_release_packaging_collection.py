@@ -16,6 +16,28 @@ def _write(path: Path, content: str = "conteudo\n") -> None:
     path.write_text(content, encoding="utf-8")
 
 
+def _database_url(
+    *,
+    username: str,
+    password: str,
+    host: str,
+    database: str,
+    scheme: str = "postgresql",
+) -> str:
+    authority_host = f"[{host}]" if ":" in host else host
+    return (
+        scheme
+        + "://"
+        + username
+        + ":"
+        + password
+        + "@"
+        + authority_host
+        + "/"
+        + database
+    )
+
+
 class ReleasePackagingCollectionTest(unittest.TestCase):
     def test_git_repository_includes_only_valid_tracked_files(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -105,6 +127,135 @@ class ReleasePackagingCollectionTest(unittest.TestCase):
             self.assertEqual(relative, ["README.md"])
             self.assertEqual(violations, [])
 
+    def test_environment_templates_are_excluded_but_real_environment_file_blocks(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            _write(root / "README.md", "SIGRA\n")
+            _write(root / ".env.example", "DATABASE_URL=configure-externally\n")
+            _write(root / ".env.homologation.example", "PUBLIC_DEMO_MODE=true\n")
+            _write(root / "frontend" / ".env.example", "VITE_API_URL=configure-externally\n")
+
+            included, excluded_files, violations = collect_release_files(root)
+
+            self.assertEqual(
+                [path.relative_to(root).as_posix() for path in included],
+                ["README.md"],
+            )
+            self.assertEqual(excluded_files, 3)
+            self.assertEqual(violations, [])
+
+            _write(root / ".env", "TOKEN=valor-real\n")
+            _, _, violations = collect_release_files(root)
+            self.assertIn(
+                {"path": ".env", "reason": "forbidden_environment_file"},
+                violations,
+            )
+
+    def test_real_secret_and_remote_credentialed_url_remain_blocking(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            _write(root / "README.md", "SIGRA\n")
+            _write(root / "secrets.txt", "sk-" + "A" * 24 + "\n")
+            _write(
+                root / "docs" / "remote.md",
+                _database_url(
+                    username="operator",
+                    password="real-password",
+                    host="database.example.com",
+                    database="sigra",
+                ),
+            )
+
+            _, _, violations = collect_release_files(root)
+            by_path = {item["path"]: item for item in violations}
+            self.assertEqual(by_path["secrets.txt"]["reason"], "possible_secret")
+            self.assertIn("openai_key", by_path["secrets.txt"]["types"])
+            self.assertEqual(by_path["docs/remote.md"]["reason"], "possible_secret")
+            self.assertIn(
+                "credentialed_database_url",
+                by_path["docs/remote.md"]["types"],
+            )
+
+    def test_synthetic_database_fixture_requires_every_restriction(self):
+        cases = (
+            (
+                "data_platform/tests/test_safe_fixture.py",
+                "127.0.0.1",
+                "sigra_fixture_test",
+                "synthetic-user",
+                "synthetic-secret",
+                True,
+            ),
+            (
+                "docs/test_safe_fixture.py",
+                "127.0.0.1",
+                "sigra_fixture_test",
+                "synthetic-user",
+                "synthetic-secret",
+                False,
+            ),
+            (
+                "data_platform/tests/test_remote_fixture.py",
+                "database.example.com",
+                "sigra_fixture_test",
+                "synthetic-user",
+                "synthetic-secret",
+                False,
+            ),
+            (
+                "data_platform/tests/test_wrong_database.py",
+                "localhost",
+                "sigra_fixture",
+                "synthetic-user",
+                "synthetic-secret",
+                False,
+            ),
+            (
+                "data_platform/tests/test_real_credentials.py",
+                "::1",
+                "sigra_fixture_test",
+                "operator",
+                "real-password",
+                False,
+            ),
+            (
+                "data_platform/tests/test_marker_substring.py",
+                "localhost",
+                "sigra_fixture_test",
+                "contest-user",
+                "protest-password",
+                False,
+            ),
+        )
+        for relative, host, database, username, password, accepted in cases:
+            with self.subTest(relative=relative), tempfile.TemporaryDirectory() as tmpdir:
+                root = Path(tmpdir)
+                fixture = root / relative
+                _write(
+                    fixture,
+                    _database_url(
+                        username=username,
+                        password=password,
+                        host=host,
+                        database=database,
+                    ),
+                )
+
+                included, _, violations = collect_release_files(root)
+                included_paths = {
+                    path.relative_to(root).as_posix() for path in included
+                }
+                if accepted:
+                    self.assertIn(relative, included_paths)
+                    self.assertEqual(violations, [])
+                else:
+                    self.assertNotIn(relative, included_paths)
+                    self.assertEqual(violations[0]["path"], relative)
+                    self.assertIn(
+                        "credentialed_database_url",
+                        violations[0]["types"],
+                    )
+
     def test_fallback_build_preserves_manifest_and_sha256_contract(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -137,6 +288,46 @@ class ReleasePackagingCollectionTest(unittest.TestCase):
                         entry["sha256"],
                         hashlib.sha256(archive.read(entry["path"])).hexdigest(),
                     )
+
+    def test_package_contains_no_environment_file_or_operational_secret(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            _write(root / "README.md", "SIGRA\n")
+            _write(root / ".env.example", "DATABASE_URL=configure-externally\n")
+            _write(root / ".env.homologation.example", "PUBLIC_DEMO_MODE=true\n")
+            _write(root / "frontend" / ".env.example", "VITE_API_URL=configure-externally\n")
+            fixture = root / "data_platform" / "tests" / "test_safe_fixture.py"
+            _write(
+                fixture,
+                _database_url(
+                    username="synthetic-user",
+                    password="synthetic-secret",
+                    host="localhost",
+                    database="sigra_fixture_test",
+                ),
+            )
+
+            output = root / "dist" / "technical" / "sigra.zip"
+            result = build_release_package(
+                root=root,
+                output=output,
+                release_type="technical",
+            )
+
+            self.assertFalse(result.report["contains_secrets"])
+            with zipfile.ZipFile(output) as archive:
+                names = archive.namelist()
+                self.assertFalse(
+                    any(
+                        Path(name).name == ".env"
+                        or Path(name).name.startswith(".env.")
+                        for name in names
+                    )
+                )
+                self.assertIn(
+                    "data_platform/tests/test_safe_fixture.py",
+                    names,
+                )
 
 
 if __name__ == "__main__":

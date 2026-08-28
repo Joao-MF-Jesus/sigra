@@ -1,4 +1,4 @@
-const API_URL = import.meta.env?.VITE_API_URL || "http://127.0.0.1:8000";
+import { API_URL } from "../config/runtime.js";
 
 export async function requestRecommendations(profile, { signal, fetchImpl = fetch } = {}) {
   const response = await fetchImpl(`${API_URL}/recommendations?envelope=true`, {
@@ -9,14 +9,23 @@ export async function requestRecommendations(profile, { signal, fetchImpl = fetc
   });
 
   if (!response.ok) {
-    let detail = "";
+    let code = "";
     try {
       const body = await response.json();
-      detail = typeof body?.detail === "string" ? body.detail : "";
+      const candidate = body?.detail && typeof body.detail === "object"
+        ? body.detail.code
+        : "";
+      code = typeof candidate === "string" && /^[a-z0-9_]{1,80}$/.test(candidate)
+        ? candidate
+        : "";
     } catch {
       // The HTTP status remains the useful diagnostic when the body is not JSON.
     }
-    throw new Error(detail || `Falha ao calcular recomendação (HTTP ${response.status}).`);
+    const error = new Error(`Falha ao calcular recomendação (HTTP ${response.status}).`);
+    error.name = "SigraApiError";
+    error.status = response.status;
+    error.code = code;
+    throw error;
   }
 
   const data = await response.json();
@@ -71,15 +80,58 @@ async function requestJson(path, { method = "GET", payload, signal, fetchImpl = 
   });
   if (!response.ok) {
     let detail = "";
+    let code = "";
     try {
       const body = await response.json();
-      detail = typeof body?.detail === "string" ? body.detail : "";
+      if (typeof body?.detail === "string") {
+        detail = body.detail;
+      } else if (body?.detail && typeof body.detail === "object") {
+        detail = typeof body.detail.message === "string" ? body.detail.message : "";
+        code = typeof body.detail.code === "string" ? body.detail.code : "";
+      }
     } catch {
       // Keep the status as the diagnostic when the response is not JSON.
     }
-    throw new Error(detail || `Falha na operacao de financiamento (HTTP ${response.status}).`);
+    const error = new Error(detail || `A API recusou a operação (HTTP ${response.status}).`);
+    error.name = "SigraApiError";
+    error.status = response.status;
+    error.code = code;
+    throw error;
   }
   return response.json();
+}
+
+export async function requestIntegratedGoldCatalog({ signal, fetchImpl = fetch } = {}) {
+  const items = [];
+  const limit = 100;
+  let offset = 0;
+  let total = 0;
+
+  do {
+    const page = await requestJson(
+      `/api/v1/integrated-vehicle-cost/vehicles?limit=${limit}&offset=${offset}&sort_by=brand_name&sort_direction=asc`,
+      { signal, fetchImpl },
+    );
+    if (!page || !Array.isArray(page.items) || !Number.isInteger(page.total) || page.total < 0) {
+      throw new Error("A API retornou um catálogo Gold integrado inválido.");
+    }
+    items.push(...page.items);
+    total = page.total;
+    offset += page.items.length;
+    if (page.items.length === 0 && offset < total) {
+      throw new Error("A paginação do catálogo Gold integrado não avançou.");
+    }
+  } while (offset < total);
+
+  return items;
+}
+
+export function requestVehicleCostSimulation(payload, options = {}) {
+  return requestJson("/api/v1/integrated-vehicle-cost/simulate", {
+    ...options,
+    method: "POST",
+    payload,
+  });
 }
 
 export function requestFinancingMetadata(options = {}) {

@@ -1,6 +1,7 @@
 import React from "react";
 import ConfidenceIndicator from "./ConfidenceIndicator.jsx";
 import { formatCurrency, formatScore, getMaintenanceMetric, getPartsMetric, getRankingPresentation, getRecommendationStatusLabel } from "./recommendationModel.js";
+import MultifactorBreakdown from "./MultifactorBreakdown.jsx";
 
 function imagePath(vehicle) {
   return vehicle.image_url || `/cars/${vehicle.brand}-${vehicle.model}-${vehicle.year}`.toLowerCase().replaceAll(" ", "-").replaceAll(".", "") + ".svg";
@@ -29,6 +30,7 @@ export default function VehicleCard({ item, index, onDetails, onParts, onCompare
         <span><small>{maintenance.label}</small>{maintenance.value}</span>
         <span><small>{parts.label}</small>{parts.value}</span>
       </div>
+      <MultifactorBreakdown item={item} compact />
       <section className="card-section"><h4>Por que foi recomendado?</h4><p>Principal vantagem: {item.recommendation_summary?.main_advantage || "compatibilidade com o perfil informado"}.</p></section>
       <div className="card-columns"><section className="card-section"><h4>Pontos fortes</h4><ul>{(strengths.length ? strengths : ["Perfil analisado pelos critérios definidos"]).map((text) => <li key={text}>{text}</li>)}</ul></section><section className="card-section"><h4>Atenção</h4>{cautions.length ? <ul>{cautions.map((text) => <li key={text}>{text}</li>)}</ul> : <p>Sem alerta relevante para este perfil.</p>}</section></div>
       <div className="card-actions"><button className="ghost-button" type="button" onClick={() => onDetails(item)}>Detalhes</button><button className="ghost-button" type="button" onClick={() => onParts(item)}>Peças</button><button className="ghost-button" type="button" onClick={() => onCompare(item)}>Comparar</button></div>

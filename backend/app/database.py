@@ -14,7 +14,7 @@ from app.config import (
 
 DATABASE_SETTINGS = load_database_settings()
 DATABASE_URL = DATABASE_SETTINGS.url
-EXPECTED_ALEMBIC_HEAD = "20260723_0001"
+EXPECTED_ALEMBIC_HEAD = "20260811_0011"
 
 
 def resolve_database_url(configured_url: str | None = None) -> str:
@@ -40,9 +40,12 @@ def create_database_engine(settings: DatabaseSettings) -> Engine:
         if settings.url.endswith(":memory:"):
             options["poolclass"] = StaticPool
     else:
+        connect_args = {"options": "-c timezone=UTC"}
+        if settings.ssl_required:
+            connect_args["sslmode"] = "require"
         options.update(
             {
-                "connect_args": {"options": "-c timezone=UTC"},
+                "connect_args": connect_args,
                 "pool_size": settings.pool_size,
                 "max_overflow": settings.max_overflow,
                 "pool_timeout": settings.pool_timeout,

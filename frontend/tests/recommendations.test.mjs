@@ -2,12 +2,24 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { requestMotorcycleCatalog, requestMotorcycles, requestRecommendations } from "../src/api/sigraApi.js";
-import { getConfidence, getMaintenanceMetric, getRankingLabel, getRecommendationStatusLabel } from "../src/features/recommendations/recommendationModel.js";
+import { getConfidence, getMaintenanceMetric, getRankingLabel, getRecommendationErrorPresentation, getRecommendationStatusLabel } from "../src/features/recommendations/recommendationModel.js";
 import { isLatestRequest, isRecommendationSubmitDisabled, shouldMarkResultsStale, validateRecommendationProfile } from "../src/features/recommendations/recommendationValidation.js";
 import { formatMotorcycleValue, formatReferenceDate, getDataSourceLabel, getMotorcycleCategoryLabel, getMotorcycleDataGroupLabel, getMotorcycleEconomicStatusLabel, getMotorcycleEligibilityLabel, getMotorcycleMetricStatusLabel, getMotorcycleReadinessLabel, getRiderExperienceLabel, getVisibleEconomicEstimates, getVisibleMotorcycleMetrics, groupMotorcycleSources, isDemonstrationMotorcycle, isIncompleteMotorcycle } from "../src/features/motorcycles/motorcycleModel.js";
 import { resolveVehicleModule, shouldRequestCarRecommendations } from "../src/features/motorcycles/motorcycleValidation.js";
+import { isEnabled } from "../src/config/runtime.js";
 
 const validProfile = { vehicle_type: "car", budget: "70000", monthly_limit: "1200", use_case: "cidade", recommendation_strategy: "cost_benefit", monthly_mileage: "1000", fuel_price: "6" };
+
+test("modo público oculta login e áreas persistentes sem credenciais pré-preenchidas", () => {
+  const source = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
+  assert.match(source, /Ambiente demonstrativo em modo somente leitura/);
+  assert.match(source, /!PUBLIC_DEMO_MODE && !currentUser/);
+  assert.match(source, /!PUBLIC_DEMO_MODE && currentUser\?\.role === "admin"/);
+  assert.match(source, /if \(!PUBLIC_DEMO_MODE\) loadOperationalData/);
+  assert.doesNotMatch(source, /admin123|usuario123/);
+  assert.equal(isEnabled("true"), true);
+  assert.equal(isEnabled("false"), false);
+});
 
 test("seed visual de motocicletas possui quatro modelos demonstrativos distintos", () => {
   const seed = JSON.parse(readFileSync(new URL("../../backend/data/motorcycles.demo.json", import.meta.url), "utf8"));
@@ -37,6 +49,55 @@ test("API indisponível não cria recomendação falsa e permite nova tentativa"
   const result = await requestRecommendations(validProfile, { fetchImpl });
   assert.deepEqual(result.recommendations, []);
   assert.equal(calls, 2);
+});
+
+test("conflito e indisponibilidade preservam código de domínio sem expor detalhe técnico", async () => {
+  for (const scenario of [
+    { status: 409, code: "multifactor_gold_identity_conflict", kind: "conflict" },
+    { status: 503, code: "multifactor_gold_unavailable", kind: "unavailable" },
+  ]) {
+    await assert.rejects(
+      requestRecommendations(validProfile, { fetchImpl: async () => ({
+        ok: false,
+        status: scenario.status,
+        json: async () => ({ detail: { code: scenario.code, message: "internal table and query detail" } }),
+      }) }),
+      (error) => {
+        assert.equal(error.name, "SigraApiError");
+        assert.equal(error.status, scenario.status);
+        assert.equal(error.code, scenario.code);
+        assert.doesNotMatch(error.message, /internal table|query detail/i);
+        assert.equal(getRecommendationErrorPresentation(error).kind, scenario.kind);
+        return true;
+      },
+    );
+  }
+});
+
+test("apresentação de erro distingue validação, conflito, indisponibilidade e falha genérica", () => {
+  assert.equal(getRecommendationErrorPresentation({ status: 422 }).kind, "validation");
+  assert.equal(getRecommendationErrorPresentation({ status: 409 }).kind, "conflict");
+  assert.equal(getRecommendationErrorPresentation({ status: 503 }).kind, "unavailable");
+  assert.equal(getRecommendationErrorPresentation(new Error("offline")).kind, "error");
+});
+
+test("experiência cobre jornada, estados explícitos, acessibilidade e integração com simulador", () => {
+  const page = readFileSync(new URL("../src/features/recommendations/RecommendationPage.jsx", import.meta.url), "utf8");
+  const results = readFileSync(new URL("../src/features/recommendations/RecommendationResults.jsx", import.meta.url), "utf8");
+  const form = readFileSync(new URL("../src/features/recommendations/RecommendationForm.jsx", import.meta.url), "utf8");
+  const details = readFileSync(new URL("../src/features/recommendations/RecommendationDetails.jsx", import.meta.url), "utf8");
+  const styles = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
+  assert.match(page, /Jornada da recomendação/);
+  for (const state of ["ready", "loading", "empty", "success"]) {
+    assert.match(results, new RegExp(`recommendation-state-${state}`));
+  }
+  assert.match(results, /recommendation-state-\$\{error\.kind\}/);
+  assert.match(form, /aria-invalid/);
+  assert.match(form, /aria-describedby/);
+  assert.match(details, /VehicleCostSimulationPanel/);
+  assert.match(details, /Simule este veículo no seu cenário/);
+  assert.match(styles, /\.recommendation-form input:focus-visible/);
+  assert.match(styles, /@media \(max-width: 760px\)/);
 });
 
 test("sem opção viável usa alternativa comparativa, não melhor escolha", () => {
