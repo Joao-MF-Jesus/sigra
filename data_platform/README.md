@@ -39,7 +39,7 @@ A Silver lê exclusivamente registros `bronze.fipe_raw` com
 Na raiz do projeto:
 
 ```powershell
-$env:DATA_PLATFORM_DATABASE_URL = "postgresql+psycopg://usuario:senha@host/banco"
+$env:DATA_PLATFORM_DATABASE_URL = "postgresql+psycopg://localhost/sigra_data_platform"
 python -m alembic -c backend/alembic.ini upgrade head
 python -m data_platform.ingestion.fipe.cli --source-reference "2026-08" --target "car:004517-9:2021-1"
 python -m data_platform.transformation.cli --source-reference "2026-08"

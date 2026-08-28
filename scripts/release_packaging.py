@@ -10,6 +10,7 @@ import zipfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import unquote
 
 
 SKIP_DIRECTORIES = {
@@ -83,6 +84,14 @@ SECRET_PATTERNS = {
         re.IGNORECASE,
     ),
 }
+TEST_DATABASE_URL_PATTERN = re.compile(
+    r"\b(?P<scheme>postgres(?:ql)?(?:\+\w+)?)://"
+    r"(?P<username>[^:\s/@]+):(?P<password>[^@\s/]+)@"
+    r"(?P<host>\[[^\]\s]+\]|[^:/\s]+)(?::\d+)?/"
+    r"(?P<database>[A-Za-z0-9_.-]+)",
+    re.IGNORECASE,
+)
+SYNTHETIC_CREDENTIAL_MARKERS = ("synthetic", "example", "dummy", "fake", "test")
 
 
 class ReleaseValidationError(RuntimeError):
@@ -125,19 +134,65 @@ def _skip_reason(path: Path, root: Path) -> str | None:
         return "excluded_directory"
     if path.suffix.lower() in SKIP_EXTENSIONS:
         return "excluded_extension"
-    if path.name != ".env.example" and (path.name == ".env" or path.name.startswith(".env.")):
+    if path.name == ".env.example" or (
+        path.name.startswith(".env.") and path.name.endswith(".example")
+    ):
+        return "excluded_environment_template"
+    if path.name == ".env" or path.name.startswith(".env."):
         return "forbidden_environment_file"
     return None
 
 
-def _scan_text_for_secrets(path: Path) -> list[str]:
+def _is_obviously_synthetic_credential(value: str) -> bool:
+    tokens = re.split(r"[^a-z0-9]+", unquote(value).casefold())
+    return any(marker in tokens for marker in SYNTHETIC_CREDENTIAL_MARKERS)
+
+
+def _is_safe_local_test_database_fixture(path: Path, root: Path, content: str) -> bool:
+    relative = path.relative_to(root)
+    if (
+        path.suffix.lower() != ".py"
+        or "tests" not in relative.parts
+        or not path.name.startswith("test_")
+    ):
+        return False
+
+    broad_matches = list(SECRET_PATTERNS["credentialed_database_url"].finditer(content))
+    detailed_matches = list(TEST_DATABASE_URL_PATTERN.finditer(content))
+    if not broad_matches or len(broad_matches) != len(detailed_matches):
+        return False
+    if [match.start() for match in broad_matches] != [
+        match.start() for match in detailed_matches
+    ]:
+        return False
+
+    for match in detailed_matches:
+        host = match.group("host").strip("[]").casefold()
+        if host not in {"localhost", "127.0.0.1", "::1"}:
+            return False
+        if not match.group("database").casefold().endswith("_test"):
+            return False
+        if not _is_obviously_synthetic_credential(match.group("username")):
+            return False
+        if not _is_obviously_synthetic_credential(match.group("password")):
+            return False
+    return True
+
+
+def _scan_text_for_secrets(path: Path, root: Path) -> list[str]:
     if path.suffix.lower() not in TEXT_EXTENSIONS and path.name != ".env.example":
         return []
     try:
         content = path.read_text(encoding="utf-8")
     except (OSError, UnicodeDecodeError):
         return []
-    return [name for name, pattern in SECRET_PATTERNS.items() if pattern.search(content)]
+    findings = [name for name, pattern in SECRET_PATTERNS.items() if pattern.search(content)]
+    if (
+        findings == ["credentialed_database_url"]
+        and _is_safe_local_test_database_fixture(path, root, content)
+    ):
+        return []
+    return findings
 
 
 def _git_tracked_files(root: Path) -> list[Path] | None:
@@ -271,7 +326,7 @@ def collect_release_files(root: Path) -> tuple[list[Path], int, list[dict]]:
                 }
             )
             continue
-        secret_types = _scan_text_for_secrets(path)
+        secret_types = _scan_text_for_secrets(path, root)
         if secret_types:
             violations.append(
                 {

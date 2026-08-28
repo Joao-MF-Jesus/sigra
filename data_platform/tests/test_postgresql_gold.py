@@ -837,8 +837,7 @@ def test_gold_rejection_atomic_failure_and_concurrency(monkeypatch):
         def fail_activation(*args, **kwargs):
             raise RuntimeError(
                 "password=must-not-leak connection failed for "
-                "postgresql+psycopg://synthetic-user:synthetic-secret@"
-                "localhost:5432/sigra"
+                "postgresql+psycopg://synthetic-user:synthetic-secret@localhost:5432/sigra_test"
             )
 
         monkeypatch.setattr(failing_loader, "activate_dataset", fail_activation)

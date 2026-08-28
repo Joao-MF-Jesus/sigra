@@ -421,11 +421,12 @@ def test_keyboard_interrupt_is_normalized_as_cancellation():
 
 
 def test_errors_and_parameters_are_sanitized_before_persistence():
-    secret = "never-store-this"
+    secret = "synthetic-test-secret"
 
     def unsafe(_context):
         raise PermanentStepError(
-            f"password={secret} postgresql://alice:{secret}@localhost/db_test"
+            f"password={secret} "
+            "postgresql://synthetic-test-user:synthetic-test-secret@localhost/db_test"
         )
 
     runner, repository = make_runner(executors={StepName.BRONZE: unsafe})
