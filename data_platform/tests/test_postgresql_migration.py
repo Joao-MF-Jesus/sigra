@@ -61,6 +61,8 @@ def test_postgresql_contract_persistence_idempotency_and_downgrade(monkeypatch):
             "pbev_raw_row",
             "anp_source_asset",
             "anp_fuel_price_raw",
+            "carpedia_source_asset",
+            "carpedia_vehicle_raw",
         }
         assert set(db.get_table_names(schema="silver")) == {
             "vehicle_identity",
@@ -69,6 +71,8 @@ def test_postgresql_contract_persistence_idempotency_and_downgrade(monkeypatch):
             "pbev_vehicle_mapping",
             "vehicle_efficiency_observation",
             "anp_fuel_price_observation",
+            "carpedia_vehicle_mapping",
+            "carpedia_vehicle_specification",
         }
         assert set(db.get_table_names(schema="gold")) == {
             "vehicle_feature_dataset",
@@ -91,6 +95,10 @@ def test_postgresql_contract_persistence_idempotency_and_downgrade(monkeypatch):
             "integrated_vehicle_cost_activation",
             "integrated_vehicle_cost_invalidation",
             "integrated_vehicle_cost_coverage_baseline",
+            "carpedia_vehicle_spec_dataset",
+            "carpedia_vehicle_spec_snapshot",
+            "carpedia_vehicle_spec_quality_result",
+            "carpedia_vehicle_spec_dataset_event",
         }
         assert "vehicle_features_current" in db.get_view_names(schema="gold")
         assert "anp_fuel_price_observation_current" in db.get_view_names(schema="silver")

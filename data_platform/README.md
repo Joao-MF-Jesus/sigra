@@ -763,3 +763,36 @@ fonte, nem integração implícita com financiamento, BI ou escrita na Gold.
    que o backend calcula o custo sem alterar ranking ou dataset.
 7. **Estado controlado (30 s):** apresentar um estado vazio, conflito ou
    indisponibilidade e destacar a ausência de fallback silencioso.
+
+## Carpedia — especificações veiculares em shadow
+
+A decisão de fonte é `SOURCE_APPROVED_WITH_RESTRICTIONS`. A integração usa
+somente a [API oficial Carpedia v1](https://www.carpedia.com.br/desenvolvedores/docs),
+em HTTPS e com chave recebida exclusivamente por `CARPEDIA_API_KEY`. A
+autorização cobre consumo interno do produto; os
+[Termos de Uso](https://www.carpedia.com.br/termos) exigem atribuição em
+exibição pública e vedam redistribuição massiva que replique ou concorra com o
+catálogo. Dados de terceiros preservam os respectivos direitos, e ausência de
+campo não é interpretada como negativa. Por isso, esta etapa não expõe API,
+frontend, recomendador, simulador, BI, financiamento ou orquestração.
+
+O fluxo `carpedia_vehicle_specs_shadow` recebe alvos oficiais explícitos
+`id:ano`, baixa apenas JSON de `/api/v1/ficha/{id}/{ano}`, preserva o payload
+sanitizado e os hashes em Bronze, normaliza valores e unidades com `Decimal` em
+Silver e publica em Gold somente identidades exatas e inequívocas. Ambíguos,
+conflitantes, ausentes e pendentes permanecem auditáveis em Silver e nunca são
+promovidos. Não há fuzzy matching, identificador fictício, baseline inventado
+ou fallback silencioso.
+
+O cliente aplica allowlist `www.carpedia.com.br`, autenticação Bearer fora de
+parâmetros e logs, timeouts, retry limitado para falhas transitórias e `429`,
+limite de 8 MiB conferido no `Content-Length` e durante streaming, JSON
+obrigatório, SHA-256 e limpeza de parcial. O armazenamento é `database_json`;
+arquivos temporários vivem somente no diretório temporário do sistema. O
+dry-run é puro: não lê segredo, não abre banco, não adquire lock, não chama rede
+e não grava arquivo.
+
+A revision PostgreSQL-only `20260811_0011` sucede `20260811_0010`; SQLite é
+no-op. Datasets, snapshots, resultados de qualidade e eventos são imutáveis,
+a ativação shadow é atômica e o downgrade é bloqueado enquanto houver qualquer
+histórico Carpedia. O head passa a ser `20260811_0011`.

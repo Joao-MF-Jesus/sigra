@@ -385,6 +385,10 @@ def test_gold_migration_backfill_constraints_and_safe_downgrade(monkeypatch):
             "integrated_vehicle_cost_activation",
             "integrated_vehicle_cost_invalidation",
             "integrated_vehicle_cost_coverage_baseline",
+            "carpedia_vehicle_spec_dataset",
+            "carpedia_vehicle_spec_snapshot",
+            "carpedia_vehicle_spec_quality_result",
+            "carpedia_vehicle_spec_dataset_event",
         }
         assert "vehicle_features_current" in database.get_view_names(schema="gold")
 
