@@ -56,7 +56,7 @@ def test_migration_extends_both_enum_columns_and_keeps_single_head():
 
     root = Path(__file__).parents[2]
     script = ScriptDirectory.from_config(Config(str(root / "backend" / "alembic.ini")))
-    assert script.get_heads() == ["20260811_0010"]
+    assert script.get_heads() == ["20260811_0011"]
 
 
 def test_migration_is_sqlite_noop_and_downgrade_checks_both_history_columns():

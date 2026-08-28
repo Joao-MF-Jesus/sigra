@@ -385,6 +385,10 @@ def test_gold_migration_backfill_constraints_and_safe_downgrade(monkeypatch):
             "integrated_vehicle_cost_activation",
             "integrated_vehicle_cost_invalidation",
             "integrated_vehicle_cost_coverage_baseline",
+            "carpedia_vehicle_spec_dataset",
+            "carpedia_vehicle_spec_snapshot",
+            "carpedia_vehicle_spec_quality_result",
+            "carpedia_vehicle_spec_dataset_event",
         }
         assert "vehicle_features_current" in database.get_view_names(schema="gold")
 
@@ -833,8 +837,7 @@ def test_gold_rejection_atomic_failure_and_concurrency(monkeypatch):
         def fail_activation(*args, **kwargs):
             raise RuntimeError(
                 "password=must-not-leak connection failed for "
-                "postgresql+psycopg://synthetic-user:synthetic-secret@"
-                "localhost:5432/sigra"
+                "postgresql+psycopg://synthetic-user:synthetic-secret@localhost:5432/sigra_test"
             )
 
         monkeypatch.setattr(failing_loader, "activate_dataset", fail_activation)

@@ -56,6 +56,8 @@ def test_postgresql_silver_contract_history_idempotency_and_downgrade(monkeypatc
             "pbev_vehicle_mapping",
             "vehicle_efficiency_observation",
             "anp_fuel_price_observation",
+            "carpedia_vehicle_mapping",
+            "carpedia_vehicle_specification",
         }
 
         identity_columns = {
@@ -526,6 +528,8 @@ def test_postgresql_silver_contract_history_idempotency_and_downgrade(monkeypatc
             "pbev_vehicle_mapping",
             "vehicle_efficiency_observation",
             "anp_fuel_price_observation",
+            "carpedia_vehicle_mapping",
+            "carpedia_vehicle_specification",
         }
         with engine.connect() as connection:
             assert connection.execute(text("SELECT COUNT(*) FROM silver.vehicle_identity")).scalar_one() == 0

@@ -244,22 +244,22 @@ def test_issue_resolution_coherence_and_sanitization():
     ("message", "safe_location"),
     (
         (
-            "postgresql://synthetic-user:synthetic-secret@localhost:5432/sigra",
-            "postgresql://localhost:5432/sigra",
+            "postgresql://synthetic-user:synthetic-secret@localhost:5432/sigra_test",
+            "postgresql://localhost:5432/sigra_test",
         ),
         (
             "prefix connection failed for "
-            "postgresql+psycopg://synthetic-user:synthetic-secret@localhost:5432/sigra "
+            "postgresql+psycopg://synthetic-user:synthetic-secret@localhost:5432/sigra_test "
             "suffix",
-            "postgresql+psycopg://localhost:5432/sigra",
+            "postgresql+psycopg://localhost:5432/sigra_test",
         ),
         (
             "error https://synthetic-user:synthetic-secret@example.test/path end",
             "https://example.test/path",
         ),
         (
-            "error postgresql://synthetic%2Duser:synthetic%2Dsecret@localhost/sigra",
-            "postgresql://localhost/sigra",
+            "error postgresql://synthetic%2Duser:synthetic%2Dsecret@localhost/sigra_test",
+            "postgresql://localhost/sigra_test",
         ),
     ),
 )

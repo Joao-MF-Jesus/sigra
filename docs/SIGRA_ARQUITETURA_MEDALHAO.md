@@ -1113,3 +1113,52 @@ fora do contrato Gold integrado.
 - o simulador deve consumir apenas a resposta financeira do backend;
 - nenhuma preferência ou resposta derivada pode gerar escrita;
 - desktop e telas estreitas devem preservar leitura, foco e ações essenciais.
+
+## 28. Especificações veiculares Carpedia em shadow
+
+A descoberta controlada aprovou a fonte com restrições. A documentação pública
+oficial é `https://www.carpedia.com.br/desenvolvedores/docs`; os termos vigentes
+estão em `https://www.carpedia.com.br/termos`. A API v1 é somente leitura e
+autenticada por Bearer. A integração usa apenas o endpoint oficial de ficha por
+identificador e ano. O uso interno deve respeitar quotas e atribuição; não há
+licença para republicar em massa um catálogo concorrente, contornar autenticação
+ou remover direitos associados a dados de terceiros.
+
+```text
+alvos oficiais explícitos
+        |
+        v
+cliente HTTPS controlado -> Bronze JSON sanitizado + SHA-256
+        |
+        v
+parser estrito -> Silver normalizada + decisão de identidade
+        |
+        +-- ambiguous/rejected/not_found/pending -> auditoria Silver
+        |
+        v
+matched exato e inequívoco -> hard gates -> Gold shadow atômica
+```
+
+Bronze separa ativo de origem e registro bruto; Silver separa decisão de
+identidade e especificação versionada; Gold separa dataset, snapshot no grão
+`dataset_version × vehicle_sk`, resultados de qualidade e eventos. Cada valor
+normalizado preserva rótulo, valor, unidade e referência de origem. Conversões
+numéricas usam `Decimal`, regras de unidade explícitas e limites físicos. Campo
+ausente permanece ausente. Conteúdo não reconhecido ou identidade não exata não
+é inventado nem promovido.
+
+O cliente possui allowlist de host, validação de tipo JSON, limite duplo de 8
+MiB, timeouts, backoff limitado, tratamento de `Retry-After`, hash e remoção de
+parcial. Chaves só podem vir do ambiente e nunca entram em URL, payload,
+metadata ou erro. O dry-run retorna exclusivamente o plano, antes de segredo,
+engine, lock, rede ou sistema de arquivos.
+
+A migration `20260811_0011_data_platform_carpedia_vehicle_specs.py` é
+PostgreSQL-only e no-op em SQLite. O downgrade `0011 → 0010` consulta
+`meta.assert_carpedia_downgrade_safe()` e falha diante de qualquer linhagem ou
+evidência. Não há apagamento, conversão ou relaxamento automático. A publicação
+é exclusivamente shadow, tem um ativo por vez, deduplicação por fingerprint,
+supersessão, invalidação e rollback auditáveis. Esta etapa termina no Gold
+shadow interno e não cria aresta operacional com FastAPI, recomendador,
+simulador, frontend, financiamento, BI ou orquestração. O único head passa a ser
+`20260811_0011`.
