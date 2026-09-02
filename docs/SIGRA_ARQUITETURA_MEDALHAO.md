@@ -1162,3 +1162,49 @@ supersessão, invalidação e rollback auditáveis. Esta etapa termina no Gold
 shadow interno e não cria aresta operacional com FastAPI, recomendador,
 simulador, frontend, financiamento, BI ou orquestração. O único head passa a ser
 `20260811_0011`.
+
+## 29. Bootstrap local demonstrativo da Gold integrada
+
+O banco `sigra_postgresql_demo`, em PostgreSQL local, pode receber uma
+materialização reproduzível para demonstração após migrations e bootstrap do
+catálogo. O fluxo é recusado fora de `localhost`, `127.0.0.1` ou `::1`, exige o
+sufixo e nome `_demo` autorizados e depende da confirmação explícita
+`--acknowledge-synthetic-demo`.
+
+O catálogo possui uma fase independente `--bootstrap-catalog`: ela aceita
+somente `127.0.0.1:54329/sigra_postgresql_demo`, insere exclusivamente os 34
+automóveis de `app.sample_data.VEHICLES` quando a tabela está vazia e valida
+contagem, unicidade, IDs e identidade ainda dentro da transação. O marcador
+`postgresql-demo-catalog-v1` só é gravado depois dessa pós-condição. Uma segunda
+execução apenas relê e confirma o mesmo catálogo; motocicletas e demais tabelas
+não são alteradas.
+
+```text
+catálogo demonstrativo canônico (34)
+        |
+        +--> cache FIPE versionado, status live -> Bronze -> Silver -> Gold
+        |
+        +--> PBEV demo_fixture 18/6/3/3/4 -> Gold shadow metadata_only
+        |
+        +--> ANP demo_fixture, 3 produtos -> Gold shadow
+        |
+        v
+29 hard gates + 7 controles ANP -> Gold integrada ativa -> view de consumo
+```
+
+FIPE preserva a proveniência real do cache local e não chama a API. PBEV e ANP
+são sintéticas porque seus ativos oficiais não são versionados: seus manifests,
+URLs, metodologia e metadados registram `demo_fixture`, `synthetic=true` e
+`official_evidence=false`. Nenhum PDF, CNPJ real ou documento é persistido. O
+campo `source_system` continua obedecendo às constraints estruturais; a
+referência metodológica parametrizável do loader PBEV mantém o valor oficial
+como padrão e usa a descrição sintética somente no bootstrap de demonstração.
+
+A fixture ANP publica gasolina comum, gasolina aditivada e etanol no grão exato
+`municipality × SP:SAO PAULO × 2026-08-03`. A Gold integrada continua usando
+`Decimal`, reconciliação por conjuntos, locks e ativação atômica. Carpedia não
+participa porque o contrato integrado possui somente FIPE, PBEV e ANP como
+fontes. Duas execuções consecutivas devem retornar as mesmas versões de dataset
+e apenas deduplicar. Backend e frontend permanecem bloqueados até a view
+`gold.integrated_vehicle_cost_consumption_v1` retornar exatamente um dataset
+ativo, publicado, aprovado, não invalidado e sem revisão manual.

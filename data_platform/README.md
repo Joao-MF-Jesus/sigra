@@ -796,3 +796,52 @@ A revision PostgreSQL-only `20260811_0011` sucede `20260811_0010`; SQLite é
 no-op. Datasets, snapshots, resultados de qualidade e eventos são imutáveis,
 a ativação shadow é atômica e o downgrade é bloqueado enquanto houver qualquer
 histórico Carpedia. O head passa a ser `20260811_0011`.
+
+## Bootstrap PostgreSQL local de demonstração da Gold integrada
+
+`scripts/bootstrap_postgresql_demo_gold.py` prepara exclusivamente o banco
+local `sigra_postgresql_demo`, já migrado até `20260811_0012`. O catálogo deve
+ser materializado primeiro pelo modo dedicado, que vincula a sessão ao engine
+PostgreSQL já validado, persiste os IDs explícitos de `SAMPLE_VEHICLES` em uma
+única transação e só informa sucesso depois de reler os 34 IDs no próprio alvo:
+
+```powershell
+.\backend\.venv\Scripts\python.exe scripts\bootstrap_postgresql_demo_gold.py --bootstrap-catalog --acknowledge-synthetic-demo
+```
+
+O comando recusa SQLite, host diferente de `127.0.0.1`, outra porta ou banco,
+catálogo parcial, IDs extras ou identidades divergentes. Ele não usa o engine
+global de `app.database`, não depende do fallback SQLite e não altera
+motocicletas ou outros registros. Após essa pós-condição, a materialização das
+fontes exige confirmação explícita:
+
+```powershell
+.\backend\.venv\Scripts\python.exe scripts\bootstrap_postgresql_demo_gold.py --acknowledge-synthetic-demo
+```
+
+A FIPE é reproduzida somente do cache versionado com 34 registros `live`, sem
+reescrever o cache. Como os seis PDFs PBEV e o CSV ANP oficiais não fazem parte
+do repositório, as duas fontes usam fixtures mínimas com proveniência
+`demo_fixture`, URLs no domínio reservado `demo.invalid` e indicação
+`official_evidence=false`. PBEV mantém `metadata_only`, não persiste PDF e usa
+uma referência metodológica que declara expressamente a natureza sintética. A
+ANP não inventa CNPJ e mantém gasolina comum, aditivada e etanol separados.
+Esses dados servem somente à demonstração local e não podem ser citados como
+evidência oficial.
+
+O bootstrap executa duas vezes FIPE Bronze/Silver/Gold, PBEV shadow, ANP shadow
+e Gold integrada para provar deduplicação. A matriz PBEV continua sujeita ao
+gate 18/6/3/3/4; a ANP continua sujeita aos hard gates de produtos essenciais;
+a Gold integrada continua sujeita aos 29 hard gates e sete controles
+`not_calibrated`. A requisição demonstrativa usa a semana `2026-08-03` e o grão
+municipal exato `SP:SAO PAULO`. Carpedia não é executada porque não é uma fonte
+do contrato integrado FIPE + PBEV + ANP.
+
+Backend e frontend só podem ser iniciados depois que a própria validação do
+script confirmar um único dataset integrado ativo e elegível e registros em
+`gold.integrated_vehicle_cost_consumption_v1`. A conferência posterior, sem
+novas escritas, é:
+
+```powershell
+.\backend\.venv\Scripts\python.exe scripts\bootstrap_postgresql_demo_gold.py --validate-only
+```

@@ -637,7 +637,7 @@ def test_postgresql_integrated_vehicle_cost_schema_constraints_and_catalog(monke
             ("hard_gate", "passed", 29),
             ("statistical_control", "not_calibrated", 7),
         ]
-        assert heads == ["20260811_0011"]
+        assert heads == ["20260811_0012"]
     finally:
         engine.dispose()
 
@@ -1257,4 +1257,4 @@ def test_postgresql_integrated_vehicle_cost_publication_cycle(monkeypatch):
                 ).scalar_one()
         finally:
             head_engine.dispose()
-        assert restored_head == "20260811_0011"
+        assert restored_head == "20260811_0012"

@@ -55,7 +55,7 @@ def test_carpedia_migration_chain_and_postgresql_contract():
 
     root = Path(__file__).parents[2]
     script = ScriptDirectory.from_config(Config(str(root / "backend" / "alembic.ini")))
-    assert script.get_heads() == ["20260811_0011"]
+    assert script.get_heads() == ["20260811_0012"]
 
 
 def test_carpedia_sqlite_noop_and_defensive_downgrade():

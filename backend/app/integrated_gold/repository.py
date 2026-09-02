@@ -81,8 +81,6 @@ class IntegratedGoldRepository:
         clauses = ["consumption.dataset_version=:dataset_version"]
         parameters: dict[str, Any] = {
             "dataset_version": dataset_version,
-            "limit": limit,
-            "offset": offset,
         }
         for field_name, column in (
             ("brand_name", "consumption.brand_name"),
@@ -96,6 +94,11 @@ class IntegratedGoldRepository:
                 clauses.append(f"{column}=:{field_name}")
                 parameters[field_name] = value
         where_sql = " AND ".join(clauses)
+        page_parameters = {
+            **parameters,
+            "limit": limit,
+            "offset": offset,
+        }
         statement = text(
             f"""SELECT consumption.dataset_version,
                        consumption.vehicle_sk,
@@ -133,11 +136,25 @@ class IntegratedGoldRepository:
                          consumption.fuel_scenario_code ASC
                 LIMIT :limit OFFSET :offset"""
         )
+        count_statement = text(
+            f"""SELECT COUNT(*)
+                FROM gold.integrated_vehicle_cost_consumption_v1 AS consumption
+                WHERE {where_sql}"""
+        )
         try:
-            rows = list(self._session.execute(statement, parameters).mappings())
+            rows = list(self._session.execute(statement, page_parameters).mappings())
+            total = (
+                int(rows[0]["total_count"])
+                if rows
+                else int(self._session.execute(count_statement, parameters).scalar_one())
+            )
         except SQLAlchemyError as exc:
             raise IntegratedGoldStorageError(
                 "integrated Gold storage is unavailable"
             ) from exc
-        total = int(rows[0]["total_count"]) if rows else 0
-        return rows, total
+        items = []
+        for row in rows:
+            item = dict(row)
+            item.pop("total_count", None)
+            items.append(item)
+        return items, total

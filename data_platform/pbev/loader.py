@@ -26,11 +26,22 @@ from data_platform.contracts.pbev import (
 )
 
 
+PBEV_OFFICIAL_METHODOLOGY_REFERENCE = "PBE Veicular official cycle"
+
+
 class PbevLoader:
-    def __init__(self, engine: Engine):
+    def __init__(
+        self,
+        engine: Engine,
+        *,
+        methodology_reference: str = PBEV_OFFICIAL_METHODOLOGY_REFERENCE,
+    ):
         if engine.dialect.name != "postgresql":
             raise ValueError("PBEV persistence requires PostgreSQL")
+        if not methodology_reference.strip() or len(methodology_reference) > 120:
+            raise ValueError("PBEV methodology reference must contain 1 to 120 characters")
         self.engine = engine
+        self.methodology_reference = methodology_reference.strip()
 
     @contextmanager
     def cycle_locks(self, cycle_years: Iterable[int]) -> Iterator[None]:
@@ -195,12 +206,11 @@ class PbevLoader:
                     inserted += 1
         return tuple(persisted), tuple(observations), inserted
 
-    @staticmethod
-    def _insert_observation(connection: Connection, run_id: UUID, mapping: ExternalVehicleMapping, row: ParsedPbevRow) -> int:
+    def _insert_observation(self, connection: Connection, run_id: UUID, mapping: ExternalVehicleMapping, row: ParsedPbevRow) -> int:
         assert mapping.mapping_decision_id is not None and mapping.vehicle_sk is not None and row.raw.pbev_raw_row_id is not None
         values = row
         parameters = {
-            "run": run_id, "vehicle": mapping.vehicle_sk, "mapping": mapping.mapping_decision_id, "raw": row.raw.pbev_raw_row_id, "cycle": row.raw.cycle_year, "category": row.category_name, "brand": row.brand_name, "model": row.model_name, "version": row.version_name, "motor": row.motor_description, "transmission": row.transmission_code, "propulsion": row.propulsion_type, "fuel": row.fuel_type, "schema": row.emission_schema_version, "emission_raw": json.dumps(row.emission_raw, ensure_ascii=False), "consumption_raw": json.dumps(row.consumption_raw, ensure_ascii=False), "nmhc": row.nmhc_mg_km, "nox": row.nox_mg_km, "nmog_nox": row.nmog_nox_mg_km, "co": row.co_mg_km, "cho": row.cho_mg_km, "co2e": row.co2_ethanol_g_km, "co2f": row.co2_fossil_g_km, "reduction": row.pollutant_reduction_class, "ec": row.ethanol_city_km_l, "eh": row.ethanol_highway_km_l, "fc": row.fossil_city_km_l, "fh": row.fossil_highway_km_l, "elc": row.electric_city_km_l_equivalent, "elh": row.electric_highway_km_l_equivalent, "energy": row.energy_mj_km, "relative": row.pbe_relative_class, "absolute": row.pbe_absolute_class, "conpet": row.conpet_seal, "observed": datetime.now(UTC),
+            "run": run_id, "vehicle": mapping.vehicle_sk, "mapping": mapping.mapping_decision_id, "raw": row.raw.pbev_raw_row_id, "cycle": row.raw.cycle_year, "category": row.category_name, "brand": row.brand_name, "model": row.model_name, "version": row.version_name, "motor": row.motor_description, "transmission": row.transmission_code, "propulsion": row.propulsion_type, "fuel": row.fuel_type, "schema": row.emission_schema_version, "emission_raw": json.dumps(row.emission_raw, ensure_ascii=False), "consumption_raw": json.dumps(row.consumption_raw, ensure_ascii=False), "nmhc": row.nmhc_mg_km, "nox": row.nox_mg_km, "nmog_nox": row.nmog_nox_mg_km, "co": row.co_mg_km, "cho": row.cho_mg_km, "co2e": row.co2_ethanol_g_km, "co2f": row.co2_fossil_g_km, "reduction": row.pollutant_reduction_class, "ec": row.ethanol_city_km_l, "eh": row.ethanol_highway_km_l, "fc": row.fossil_city_km_l, "fh": row.fossil_highway_km_l, "elc": row.electric_city_km_l_equivalent, "elh": row.electric_highway_km_l_equivalent, "energy": row.energy_mj_km, "relative": row.pbe_relative_class, "absolute": row.pbe_absolute_class, "conpet": row.conpet_seal, "methodology": self.methodology_reference, "observed": datetime.now(UTC),
         }
         observation_id = connection.execute(
             text(
@@ -221,7 +231,7 @@ class PbevLoader:
                         CAST(:emission_raw AS jsonb),CAST(:consumption_raw AS jsonb),
                         :nmhc,:nox,:nmog_nox,:co,:cho,:co2e,:co2f,:reduction,
                         :ec,:eh,:fc,:fh,:elc,:elh,:energy,:relative,:absolute,
-                        :conpet,'PBE Veicular official cycle', 'passed',:observed)
+                        :conpet,:methodology,'passed',:observed)
                 ON CONFLICT (mapping_decision_id,pbev_raw_row_id) DO NOTHING
                 RETURNING observation_id"""
             ),

@@ -7,13 +7,19 @@ from decimal import Decimal
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 from uuid import uuid4
 
 import httpx
 import pytest
 
 from data_platform.carpedia.pipeline import CarpediaExecutionOptions, run_carpedia_pipeline
+from data_platform.carpedia.loader import (
+    CarpediaVehicleSpecsLoader,
+    _mapping_decision_is_publishable,
+)
 from data_platform.contracts.carpedia_vehicle_specs import (
+    CARPEDIA_MATCHER_VERSION,
     CarpediaMappingStatus,
     CarpediaRequest,
     CarpediaTarget,
@@ -25,7 +31,11 @@ from data_platform.ingestion.carpedia.client import (
     CarpediaDownloadPolicy,
 )
 from data_platform.ingestion.carpedia.parser import CarpediaJsonParser
-from data_platform.quality.carpedia_checks import build_snapshots, evaluate_quality
+from data_platform.quality.carpedia_checks import (
+    build_snapshots,
+    evaluate_quality,
+    require_hard_gates,
+)
 from data_platform.transformation.carpedia import build_specification, normalize_text
 
 
@@ -97,6 +107,84 @@ def _candidate(vehicle_sk: int = 77, *, version: str = "ONIX 1.0") -> VehicleIde
         is_zero_km=False,
         fuel_type="flex",
     )
+
+
+class _Result:
+    def __init__(self, *, row=None, scalar=None):
+        self.row = row
+        self.scalar = scalar
+
+    def mappings(self):
+        return self
+
+    def one_or_none(self):
+        return self.row
+
+    def scalar_one(self):
+        return self.scalar
+
+    def scalar_one_or_none(self):
+        return self.scalar
+
+
+class _Transaction:
+    def __init__(self, connection):
+        self.connection = connection
+
+    def __enter__(self):
+        return self.connection
+
+    def __exit__(self, exc_type, exc, traceback):
+        return False
+
+
+class _Engine:
+    dialect = SimpleNamespace(name="postgresql")
+
+    def __init__(self, connection):
+        self.connection = connection
+
+    def begin(self):
+        return _Transaction(self.connection)
+
+    def connect(self):
+        return _Transaction(self.connection)
+
+
+def _persistable_specification(tmp_path, *, vehicle_sk=77, mapping_id=None, specification_id=None):
+    parsed = CarpediaJsonParser().parse(_asset(tmp_path / f"asset-{vehicle_sk}.json", _payload()))
+    parsed = replace(
+        parsed,
+        raw=replace(parsed.raw, asset_id=10, raw_record_id=20, pipeline_run_id=uuid4()),
+    )
+    specification = build_specification(parsed, [_candidate(vehicle_sk)])
+    mapping = replace(specification.mapping, mapping_decision_id=mapping_id)
+    return replace(specification, mapping=mapping, specification_id=specification_id)
+
+
+def _mapping_row(specification, *, mapping_id=30, matcher_version=CARPEDIA_MATCHER_VERSION):
+    return {
+        "mapping_decision_id": mapping_id,
+        "mapping_status": specification.mapping.status.value,
+        "match_method": specification.mapping.match_method,
+        "vehicle_sk": specification.mapping.vehicle_sk,
+        "confidence": specification.mapping.confidence,
+        "review_required": specification.mapping.review_required,
+        "matcher_version": matcher_version,
+        "identity_evidence": specification.mapping.identity_evidence,
+        "candidate_evidence": list(specification.mapping.candidate_evidence),
+        "decision_reason": specification.mapping.decision_reason,
+    }
+
+
+def _specification_row(specification, *, specification_id=40, mapping_id=30):
+    return {
+        "specification_id": specification_id,
+        "normalized_fingerprint": specification.normalized_fingerprint,
+        "mapping_decision_id": mapping_id,
+        "vehicle_sk": specification.mapping.vehicle_sk,
+        "mapping_status": specification.mapping.status.value,
+    }
 
 
 def test_parser_normalizer_exact_match_decimal_and_sanitization(tmp_path):
@@ -177,6 +265,15 @@ def test_pipeline_separates_layers_and_publishes_only_exact_match():
         def persist_silver(self, run_id, specification):
             mapping = replace(specification.mapping, mapping_decision_id=30)
             return replace(specification, mapping=mapping, specification_id=40), True
+
+        def audit_lineage(self, specifications, snapshots):
+            return {
+                "coherent": True,
+                "specifications": len(specifications),
+                "snapshots": len(snapshots),
+                "publishable_snapshots": len(snapshots),
+                "issue_codes": (),
+            }
 
         def publish_shadow(self, run_id, **values):
             assert len(values["specifications"]) == len(values["snapshots"]) == 1
@@ -327,3 +424,203 @@ def test_quality_requires_persisted_lineage_and_matched_snapshots(tmp_path):
     assert "CARPEDIA_IDENTITY_ELIGIBLE" in failed
     assert "CARPEDIA_LINEAGE_COMPLETE" in failed
     assert all(isinstance(value, Decimal) for value in (Decimal("1"),))
+
+
+class _PersistConnection:
+    def __init__(self, prior_mapping, prior_specification, *, mapping_id=31, specification_id=41):
+        self.prior_mapping = prior_mapping
+        self.prior_specification = prior_specification
+        self.mapping_id = mapping_id
+        self.specification_id = specification_id
+        self.calls = []
+
+    def execute(self, statement, parameters=None):
+        sql = str(statement)
+        self.calls.append((sql, parameters or {}))
+        if "FROM silver.carpedia_vehicle_mapping_current" in sql:
+            return _Result(row=self.prior_mapping)
+        if "INSERT INTO silver.carpedia_vehicle_mapping" in sql:
+            return _Result(scalar=self.mapping_id)
+        if "FROM silver.carpedia_vehicle_specification_current" in sql:
+            return _Result(row=self.prior_specification)
+        if "INSERT INTO silver.carpedia_vehicle_specification" in sql:
+            return _Result(scalar=self.specification_id)
+        return _Result()
+
+
+def test_persist_silver_reuses_only_the_same_mapping_lineage(tmp_path):
+    specification = _persistable_specification(tmp_path)
+    connection = _PersistConnection(
+        _mapping_row(specification),
+        _specification_row(specification),
+    )
+    loader = CarpediaVehicleSpecsLoader(_Engine(connection))
+
+    persisted, inserted = loader.persist_silver(uuid4(), specification)
+
+    assert inserted is False
+    assert persisted.mapping.mapping_decision_id == 30
+    assert persisted.specification_id == 40
+    assert not any("INSERT INTO silver.carpedia_vehicle_" in sql for sql, _ in connection.calls)
+
+
+@pytest.mark.parametrize(
+    ("new_vehicle_sk", "prior_matcher_version"),
+    [(77, "carpedia-exact-identity-previous"), (88, CARPEDIA_MATCHER_VERSION)],
+)
+def test_persist_silver_preserves_history_for_new_decision_or_vehicle(
+    tmp_path,
+    new_vehicle_sk,
+    prior_matcher_version,
+):
+    old_specification = _persistable_specification(tmp_path, vehicle_sk=77)
+    new_specification = (
+        old_specification
+        if new_vehicle_sk == 77
+        else _persistable_specification(tmp_path, vehicle_sk=new_vehicle_sk)
+    )
+    # Reproduz explicitamente a condição defensiva: atributos/fingerprint iguais,
+    # mas decisão ou identidade persistida diferente.
+    new_specification = replace(
+        new_specification,
+        normalized_fingerprint=old_specification.normalized_fingerprint,
+    )
+    connection = _PersistConnection(
+        _mapping_row(
+            old_specification,
+            matcher_version=prior_matcher_version,
+        ),
+        _specification_row(old_specification),
+    )
+    loader = CarpediaVehicleSpecsLoader(_Engine(connection))
+
+    persisted, inserted = loader.persist_silver(uuid4(), new_specification)
+
+    assert inserted is True
+    assert persisted.mapping.mapping_decision_id == 31
+    assert persisted.specification_id == 41
+    assert persisted.supersedes_specification_id == 40
+    specification_insert = next(
+        parameters
+        for sql, parameters in connection.calls
+        if "INSERT INTO silver.carpedia_vehicle_specification" in sql
+    )
+    assert specification_insert["mapping"] == 31
+    assert specification_insert["vehicle"] == new_vehicle_sk
+    assert specification_insert["supersedes"] == 40
+    assert not any(sql.lstrip().upper().startswith(("UPDATE", "DELETE")) for sql, _ in connection.calls)
+
+
+class _LineageConnection:
+    def __init__(self, row):
+        self.row = row
+
+    def execute(self, statement, parameters=None):
+        return _Result(row=self.row)
+
+
+def _lineage_row(*, vehicle_sk=77, mapping_status="matched", current=True):
+    return {
+        "specification_id": 40,
+        "specification_raw_record_id": 20,
+        "specification_mapping_decision_id": 30,
+        "specification_vehicle_sk": vehicle_sk,
+        "specification_mapping_status": mapping_status,
+        "mapping_decision_id": 30,
+        "mapping_raw_record_id": 20,
+        "mapping_vehicle_sk": vehicle_sk,
+        "mapping_status": mapping_status,
+        "confidence": Decimal("100") if mapping_status == "matched" else None,
+        "review_required": mapping_status != "matched",
+        "specification_current": current,
+        "mapping_current": current,
+    }
+
+
+@pytest.mark.parametrize(
+    ("row", "issue"),
+    [
+        (_lineage_row(current=False), "superseded_lineage"),
+        (_lineage_row(vehicle_sk=88), "persisted_identity_mismatch"),
+        (_lineage_row(vehicle_sk=None, mapping_status="rejected"), "persisted_identity_mismatch"),
+        (_lineage_row(vehicle_sk=None, mapping_status="invalid"), "invalid_mapping_decision"),
+    ],
+)
+def test_lineage_audit_blocks_superseded_invalid_or_divergent_decisions(tmp_path, row, issue):
+    specification = _persistable_specification(
+        tmp_path,
+        mapping_id=30,
+        specification_id=40,
+    )
+    snapshots = build_snapshots((specification,))
+
+    evidence = CarpediaVehicleSpecsLoader._audit_lineage_with_connection(
+        _LineageConnection(row),
+        (specification,),
+        snapshots,
+    )
+    results = evaluate_quality(
+        (specification,),
+        snapshots,
+        lineage_evidence=evidence,
+    )
+
+    assert evidence["coherent"] is False
+    assert issue in evidence["issue_codes"]
+    assert next(
+        item.status
+        for item in results
+        if item.rule_code == "CARPEDIA_LINEAGE_IDENTITY_COHERENT"
+    ) == "failed"
+    with pytest.raises(ValueError, match="hard gates"):
+        require_hard_gates(results)
+
+
+def test_lineage_audit_accepts_current_publishable_identity(tmp_path):
+    specification = _persistable_specification(
+        tmp_path,
+        mapping_id=30,
+        specification_id=40,
+    )
+    snapshots = build_snapshots((specification,))
+    evidence = CarpediaVehicleSpecsLoader._audit_lineage_with_connection(
+        _LineageConnection(_lineage_row()),
+        (specification,),
+        snapshots,
+    )
+
+    assert evidence == {
+        "coherent": True,
+        "specifications": 1,
+        "snapshots": 1,
+        "publishable_snapshots": 1,
+        "issue_codes": (),
+    }
+    assert _mapping_decision_is_publishable("matched", 77, Decimal("100"), False)
+    assert not _mapping_decision_is_publishable("rejected", None, None, True)
+
+
+class _RollbackConnection:
+    def __init__(self):
+        self.calls = []
+
+    def execute(self, statement, parameters=None):
+        sql = str(statement)
+        self.calls.append((sql, parameters or {}))
+        if "WHERE is_active_shadow FOR UPDATE" in sql:
+            return _Result(scalar="carpedia-shadow-current")
+        if "SELECT status FROM gold.carpedia_vehicle_spec_dataset" in sql:
+            return _Result(scalar="retired")
+        return _Result()
+
+
+def test_rollback_preserves_datasets_and_records_historical_event():
+    connection = _RollbackConnection()
+    loader = CarpediaVehicleSpecsLoader(_Engine(connection))
+
+    loader.rollback_shadow(uuid4(), "carpedia-shadow-target", "controlled rollback")
+
+    statements = [sql.strip().upper() for sql, _ in connection.calls]
+    assert sum(statement.startswith("UPDATE GOLD.CARPEDIA_VEHICLE_SPEC_DATASET") for statement in statements) == 2
+    assert any("INSERT INTO GOLD.CARPEDIA_VEHICLE_SPEC_DATASET_EVENT" in statement for statement in statements)
+    assert not any(statement.startswith("DELETE") for statement in statements)
