@@ -7,4 +7,8 @@ export const PUBLIC_DEMO_MODE = isEnabled(
   import.meta.env?.VITE_PUBLIC_DEMO_MODE,
 );
 
+// CarPedia is not an active browser integration. The flag exists only so a
+// future, contract-backed UI can be introduced without implying availability.
+export const CARPEDIA_UI_ENABLED = false;
+
 export { isEnabled };

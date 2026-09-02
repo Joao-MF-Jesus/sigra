@@ -12,9 +12,10 @@ const validProfile = { vehicle_type: "car", budget: "70000", monthly_limit: "120
 
 test("modo público oculta login e áreas persistentes sem credenciais pré-preenchidas", () => {
   const source = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
+  const header = readFileSync(new URL("../src/AppHeader.jsx", import.meta.url), "utf8");
   assert.match(source, /Ambiente demonstrativo em modo somente leitura/);
   assert.match(source, /!PUBLIC_DEMO_MODE && !currentUser/);
-  assert.match(source, /!PUBLIC_DEMO_MODE && currentUser\?\.role === "admin"/);
+  assert.match(header, /!publicDemo && currentUser\?\.role === "admin"/);
   assert.match(source, /if \(!PUBLIC_DEMO_MODE\) loadOperationalData/);
   assert.doesNotMatch(source, /admin123|usuario123/);
   assert.equal(isEnabled("true"), true);

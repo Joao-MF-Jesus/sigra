@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { requestRecommendations } from "./api/sigraApi.js";
+import AppHeader from "./AppHeader.jsx";
 import RecommendationDetails from "./features/recommendations/RecommendationDetails.jsx";
 import RecommendationForm from "./features/recommendations/RecommendationForm.jsx";
 import RecommendationPage from "./features/recommendations/RecommendationPage.jsx";
@@ -51,7 +52,6 @@ function purchaseSourceButtons(sources = [], bestSource = null) {
 
 function App() {
   const [activeTab, setActiveTab] = useState("recommendations");
-  const [theme, setTheme] = useState(() => localStorage.getItem("sigra-theme") || "light");
   const [currentUser, setCurrentUser] = useState(null);
   const [loginRole, setLoginRole] = useState("user");
   const [loginForm, setLoginForm] = useState({
@@ -93,6 +93,7 @@ function App() {
   const recommendationRequestId = useRef(0);
   const recommendationAbortController = useRef(null);
   const recommendationProfileVersion = useRef(0);
+  const recommendationFormSectionRef = useRef(null);
   const [vehicles, setVehicles] = useState([]);
   const [selectedIds, setSelectedIds] = useState([2, 4]);
   const [expenses, setExpenses] = useState([]);
@@ -449,11 +450,7 @@ function App() {
   }
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    localStorage.setItem("sigra-theme", theme);
-  }, [theme]);
-
-  useEffect(() => {
+    document.documentElement.dataset.theme = "graphite";
     loadVehicles();
     if (!PUBLIC_DEMO_MODE) loadOperationalData();
     searchOnlineCars({ preventDefault() {} });
@@ -649,8 +646,23 @@ function App() {
     );
   }
 
+  function navigateToSection(tab) {
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function startRecommendation() {
+    recommendationFormSectionRef.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start",
+    });
+    window.setTimeout(() => {
+      recommendationFormSectionRef.current?.querySelector("input:not([tabindex='-1']), select:not([tabindex='-1']), button")?.focus();
+    }, 0);
+  }
+
   return (
-    <main className="app-shell">
+    <div className="app-shell">
       {PUBLIC_DEMO_MODE && (
         <div
           className="demo-mode-banner"
@@ -663,134 +675,59 @@ function App() {
           </span>
         </div>
       )}
-      <section className="workspace">
-        <aside className="control-panel">
-          <div>
-            <p className="eyebrow">SIGRA</p>
-            <h1>Recomendacao automotiva inteligente</h1>
-            <p className="status">{status}</p>
-          </div>
+      <AppHeader
+        activeTab={activeTab}
+        currentUser={currentUser}
+        publicDemo={PUBLIC_DEMO_MODE}
+        status={status}
+        onNavigate={navigateToSection}
+        onLogout={logout}
+      />
 
-          <div className="session-panel">
-            <div>
-              <span>{PUBLIC_DEMO_MODE ? "Homologação" : (currentUser ? (currentUser.role === "admin" ? "Administrador" : "Usuario") : "Visitante")}</span>
-              <strong>{PUBLIC_DEMO_MODE ? "Demonstração pública" : (currentUser ? currentUser.name : "Simulacao livre")}</strong>
-              {!PUBLIC_DEMO_MODE && !currentUser && <small>Faça login para salvar dados e acompanhar seu histórico.</small>}
-              {PUBLIC_DEMO_MODE && <small>Nenhum dado pessoal pode ser gravado neste ambiente.</small>}
+      {!PUBLIC_DEMO_MODE && !currentUser && (
+        <details className="account-access">
+          <summary>Acessar recursos pessoais</summary>
+          <section className="login-panel">
+            <p>O modo visitante permite simular recomendações sem cadastro. Entre somente se quiser acessar histórico e registros pessoais.</p>
+            <div className="segmented-control" aria-label="Selecionar perfil">
+              <button className={loginRole === "user" ? "active" : ""} type="button" onClick={() => chooseLoginRole("user")}>Usuário</button>
+              <button className={loginRole === "admin" ? "active" : ""} type="button" onClick={() => chooseLoginRole("admin")}>Admin</button>
             </div>
-            {!PUBLIC_DEMO_MODE && currentUser && (
-              <button className="ghost-button" type="button" onClick={logout}>
-                Sair
-              </button>
-            )}
-          </div>
+            <form className="login-form" onSubmit={submitLogin}>
+              <label>Email<input type="email" autoComplete="email" value={loginForm.email} onChange={(event) => setLoginForm((current) => ({ ...current, email: event.target.value }))} /></label>
+              <label>Senha<input type="password" autoComplete="current-password" value={loginForm.password} onChange={(event) => setLoginForm((current) => ({ ...current, password: event.target.value }))} /></label>
+              {loginError && <p className="login-error" role="alert">{loginError}</p>}
+              <button type="submit">Entrar</button>
+            </form>
+          </section>
+        </details>
+      )}
 
-          {!PUBLIC_DEMO_MODE && !currentUser && (
-            <section className="login-panel">
-              <p>O modo visitante permite simular recomendacoes sem cadastro.</p>
-              <div className="theme-toggle" aria-label="Selecionar perfil">
-                <button className={loginRole === "user" ? "active" : ""} type="button" onClick={() => chooseLoginRole("user")}>
-                  Usuario
-                </button>
-                <button className={loginRole === "admin" ? "active" : ""} type="button" onClick={() => chooseLoginRole("admin")}>
-                  Admin
-                </button>
-              </div>
-              <form className="login-form" onSubmit={submitLogin}>
-                <label>
-                  Email
-                  <input
-                    type="email"
-                    value={loginForm.email}
-                    onChange={(event) => setLoginForm((current) => ({ ...current, email: event.target.value }))}
-                  />
-                </label>
-                <label>
-                  Senha
-                  <input
-                    type="password"
-                    value={loginForm.password}
-                    onChange={(event) => setLoginForm((current) => ({ ...current, password: event.target.value }))}
-                  />
-                </label>
-                {loginError && <p className="login-error">{loginError}</p>}
-                <button type="submit">Entrar</button>
-              </form>
-            </section>
-          )}
-
-          <div className="theme-toggle" aria-label="Selecionar tema">
-            <button className={theme === "light" ? "active" : ""} type="button" onClick={() => setTheme("light")}>
-              Claro
-            </button>
-            <button className={theme === "dark" ? "active" : ""} type="button" onClick={() => setTheme("dark")}>
-              Escuro
-            </button>
-          </div>
-
-          {activeTab === "recommendations" && <RecommendationForm
-            profile={profile}
-            errors={recommendationErrors}
-            loading={recommendationLoading}
-            onChange={updateProfile}
-            onResetMultifactorWeights={resetMultifactorWeights}
-            onSubmit={runRecommendation}
-          />}
-        </aside>
-
+      <main className="workspace-v2">
         <section className="content">
-          <nav className="tabs" aria-label="Navegacao principal">
-            <button data-testid="nav-recommendations" className={activeTab === "recommendations" ? "active" : ""} onClick={() => setActiveTab("recommendations")}>
-              Recomendacao
-            </button>
-            <button className={activeTab === "comparison" ? "active" : ""} onClick={() => setActiveTab("comparison")}>
-              Comparacao
-            </button>
-            {!PUBLIC_DEMO_MODE && (
-              <button className={activeTab === "expenses" ? "active" : ""} onClick={() => setActiveTab("expenses")}>
-                Despesas
-              </button>
-            )}
-            <button data-testid="nav-financing" className={activeTab === "financing" ? "active" : ""} onClick={() => setActiveTab("financing")}>
-              Financiamento
-            </button>
-            {!PUBLIC_DEMO_MODE && (
-              <button className={activeTab === "my-car" ? "active" : ""} onClick={() => setActiveTab("my-car")}>
-                Meu carro
-              </button>
-            )}
-            <button className={activeTab === "parts" ? "active" : ""} onClick={() => setActiveTab("parts")}>
-              Peças
-            </button>
-            <button className={activeTab === "online" ? "active" : ""} onClick={() => setActiveTab("online")}>
-              Busca online
-            </button>
-            {!PUBLIC_DEMO_MODE && currentUser?.role === "admin" && (
-              <button className={activeTab === "admin" ? "active" : ""} onClick={() => setActiveTab("admin")}>
-                Admin
-              </button>
-            )}
-          </nav>
-
-          {activeTab === "recommendations" && (
-            <RecommendationPage
-              vehicleType={profile.vehicle_type}
-              state={{
-                recommendations: safeRecommendations,
-                metadata: recommendationMetadata,
-                loading: recommendationLoading,
-                error: recommendationError,
-                stale: recommendationStale,
-                hasCalculated: recommendationHasCalculated,
-              }}
-              showAll={showAllRecommendations}
-              onToggleShowAll={() => setShowAllRecommendations((current) => !current)}
-              onRetry={runRecommendation}
-              onDetails={setSelectedRecommendationDetails}
-              onParts={(item) => { setActiveTab("parts"); setPartsVehicleId(item.vehicle.id); loadPartsAnalysis(item.vehicle.id); }}
-              onCompare={(item) => { if (!selectedIds.includes(item.vehicle.id)) toggleVehicle(item.vehicle.id); setActiveTab("comparison"); }}
-            />
-          )}
+          {activeTab === "recommendations" && <>
+            <section className="experience-hero" aria-labelledby="experience-title">
+              <div><p className="eyebrow">Recomendação orientada à sua realidade</p><h1 id="experience-title">Um carro que faz sentido para a sua vida — e para o seu orçamento.</h1><p>O SIGRA organiza opções, custos e evidências em uma jornada clara. Você informa a necessidade; o backend compara cada veículo sob o mesmo cenário.</p><div className="hero-actions"><button type="button" onClick={startRecommendation}>Encontrar meu veículo</button><button className="ghost-button" type="button" onClick={() => navigateToSection("comparison")}>Entender a comparação</button></div></div>
+              <dl className="hero-proof" aria-label="Compromissos da análise"><div><dt>01</dt><dd><strong>Mesmo perfil</strong><span>para todas as alternativas</span></dd></div><div><dt>02</dt><dd><strong>Custos explicáveis</strong><span>calculados no backend</span></dd></div><div><dt>03</dt><dd><strong>Dados rastreáveis</strong><span>FIPE, PBEV e ANP</span></dd></div></dl>
+            </section>
+            <div className="recommendation-workbench">
+              <section ref={recommendationFormSectionRef} className="recommendation-builder" aria-label="Construção do perfil">
+                <RecommendationForm profile={profile} errors={recommendationErrors} loading={recommendationLoading} onChange={updateProfile} onResetMultifactorWeights={resetMultifactorWeights} onSubmit={runRecommendation} />
+              </section>
+              <section className="recommendation-output" aria-label="Resultado da análise">
+                <RecommendationPage
+                  vehicleType={profile.vehicle_type}
+                  state={{ recommendations: safeRecommendations, metadata: recommendationMetadata, loading: recommendationLoading, error: recommendationError, stale: recommendationStale, hasCalculated: recommendationHasCalculated }}
+                  showAll={showAllRecommendations}
+                  onToggleShowAll={() => setShowAllRecommendations((current) => !current)}
+                  onRetry={runRecommendation}
+                  onDetails={setSelectedRecommendationDetails}
+                  onParts={(item) => { setActiveTab("parts"); setPartsVehicleId(item.vehicle.id); loadPartsAnalysis(item.vehicle.id); }}
+                  onCompare={(item) => { if (!selectedIds.includes(item.vehicle.id)) toggleVehicle(item.vehicle.id); setActiveTab("comparison"); }}
+                />
+              </section>
+            </div>
+          </>}
 
           {activeTab === "comparison" && (
           <>
@@ -1367,7 +1304,7 @@ function App() {
           </>
           )}
         </section>
-      </section>
+      </main>
 
       <RecommendationDetails
         item={selectedRecommendationDetails}
@@ -1377,7 +1314,7 @@ function App() {
         onParts={(item) => { setActiveTab("parts"); setPartsVehicleId(item.vehicle.id); loadPartsAnalysis(item.vehicle.id); setSelectedRecommendationDetails(null); }}
         onCompare={(item) => { if (!selectedIds.includes(item.vehicle.id)) toggleVehicle(item.vehicle.id); setActiveTab("comparison"); setSelectedRecommendationDetails(null); }}
       />
-    </main>
+    </div>
   );
 }
 

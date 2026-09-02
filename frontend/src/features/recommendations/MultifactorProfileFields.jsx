@@ -13,7 +13,7 @@ function a11yError(errors, field) {
 export default function MultifactorProfileFields({ profile, errors, onChange, onResetWeights }) {
   const summary = multifactorWeightSummary(profile);
   return <fieldset className="multifactor-profile" data-testid="multifactor-profile-fields">
-    <legend>7. Cenário financeiro e pesos (opcional)</legend>
+    <legend>Perfil multifator</legend>
     <label className="checkbox-line">
       <input data-testid="multifactor-enabled" type="checkbox" checked={Boolean(profile.multifactor_enabled)} onChange={(event) => onChange("multifactor_enabled", event.target.checked)} />
       Comparar custo, adequação e preferências com pesos próprios

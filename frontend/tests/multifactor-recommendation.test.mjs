@@ -91,7 +91,7 @@ test("frontend coleta parâmetros e exibe explicação sem duplicar fórmula fin
   const fields = readFileSync(new URL("../src/features/recommendations/MultifactorProfileFields.jsx", import.meta.url), "utf8");
   const breakdown = readFileSync(new URL("../src/features/recommendations/MultifactorBreakdown.jsx", import.meta.url), "utf8");
   const model = readFileSync(new URL("../src/features/recommendations/multifactorRecommendationModel.js", import.meta.url), "utf8");
-  assert.match(fields, /Cenário financeiro e pesos \(opcional\)/);
+  assert.match(fields, /Perfil multifator/);
   assert.match(fields, /Os cálculos financeiros são realizados exclusivamente pelo backend/);
   assert.match(breakdown, /Custo de combustível projetado/);
   assert.match(breakdown, /mixed_1000_v1 é apenas a referência analítica/);
@@ -110,7 +110,7 @@ test("evidência ausente permanece indisponível e nunca vira nota zero ou detal
 
 test("campos do cenário e pesos possuem rótulos e erros acessíveis", () => {
   const fields = readFileSync(new URL("../src/features/recommendations/MultifactorProfileFields.jsx", import.meta.url), "utf8");
-  assert.match(fields, /Cenário financeiro e pesos \(opcional\)/);
+  assert.match(fields, /Perfil multifator/);
   assert.match(fields, /Necessidade de deslocamento/);
   assert.match(fields, /htmlFor=/);
   assert.match(fields, /aria-invalid/);

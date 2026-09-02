@@ -7,12 +7,16 @@ const apiUrl = (process.env.E2E_API_URL || "").replace(/\/+$/, "");
 
 async function calculateRecommendation(page) {
   await page.goto("/");
+  await page.getByTestId("recommendation-use-case").selectOption("cidade");
+  await page.getByTestId("recommendation-next-need").click();
   await page.getByTestId("recommendation-budget").fill("200000");
   await page.getByTestId("recommendation-monthly-limit").fill("3500");
-  await page.getByTestId("recommendation-use-case").selectOption("cidade");
+  await page.getByTestId("recommendation-next-budget").click();
   await page.getByTestId("recommendation-strategy").selectOption("best_within_budget");
   await page.getByTestId("recommendation-monthly-mileage").fill("1000");
   await page.getByTestId("recommendation-fuel-price").fill("6");
+  await page.getByTestId("recommendation-next-priorities").click();
+  await page.getByTestId("recommendation-next-advanced").click();
   await page.getByTestId("recommendation-submit").click();
   await expect(page.getByTestId("recommendation-results")).toBeVisible();
 }
@@ -66,6 +70,9 @@ if (externalEnvironment) {
 
   test("homologacao marca resultado alterado como desatualizado", async ({ page }) => {
     await calculateRecommendation(page);
+    await page.getByTestId("recommendation-back-review").click();
+    await page.getByTestId("recommendation-back-advanced").click();
+    await page.getByTestId("recommendation-back-priorities").click();
     await page.getByTestId("recommendation-budget").fill("210000");
     await expect(page.getByTestId("recommendation-stale-warning")).toBeVisible();
   });

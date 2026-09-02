@@ -1,59 +1,118 @@
-import React from "react";
-import { isRecommendationSubmitDisabled } from "./recommendationValidation.js";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import MultifactorProfileFields from "./MultifactorProfileFields.jsx";
+import { isRecommendationSubmitDisabled } from "./recommendationValidation.js";
+import {
+  RECOMMENDATION_WIZARD_STEPS,
+  firstStepWithError,
+  nextWizardStep,
+  previousWizardStep,
+  recommendationReview,
+  wizardProgress,
+} from "./recommendationWizardModel.js";
 
 const FieldError = ({ id, message }) => message ? <small className="field-error" id={id} role="alert">{message}</small> : null;
 
-export default function RecommendationForm({ profile, errors, loading, onChange, onResetMultifactorWeights, onSubmit }) {
-  const disabled = isRecommendationSubmitDisabled({ loading, vehicleType: profile.vehicle_type });
-  return (
-    <form className="recommendation-form" data-testid="recommendation-form" onSubmit={onSubmit} noValidate>
-      <fieldset>
-        <legend>1. Objetivo: categoria do veículo</legend>
-        <label htmlFor="recommendation-vehicle-type">O que você procura?</label>
-          <select id="recommendation-vehicle-type" data-testid="recommendation-vehicle-type" aria-invalid={Boolean(errors.vehicle_type)} aria-describedby={errors.vehicle_type ? "recommendation-vehicle-type-error" : undefined} value={profile.vehicle_type} onChange={(event) => onChange("vehicle_type", event.target.value)}>
-            <option value="car">Automóvel</option>
-            <option value="motorcycle">Motocicleta — em desenvolvimento</option>
-          </select>
-          <FieldError id="recommendation-vehicle-type-error" message={errors.vehicle_type} />
-      </fieldset>
+function Field({ children, error, errorId, hint, hintId, label, htmlFor }) {
+  const describedBy = error ? errorId : hint ? hintId : undefined;
+  return <label htmlFor={htmlFor}>{label}{React.cloneElement(children, {
+    id: htmlFor,
+    "aria-invalid": Boolean(error),
+    "aria-describedby": describedBy,
+  })}<FieldError id={errorId} message={error} />{hint && <small className="field-hint" id={hintId}>{hint}</small>}</label>;
+}
 
-      {profile.vehicle_type === "motorcycle" ? (
-        <div className="development-state" role="status" data-testid="motorcycle-recommender-unavailable">
-          <strong>Módulo de motocicletas em desenvolvimento</strong>
-          <p>Nenhuma recomendação de automóvel será usada para esta categoria.</p>
+function WizardProgress({ current, maxVisited, onSelect }) {
+  const progress = wizardProgress(current);
+  return <div className="wizard-progress-wrap">
+    <div className="wizard-progress-copy"><span>Etapa {progress.currentNumber} de {progress.total}</span><strong>{RECOMMENDATION_WIZARD_STEPS[current].label}</strong></div>
+    <div className="wizard-progress-track" aria-hidden="true"><span style={{ width: `${progress.percentage}%` }} /></div>
+    <ol className="wizard-progress" aria-label="Etapas do perfil">
+      {RECOMMENDATION_WIZARD_STEPS.map((step, index) => <li key={step.id}>
+        <button type="button" className={index === current ? "active" : index < current ? "complete" : ""} disabled={index > maxVisited} aria-current={index === current ? "step" : undefined} onClick={() => onSelect(index)}>
+          <span aria-hidden="true">{index < current ? "✓" : index + 1}</span><em>{step.shortLabel}</em>
+        </button>
+      </li>)}
+    </ol>
+  </div>;
+}
+
+export default function RecommendationForm({ profile, errors, loading, onChange, onResetMultifactorWeights, onSubmit }) {
+  const [stepIndex, setStepIndex] = useState(0);
+  const [maxVisited, setMaxVisited] = useState(0);
+  const formRef = useRef(null);
+  const disabled = isRecommendationSubmitDisabled({ loading, vehicleType: profile.vehicle_type });
+  const review = useMemo(() => recommendationReview(profile), [profile]);
+
+  useEffect(() => {
+    const errorStep = firstStepWithError(errors);
+    if (errorStep >= 0) {
+      setStepIndex(errorStep);
+      setMaxVisited((current) => Math.max(current, errorStep));
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    const heading = formRef.current?.querySelector("[data-step-panel]:not([hidden]) h2");
+    if (heading && stepIndex > 0) heading.focus();
+  }, [stepIndex]);
+
+  function goTo(index) {
+    setStepIndex(index);
+    setMaxVisited((current) => Math.max(current, index));
+  }
+
+  function advance() {
+    goTo(nextWizardStep(stepIndex));
+  }
+
+  return (
+    <form ref={formRef} className="recommendation-form recommendation-wizard" data-testid="recommendation-form" onSubmit={onSubmit} noValidate>
+      <WizardProgress current={stepIndex} maxVisited={maxVisited} onSelect={goTo} />
+
+      <section className="wizard-step" data-step-panel="need" hidden={stepIndex !== 0} aria-labelledby="wizard-need-title">
+        <p className="eyebrow">Comece pela sua rotina</p>
+        <h2 id="wizard-need-title" tabIndex="-1">Que tipo de escolha você quer fazer?</h2>
+        <p className="wizard-intro">Conte primeiro o que você precisa. Os detalhes técnicos aparecem só quando forem úteis.</p>
+        <fieldset className="choice-fieldset"><legend>Categoria</legend><div className="choice-grid two-options">
+          <label className={profile.vehicle_type === "car" ? "choice-card selected" : "choice-card"}><input data-testid="recommendation-vehicle-type-car" type="radio" name="vehicle_type" value="car" checked={profile.vehicle_type === "car"} onChange={(event) => onChange("vehicle_type", event.target.value)} /><span aria-hidden="true">01</span><strong>Automóvel</strong><small>Recomendação completa disponível</small></label>
+          <label className={profile.vehicle_type === "motorcycle" ? "choice-card selected" : "choice-card"}><input data-testid="recommendation-vehicle-type-motorcycle" type="radio" name="vehicle_type" value="motorcycle" checked={profile.vehicle_type === "motorcycle"} onChange={(event) => onChange("vehicle_type", event.target.value)} /><span aria-hidden="true">02</span><strong>Motocicleta</strong><small>Catálogo técnico em desenvolvimento</small></label>
+        </div><select hidden id="recommendation-vehicle-type" data-testid="recommendation-vehicle-type" value={profile.vehicle_type} onChange={(event) => onChange("vehicle_type", event.target.value)} tabIndex="-1"><option value="car">Automóvel</option><option value="motorcycle">Motocicleta — em desenvolvimento</option></select><FieldError id="recommendation-vehicle-type-error" message={errors.vehicle_type} /></fieldset>
+
+        {profile.vehicle_type === "motorcycle" ? <div className="development-state" role="status" data-testid="motorcycle-recommender-unavailable"><strong>O recomendador de motocicletas ainda está em desenvolvimento.</strong><p>Você pode consultar o catálogo técnico; nenhuma recomendação de automóvel será adaptada ou apresentada como recomendação de moto.</p></div> : <Field label="Uso principal" htmlFor="recommendation-use-case" error={errors.use_case} errorId="recommendation-use-case-error"><select data-testid="recommendation-use-case" value={profile.use_case} onChange={(event) => onChange("use_case", event.target.value)}><option value="cidade">Deslocamentos na cidade</option><option value="familia">Rotina com a família</option><option value="trabalho">Trabalho e compromissos</option><option value="estrada">Viagens e estrada</option><option value="app">Uso por aplicativo</option><option value="suv">Mais espaço e versatilidade</option></select></Field>}
+        {profile.vehicle_type === "car" && <div className="wizard-actions"><span /><button data-testid="recommendation-next-need" type="button" onClick={advance}>Continuar</button></div>}
+      </section>
+
+      <section className="wizard-step" data-step-panel="budget" hidden={stepIndex !== 1} aria-labelledby="wizard-budget-title">
+        <p className="eyebrow">Seus limites</p><h2 id="wizard-budget-title" tabIndex="-1">Quanto cabe na sua decisão?</h2><p className="wizard-intro">Use valores aproximados. Você poderá voltar e ajustar antes de calcular.</p>
+        <div className="wizard-field-grid">
+          <Field label="Orçamento para compra" htmlFor="recommendation-budget" error={errors.budget} errorId="recommendation-budget-error" hint="Valor máximo que você pretende pagar pelo veículo." hintId="recommendation-budget-hint"><input data-testid="recommendation-budget" type="number" min="1" inputMode="decimal" value={profile.budget} onChange={(event) => onChange("budget", event.target.value)} /></Field>
+          <Field label="Limite mensal de uso" htmlFor="recommendation-monthly-limit" error={errors.monthly_limit} errorId="recommendation-monthly-limit-error" hint="Estimativa para combustível, manutenção, impostos, seguro e desvalorização. A parcela de financiamento não entra aqui." hintId="recommendation-monthly-limit-hint"><input data-testid="recommendation-monthly-limit" type="number" min="1" inputMode="decimal" value={profile.monthly_limit} onChange={(event) => onChange("monthly_limit", event.target.value)} /></Field>
         </div>
-      ) : (
-        <>
-          <fieldset><legend>2. Objetivo: orçamento</legend><label htmlFor="recommendation-budget">Orçamento disponível</label>
-            <input id="recommendation-budget" data-testid="recommendation-budget" type="number" aria-invalid={Boolean(errors.budget)} aria-describedby={errors.budget ? "recommendation-budget-error" : undefined} value={profile.budget} onChange={(event) => onChange("budget", event.target.value)} />
-            <FieldError id="recommendation-budget-error" message={errors.budget} />
-          </fieldset>
-          <fieldset><legend>3. Objetivo: limite mensal</legend><label htmlFor="recommendation-monthly-limit">Limite mensal</label>
-            <input id="recommendation-monthly-limit" data-testid="recommendation-monthly-limit" type="number" aria-invalid={Boolean(errors.monthly_limit)} aria-describedby={errors.monthly_limit ? "recommendation-monthly-limit-error" : "recommendation-monthly-limit-hint"} value={profile.monthly_limit} onChange={(event) => onChange("monthly_limit", event.target.value)} />
-            <FieldError id="recommendation-monthly-limit-error" message={errors.monthly_limit} />
-          <p className="field-hint" id="recommendation-monthly-limit-hint">Valor máximo estimado para combustível, manutenção, impostos, seguro e desvalorização. A parcela de financiamento não está incluída nesta versão.</p></fieldset>
-          <fieldset><legend>4. Uso: rotina principal</legend><label htmlFor="recommendation-use-case">Uso principal</label>
-            <select id="recommendation-use-case" data-testid="recommendation-use-case" aria-invalid={Boolean(errors.use_case)} aria-describedby={errors.use_case ? "recommendation-use-case-error" : undefined} value={profile.use_case} onChange={(event) => onChange("use_case", event.target.value)}>
-              <option value="cidade">Cidade</option><option value="familia">Família</option><option value="trabalho">Trabalho</option><option value="estrada">Estrada</option><option value="app">Aplicativo</option><option value="suv">SUV/Espaço</option>
-            </select><FieldError id="recommendation-use-case-error" message={errors.use_case} />
-          </fieldset>
-          <fieldset><legend>5. Preferências: Prioridade da recomendação</legend><label htmlFor="recommendation-strategy">O que deve pesar mais?</label>
-            <select id="recommendation-strategy" data-testid="recommendation-strategy" aria-invalid={Boolean(errors.recommendation_strategy)} aria-describedby={errors.recommendation_strategy ? "recommendation-strategy-error" : undefined} value={profile.recommendation_strategy} onChange={(event) => onChange("recommendation_strategy", event.target.value)}>
-              <option value="lowest_cost">Menor custo possível</option><option value="budget_economy">Econômico dentro do orçamento</option><option value="cost_benefit">Custo-benefício</option><option value="balanced">Equilibrado</option><option value="comfort_space">Conforto e espaço</option><option value="best_within_budget">Melhor categoria dentro do orçamento</option>
-            </select><FieldError id="recommendation-strategy-error" message={errors.recommendation_strategy} />
-          </fieldset>
-          <fieldset><legend>6. Uso: distância e combustível</legend><label htmlFor="recommendation-monthly-mileage">Quilometragem mensal</label>
-            <input id="recommendation-monthly-mileage" data-testid="recommendation-monthly-mileage" type="number" aria-invalid={Boolean(errors.monthly_mileage)} aria-describedby={errors.monthly_mileage ? "recommendation-monthly-mileage-error" : undefined} value={profile.monthly_mileage} onChange={(event) => onChange("monthly_mileage", event.target.value)} />
-            <FieldError id="recommendation-monthly-mileage-error" message={errors.monthly_mileage} />
-          <label htmlFor="recommendation-fuel-price">Preço do combustível</label>
-            <input id="recommendation-fuel-price" data-testid="recommendation-fuel-price" type="number" step="0.01" aria-invalid={Boolean(errors.fuel_price)} aria-describedby={errors.fuel_price ? "recommendation-fuel-price-error" : undefined} value={profile.fuel_price} onChange={(event) => onChange("fuel_price", event.target.value)} />
-            <FieldError id="recommendation-fuel-price-error" message={errors.fuel_price} />
-          </fieldset>
-          <MultifactorProfileFields profile={profile} errors={errors} onChange={onChange} onResetWeights={onResetMultifactorWeights} />
-          <fieldset><legend>8. Revisão</legend><p className="field-hint">Ao calcular, o SIGRA usa os mesmos parâmetros para todas as alternativas comparáveis e não persiste suas preferências.</p><button data-testid="recommendation-submit" type="submit" disabled={disabled}>{loading ? "Calculando..." : "Calcular recomendação"}</button></fieldset>
-        </>
-      )}
+        <div className="wizard-actions"><button className="ghost-button" data-testid="recommendation-back-budget" type="button" onClick={() => goTo(previousWizardStep(stepIndex))}>Voltar</button><button data-testid="recommendation-next-budget" type="button" onClick={advance}>Continuar</button></div>
+      </section>
+
+      <section className="wizard-step" data-step-panel="priorities" hidden={stepIndex !== 2} aria-labelledby="wizard-priorities-title">
+        <p className="eyebrow">O que importa</p><h2 id="wizard-priorities-title" tabIndex="-1">Defina a prioridade da análise</h2><p className="wizard-intro">O SIGRA aplica o mesmo perfil a todas as alternativas comparáveis.</p>
+        <Field label="O que deve pesar mais?" htmlFor="recommendation-strategy" error={errors.recommendation_strategy} errorId="recommendation-strategy-error"><select data-testid="recommendation-strategy" value={profile.recommendation_strategy} onChange={(event) => onChange("recommendation_strategy", event.target.value)}><option value="lowest_cost">Menor custo possível</option><option value="budget_economy">Economia dentro do orçamento</option><option value="cost_benefit">Custo-benefício</option><option value="balanced">Equilíbrio geral</option><option value="comfort_space">Conforto e espaço</option><option value="best_within_budget">Melhor categoria dentro do orçamento</option></select></Field>
+        <div className="wizard-field-grid">
+          <Field label="Quilometragem mensal" htmlFor="recommendation-monthly-mileage" error={errors.monthly_mileage} errorId="recommendation-monthly-mileage-error" hint="Uma estimativa da sua rotina já é suficiente." hintId="recommendation-monthly-mileage-hint"><input data-testid="recommendation-monthly-mileage" type="number" min="0" inputMode="decimal" value={profile.monthly_mileage} onChange={(event) => onChange("monthly_mileage", event.target.value)} /></Field>
+          <Field label="Preço do combustível" htmlFor="recommendation-fuel-price" error={errors.fuel_price} errorId="recommendation-fuel-price-error" hint="Valor de referência informado por você para o ranking histórico." hintId="recommendation-fuel-price-hint"><input data-testid="recommendation-fuel-price" type="number" min="0.01" step="0.01" inputMode="decimal" value={profile.fuel_price} onChange={(event) => onChange("fuel_price", event.target.value)} /></Field>
+        </div>
+        <div className="wizard-actions"><button className="ghost-button" data-testid="recommendation-back-priorities" type="button" onClick={() => goTo(previousWizardStep(stepIndex))}>Voltar</button><button data-testid="recommendation-next-priorities" type="button" onClick={advance}>Continuar</button></div>
+      </section>
+
+      <section className="wizard-step" data-step-panel="advanced" hidden={stepIndex !== 3} aria-labelledby="wizard-advanced-title">
+        <p className="eyebrow">Opcional</p><h2 id="wizard-advanced-title" tabIndex="-1">Quer personalizar ainda mais?</h2><p className="wizard-intro">Se você não ativar o perfil multifator, o ranking legado permanece exatamente como antes.</p>
+        <MultifactorProfileFields profile={profile} errors={errors} onChange={onChange} onResetWeights={onResetMultifactorWeights} />
+        <div className="wizard-actions"><button className="ghost-button" data-testid="recommendation-back-advanced" type="button" onClick={() => goTo(previousWizardStep(stepIndex))}>Voltar</button><button data-testid="recommendation-next-advanced" type="button" onClick={advance}>{profile.multifactor_enabled ? "Revisar cenário" : "Continuar sem ajustes"}</button></div>
+      </section>
+
+      <section className="wizard-step wizard-review" data-step-panel="review" hidden={stepIndex !== 4} aria-labelledby="wizard-review-title">
+        <p className="eyebrow">Revise antes de calcular</p><h2 id="wizard-review-title" tabIndex="-1">Seu perfil está pronto</h2><p className="wizard-intro">O SIGRA não salva estas preferências. O cenário será enviado ao backend somente quando você calcular.</p>
+        <dl className="review-grid">{review.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+        <div className="privacy-note"><span aria-hidden="true">✓</span><p><strong>Comparação consistente</strong><br />Todas as alternativas recebem os mesmos parâmetros; a Gold publicada permanece somente leitura.</p></div>
+        <div className="wizard-actions"><button className="ghost-button" data-testid="recommendation-back-review" type="button" onClick={() => goTo(previousWizardStep(stepIndex))}>Voltar e ajustar</button><button data-testid="recommendation-submit" type="submit" disabled={disabled}>{loading ? "Calculando..." : "Calcular recomendação"}</button></div>
+      </section>
     </form>
   );
 }
