@@ -1,5 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { requestRecommendations } from "./api/sigraApi.js";
+import {
+  createEmptyFinancialSummary,
+  requestOperationalData,
+  requestRecommendations,
+  resolveOperationalUserId,
+} from "./api/sigraApi.js";
 import AppHeader from "./AppHeader.jsx";
 import RecommendationDetails from "./features/recommendations/RecommendationDetails.jsx";
 import RecommendationForm from "./features/recommendations/RecommendationForm.jsx";
@@ -36,7 +41,7 @@ function purchaseSourceButtons(sources = [], bestSource = null) {
     <>
     {bestSource?.url && (
       <a className="best-source-link" href={bestSource.url} target="_blank" rel="noreferrer">
-        Melhor opcao: {bestSource.name}
+        Melhor opção: {bestSource.name}
       </a>
     )}
     <div className="source-links">
@@ -68,7 +73,6 @@ function App() {
     monthly_mileage: "1000",
     fuel_price: "6",
     multifactor_enabled: false,
-    allow_budget_above_200k: false,
     multifactor_monthly_distance_km: "1000",
     multifactor_city_percentage: "50",
     multifactor_highway_percentage: "50",
@@ -92,6 +96,7 @@ function App() {
   const [recommendationHasCalculated, setRecommendationHasCalculated] = useState(false);
   const recommendationRequestId = useRef(0);
   const recommendationAbortController = useRef(null);
+  const operationalDataAbortController = useRef(null);
   const recommendationProfileVersion = useRef(0);
   const recommendationFormSectionRef = useRef(null);
   const [vehicles, setVehicles] = useState([]);
@@ -103,13 +108,7 @@ function App() {
   const [partsVehicleId, setPartsVehicleId] = useState("");
   const [selectedRecommendationDetails, setSelectedRecommendationDetails] = useState(null);
   const [showAllRecommendations, setShowAllRecommendations] = useState(false);
-  const [summary, setSummary] = useState({
-    total_expenses: 0,
-    total_maintenance: 0,
-    total_cost: 0,
-    expenses_by_category: {},
-    pending_maintenances: 0,
-  });
+  const [summary, setSummary] = useState(createEmptyFinancialSummary);
   const [expenseForm, setExpenseForm] = useState({
     user_id: 1,
     vehicle_id: 1,
@@ -159,7 +158,7 @@ function App() {
     try {
       const response = await fetch(`${API_URL}/vehicles`);
       if (!response.ok) {
-        throw new Error("Falha ao carregar veiculos");
+        throw new Error("Falha ao carregar veículos");
       }
       const data = await response.json();
       setVehicles(data);
@@ -209,19 +208,16 @@ function App() {
     }
   }
 
-  async function loadOperationalData() {
+  async function loadOperationalData(user, { signal } = {}) {
     try {
-      const [expensesResponse, summaryResponse] = await Promise.all([
-        fetch(`${API_URL}/expenses`),
-        fetch(`${API_URL}/reports/financial-summary`),
-      ]);
-      if (!expensesResponse.ok || !summaryResponse.ok) {
-        throw new Error("Falha ao carregar dados operacionais");
-      }
-      setExpenses(await expensesResponse.json());
-      setSummary(await summaryResponse.json());
-    } catch {
+      const data = await requestOperationalData(user, { signal });
+      if (signal?.aborted) return;
+      setExpenses(data.expenses);
+      setSummary(data.summary);
+    } catch (error) {
+      if (error?.name === "AbortError") return;
       setExpenses([]);
+      setSummary(createEmptyFinancialSummary());
     }
   }
 
@@ -256,7 +252,7 @@ function App() {
     try {
       const response = await fetch(`${API_URL}/user-vehicles/${userVehicleId}/history`);
       if (!response.ok) {
-        throw new Error("Falha ao carregar historico");
+        throw new Error("Falha ao carregar histórico");
       }
       setVehicleHistory(await response.json());
     } catch {
@@ -284,7 +280,7 @@ function App() {
     try {
       const response = await fetch(`${API_URL}/vehicles/${vehicleId}/parts-analysis`);
       if (!response.ok) {
-        throw new Error("Falha ao carregar analise de pecas");
+        throw new Error("Falha ao carregar análise de peças");
       }
       const data = await response.json();
       setPartsAnalyses((current) => ({ ...current, [vehicleId]: data }));
@@ -315,7 +311,7 @@ function App() {
         throw new Error("Falha ao salvar despesa");
       }
       setExpenseForm((current) => ({ ...current, amount: 0, description: "" }));
-      await loadOperationalData();
+      await loadOperationalData(currentUser);
       setStatus("Despesa registrada com sucesso.");
     } catch {
       setStatus("Não foi possível registrar a despesa.");
@@ -342,7 +338,7 @@ function App() {
         }),
       });
       if (!response.ok) {
-        throw new Error("Falha ao cadastrar veiculo");
+        throw new Error("Falha ao cadastrar veículo");
       }
       setStatus("Veículo do usuário cadastrado com sucesso.");
       await loadMyCarData(currentUser.role === "admin" ? 1 : currentUser.id);
@@ -430,7 +426,6 @@ function App() {
       setMyCarForm((current) => ({ ...current, user_id: user.id }));
       setActiveTab(user.role === "admin" ? "admin" : "recommendations");
       setStatus(`Sessão iniciada como ${user.role === "admin" ? "administrador" : "usuário"}.`);
-      await loadMyCarData(user.role === "admin" ? 1 : user.id);
     } catch {
       setLoginError("Email, senha ou perfil incorretos.");
     }
@@ -452,16 +447,30 @@ function App() {
   useEffect(() => {
     document.documentElement.dataset.theme = "graphite";
     loadVehicles();
-    if (!PUBLIC_DEMO_MODE) loadOperationalData();
     searchOnlineCars({ preventDefault() {} });
     if (PUBLIC_DEMO_MODE) localStorage.removeItem("sigra-session");
-    return () => recommendationAbortController.current?.abort();
+    return () => {
+      recommendationAbortController.current?.abort();
+      operationalDataAbortController.current?.abort();
+    };
   }, []);
 
   useEffect(() => {
-    if (currentUser) {
-      loadMyCarData(currentUser.role === "admin" ? 1 : currentUser.id);
+    operationalDataAbortController.current?.abort();
+    const operationalUserId = resolveOperationalUserId(currentUser);
+    if (!currentUser || PUBLIC_DEMO_MODE || operationalUserId === null) {
+      setExpenses([]);
+      setSummary(createEmptyFinancialSummary());
+      setMyCars([]);
+      setVehicleHistory(null);
+      return undefined;
     }
+
+    const controller = new AbortController();
+    operationalDataAbortController.current = controller;
+    loadOperationalData(currentUser, { signal: controller.signal });
+    loadMyCarData(operationalUserId);
+    return () => controller.abort();
   }, [currentUser]);
 
   const comparedVehicles = useMemo(
@@ -555,7 +564,7 @@ function App() {
       cautions.push("Compare preços de peças antes da compra.");
     }
     if (item?.recommendation_status === "attention") {
-      cautions.push("Requer conferencia dos limites informados.");
+      cautions.push("Requer conferência dos limites informados.");
     }
     return Array.from(new Set(cautions)).slice(0, 1);
   }
@@ -570,11 +579,11 @@ function App() {
       Ano: vehicle.year,
       "Preço de referência": formatCurrency(vehicle.price),
       Consumo: `${vehicle.fuel_efficiency_km_l} km/l`,
-      "Manutencao anual": formatCurrency(vehicle.annual_maintenance_cost),
+      "Manutenção anual": formatCurrency(vehicle.annual_maintenance_cost),
       "Custo mensal estimado": formatCurrency(monthlyCost),
       Confiabilidade: `${vehicle.reliability_score}/100`,
-      "Disponibilidade de pecas": `${vehicle.parts_availability_score}/100`,
-      "Desvalorizacao": `${vehicle.depreciation_rate}%`,
+      "Disponibilidade de peças": `${vehicle.parts_availability_score}/100`,
+      "Desvalorização": `${vehicle.depreciation_rate}%`,
     };
   }
 
@@ -638,7 +647,7 @@ function App() {
 
   function partsCatalogButton(catalog) {
     if (!catalog?.url) return null;
-    const label = catalog.target_level === "model" ? "Abrir catalogo do modelo" : "Consultar pecas";
+    const label = catalog.target_level === "model" ? "Abrir catálogo do modelo" : "Consultar peças";
     return (
       <a className="parts-link" href={catalog.url} target="_blank" rel="noreferrer">
         {label}
@@ -707,7 +716,7 @@ function App() {
         <section className="content">
           {activeTab === "recommendations" && <>
             <section className="experience-hero" aria-labelledby="experience-title">
-              <div><p className="eyebrow">Recomendação orientada à sua realidade</p><h1 id="experience-title">Um carro que faz sentido para a sua vida — e para o seu orçamento.</h1><p>O SIGRA organiza opções, custos e evidências em uma jornada clara. Você informa a necessidade; o backend compara cada veículo sob o mesmo cenário.</p><div className="hero-actions"><button type="button" onClick={startRecommendation}>Encontrar meu veículo</button><button className="ghost-button" type="button" onClick={() => navigateToSection("comparison")}>Entender a comparação</button></div></div>
+              <div><p className="eyebrow">Recomendação orientada à sua realidade</p><h1 id="experience-title">Encontre o veículo certo para você.</h1><p>Informe seu orçamento, sua rotina e suas prioridades. O SIGRA compara as opções e explica cada recomendação.</p><div className="hero-actions"><button type="button" onClick={startRecommendation}>Encontrar meu veículo</button><button className="ghost-button" type="button" onClick={() => navigateToSection("comparison")}>Entender a comparação</button></div></div>
               <dl className="hero-proof" aria-label="Compromissos da análise"><div><dt>01</dt><dd><strong>Mesmo perfil</strong><span>para todas as alternativas</span></dd></div><div><dt>02</dt><dd><strong>Custos explicáveis</strong><span>calculados no backend</span></dd></div><div><dt>03</dt><dd><strong>Dados rastreáveis</strong><span>FIPE, PBEV e ANP</span></dd></div></dl>
             </section>
             <div className="recommendation-workbench">
@@ -732,8 +741,8 @@ function App() {
           {activeTab === "comparison" && (
           <>
           <div className="section-heading">
-            <p className="eyebrow">Comparacao</p>
-            <h2>Indicadores tecnicos</h2>
+            <p className="eyebrow">Comparação</p>
+            <h2>Indicadores técnicos</h2>
           </div>
 
           <div className="vehicle-selector">
@@ -752,9 +761,9 @@ function App() {
           <div className="comparison-table" role="table">
             <div className="table-row table-head" role="row">
               <span>Veículo</span>
-              <span>Preco</span>
+              <span>Preço</span>
               <span>Consumo</span>
-              <span>Manutencao anual</span>
+              <span>Manutenção anual</span>
               <span>Confiabilidade</span>
             </div>
             {comparedVehicles.map((vehicle) => (
@@ -777,7 +786,7 @@ function App() {
           {activeTab === "expenses" && (
           <>
           <div className="section-heading">
-            <p className="eyebrow">Gestao financeira</p>
+            <p className="eyebrow">Gestão financeira</p>
             <h2>Despesas e custos do usuário</h2>
           </div>
 
@@ -799,9 +808,9 @@ function App() {
               <label>
                 Categoria
                 <select value={expenseForm.category} onChange={(event) => updateExpense("category", event.target.value)}>
-                  <option value="combustivel">Combustivel</option>
+                  <option value="combustivel">Combustível</option>
                   <option value="seguro">Seguro</option>
-                  <option value="documentacao">Documentacao</option>
+                  <option value="documentacao">Documentação</option>
                   <option value="manutencao">Manutenção</option>
                   <option value="outros">Outros</option>
                 </select>
@@ -825,7 +834,7 @@ function App() {
                 />
               </label>
               <label>
-                Descricao
+                Descrição
                 <input
                   type="text"
                   value={expenseForm.description}
@@ -920,7 +929,7 @@ function App() {
                     <option value="estrada">Estrada</option>
                     <option value="misto">Misto</option>
                     <option value="app">Aplicativo</option>
-                    <option value="familia">Familia</option>
+                    <option value="familia">Família</option>
                     <option value="trabalho">Trabalho</option>
                   </select>
                 </label>
@@ -967,7 +976,7 @@ function App() {
                         <dd>{vehicleHistory.model_statistics.report_count}</dd>
                       </div>
                       <div>
-                        <dt>Indice de risco</dt>
+                        <dt>Índice de risco</dt>
                         <dd>{vehicleHistory.model_statistics.risk_index}/100</dd>
                       </div>
                       <div>
@@ -1006,10 +1015,10 @@ function App() {
                     Categoria
                     <select value={problemForm.problem_category} onChange={(event) => updateProblem("problem_category", event.target.value)}>
                       <option value="motor">Motor</option>
-                      <option value="cambio">Cambio</option>
-                      <option value="suspensao">Suspensao</option>
+                      <option value="cambio">Câmbio</option>
+                      <option value="suspensao">Suspensão</option>
                       <option value="freio">Freio</option>
-                      <option value="eletrica">Eletrica</option>
+                      <option value="eletrica">Elétrica</option>
                       <option value="arrefecimento">Arrefecimento</option>
                       <option value="acabamento">Acabamento</option>
                       <option value="consumo">Consumo</option>
@@ -1022,7 +1031,7 @@ function App() {
                     Gravidade
                     <select value={problemForm.severity} onChange={(event) => updateProblem("severity", event.target.value)}>
                       <option value="baixa">Baixa</option>
-                      <option value="media">Media</option>
+                      <option value="media">Média</option>
                       <option value="alta">Alta</option>
                     </select>
                   </label>
@@ -1036,7 +1045,7 @@ function App() {
                   </label>
                 </div>
                 <label>
-                  Descricao
+                  Descrição
                   <input type="text" value={problemForm.description} onChange={(event) => updateProblem("description", event.target.value)} />
                 </label>
                 <label>
@@ -1066,7 +1075,7 @@ function App() {
                     </select>
                   </label>
                   <label>
-                    Combustivel
+                    Combustível
                     <select value={consumptionForm.fuel_type} onChange={(event) => updateConsumption("fuel_type", event.target.value)}>
                       <option value="flex">Flex</option>
                       <option value="gasolina">Gasolina</option>
@@ -1076,7 +1085,7 @@ function App() {
                   </label>
                 </div>
                 <label>
-                  Observacao
+                  Observação
                   <input type="text" value={consumptionForm.notes} onChange={(event) => updateConsumption("notes", event.target.value)} />
                 </label>
                 <button type="submit">Registrar consumo</button>
@@ -1103,7 +1112,7 @@ function App() {
                 </option>
               ))}
             </select>
-            <button type="submit">Analisar pecas</button>
+            <button type="submit">Analisar peças</button>
           </form>
 
           {partsAnalyses[partsVehicleId] ? (
@@ -1167,7 +1176,7 @@ function App() {
                         <dd>{formatCurrency(part.max_price)}</dd>
                       </div>
                       <div>
-                        <dt>Media</dt>
+                        <dt>Média</dt>
                         <dd>{formatCurrency(part.average_price)}</dd>
                       </div>
                       <div>
@@ -1184,11 +1193,11 @@ function App() {
 
               <div className="comparison-table" role="table">
                 <div className="table-row table-head" role="row">
-                  <span>Peca</span>
+                  <span>Peça</span>
                   <span>Veículo compatível</span>
                   <span>Tipo</span>
-                  <span>Confianca</span>
-                  <span>Observacao</span>
+                  <span>Confiança</span>
+                  <span>Observação</span>
                 </div>
                 {(partsAnalyses[partsVehicleId].compatibilities || []).map((item) => (
                   <div className="table-row" role="row" key={`${item.part}-${item.compatible_vehicle}`}>
@@ -1286,7 +1295,7 @@ function App() {
           <div className="comparison-table" role="table">
             <div className="table-row table-head" role="row">
               <span>Veículo</span>
-              <span>Preco</span>
+              <span>Preço</span>
               <span>Uso</span>
               <span>Peças</span>
               <span>Confiabilidade</span>

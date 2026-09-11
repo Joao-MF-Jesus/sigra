@@ -46,8 +46,7 @@
 
 body {
   margin: 0;
-  min-width: 320px;
-  overflow-x: hidden;
+  min-width: 0;
   background:
     radial-gradient(circle at 12% -10%, rgba(183, 121, 62, 0.17), transparent 30rem),
     radial-gradient(circle at 90% 8%, rgba(206, 146, 85, 0.08), transparent 26rem),
@@ -2368,7 +2367,7 @@ button {
 }
 
 .app-shell .ghost-button {
-  min-height: 44px;
+  min-height: 48px;
 }
 
 .ghost-button:hover:not(:disabled) {
@@ -2531,7 +2530,7 @@ h4 {
 }
 
 .header-signout {
-  min-height: 44px;
+  min-height: 48px;
   padding: 0 10px;
   color: var(--primary);
   border: 1px solid var(--border);
@@ -2579,7 +2578,18 @@ h4 {
 .workspace-v2 {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: clamp(28px, 4vw, 64px) clamp(24px, 4vw, 64px) 0;
+  padding: clamp(28px, 4vw, 64px) clamp(16px, 3vw, 56px) 0;
+}
+
+/* The hero keeps its reading width; the recommendation work area can grow. */
+.app-shell:has(.recommendation-workbench) {
+  padding-inline: 0;
+}
+
+.workspace-v2:has(.recommendation-workbench) {
+  max-width: 2480px;
+  padding-inline: clamp(16px, 2vw, 32px);
+  container: recommendation-workspace / inline-size;
 }
 
 .content {
@@ -2588,20 +2598,21 @@ h4 {
 }
 
 .experience-hero {
-  min-height: min(510px, 58vh);
+  width: min(1480px, 100%);
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.6fr);
   gap: clamp(34px, 7vw, 110px);
   align-items: center;
+  margin: 0 auto;
   border-bottom: 1px solid var(--border);
   padding: clamp(30px, 5vw, 80px) 0;
 }
 
 .experience-hero h1 {
-  max-width: 990px;
+  max-width: 880px;
   margin-bottom: 22px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(3rem, 5.4vw, 6.2rem);
+  font-size: clamp(2.75rem, 4.4vw, 5rem);
   font-weight: 500;
   line-height: 0.98;
   letter-spacing: -0.045em;
@@ -2655,18 +2666,18 @@ h4 {
 
 .recommendation-workbench {
   display: grid;
-  grid-template-columns: minmax(390px, 0.72fr) minmax(0, 1.65fr);
-  gap: clamp(22px, 3vw, 48px);
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(20px, 2vw, 32px);
   align-items: start;
   padding-top: 10px;
 }
 
 .recommendation-builder {
-  position: sticky;
-  top: 148px;
-  max-height: calc(100vh - 172px);
-  overflow-y: auto;
-  scrollbar-gutter: stable;
+  min-width: 0;
+  position: static;
+  container-name: recommendation-builder;
+  container-type: inline-size;
+  overflow: visible;
   scroll-margin-top: 150px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -2676,6 +2687,8 @@ h4 {
 
 .recommendation-output {
   min-width: 0;
+  container-name: recommendation-output;
+  container-type: inline-size;
 }
 
 .result-heading {
@@ -2731,14 +2744,14 @@ h4 {
 
 .wizard-progress button {
   width: 100%;
-  min-height: 44px;
+  min-height: 48px;
   display: grid;
   gap: 3px;
   justify-items: center;
-  padding: 4px;
+  padding: 6px 4px;
   color: var(--muted);
   background: transparent;
-  font-size: 0.68rem;
+  font-size: 0.875rem;
 }
 
 .wizard-progress button span {
@@ -2751,10 +2764,13 @@ h4 {
 }
 
 .wizard-progress button em {
-  overflow: hidden;
   max-width: 100%;
   font-style: normal;
-  text-overflow: ellipsis;
+  line-height: 1.25;
+  overflow-wrap: normal;
+  text-align: center;
+  white-space: normal;
+  word-break: normal;
 }
 
 .wizard-progress button.active,
@@ -2774,6 +2790,7 @@ h4 {
 }
 
 .wizard-step {
+  min-width: 0;
   display: grid;
   gap: 20px;
   padding: clamp(22px, 3vw, 34px);
@@ -2816,7 +2833,7 @@ h4 {
 }
 
 .choice-grid.two-options {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .choice-card {
@@ -2860,30 +2877,94 @@ h4 {
 
 .wizard-field-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
+  align-items: start;
+}
+
+.form-field {
+  min-width: 0;
+  align-content: start;
+  display: grid;
+  gap: 7px;
+  container-type: inline-size;
+}
+
+.field-label {
+  min-width: 0;
+  color: var(--soft-text);
+  font-size: 0.88rem;
+  font-weight: 750;
+  line-height: 1.35;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.form-field .field-hint,
+.form-field .field-error {
+  margin: 0;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.selected-option {
+  display: none;
+}
+
+@container (max-width: 299px) {
+  .selected-option {
+    display: block;
+    color: var(--muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
 }
 
 .wizard-actions {
   display: grid;
-  grid-template-columns: minmax(0, auto) minmax(150px, auto);
-  justify-content: space-between;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   border-top: 1px solid var(--subtle-border);
   padding-top: 18px;
 }
 
-.wizard-actions button:last-child {
-  min-width: 170px;
+.wizard-actions span {
+  display: none;
+}
+
+.wizard-actions button {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  line-height: 1.25;
+  overflow-wrap: normal;
+  white-space: normal;
+  word-break: normal;
 }
 
 .multifactor-profile {
+  min-width: 0;
+  width: 100%;
   display: grid !important;
   gap: 14px !important;
   border: 1px solid var(--border) !important;
   border-radius: var(--radius-md) !important;
   padding: 16px !important;
   background: var(--surface-muted);
+  container-name: multifactor-profile;
+  container-type: inline-size;
 }
 
 .multifactor-profile legend {
@@ -2891,17 +2972,65 @@ h4 {
 }
 
 .multifactor-profile .ghost-button {
-  min-height: 44px;
+  min-height: 48px;
+}
+
+.multifactor-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.multifactor-toggle {
+  min-width: 0;
+  min-height: 52px;
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px !important;
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  cursor: pointer;
+}
+
+.multifactor-toggle input {
+  width: 22px;
+  height: 22px;
+  min-height: 22px;
+  margin: 0;
+  justify-self: center;
+  accent-color: var(--primary);
+}
+
+.multifactor-toggle:focus-within {
+  outline: 3px solid color-mix(in srgb, var(--primary) 78%, white);
+  outline-offset: 2px;
+}
+
+.multifactor-weight-heading {
+  display: grid;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.multifactor-weight-heading .ghost-button {
+  width: 100%;
+}
+
+.weight-description {
+  margin: 0;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .review-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 8px;
   margin: 0;
 }
 
 .review-grid div {
+  min-width: 0;
   display: grid;
   gap: 4px;
   border: 1px solid var(--subtle-border);
@@ -2922,6 +3051,8 @@ h4 {
   margin: 0;
   color: var(--text);
   font-weight: 700;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .privacy-note {
@@ -2971,14 +3102,183 @@ h4 {
 }
 
 .recommendation-grid {
-  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
   gap: 14px;
 }
 
 .vehicle-card {
+  container-type: inline-size;
   min-height: 590px;
+  max-width: 100%;
   padding: 14px;
   background: linear-gradient(165deg, rgba(206, 146, 85, 0.035), transparent 30%), var(--surface);
+}
+
+.vehicle-card > .card-section p,
+.vehicle-card .card-section li {
+  display: block;
+  min-height: 0;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+}
+
+.vehicle-card h3,
+.vehicle-card p,
+.vehicle-card li,
+.vehicle-card dd,
+.vehicle-card strong,
+.vehicle-card span {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.card-actions {
+  max-width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(min(104px, 100%), 1fr));
+}
+
+.card-actions .ghost-button {
+  width: 100%;
+  max-width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+@container (max-width: 360px) {
+  .vehicle-topline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .vehicle-topline > div {
+    min-width: 0;
+  }
+
+  .vehicle-topline > strong {
+    justify-self: start;
+  }
+
+  .card-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .card-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card-actions button:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@container recommendation-builder (max-width: 599px) {
+  .wizard-progress {
+    gap: 0;
+  }
+
+  .wizard-progress button {
+    min-width: 44px;
+    position: relative;
+  }
+
+  .wizard-step-name {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+}
+
+@container recommendation-builder (min-width: 600px) {
+  .choice-grid.two-options,
+  .wizard-field-grid,
+  .review-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wizard-field-grid .field-label {
+    min-height: 2.5rem;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .review-grid > div:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .wizard-actions {
+    grid-template-columns: minmax(150px, auto) minmax(190px, auto);
+    justify-content: space-between;
+  }
+
+  .wizard-actions span {
+    display: block;
+  }
+
+  .wizard-actions button {
+    width: auto;
+  }
+}
+
+@container multifactor-profile (min-width: 640px) {
+  .multifactor-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .multifactor-field .field-label {
+    min-height: 2.5rem;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .multifactor-weight-heading {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .multifactor-weight-heading .ghost-button {
+    width: auto;
+  }
+}
+
+.catalog-feedback {
+  display: grid;
+  gap: 10px;
+}
+
+.catalog-feedback p,
+.data-provenance p {
+  margin: 0;
+}
+
+.catalog-feedback .ghost-button {
+  justify-self: start;
+}
+
+.data-provenance {
+  border-top: 1px solid var(--subtle-border);
+  padding-top: 10px;
+  color: var(--muted);
+}
+
+.data-provenance summary {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 750;
 }
 
 .vehicle-card.best-choice {
@@ -3024,8 +3324,75 @@ h4 {
 
 .details-modal {
   width: min(1040px, 100%);
+  max-height: calc(100dvh - 48px);
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: visible;
+  gap: 0;
+  padding: 0;
   border-radius: var(--radius-lg);
   background: var(--surface);
+}
+
+.details-modal .modal-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 18px 22px;
+  align-items: start;
+}
+
+.details-modal .modal-header > div,
+.modal-body,
+.modal-body > *,
+.vehicle-simulation-form fieldset {
+  min-width: 0;
+}
+
+.modal-body {
+  min-height: 0;
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  container: vehicle-details / inline-size;
+}
+
+.modal-body p,
+.modal-body li,
+.modal-body dd {
+  overflow-wrap: break-word;
+}
+
+.modal-body .vehicle-simulation-form label,
+.modal-body .vehicle-simulation-form input,
+.modal-body .vehicle-simulation-form select,
+.modal-body .vehicle-simulation-form button,
+.modal-body .form-help {
+  font-size: 1rem;
+}
+
+.modal-body .vehicle-simulation-form input,
+.modal-body .vehicle-simulation-form select,
+.modal-body .vehicle-simulation-form button {
+  width: 100%;
+  max-width: 100%;
+  min-height: 48px;
+}
+
+.modal-body .segmented-control {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+}
+
+@container vehicle-details (max-width: 639px) {
+  .modal-spec-list,
+  .modal-summary-grid,
+  .vehicle-simulation-grid,
+  .vehicle-simulation-metrics,
+  .modal-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .modal-overlay {
@@ -3053,8 +3420,15 @@ h4 {
   to { background-position: -120% 0; }
 }
 
+/* 640px form + 32px gap + two 360px cards + 14px card gap = 1406px. */
+@container recommendation-workspace (min-width: 1406px) {
+  .recommendation-workbench {
+    grid-template-columns: minmax(0, 640px) minmax(0, 1fr);
+    gap: 32px;
+  }
+}
+
 @media (max-width: 1180px) {
-  .recommendation-workbench,
   .experience-hero {
     grid-template-columns: 1fr;
   }
@@ -3078,14 +3452,16 @@ h4 {
     border-right: 0;
   }
 
-  .recommendation-builder {
-    position: static;
-    max-height: none;
-    overflow: visible;
-  }
-
   .financing-layout {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1100px) {
+  .motorcycle-grid,
+  .parts-grid,
+  .online-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -3121,7 +3497,7 @@ h4 {
   }
 
   .primary-navigation button {
-    min-height: 46px;
+    min-height: 48px;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
   }
@@ -3141,10 +3517,9 @@ h4 {
   }
 
   .experience-hero h1 {
-    font-size: clamp(2.7rem, 9vw, 4.6rem);
+    font-size: clamp(2.55rem, 8vw, 4.2rem);
   }
 
-  .recommendation-grid,
   .motorcycle-grid,
   .parts-grid,
   .online-grid {
@@ -3154,7 +3529,8 @@ h4 {
 
 @media (max-width: 620px) {
   .app-shell {
-    padding-bottom: 32px;
+    /* The V2 workspace owns the mobile gutter, not the legacy shell. */
+    padding: 0 0 32px;
   }
 
   .app-header-bar,
@@ -3177,7 +3553,11 @@ h4 {
   }
 
   .workspace-v2 {
-    padding: 24px 16px 0;
+    padding: 24px 12px 0;
+  }
+
+  .workspace-v2:has(.recommendation-workbench) {
+    padding-inline: 12px;
   }
 
   .experience-hero {
@@ -3185,7 +3565,7 @@ h4 {
   }
 
   .experience-hero h1 {
-    font-size: clamp(2.45rem, 13vw, 3.45rem);
+    font-size: clamp(2.25rem, 11vw, 3.1rem);
   }
 
   .hero-actions,
@@ -3212,11 +3592,11 @@ h4 {
 
   .wizard-progress-wrap,
   .wizard-step {
-    padding: 18px;
+    padding: 18px 12px;
   }
 
-  .wizard-progress button em {
-    display: none;
+  .recommendation-builder .multifactor-profile {
+    padding: 12px !important;
   }
 
   .choice-grid.two-options,
@@ -3266,11 +3646,25 @@ h4 {
 
   .details-modal {
     width: 100%;
-    max-height: 100vh;
-    min-height: 100vh;
+    max-height: 100dvh;
+    min-height: 0;
     border: 0;
     border-radius: 0;
-    padding: 18px;
+    padding: 0;
+  }
+
+  .details-modal .modal-header {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .details-modal .modal-header h2 {
+    font-size: 1.25rem;
+    overflow-wrap: break-word;
+  }
+
+  .modal-body {
+    padding: 16px 12px;
   }
 }
 

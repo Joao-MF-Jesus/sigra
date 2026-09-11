@@ -1,0 +1,50 @@
+{
+  "method_version": "academic-evidence-v2",
+  "dataset_version": "catalog-academic-evidence-v2-preview",
+  "mode": "offline_evidence_diagnostic_not_recommendation",
+  "label": "Diagnóstico parcial de evidências; não é recomendação por perfil nem TCO completo.",
+  "dimensions": {
+    "purchase_price": {"field": "price_brl", "unit": "BRL", "direction": "lower"},
+    "consumption": {"field": "consumption_city", "unit": "km/l", "direction": "higher"},
+    "maintenance": {"field": "maintenance_annual_brl", "unit": "BRL/year", "direction": "lower"},
+    "reliability": {"field": "reliability", "unit": "score/100", "direction": "higher"},
+    "parts": {"field": "parts", "unit": "score/100", "direction": "higher"},
+    "space": {"field": "cargo_l", "unit": "l", "direction": "higher"},
+    "comfort": {"field": "comfort", "unit": "score/100", "direction": "higher"},
+    "safety": {"field": "safety", "unit": "score/100", "direction": "higher"},
+    "depreciation": {"field": "depreciation_annual_brl", "unit": "BRL/year", "direction": "lower"}
+  },
+  "reference_weights": {"purchase_price":"1", "consumption":"1", "maintenance":"1", "reliability":"1", "parts":"1", "space":"1", "comfort":"1", "safety":"1", "depreciation":"1"},
+  "weight_scope": "Equal reference weights, identical for all six profiles; not fitted or elicited user preferences. This diagnostic tests evidence, not a new production recommender.",
+  "scenario": {"monthly_km":"1000", "gasoline_brl_per_l":"6", "monthly_budget_brl":"1750", "cycle":"urban", "provenance":"controlled scenario parameters; not observed vehicle data"},
+  "profile_requirements": {
+    "cidade": ["consumption_city", "external_dimensions", "parking_turning_circle", "maintenance_annual_brl", "safety"],
+    "app": ["consumption_city", "maintenance_annual_brl", "reliability", "parts", "comfort", "passenger_capacity", "platform_eligibility"],
+    "trabalho": ["maintenance_annual_brl", "reliability", "parts", "payload_kg", "cargo_l", "duty_cycle"],
+    "familia": ["passenger_capacity", "child_restraints", "cargo_l", "safety", "comfort"],
+    "estrada": ["consumption_highway", "safety", "braking_test", "comfort", "loaded_performance"],
+    "suv": ["ground_clearance_mm", "payload_kg", "cargo_l", "passenger_capacity", "safety", "traction_requirement"]
+  },
+  "precision": {"score_quantum":"0.000001", "weight_quantum":"0.000000000001", "money_quantum":"0.01", "rounding":"ROUND_HALF_UP", "annual_to_monthly_divisor":"12"},
+  "formulas": {
+    "criterion": "100*(x-min)/(max-min) for higher, 100*(max-x)/(max-min) for lower; only same-unit eligible observed evidence in the fixed cohort; constant dimension excluded, never assigned 50",
+    "effective_weight": "positive original weight / sum of positive weights on available discriminating dimensions; decimal remainder assigned deterministically to the last available dimension",
+    "preview_score": "sum of rounded criterion*effective_weight contributions; null when no discriminating evidence; coverage/confidence NOT added or multiplied",
+    "coverage": "sum original weights with eligible evidence / sum all original weights; independent of score and explicitly not predictive confidence",
+    "monthly_fuel_brl": "monthly_km / observed consumption_city * scenario gasoline_brl_per_l",
+    "monthly_maintenance_brl": "observed maintenance_annual_brl / 12 exactly once",
+    "monthly_tco_brl": "fuel + maintenance/12 + observed IPVA/12 + observed insurance/12 + observed depreciation/12; null if ANY component unavailable",
+    "top10_jaccard": "intersection/union of boundary-tie-expanded top10 sets; null when no comparable ranking",
+    "kendall_tau_b": "(concordant-discordant)/sqrt((C+D+ties_left_only)*(C+D+ties_right_only)) over common scored vehicles; score ties retained, null if denominator zero"
+  },
+  "limitations": [
+    "No 50/100 or universal segment level; unavailable stays null. No legacy demonstrative score is imported.",
+    "Reference weights and linear utilities are unvalidated preference assumptions, not technical facts. Human preference elicitation and rubrics are still required.",
+    "Cargo litres measure cargo capacity, not overall cabin space or comfort; no automatic conversion to a broad space score.",
+    "Different evidence subsets are not comparable final recommendations. Mixed FIPE reference months block a pooled preview.",
+    "Historical 2.5% maintenance, fixed 10% depreciation and legacy IPVA/insurance constants are excluded from observed evidence and from v2 TCO.",
+    "Legacy price cache is a local replay with live-status metadata, not a newly collected raw observation. Its explicit FIPE binding is preserved, not re-inferred by similarity.",
+    "All six profiles intentionally share the diagnostic scenario/weights. Missing profile-specific attributes cannot be replaced by selection groups, model names or desired outcomes.",
+    "No calibrated statistical confidence is available; provenance and weighted coverage are reported separately. Operational gates remain false."
+  ]
+}

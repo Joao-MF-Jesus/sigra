@@ -13,12 +13,15 @@ import {
 const FieldError = ({ id, message }) => message ? <small className="field-error" id={id} role="alert">{message}</small> : null;
 
 function Field({ children, error, errorId, hint, hintId, label, htmlFor }) {
-  const describedBy = error ? errorId : hint ? hintId : undefined;
-  return <label htmlFor={htmlFor}>{label}{React.cloneElement(children, {
+  const describedBy = [hint ? hintId : null, error ? errorId : null].filter(Boolean).join(" ") || undefined;
+  const selectedLabel = children.type === "select"
+    ? React.Children.toArray(children.props.children).find((option) => String(option.props.value) === String(children.props.value))?.props.children
+    : null;
+  return <label className="form-field wizard-field" htmlFor={htmlFor}><span className="field-label">{label}</span>{React.cloneElement(children, {
     id: htmlFor,
     "aria-invalid": Boolean(error),
     "aria-describedby": describedBy,
-  })}<FieldError id={errorId} message={error} />{hint && <small className="field-hint" id={hintId}>{hint}</small>}</label>;
+  })}{selectedLabel && <span className="selected-option" aria-hidden="true" data-testid={`${htmlFor}-selected-label`}>{selectedLabel}</span>}{hint && <small className="field-hint" id={hintId}>{hint}</small>}<FieldError id={errorId} message={error} /></label>;
 }
 
 function WizardProgress({ current, maxVisited, onSelect }) {
@@ -28,8 +31,8 @@ function WizardProgress({ current, maxVisited, onSelect }) {
     <div className="wizard-progress-track" aria-hidden="true"><span style={{ width: `${progress.percentage}%` }} /></div>
     <ol className="wizard-progress" aria-label="Etapas do perfil">
       {RECOMMENDATION_WIZARD_STEPS.map((step, index) => <li key={step.id}>
-        <button type="button" className={index === current ? "active" : index < current ? "complete" : ""} disabled={index > maxVisited} aria-current={index === current ? "step" : undefined} onClick={() => onSelect(index)}>
-          <span aria-hidden="true">{index < current ? "✓" : index + 1}</span><em>{step.shortLabel}</em>
+        <button type="button" className={index === current ? "active" : index < current ? "complete" : ""} disabled={index > maxVisited} aria-current={index === current ? "step" : undefined} aria-label={`${step.label}${index === current ? ", etapa atual" : ""}`} onClick={() => onSelect(index)}>
+          <span aria-hidden="true">{index < current ? "✓" : index + 1}</span><em className={index === current ? "wizard-step-name current" : "wizard-step-name"}>{step.label}</em>
         </button>
       </li>)}
     </ol>
@@ -110,7 +113,7 @@ export default function RecommendationForm({ profile, errors, loading, onChange,
       <section className="wizard-step wizard-review" data-step-panel="review" hidden={stepIndex !== 4} aria-labelledby="wizard-review-title">
         <p className="eyebrow">Revise antes de calcular</p><h2 id="wizard-review-title" tabIndex="-1">Seu perfil está pronto</h2><p className="wizard-intro">O SIGRA não salva estas preferências. O cenário será enviado ao backend somente quando você calcular.</p>
         <dl className="review-grid">{review.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
-        <div className="privacy-note"><span aria-hidden="true">✓</span><p><strong>Comparação consistente</strong><br />Todas as alternativas recebem os mesmos parâmetros; a Gold publicada permanece somente leitura.</p></div>
+        <div className="privacy-note"><span aria-hidden="true">✓</span><p><strong>Comparação consistente</strong><br />Todas as alternativas recebem os mesmos parâmetros; os dados publicados permanecem somente leitura.</p></div>
         <div className="wizard-actions"><button className="ghost-button" data-testid="recommendation-back-review" type="button" onClick={() => goTo(previousWizardStep(stepIndex))}>Voltar e ajustar</button><button data-testid="recommendation-submit" type="submit" disabled={disabled}>{loading ? "Calculando..." : "Calcular recomendação"}</button></div>
       </section>
     </form>

@@ -1,0 +1,27 @@
+{
+  "version": "legacy-price-label-crosswalk-v1",
+  "scope": "Offline price reference spelling only; never catalog trim approval, source modification or Gold mapping",
+  "source_sha256": "fd79106a84df740e56f4709ce83e0a4443ea4c4b575ddf0c2380834fd00503f4",
+  "reference_month": "julho de 2026",
+  "source_path": "backend/data/fipe_cache.json",
+  "registry_path": "backend/app/fipe.py::FIPE_REFERENCE_PROFILES",
+  "reviewed_at": "2026-09-09",
+  "matching": "Exact reviewed tuple of ID, code, year, registered description and cached description; no generic normalization or fuzzy match",
+  "entries": [
+    {"id": 9, "code": "002109-1", "year_code": "2018-5", "registered_description": "Corolla GLi 1.8 Flex 16V Aut.", "cached_description": "Corolla GLi 1.8 Flex 16V  Aut.", "reason": "Only the explicitly registered doubled space differs. GLi, 1.8, Flex, 16V, automatic and canonical code/year are unchanged."},
+    {"id": 15, "code": "014091-0", "year_code": "2017-5", "registered_description": "Civic Sedan EX 2.0 Flex 16V Aut. 4p", "cached_description": "Civic Sedan EX 2.0 Flex 16V Aut.4p", "reason": "Only the explicitly registered space before 4p differs. EX, 2.0, Flex, 16V, automatic, four doors and canonical code/year are unchanged."},
+    {"id": 19, "code": "005486-0", "year_code": "2019-5", "registered_description": "Virtus 1.6 MSI Flex 16V 5p Mec.", "cached_description": "VIRTUS 1.6 MSI Flex 16V 5p Mec.", "reason": "Only the registered model capitalization differs. 1.6 MSI Flex, manual, 16V, five doors and canonical code/year are unchanged."},
+    {"id": 21, "code": "005509-3", "year_code": "2020-5", "registered_description": "T-Cross Comfortline 200 TSI 1.0 Flex 5p Aut.", "cached_description": "T-Cross Comfor. 200 TSI 1.0 Flex 5p Aut.", "reason": "Explicit Comfor. to Comfortline price-label alias, limited to the same existing FIPE005509-3/2020-5. Catalog T-Cross200TSI alone does NOT establish the Comfortline trim; catalog identity remains unapproved."}
+  ],
+  "catalog_identity_holds": [
+    {"id": 6, "catalog_model": "HB20 Comfort", "reference_model": "HB20 Vision 1.0 Flex 12V Mec.", "reason": "Comfort versus Vision: incompatible trim labels, no substitution approved."},
+    {"id": 7, "catalog_model": "HB20S Comfort", "reference_model": "HB20S Vision 1.0 Flex 12V Mec.", "reason": "Comfort versus Vision: incompatible trim labels, no substitution approved."},
+    {"id": 23, "catalog_model": "Uno Attractive", "reference_model": "UNO DRIVE 1.0 Flex 6V 5p", "reason": "Attractive versus Drive: incompatible trim labels, no mapping invented."}
+  ],
+  "additional_review_flags": [
+    {"id": 13, "reason": "Cached2017-1 with textualFlex/Flexone; verify structured fuel/year semantics before homologating catalog identity."},
+    {"id": 17, "reason": "CatalogTrendline but FIPEdescription genericGol; explicit trim evidence required."},
+    {"id": 21, "reason": "Catalog200TSI omits Comfortline; price spelling correction is not catalog trim approval."},
+    {"id": 33, "reason": "FIPEreference combines SE/SEPlus; catalogSE requires evidence of scope, not an automatic equivalence."}
+  ]
+}

@@ -1,4 +1,6 @@
 from datetime import date
+from copy import deepcopy
+from dataclasses import replace
 from decimal import Decimal
 
 import pytest
@@ -11,6 +13,7 @@ from app.multifactor_recommendation import (
     apply_multifactor_ranking,
 )
 from app.multifactor_schemas import MultifactorWeights
+from app.recommendation_identity import REVIEWED_BINDINGS, resolve_recommendation_identity
 from data_platform.contracts.integrated_vehicle_cost import FuelScenarioCode
 from data_platform.integrated_vehicle_cost.simulation_contracts import (
     FuelStrategy,
@@ -139,6 +142,193 @@ def _weights(**changes) -> dict[str, Decimal]:
     values = {code: Decimal("1") for code in MULTIFACTOR_COMPONENTS}
     values.update({key: Decimal(str(value)) for key, value in changes.items()})
     return values
+
+
+def _etios_identity(**changes):
+    row = {
+        "vehicle_sk": 810, "gold_record_id": 920,
+        "dataset_version": "integrated-v1", "fipe_dataset_version": "fipe-v1",
+        "brand_name": "Toyota", "model_name": "ETIOS XLS 1.5 Flex 5p Aut.",
+        "model_year": 2018, "version_name": None, "fuel_type": "flex",
+        "transmission_type": None, "fipe_code": "002150-4", "year_code": "2018-5",
+        "source_vehicle_key": "car:002150-4:2018-5",
+    }
+    return {**row, **changes}
+
+
+def _etios_reference(**changes):
+    return {"code": "002150-4", "year_code": "2018-5",
+            "model": "ETIOS XLS 1.5 Flex 5p Aut.", **changes}
+
+
+def _etios_result():
+    return _gold_result(810, "Toyota", "ETIOS XLS 1.5 Flex 5p Aut.", 2018,
+                        monthly_cost="458.02", efficiency="13.10")
+
+
+def test_reviewed_etios_mapping_requires_key_full_version_and_not_physical_id():
+    for physical_id in (10, 9910):
+        catalog = _baseline(physical_id, "Toyota", "Etios XLS", 2018, "80")
+        catalog["vehicle"]["fipe_code"] = "002150-4"
+        result, audit = resolve_recommendation_identity(
+            catalog["vehicle"], [_etios_result()], gold_identities=[_etios_identity()],
+            reference=_etios_reference(),
+        )
+        assert result.vehicle_sk == 810 != physical_id
+        assert audit["match_method"] == "explicit_mapping"
+        assert audit["mapping_id"] == "toyota-etios-xls-2018-fipe"
+        assert audit["mapping_version"] == 1
+        assert audit["rejection_reason"] is None
+        assert audit["expected_identity"]["catalog_vehicle_id"] == physical_id
+        assert audit["found_identities"][0]["gold_record_id"] == 920
+
+
+def test_etios_binding_records_existing_domain_version_not_an_invented_price_alias():
+    from app.fipe import FIPE_REFERENCE_PROFILES
+    from app.sample_data import VEHICLES
+
+    binding = REVIEWED_BINDINGS[0]
+    catalog = next(item for item in VEHICLES if item.id == 10)
+    reference = FIPE_REFERENCE_PROFILES[10]
+    assert (catalog.brand, catalog.model, catalog.year) == (binding.brand, binding.catalog_model, binding.year)
+    assert (reference.code, reference.model) == (binding.fipe_code, binding.gold_model)
+    assert reference.year_code == str(binding.year)
+    assert binding.year_code == "2018-5"
+    assert binding.evidence
+    assert all(item.catalog_model != "Uno Attractive" for item in REVIEWED_BINDINGS)
+
+
+def test_fipe_key_is_preferred_for_complete_exact_version():
+    catalog = _baseline(9910, "Toyota", "ETIOS XLS 1.5 Flex 5p Aut.", 2018, "80")
+    catalog["vehicle"]["fipe_code"] = "002150-4"
+    result, audit = resolve_recommendation_identity(
+        catalog["vehicle"], [_etios_result()], gold_identities=[_etios_identity()],
+        reference=_etios_reference(),
+    )
+    assert result is not None
+    assert audit["match_method"] == "fipe_code"
+    assert audit["mapping_id"] is None
+
+
+def test_explicit_reviewed_binding_without_common_catalog_key_is_auditable():
+    vehicle = _baseline(9910, "Toyota", "Etios XLS", 2018, "80")["vehicle"]
+    result, audit = resolve_recommendation_identity(vehicle, [_etios_result()],
+                                                   gold_identities=[_etios_identity()])
+    assert result is not None
+    assert audit["match_method"] == "explicit_mapping"
+    assert audit["mapping_version"] == 1
+
+
+@pytest.mark.parametrize("change", [
+    {"model_name": "ETIOS XLS 1.5 Flex 5p Mec."},
+    {"model_name": "ETIOS XS 1.5 Flex 5p Aut."},
+    {"model_name": "ETIOS XLS 1.3 Flex 5p Aut."},
+    {"brand_name": "Fiat"}, {"model_year": 2017},
+    {"fuel_type": "gasoline"}, {"fuel_type": None}, {"version_name": "Sedan"},
+])
+def test_key_does_not_override_conflicting_or_missing_version_evidence(change):
+    vehicle = _baseline(10, "Toyota", "Etios XLS", 2018, "80")["vehicle"]
+    vehicle["fipe_code"] = "002150-4"
+    result, audit = resolve_recommendation_identity(
+        vehicle, [_etios_result()], gold_identities=[_etios_identity(**change)],
+        reference=_etios_reference(),
+    )
+    assert result is None
+    assert audit["rejection_reason"] == "identity_mismatch"
+
+
+@pytest.mark.parametrize("reference,reason", [
+    (_etios_reference(model="ETIOS XLS 1.5 Flex 5p Mec."), "identity_mismatch"),
+    (_etios_reference(code="001486-9"), "identity_mismatch"),
+    (_etios_reference(year_code="2017-5"), "identity_mismatch"),
+    (_etios_reference(year_code="2018"), "required_identity_missing"),
+])
+def test_catalog_reference_must_be_complete_and_agree(reference, reason):
+    vehicle = _baseline(10, "Toyota", "Etios XLS", 2018, "80")["vehicle"]
+    vehicle["fipe_code"] = "002150-4"
+    result, audit = resolve_recommendation_identity(vehicle, [_etios_result()],
+        gold_identities=[_etios_identity()], reference=reference)
+    assert result is None
+    assert audit["rejection_reason"] == reason
+
+
+def test_uno_absence_is_coverage_not_budget_and_price_alias_is_not_identity():
+    vehicle = _baseline(23, "Fiat", "Uno Attractive", 2018, "80")["vehicle"]
+    vehicle["fipe_code"] = "001486-9"
+    reference = {"code": "001486-9", "year_code": "2018-5", "model": "UNO DRIVE 1.0 Flex 6V 5p"}
+    result, audit = resolve_recommendation_identity(vehicle, [_etios_result()],
+        gold_identities=[_etios_identity()], reference=reference)
+    assert result is None
+    assert audit["rejection_reason"] == "coverage_absent"
+    assert audit["found_identities"] == []
+    # Even a future DRIVE publication cannot silently become Attractive.
+    drive = _etios_identity(fipe_code="001486-9", brand_name="Fiat", model_name=reference["model"])
+    result, audit = resolve_recommendation_identity(vehicle, [], gold_identities=[drive], reference=reference)
+    assert result is None
+    assert audit["rejection_reason"] == "identity_mismatch"
+
+
+def test_no_fuzzy_matching_or_physical_id_fallback():
+    vehicle = _baseline(810, "Toyota", "Etios XL", 2018, "80")["vehicle"]
+    result, audit = resolve_recommendation_identity(vehicle, [_etios_result()], gold_identities=[_etios_identity()])
+    assert result is None
+    assert audit["rejection_reason"] == "identity_unresolved"
+
+
+def test_ambiguous_fipe_key_and_ambiguous_bindings_are_rejected():
+    vehicle = _baseline(10, "Toyota", "Etios XLS", 2018, "80")["vehicle"]
+    result, audit = resolve_recommendation_identity(vehicle, [_etios_result()],
+        gold_identities=[_etios_identity(), _etios_identity(vehicle_sk=811, gold_record_id=921)])
+    assert result is None
+    assert audit["rejection_reason"] == "ambiguous_identity"
+    assert len(audit["found_identities"]) == 2
+    result, audit = resolve_recommendation_identity(vehicle, [_etios_result()],
+        gold_identities=[_etios_identity()], bindings=REVIEWED_BINDINGS * 2)
+    assert result is None
+    assert audit["rejection_reason"] == "ambiguous_mapping"
+
+
+def test_published_identity_without_scenario_evidence_is_not_coverage_absence():
+    vehicle = _baseline(10, "Toyota", "Etios XLS", 2018, "80")["vehicle"]
+    result, audit = resolve_recommendation_identity(vehicle, [], gold_identities=[_etios_identity()])
+    assert result is None
+    assert audit["rejection_reason"] == "scenario_evidence_unavailable"
+    assert audit["found_identities"][0]["vehicle_sk"] == 810
+    stale = replace(_etios_result(), sources=SimulationSourceVersions("old", "old", "old", "old"))
+    assert resolve_recommendation_identity(vehicle, [stale], gold_identities=[_etios_identity()])[0] is None
+
+
+def test_mixed_coverage_preserves_maintenance_viability_and_original_score():
+    etios = _baseline(10, "Toyota", "Etios XLS", 2018, "81")
+    uno = _baseline(23, "Fiat", "Uno Attractive", 2018, "80")
+    for item, code, tco, maintenance in (
+        (etios, "002150-4", "1642.02", 2700), (uno, "001486-9", "1322.97", 2400),
+    ):
+        item["vehicle"].update(fipe_code=code, annual_maintenance_cost=maintenance)
+        item.update(monthly_viable=True, tco={"monthly_tco": Decimal(tco)})
+    originals = deepcopy([etios, uno])
+    ranked = apply_multifactor_ranking([etios, uno], _batch(_etios_result()), _weights(),
+        gold_identities=[_etios_identity()], catalog_references={10: _etios_reference(),
+            23: {"code": "001486-9", "year_code": "2018-5", "model": "UNO DRIVE 1.0 Flex 6V 5p"}})
+    assert [item["multifactor"]["status"] for item in ranked] == ["ranked", "unavailable"]
+    assert ranked[1]["multifactor"]["reason_code"] == "GOLD_IDENTITY_NOT_FOUND"
+    assert ranked[1]["multifactor"]["identity_diagnostic"]["rejection_reason"] == "coverage_absent"
+    assert ranked[1]["multifactor"]["final_score"] is None
+    assert ranked[1]["score"] == uno["score"]
+    for output, original in zip(ranked, originals):
+        assert output["vehicle"] == original["vehicle"]
+        assert output["monthly_viable"] is True
+        assert output["tco"] == original["tco"]
+    assert [etios, uno] == originals
+
+
+def test_no_scores_preserves_original_order_scores_and_badges():
+    baseline = [_baseline(1, "A", "One", 2024, "80"), _baseline(2, "B", "Two", 2024, "70")]
+    outputs = apply_multifactor_ranking(baseline, _batch(), _weights(), gold_identities=[])
+    for output, original in zip(outputs, baseline):
+        for key, value in original.items():
+            assert output[key] == value
+        assert output["multifactor"]["final_score"] is None
 
 
 def test_equal_weights_are_deterministic_and_reconcile_exactly():
@@ -276,14 +466,13 @@ def test_zero_weights_remain_zero_after_percentage_reconciliation():
     )
 
 
-def _request_payload(budget=200_000, allow=False):
+def _request_payload(budget=200_000):
     return {
         "budget": budget,
         "monthly_limit": 3000,
         "use_case": "cidade",
         "multifactor_profile": {
             "enabled": True,
-            "allow_budget_above_200k": allow,
             "scenario": {
                 "monthly_distance_km": "1250.00",
                 "city_percentage": "60.00",
@@ -299,11 +488,10 @@ def _request_payload(budget=200_000, allow=False):
     }
 
 
-def test_budget_above_200k_requires_explicit_authorization():
-    with pytest.raises(ValidationError):
-        RecommendationRequest.model_validate(_request_payload(250_000, allow=False))
-    accepted = RecommendationRequest.model_validate(_request_payload(250_000, allow=True))
+def test_budget_above_200k_uses_the_same_validation_as_other_positive_values():
+    accepted = RecommendationRequest.model_validate(_request_payload(250_000))
     assert accepted.budget == 250_000
+    assert "allow_budget_above_200k" not in accepted.model_dump()
 
 
 def test_legacy_request_remains_unchanged_without_opt_in():

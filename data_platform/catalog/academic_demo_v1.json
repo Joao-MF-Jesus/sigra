@@ -1,0 +1,39 @@
+{
+  "method_version": "academic-demo-v1",
+  "dataset_version": "catalog-100-academic-demo-v1",
+  "baseline_version": "legacy-demo-v0",
+  "label": "Base demonstrativa acadêmica: indicadores complementares estimados, não dados reais de mercado.",
+  "neutral_use_cases": ["cidade", "app", "trabalho", "familia", "estrada", "suv"],
+  "parameters": {
+    "annual_maintenance_price_fraction": "0.025",
+    "annual_depreciation_percent": "10",
+    "neutral_score": "50",
+    "neutral_segment_level": "3",
+    "demonstrative_confidence": "0.25",
+    "observed_source_confidence": "0.90",
+    "money_quantum": "0.01",
+    "monthly_divisor": "12"
+  },
+  "formulas": {
+    "annual_maintenance_cost": "price_brl * annual_maintenance_price_fraction, ROUND_HALF_UP to money_quantum; BRL/year",
+    "depreciation_rate": "annual_depreciation_percent; percent/year",
+    "reliability_score": "neutral_score; score/100",
+    "parts_availability_score": "neutral_score; score/100",
+    "comfort_score": "neutral_score; score/100",
+    "space_score": "neutral_score; score/100",
+    "safety_score": "neutral_score; score/100",
+    "urban_score": "neutral_score; score/100",
+    "road_score": "neutral_score; score/100",
+    "family_score": "neutral_score; score/100",
+    "app_score": "neutral_score; score/100",
+    "segment_level": "neutral_segment_level; level/5"
+  },
+  "limitations": [
+    "2.5% and 10% are declared experimental assumptions, not fitted market estimates.",
+    "Neutral scores express absence of evidence, not average safety, quality or reliability.",
+    "Identical recorded prices produce identical complementary components regardless of brand, model or collection group.",
+    "Legacy price and consumption retain their original provenance; this method does not make them observed.",
+    "Missing/nonpositive price cannot produce maintenance. Missing consumption cannot enable activation.",
+    "Only complementary values are projected. Legacy stored values remain unchanged."
+  ]
+}

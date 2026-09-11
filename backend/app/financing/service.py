@@ -43,7 +43,7 @@ def _rate_details(payload) -> tuple[Decimal, dict]:
         "effective_monthly_rate_percent": json_decimal(percentage(monthly_rate)),
         "additional_costs_considered_separately": additional_costs_separate,
         "note": (
-            "O CET informado foi usado como taxa efetiva e nao foi decomposto em juros, tarifas ou seguros."
+            "O CET informado foi usado como taxa efetiva e não foi decomposto em juros, tarifas ou seguros."
             if payload.effective_cost_rate_percent is not None
             else "Taxa mensal informada pelo usuário."
         ),
@@ -127,17 +127,17 @@ def _financial_statuses(
 
     if total_monthly_outflow is None:
         warnings.append(
-            "O custo mensal do veiculo nao foi informado; o desembolso mensal total nao foi calculado."
+            "O custo mensal do veículo não foi informado; o desembolso mensal total não foi calculado."
         )
     if desired_max_installment is None:
-        warnings.append("A parcela maxima nao foi informada.")
+        warnings.append("A parcela máxima não foi informada.")
     if available_monthly_budget is None:
-        warnings.append("O orcamento mensal disponivel nao foi informado.")
+        warnings.append("O orçamento mensal disponível não foi informado.")
     if installment_within_limit is False and not insufficient_for_financed_costs:
         warnings.append("A maior parcela do cronograma excede o limite informado.")
     if insufficient_for_financed_costs:
         warnings.append(
-            "A parcela maxima informada nao e suficiente para financiar os custos adicionais desta proposta."
+            "A parcela máxima informada não é suficiente para financiar os custos adicionais desta proposta."
         )
     return {
         "financing_status": financing_status.value,
@@ -165,7 +165,7 @@ def _base_metadata(payload, rate_details: dict) -> dict:
 def simulate_direct(payload: DirectFinancingRequest, price_context: dict) -> dict:
     vehicle_price: Decimal = price_context["used_price"]
     if payload.down_payment > vehicle_price:
-        raise FinancingDomainError("a entrada nao pode ser maior que o preco utilizado")
+        raise FinancingDomainError("a entrada não pode ser maior que o preço utilizado")
 
     monthly_rate, rate_details = _rate_details(payload)
     financed_principal = vehicle_price - payload.down_payment

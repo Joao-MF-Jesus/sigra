@@ -11,7 +11,7 @@ class FrontendContractTest(unittest.TestCase):
         api_content = (source / "api" / "sigraApi.js").read_text(encoding="utf-8")
 
         self.assertIn("recommendation_strategy", app_content)
-        self.assertIn("Prioridade da recomendação", form_content)
+        self.assertIn("Defina a prioridade da análise", form_content)
         self.assertIn("JSON.stringify(profile)", api_content)
         self.assertIn("Limite mensal", form_content)
         self.assertIn("metadata?.has_viable_options === false", results_content)

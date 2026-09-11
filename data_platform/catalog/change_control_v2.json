@@ -1,0 +1,10 @@
+{
+  "schema_version": "catalog-change-control-v2",
+  "source_inventory": "batch1_crosswalk_v1.json",
+  "changes": [
+    {"candidate_id":40, "original":{"version":"EX 1.0 automatico","year":2018}, "proposed":{"version":"GT 1.0 automatico","year":2018}, "human_approval_required":true, "human_approval_status":"pending", "limitation":"PBEV EX5/LX5 comprova somente o powertrain 1.0-12V A-4 flex; não menciona o acabamento GT."},
+    {"candidate_id":41, "original":{"version":"Look 1.0 manual","year":2018}, "proposed":{"version":"Look 1.0 manual","year":2017}, "human_approval_required":true, "human_approval_status":"pending", "limitation":"Descrição FIPE contém Flex; Combustivel/SiglaCombustivel, sufixo 2017-1 e PBEV 2017 indicam gasolina. A divergência textual permanece, sem alteração da fonte."},
+    {"candidate_id":45, "original":{"version":"LX 1.6 automatico","year":2021}, "proposed":{"version":"EX 1.6 automatico","year":2021}, "human_approval_required":true, "human_approval_status":"pending", "limitation":"LX 2021 não estava disponível no inventário FIPE consultado; EX não é tratado como LX."},
+    {"candidate_id":56, "original":{"version":"Pro 1.5 turbo CVT","year":2021}, "proposed":{"version":"GSX 1.5 turbo CVT","year":2021}, "human_approval_required":true, "human_approval_status":"pending", "limitation":"GSX não substitui semanticamente Pro sem aprovação humana; a identidade técnica proposta possui FIPE/PBEV GSX."}
+  ]
+}

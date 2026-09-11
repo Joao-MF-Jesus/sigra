@@ -114,7 +114,7 @@ export function validateSimulationForm(form) {
     errors.reference_week_start = "Informe a semana de referência ANP.";
   }
   if (!INTEGER_PATTERN.test(String(form.vehicle_sk || "")) || Number(form.vehicle_sk) < 1) {
-    errors.vehicle_sk = "Selecione a identidade correspondente na Gold integrada.";
+    errors.vehicle_sk = "Selecione um veículo para simulação.";
   }
 
   return { isValid: Object.keys(errors).length === 0, errors };
@@ -177,7 +177,24 @@ export function suggestedGoldVehicleSk(vehicle, items) {
 }
 
 export function fuelPriceOriginLabel(origin) {
-  if (origin === "anp_gold") return "ANP — Gold integrada";
+  if (origin === "anp_gold") return "Preço médio de referência";
   if (origin === "user_input") return "Preço informado pelo usuário";
   return "Origem não informada";
+}
+
+export function catalogErrorPresentation() {
+  return "Não foi possível carregar os veículos para simulação. Tente novamente ou continue informando os valores manualmente.";
+}
+
+export function simulationErrorPresentation(error) {
+  if (error?.status === 422) {
+    return "Revise os parâmetros: um ou mais valores precisam ser corrigidos.";
+  }
+  if (error?.status === 409) {
+    return "Há mais de uma correspondência possível para o veículo selecionado. Revise a seleção e tente novamente.";
+  }
+  if (error?.status === 503) {
+    return "Não foi possível acessar os dados de referência para concluir a simulação. Tente novamente mais tarde.";
+  }
+  return "Não foi possível concluir a simulação. Tente novamente.";
 }

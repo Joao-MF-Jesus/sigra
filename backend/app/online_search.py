@@ -143,7 +143,7 @@ def hydrate_result(result: dict) -> dict:
         "purchase_sources": sources,
         "technical_specs": {
             "Carroceria": result["body_type"],
-            "Combustivel": result["fuel"],
+            "Combustível": result["fuel"],
             "Cambio": result["transmission"],
             "Motor": result["engine"],
             "Ano": str(result["year"]),

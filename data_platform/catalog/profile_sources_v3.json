@@ -1,0 +1,330 @@
+{
+  "version": "catalog-profile-evidence-v3",
+  "review_mode": "explicit field-by-field manual review, including rendered pages; never text similarity",
+  "sources": {
+    "kwid_manual": {
+      "provider": "manufacturer",
+      "url": "https://cdn.group.renault.com/ren/br/renault-new-cars/editorial/manuais/2021/manual-do-proprietario-kwid-jul21.pdf",
+      "sha256": "8d8900d7118d2f58fc0b2d4e0294c15b88f298879f4d0f8b1027525213b4b37f",
+      "cache_file": "kwid-2021.pdf",
+      "document": "Renault Kwid manual 2021, July edition; official 2021 manual index",
+      "collected_at": "2026-09-09T16:23:58.978119+00:00"
+    },
+    "kwid_catalog": {
+      "provider": "manufacturer",
+      "url": "https://cdn.group.renault.com/ren/br/renault-new-cars/editorial/catalogos/2021/dez/laRMA006121-Catalogo-Kwid-Agosto-v6.pdf.asset.pdf/f72bca9200.pdf",
+      "sha256": "3a8d94b914d190dcb8f3c1e9b1a6b89a79516f03112e753e4c7b31c7ecb8f57e",
+      "cache_file": "kwid-catalog-2021.pdf",
+      "document": "Renault Kwid catalogue REF7711734336 September2021; page1 explicitly gama2020/2021",
+      "collected_at": "2026-09-09T16:27:26.353810+00:00"
+    },
+    "up_manual": {
+      "provider": "manufacturer",
+      "url": "https://www.vw.com.br/idhub/content/dam/onehub_pkw/importers/br/literatura-de-bordo/manual-up/MY%202019_D191.5B1.BUP_66.pdf",
+      "sha256": "5dd90b70d8e013d955c4b9275a72613d47b17b8cf88f42ad35165da613beb7e5",
+      "cache_file": "up-2019.pdf",
+      "document": "Volkswagen up MY2019 D191.5B1.BUP.66; official MY2019 index",
+      "collected_at": "2026-09-09T16:24:00.890124+00:00"
+    },
+    "fox_manual": {
+      "provider": "manufacturer",
+      "url": "https://www.vw.com.br/idhub/content/dam/onehub_pkw/importers/br/literatura-de-bordo/manual-fox/MY%202019_D191.5B1.FOX.66.pdf",
+      "sha256": "094cb263d54dc9390c36f613b94efc60ae5ec09d2fdfe1f39ed040bcb8cb106a",
+      "cache_file": "fox-2019.pdf",
+      "document": "Volkswagen Fox MY2019 D191.5B1.FOX.66; official MY2019 index",
+      "collected_at": "2026-09-09T16:24:03.536545+00:00"
+    }
+  },
+  "vehicles": [
+    {
+      "id": 35,
+      "fipe_code": "025266-2",
+      "year_code": "2021-5",
+      "expected_fipe_description": "KWID Zen 1.0 Flex 12V 5p Mec.",
+      "binding_rationale": "Catalogue page1 explicitly covers gama2020/2021. Page10 Zen1.0 12V SCe manual column; PBEV Zen1.0-12V M5 flex. Only exact column or explicitly shared cells accepted. Manufacturer mixed consumption is not imported.",
+      "fields": {
+        "seats": {
+          "value": "5",
+          "document_id": "kwid_catalog",
+          "page": 10,
+          "locator": "Architecture shared by all four versions: 5 passengers",
+          "applicability": "exact_variant",
+          "limitations": []
+        },
+        "cargo_l": {
+          "value": "290",
+          "document_id": "kwid_catalog",
+          "page": 10,
+          "locator": "Luggage row; all versions, seats in normal position, method not specified",
+          "applicability": "exact_variant",
+          "limitations": []
+        },
+        "width_mm": {
+          "value": "1579",
+          "document_id": "kwid_catalog",
+          "page": 9,
+          "locator": "Dimensions C: body width WITHOUT mirrors",
+          "applicability": "model_nominal",
+          "limitations": []
+        },
+        "width_with_mirrors_mm": {
+          "value": "1758",
+          "document_id": "kwid_manual",
+          "page": 124,
+          "locator": "Printed6.4, front drawing full mirror-to-mirror arrow,1.758m",
+          "applicability": "model_nominal",
+          "limitations": [
+            "Unit conversion m*1000 documented; not body width"
+          ]
+        },
+        "wheelbase_mm": {
+          "value": "2423",
+          "document_id": "kwid_catalog",
+          "page": 9,
+          "locator": "Dimensions A: wheelbase",
+          "applicability": "model_nominal",
+          "limitations": []
+        },
+        "ground_clearance_mm": {
+          "value": "180",
+          "document_id": "kwid_catalog",
+          "page": 9,
+          "locator": "Dimensions E: nominal ground clearance",
+          "applicability": "model_nominal",
+          "limitations": [
+            "Loading/measurement conditions not specified; not individual ground clearance"
+          ]
+        },
+        "weight_kg": {
+          "value": "779",
+          "document_id": "kwid_catalog",
+          "page": 10,
+          "locator": "Curb mass row, ZEN column. Do not copy Life758, Intense786 or Outsider806",
+          "applicability": "exact_variant",
+          "limitations": []
+        },
+        "payload_kg": {
+          "value": "375",
+          "document_id": "kwid_catalog",
+          "page": 10,
+          "locator": "Payload shared row; includes occupants, not net baggage",
+          "applicability": "exact_variant",
+          "limitations": []
+        },
+        "power_gasoline_cv": {
+          "value": "66",
+          "document_id": "kwid_catalog",
+          "page": 10,
+          "locator": "Power shared row, GASOLINE 66cv; not ethanol70",
+          "applicability": "exact_variant",
+          "limitations": []
+        },
+        "airbags": {
+          "value": "4",
+          "document_id": "kwid_catalog",
+          "page": 10,
+          "locator": "Safety matrix4airbags row, ZEN series marker",
+          "applicability": "exact_variant",
+          "limitations": []
+        },
+        "abs": {
+          "value": true,
+          "document_id": "kwid_catalog",
+          "page": 10,
+          "locator": "Safety matrixABS row, ZEN series marker",
+          "applicability": "exact_variant",
+          "limitations": []
+        }
+      },
+      "unavailable": {
+        "length_mm": {
+          "reason": "OFFICIAL_DIMENSION_CONFLICT: manual3679mm vs catalogue3680mm. No rounding equivalence asserted.",
+          "citations": [
+            {
+              "document_id": "kwid_manual",
+              "page": 124,
+              "locator": "Printed6.4 overall length3.679m"
+            },
+            {
+              "document_id": "kwid_catalog",
+              "page": 9,
+              "locator": "Dimensions B overall length3680mm"
+            }
+          ]
+        },
+        "esc": {
+          "reason": "ESC is not explicitly specified; absence from equipment list is not false."
+        }
+      },
+      "source_conflicts": [
+        "KWID_LENGTH_3679_VS_3680_UNRESOLVED"
+      ],
+      "limitations": [
+        "Observed sources have different specificity: catalogue ZEN779kg supersedes generic manual basic758kg only for this field; both scopes retained in review.",
+        "Manual1.474m height vs catalogue1498mm not resolved; height not imported.",
+        "Four airbags/ABS equipment is not an accident-safety rating."
+      ]
+    },
+    {
+      "id": 36,
+      "fipe_code": "005366-0",
+      "year_code": "2019-5",
+      "expected_fipe_description": "up! move 1.0 Total Flex 12V 5p",
+      "binding_rationale": "Existing exact FIPE/PBEV match: move1.0-12V aspirated M5flex. Official MY2019 manual specifies MPI CSEA55/60kW with MQ200 manual5; TSI/Cross/SQ100 data not selected. Nominal MPI geometry remains qualified.",
+      "fields": {
+        "seats": {
+          "value": "5",
+          "document_id": "up_manual",
+          "page": 32,
+          "locator": "Printed30: number of seats explicitly5, two front and three rear",
+          "applicability": "exact_variant",
+          "limitations": []
+        },
+        "length_mm": {
+          "value": "3689",
+          "document_id": "up_manual",
+          "page": 228,
+          "locator": "Printed226 Fig156 tableH, upMPI; not Cross3694",
+          "applicability": "model_nominal",
+          "limitations": []
+        },
+        "width_mm": {
+          "value": "1645",
+          "document_id": "up_manual",
+          "page": 228,
+          "locator": "Printed226 tableB: WITHOUT mirrors",
+          "applicability": "model_nominal",
+          "limitations": []
+        },
+        "width_with_mirrors_mm": {
+          "value": "1910",
+          "document_id": "up_manual",
+          "page": 228,
+          "locator": "Printed226 tableC: MPI MQ200 column, WITH mirrors; not1914",
+          "applicability": "model_nominal",
+          "limitations": []
+        },
+        "wheelbase_mm": {
+          "value": "2421",
+          "document_id": "up_manual",
+          "page": 228,
+          "locator": "Printed226 tableG",
+          "applicability": "model_nominal",
+          "limitations": []
+        },
+        "ground_clearance_mm": {
+          "value": "162",
+          "document_id": "up_manual",
+          "page": 228,
+          "locator": "Printed226 tableF",
+          "applicability": "model_nominal",
+          "limitations": [
+            "Footnote permits tire/wheel dependent variation; nominal only"
+          ]
+        },
+        "power_gasoline_cv": {
+          "value": "75",
+          "document_id": "up_manual",
+          "page": 227,
+          "locator": "Printed225 engineMPI CSEA gasoline55kW(75cv), not ethanol82cv",
+          "applicability": "shared_powertrain",
+          "limitations": []
+        }
+      },
+      "unavailable": {
+        "weight_kg": {
+          "reason": "932kg manual page230 is basic MPI curb mass with option caveat; not a trim-specific Move mass receipt."
+        },
+        "cargo_l": {
+          "reason": "No quantified same-year luggage capacity identified in inspected official manual."
+        },
+        "airbags": {
+          "reason": "Manual confirms two FRONT airbags, not an exhaustive total-equipment inventory; total remains null."
+        },
+        "abs": {
+          "reason": "No version-specific affirmative equipment receipt extracted; generic system description is insufficient."
+        },
+        "esc": {
+          "reason": "No version-specific affirmative/negative equipment receipt extracted."
+        }
+      },
+      "source_conflicts": [],
+      "limitations": [
+        "Nominal manual geometry accepted only for the declared pilot envelope, never measured individual vehicle dimensions."
+      ]
+    },
+    {
+      "id": 37,
+      "fipe_code": "005481-0",
+      "year_code": "2019-5",
+      "expected_fipe_description": "Fox Connect 1.6 Flex 8V 5p",
+      "binding_rationale": "FIPE/PBEV exact Connect1.6-8V M5flex. Official MY2019 manual1.6TOTALFLEX CCRA MQ200. Family-wide seats/power accepted; trim-dependent intervals not collapsed.",
+      "fields": {
+        "seats": {
+          "value": "5",
+          "document_id": "fox_manual",
+          "page": 29,
+          "locator": "Printed27: number of seats explicitly5",
+          "applicability": "exact_variant",
+          "limitations": []
+        },
+        "width_with_mirrors_mm": {
+          "value": "1904",
+          "document_id": "fox_manual",
+          "page": 236,
+          "locator": "Printed234 Fig176C WITH mirrors",
+          "applicability": "model_nominal",
+          "limitations": [
+            "Footnotes allow mirror and trim differences; nominal only"
+          ]
+        },
+        "wheelbase_mm": {
+          "value": "2467",
+          "document_id": "fox_manual",
+          "page": 236,
+          "locator": "Printed234 tableG",
+          "applicability": "model_nominal",
+          "limitations": []
+        },
+        "power_gasoline_cv": {
+          "value": "101",
+          "document_id": "fox_manual",
+          "page": 235,
+          "locator": "Printed233 CCRA gasoline74kW(101cv), not ethanol104cv",
+          "applicability": "shared_powertrain",
+          "limitations": []
+        }
+      },
+      "unavailable": {
+        "length_mm": {
+          "reason": "Manual page236 has3867-3868mm across configurations; exact Connect point not established."
+        },
+        "width_mm": {
+          "reason": "Manual page236 body width1660-1663mm depends on version/mirror trim. No arbitrary endpoint or midpoint."
+        },
+        "ground_clearance_mm": {
+          "reason": "Manual page236 interval157-161mm depends on tires/wheels. Exact configuration not established."
+        },
+        "weight_kg": {
+          "reason": "Manual page238 MQ200 curb mass1086-1114kg. No arbitrary midpoint or minimum."
+        },
+        "cargo_l": {
+          "reason": "No quantified same-year luggage capacity identified in inspected official manual."
+        },
+        "airbags": {
+          "reason": "Two FRONT airbags described, not a validated exhaustive total count."
+        },
+        "abs": {
+          "reason": "Generic ABS description does not prove exact version equipment."
+        },
+        "esc": {
+          "reason": "Generic equipment description does not prove exact version equipment."
+        }
+      },
+      "source_conflicts": [],
+      "limitations": [
+        "Unresolved technical ranges preserved as unavailable, not source conflict between identical configurations."
+      ]
+    }
+  ]
+}

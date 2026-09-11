@@ -35,7 +35,7 @@ export function firstStepWithError(errors = {}) {
     if (!message) continue;
     const explicit = ERROR_STEP[field];
     if (explicit) return RECOMMENDATION_WIZARD_STEPS.findIndex((step) => step.id === explicit);
-    if (field.startsWith("multifactor_") || field.startsWith("weight_") || field === "allow_budget_above_200k") {
+    if (field.startsWith("multifactor_") || field.startsWith("weight_")) {
       return RECOMMENDATION_WIZARD_STEPS.findIndex((step) => step.id === "advanced");
     }
   }

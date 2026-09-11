@@ -624,7 +624,6 @@ class ApiTest(unittest.TestCase):
             "use_case": "cidade",
             "multifactor_profile": {
                 "enabled": True,
-                "allow_budget_above_200k": True,
                 "scenario": {
                     "monthly_distance_km": "1250.00",
                     "city_percentage": "60.00",
@@ -649,9 +648,11 @@ class ApiTest(unittest.TestCase):
         service = MagicMock()
         service.simulate.return_value = SimpleNamespace(fingerprint="f" * 64)
 
-        def fake_ranking(items, simulation, weights):
+        def fake_ranking(items, simulation, weights, *, gold_identities, catalog_references):
             self.assertEqual(simulation.fingerprint, "f" * 64)
             self.assertEqual(sum(weights.values()), 100)
+            self.assertEqual(gold_identities, [])
+            self.assertEqual(set(catalog_references), {item["vehicle"]["id"] for item in items})
             output = copy.deepcopy(items)
             output[0]["multifactor"] = {"status": "ranked", "position": 1}
             return output
@@ -659,7 +660,9 @@ class ApiTest(unittest.TestCase):
         with self.client() as client, patch(
             "app.main.simulation_service_for_session",
             return_value=service,
-        ), patch("app.main.apply_multifactor_ranking", side_effect=fake_ranking):
+        ), patch("app.main.GoldRecommendationIdentityReader.recommendation_identities", return_value=[]), patch(
+            "app.main.apply_multifactor_ranking", side_effect=fake_ranking
+        ):
             response = client.post("/recommendations?envelope=true", json=payload)
             self.assertEqual(response.status_code, 200, response.text)
             data = response.json()
@@ -671,11 +674,7 @@ class ApiTest(unittest.TestCase):
                 "f" * 64,
             )
             service.simulate.assert_called_once()
-
-            unauthorized = copy.deepcopy(payload)
-            unauthorized["multifactor_profile"]["allow_budget_above_200k"] = False
-            denied = client.post("/recommendations?envelope=true", json=unauthorized)
-            self.assertEqual(denied.status_code, 422)
+            self.assertNotIn("allow_budget_above_200k", payload["multifactor_profile"])
 
         unavailable_service = MagicMock()
         unavailable_service.simulate.side_effect = VehicleCostSimulationUnavailableError(
@@ -688,6 +687,58 @@ class ApiTest(unittest.TestCase):
             unavailable = client.post("/recommendations?envelope=true", json=payload)
             self.assertEqual(unavailable.status_code, 503)
             self.assertNotIn("internal storage detail", unavailable.text)
+
+    def test_multifactor_identity_boundary_returns_real_ranking_and_reconciled_counts(self):
+        from tests.test_multifactor_recommendation import (
+            _batch, _etios_identity, _etios_reference, _etios_result,
+        )
+        from app.integrated_gold.repository import IntegratedGoldStorageError
+
+        body = {
+            "budget": 100000, "monthly_limit": 1750, "use_case": "cidade",
+            "multifactor_profile": {"enabled": True,
+                "scenario": {"monthly_distance_km": "1250.00", "city_percentage": "60.00",
+                    "highway_percentage": "40.00", "state_code": "SP", "municipality": "Sao Paulo",
+                    "reference_week_start": "2026-08-17", "fuel_strategy": "gasoline_c_common", "horizon_months": 18},
+                "weights": {"total_cost": "25", "usage_fit": "20", "comfort": "10", "safety": "15",
+                    "performance": "10", "efficiency": "10", "legacy_quality": "10"}},
+        }
+        service = MagicMock()
+        service.simulate.return_value = _batch(_etios_result())
+        references = {10: _etios_reference(), 23: {"code": "001486-9", "year_code": "2018-5",
+                                               "model": "UNO DRIVE 1.0 Flex 6V 5p"}}
+        with self.client() as client, patch("app.main.simulation_service_for_session", return_value=service), patch(
+            "app.main.GoldRecommendationIdentityReader.recommendation_identities", return_value=[_etios_identity()]
+        ) as reader, patch("app.main.price_metadata", side_effect=lambda key: references.get(key, {})):
+            legacy_body = {key: value for key, value in body.items() if key != "multifactor_profile"}
+            baseline = client.post("/recommendations?envelope=true", json=legacy_body).json()
+            reader.assert_not_called()
+            response = client.post("/recommendations?envelope=true", json=body)
+            self.assertEqual(response.status_code, 200, response.text)
+            data = response.json()
+            items = {item["vehicle"]["id"]: item for item in data["recommendations"]}
+            originals = {item["vehicle"]["id"]: item for item in baseline["recommendations"]}
+            self.assertEqual(items[10]["multifactor"]["status"], "ranked")
+            self.assertEqual(items[10]["multifactor"]["identity_diagnostic"]["match_method"], "explicit_mapping")
+            self.assertEqual(items[23]["multifactor"]["reason_code"], "GOLD_IDENTITY_NOT_FOUND")
+            self.assertEqual(items[23]["multifactor"]["identity_diagnostic"]["rejection_reason"], "coverage_absent")
+            self.assertIsNone(items[23]["multifactor"]["final_score"])
+            self.assertEqual(data["multifactor_profile"]["ranked_count"], 1)
+            self.assertEqual(data["multifactor_profile"]["unavailable_count"], len(items) - 1)
+            for key, item in items.items():
+                self.assertEqual(item["vehicle"], originals[key]["vehicle"])
+                self.assertEqual(item["tco"], originals[key]["tco"])
+            # An empty eligible lineage cannot silently fall back to names or IDs.
+            reader.return_value = []
+            no_coverage = client.post("/recommendations?envelope=true", json=body).json()
+            self.assertEqual(no_coverage["multifactor_profile"]["ranked_count"], 0)
+            self.assertEqual(no_coverage["multifactor_profile"]["unavailable_count"], len(items))
+            self.assertEqual([item["vehicle"]["id"] for item in no_coverage["recommendations"]],
+                             [item["vehicle"]["id"] for item in baseline["recommendations"]])
+            reader.side_effect = IntegratedGoldStorageError("internal identity storage detail")
+            unavailable = client.post("/recommendations?envelope=true", json=body)
+            self.assertEqual(unavailable.status_code, 503)
+            self.assertNotIn("internal identity storage detail", unavailable.text)
 
     def test_recommendations_without_viable_options_still_return_comparative_list(self):
         with self.client() as client:
@@ -982,7 +1033,7 @@ class ApiTest(unittest.TestCase):
             self.assertGreaterEqual(
                 result["maximum_installment_in_schedule"], result["regular_installment"]
             )
-            self.assertIn("aprovacao de credito", result["disclaimer"])
+            self.assertIn("aprovação de crédito", result["disclaimer"])
 
     def test_financing_integrates_car_motorcycle_and_negotiated_price(self):
         from backend.tests.test_motorcycle_spec_v1 import objective_payload

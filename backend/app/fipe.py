@@ -138,7 +138,7 @@ def _resolve_year_code(client: httpx.Client, profile: FipeReference) -> str:
         if str(item.get("code", "")).startswith(f"{profile.year_code}-")
     ]
     if not candidates:
-        raise ValueError(f"Ano {profile.year_code} nao disponivel para o codigo {profile.code}")
+        raise ValueError(f"Ano {profile.year_code} não disponível para o código {profile.code}")
     candidates.sort(
         key=lambda item: (
             "flex" not in str(item.get("name", "")).lower(),
@@ -158,7 +158,7 @@ def _fetch_reference(client: httpx.Client, profile: FipeReference, now: datetime
     returned_code = str(data.get("codeFipe", "")).strip()
     returned_year = int(data.get("modelYear", 0))
     if returned_code != profile.code or returned_year != int(profile.year_code.split("-")[0]):
-        raise ValueError("Resposta FIPE nao corresponde ao codigo e ano validados")
+        raise ValueError("Resposta FIPE não corresponde ao código e ano validados")
     return replace(
         profile,
         year_code=year_code,
@@ -194,10 +194,10 @@ def refresh_fipe_prices(force: bool = False) -> dict[str, object]:
                         _references[profile.vehicle_id] = _fetch_reference(client, profile, now)
                         updated += 1
                     except (httpx.ConnectError, httpx.TimeoutException) as exc:
-                        errors.append(f"provedor indisponivel: {exc}")
+                        errors.append(f"provedor indisponível: {exc}")
                         break
                     except (httpx.HTTPError, KeyError, TypeError, ValueError) as exc:
-                        errors.append(f"veiculo {profile.vehicle_id}: {exc}")
+                        errors.append(f"veículo {profile.vehicle_id}: {exc}")
             if updated:
                 _save_cache()
         except httpx.HTTPError as exc:

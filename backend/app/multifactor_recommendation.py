@@ -1,12 +1,12 @@
 """Composicao stateless do ranking legado com o custo Gold configuravel."""
 from __future__ import annotations
 
-from collections import defaultdict
 from copy import deepcopy
 from decimal import Decimal, ROUND_HALF_UP
 import math
-import unicodedata
-from typing import Iterable, Mapping
+from typing import Iterable, Mapping, Sequence
+
+from app.recommendation_identity import resolve_recommendation_identity
 
 from data_platform.integrated_vehicle_cost.simulation_contracts import (
     VehicleCostSimulationBatch,
@@ -27,7 +27,7 @@ MULTIFACTOR_COMPONENTS = (
     "legacy_quality",
 )
 COMPONENT_LABELS = {
-    "total_cost": "custo de combustivel no cenario",
+    "total_cost": "custo de combustível no cenário",
     "usage_fit": "adequacao ao uso",
     "comfort": "conforto",
     "safety": "seguranca",
@@ -83,35 +83,6 @@ def normalize_multifactor_weights(
     if total <= 0:
         raise MultifactorRecommendationError("at least one multifactor weight must be positive")
     return {code: value / total for code, value in normalized_input.items()}
-
-
-def _identity_text(value: object) -> str:
-    text = unicodedata.normalize("NFKD", str(value or ""))
-    text = "".join(character for character in text if not unicodedata.combining(character))
-    words = "".join(character.lower() if character.isalnum() else " " for character in text)
-    normalized = " ".join(words.split())
-    if normalized in {"vw", "vw volkswagen"}:
-        return "volkswagen"
-    return normalized
-
-
-def _identity_key_from_vehicle(vehicle: Mapping[str, object]) -> tuple[str, str, int | None]:
-    year = vehicle.get("year")
-    return (
-        _identity_text(vehicle.get("brand")),
-        _identity_text(vehicle.get("model")),
-        int(year) if isinstance(year, int) and not isinstance(year, bool) else None,
-    )
-
-
-def _identity_key_from_gold(
-    result: VehicleCostSimulationResult,
-) -> tuple[str, str, int | None]:
-    return (
-        _identity_text(result.brand_name),
-        _identity_text(result.model_name),
-        result.model_year,
-    )
 
 
 def _score(value: object, field_name: str) -> Decimal | None:
@@ -188,6 +159,7 @@ def _unavailable(
     baseline_position: int,
     reason_code: str,
     detail: str,
+    identity_diagnostic: Mapping | None = None,
 ) -> dict[str, object]:
     output = deepcopy(dict(item))
     output["baseline_score"] = item.get("score")
@@ -201,6 +173,7 @@ def _unavailable(
         "reason_code": reason_code,
         "detail": detail,
         "policy_version": MULTIFACTOR_POLICY_VERSION,
+        "identity_diagnostic": dict(identity_diagnostic) if identity_diagnostic else None,
     }
     output["is_best_choice"] = False
     return output
@@ -238,6 +211,9 @@ def apply_multifactor_ranking(
     baseline_results: Iterable[Mapping[str, object]],
     simulation: VehicleCostSimulationBatch,
     weights: Mapping[str, Decimal],
+    *,
+    gold_identities: Sequence[Mapping] | None = None,
+    catalog_references: Mapping[int, Mapping] | None = None,
 ) -> list[dict[str, object]]:
     """Reordena somente o caminho opt-in sem modificar o ranking de origem."""
     baseline = list(baseline_results)
@@ -259,10 +235,6 @@ def apply_multifactor_ranking(
         if normalized_weights[code] > 0
     )
     normalized_percentages[residual_target] += residual
-    gold_by_identity: dict[tuple[str, str, int | None], list[VehicleCostSimulationResult]] = defaultdict(list)
-    for result in simulation.results:
-        gold_by_identity[_identity_key_from_gold(result)].append(result)
-
     candidates: list[dict[str, object]] = []
     unavailable: list[dict[str, object]] = []
     for baseline_position, item in enumerate(baseline, start=1):
@@ -277,24 +249,25 @@ def apply_multifactor_ranking(
                 )
             )
             continue
-        matches = gold_by_identity.get(_identity_key_from_vehicle(vehicle), [])
-        if not matches:
+        gold, identity_diagnostic = resolve_recommendation_identity(
+            vehicle, simulation.results, gold_identities=gold_identities,
+            reference=(catalog_references or {}).get(vehicle.get("id")),
+        )
+        if gold is None:
+            rejection = identity_diagnostic["rejection_reason"]
+            reason_code = {
+                "ambiguous_identity": "GOLD_IDENTITY_AMBIGUOUS",
+                "ambiguous_mapping": "GOLD_IDENTITY_AMBIGUOUS",
+                "required_identity_missing": "LEGACY_IDENTITY_UNAVAILABLE",
+                "scenario_evidence_unavailable": "MULTIFACTOR_EVIDENCE_UNAVAILABLE",
+            }.get(rejection, "GOLD_IDENTITY_NOT_FOUND")
             unavailable.append(
                 _unavailable(
                     item,
                     baseline_position=baseline_position,
-                    reason_code="GOLD_IDENTITY_NOT_FOUND",
-                    detail="no unequivocal active Gold identity matches the legacy vehicle",
-                )
-            )
-            continue
-        if len(matches) != 1:
-            unavailable.append(
-                _unavailable(
-                    item,
-                    baseline_position=baseline_position,
-                    reason_code="GOLD_IDENTITY_AMBIGUOUS",
-                    detail="multiple active Gold identities match the legacy vehicle",
+                    reason_code=reason_code,
+                    detail="published identity or scenario evidence is unavailable",
+                    identity_diagnostic=identity_diagnostic,
                 )
             )
             continue
@@ -313,6 +286,7 @@ def apply_multifactor_ranking(
                     baseline_position=baseline_position,
                     reason_code="MULTIFACTOR_EVIDENCE_UNAVAILABLE",
                     detail="required evidence is unavailable: " + ", ".join(missing),
+                    identity_diagnostic=identity_diagnostic,
                 )
             )
             continue
@@ -320,12 +294,17 @@ def apply_multifactor_ranking(
             {
                 "item": item,
                 "baseline_position": baseline_position,
-                "gold": matches[0],
+                "gold": gold,
+                "identity_diagnostic": identity_diagnostic,
                 "scores": raw_scores,
             }
         )
 
     if not candidates:
+        # No personalized score means the original ordering and badges survive.
+        for output, original in zip(unavailable, baseline):
+            if "is_best_choice" in original:
+                output["is_best_choice"] = original["is_best_choice"]
         return unavailable
 
     costs = [candidate["gold"].projected_horizon_cost_brl for candidate in candidates]
@@ -392,6 +371,7 @@ def apply_multifactor_ranking(
             "cost": _cost_payload(gold),
             "scenario_fingerprint": simulation.fingerprint,
             "policy_version": MULTIFACTOR_POLICY_VERSION,
+            "identity_diagnostic": candidate["identity_diagnostic"],
             "tie_breakers": (
                 "higher_multifactor_score",
                 "better_baseline_position",

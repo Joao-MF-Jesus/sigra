@@ -8,10 +8,12 @@ import {
 } from "../src/api/sigraApi.js";
 import {
   buildSimulationPayload,
+  catalogErrorPresentation,
   complementPercentage,
   createSimulationForm,
   fuelPriceOriginLabel,
   suggestedGoldVehicleSk,
+  simulationErrorPresentation,
   uniqueGoldVehicles,
   validateSimulationForm,
 } from "../src/features/vehicle-cost-simulation/simulationModel.js";
@@ -111,17 +113,41 @@ test("simulação usa o endpoint versionado e preserva códigos de domínio sani
   );
 });
 
+test("erros técnicos recebem apresentação explícita e sanitizada", () => {
+  assert.equal(
+    catalogErrorPresentation(),
+    "Não foi possível carregar os veículos para simulação. Tente novamente ou continue informando os valores manualmente.",
+  );
+  assert.equal(simulationErrorPresentation({ status: 422 }), "Revise os parâmetros: um ou mais valores precisam ser corrigidos.");
+  assert.equal(simulationErrorPresentation({ status: 409 }), "Há mais de uma correspondência possível para o veículo selecionado. Revise a seleção e tente novamente.");
+  assert.equal(simulationErrorPresentation({ status: 503 }), "Não foi possível acessar os dados de referência para concluir a simulação. Tente novamente mais tarde.");
+  assert.doesNotMatch(simulationErrorPresentation({ message: "eligible integrated Gold dataset is unavailable" }), /Gold|dataset/i);
+});
+
 test("interface exibe fontes e resultados do backend sem reproduzir fórmulas", () => {
   const panel = readFileSync(new URL("../src/features/vehicle-cost-simulation/VehicleCostSimulationPanel.jsx", import.meta.url), "utf8");
   const details = readFileSync(new URL("../src/features/recommendations/RecommendationDetails.jsx", import.meta.url), "utf8");
   const app = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
   assert.match(panel, /requestVehicleCostSimulation\(buildSimulationPayload\(form\)\)/);
   assert.match(panel, /monthly_fuel_cost_brl/);
-  assert.match(panel, /Gold ativa permaneceu inalterada/);
+  assert.match(panel, /Fontes de referência: FIPE, PBEV e ANP/);
+  assert.match(panel, /Tentar novamente/);
+  assert.match(panel, /catalogAttempt/);
+  assert.doesNotMatch(panel, />[^<{]*(?:Gold integrada|dataset_version|mixed_1000_v1)[^<{]*</i);
   assert.match(panel, /type="date"[^>]+onInput=/);
   assert.doesNotMatch(panel, /monthly_distance_km\s*[*/]|fuel_price_per_liter_brl\s*[*/]/);
   assert.match(details, /VehicleCostSimulationPanel/);
   assert.match(app, /profile=\{profile\}/);
   assert.equal(fuelPriceOriginLabel("user_input"), "Preço informado pelo usuário");
-  assert.equal(fuelPriceOriginLabel("anp_gold"), "ANP — Gold integrada");
+  assert.equal(fuelPriceOriginLabel("anp_gold"), "Preço médio de referência");
+});
+
+test("seleção de outro veículo é explicitamente independente e não persiste identidade", () => {
+  const panel = readFileSync(new URL("../src/features/vehicle-cost-simulation/VehicleCostSimulationPanel.jsx", import.meta.url), "utf8");
+  assert.match(panel, /Simular outro veículo com cobertura/);
+  assert.match(panel, /não vincula nem substitui/);
+  assert.doesNotMatch(panel, /Escolha o veículo correspondente|associar automaticamente/);
+  assert.doesNotMatch(panel, /localStorage|sessionStorage|request.*(?:Mapping|Identity)/);
+  assert.match(panel, /vehicle_sk: suggestedGoldVehicleSk\(vehicle, unique\)/);
+  assert.match(panel, /Veículo selecionado apenas para esta simulação/);
 });

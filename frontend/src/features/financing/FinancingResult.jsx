@@ -24,7 +24,7 @@ export default function FinancingResult({ mode, result, isStale = false, canAddC
   const insufficientCosts = financingStatus === "insufficient_for_financed_costs";
   const hasFinancedAdditionalCosts = result.has_financed_additional_costs ?? Number(result.financed_additional_costs || 0) > 0;
   const cetIncludesCosts = result.rate?.input_mode === "informed_effective_cost_rate" && result.rate?.effective_rate_includes_additional_costs === true;
-  const visibleWarnings = (result.warnings || []).filter((warning) => !(insufficientCosts && warning.includes("parcela maxima informada")));
+  const visibleWarnings = (result.warnings || []).filter((warning) => !(insufficientCosts && warning.includes("parcela máxima informada")));
 
   return <section className={`financing-result ${isStale ? "stale" : ""}`} aria-live="polite" data-testid="financing-result">
     {isStale && <div className="stale-warning" data-testid="financing-stale-warning"><strong>Resultado desatualizado</strong><span>Os dados foram alterados. Recalcule a simulação.</span></div>}

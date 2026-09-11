@@ -26,7 +26,7 @@ def effective_monthly_rate_percent(
     if monthly_rate_percent is not None:
         return monthly_rate_percent
     if effective_cost_rate_percent is None or effective_cost_rate_period is None:
-        raise FinancingDomainError("a taxa da simulacao nao foi informada")
+        raise FinancingDomainError("a taxa da simulação não foi informada")
     if effective_cost_rate_period == EffectiveCostRatePeriod.MONTHLY:
         return effective_cost_rate_percent
     with localcontext() as context:
@@ -37,7 +37,7 @@ def effective_monthly_rate_percent(
 
 def price_installment(principal: Decimal, monthly_rate_percent: Decimal, term_months: int) -> Decimal:
     if principal < 0:
-        raise FinancingDomainError("o valor financiado nao pode ser negativo")
+        raise FinancingDomainError("o valor financiado não pode ser negativo")
     if term_months < 1:
         raise FinancingDomainError("o prazo deve ser de pelo menos um mes")
     if principal == 0:
@@ -54,7 +54,7 @@ def price_installment(principal: Decimal, monthly_rate_percent: Decimal, term_mo
 def installment_schedule(precise_installment: Decimal, term_months: int) -> dict[str, Decimal | int]:
     """Reconcile displayed installments with the precise aggregate total."""
     if precise_installment < 0:
-        raise FinancingDomainError("a parcela nao pode ser negativa")
+        raise FinancingDomainError("a parcela não pode ser negativa")
     if term_months < 1:
         raise FinancingDomainError("o prazo deve ser de pelo menos um mes")
 
@@ -69,7 +69,7 @@ def installment_schedule(precise_installment: Decimal, term_months: int) -> dict
         regular = (total / Decimal(term_months)).quantize(CENT, rounding=ROUND_DOWN)
         final = money(total - (regular * Decimal(regular_count)))
     if final < 0:
-        raise FinancingDomainError("nao foi possivel reconciliar as parcelas")
+        raise FinancingDomainError("não foi possível reconciliar as parcelas")
 
     return {
         "regular_installment": regular,

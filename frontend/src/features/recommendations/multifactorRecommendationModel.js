@@ -50,7 +50,7 @@ function positiveDecimal(value, label, errors, field, { allowZero = false } = {}
   return normalized;
 }
 
-export function buildMultifactorProfile(profile, budget) {
+export function buildMultifactorProfile(profile) {
   if (!profile.multifactor_enabled) return { errors: {}, payload: null, isValid: true };
   const errors = {};
   const weights = {};
@@ -94,17 +94,12 @@ export function buildMultifactorProfile(profile, budget) {
     ? positiveDecimal(profile.multifactor_highway_consumption_km_l, "Consumo rodoviário", errors, "multifactor_highway_consumption_km_l")
     : null;
 
-  if (Number(budget) > 200000 && !profile.allow_budget_above_200k) {
-    errors.allow_budget_above_200k = "Autorize explicitamente a análise acima de R$ 200 mil.";
-  }
-
   const isValid = Object.keys(errors).length === 0;
   return {
     errors,
     isValid,
     payload: isValid ? {
       enabled: true,
-      allow_budget_above_200k: Boolean(profile.allow_budget_above_200k),
       scenario: {
         monthly_distance_km: monthlyDistance,
         city_percentage: cityPercentage,

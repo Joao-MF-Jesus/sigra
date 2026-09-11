@@ -1,5 +1,41 @@
 import { API_URL } from "../config/runtime.js";
 
+export function createEmptyFinancialSummary() {
+  return {
+    total_expenses: 0,
+    total_maintenance: 0,
+    total_cost: 0,
+    expenses_by_category: {},
+    pending_maintenances: 0,
+  };
+}
+
+export function resolveOperationalUserId(user) {
+  if (!user) return null;
+  const candidate = user.role === "admin" ? 1 : Number(user.id);
+  return Number.isSafeInteger(candidate) && candidate > 0 ? candidate : null;
+}
+
+export async function requestOperationalData(user, { signal, fetchImpl = fetch } = {}) {
+  const userId = resolveOperationalUserId(user);
+  if (userId === null) {
+    return {
+      requested: false,
+      expenses: [],
+      summary: createEmptyFinancialSummary(),
+    };
+  }
+
+  const [expenses, summary] = await Promise.all([
+    requestJson("/expenses", { signal, fetchImpl }),
+    requestJson(`/reports/financial-summary?user_id=${encodeURIComponent(userId)}`, { signal, fetchImpl }),
+  ]);
+  if (!Array.isArray(expenses) || !summary || typeof summary !== "object" || Array.isArray(summary)) {
+    throw new Error("A API retornou dados operacionais inválidos.");
+  }
+  return { requested: true, expenses, summary };
+}
+
 export async function requestRecommendations(profile, { signal, fetchImpl = fetch } = {}) {
   const response = await fetchImpl(`${API_URL}/recommendations?envelope=true`, {
     method: "POST",

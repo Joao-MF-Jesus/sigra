@@ -1,0 +1,2059 @@
+{
+  "method_version": "catalog-identity-crosswalk-v1",
+  "selection_id": "sigra-100-2026-09-06",
+  "reviews": [
+    {
+      "id": 35,
+      "reviewed_at": "2026-09-07T01:48:34.690054+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2021,
+      "approved_version": "Zen 1.0 manual",
+      "target_change_reason": "",
+      "commercial_description": "KWID Zen 1.0 Flex 12V 5p Mec.",
+      "pbev_family": "Kwid",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 38.838,00",
+        "Marca": "Renault",
+        "Modelo": "KWID Zen 1.0 Flex 12V 5p Mec.",
+        "AnoModelo": 2021,
+        "Combustivel": "Flex",
+        "CodigoFipe": "025266-2",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2021-5",
+      "pbev": {
+        "brand_name": "Renault",
+        "model_name": "Kwid",
+        "version_name": "Zen",
+        "motor_description": "1.0-12V",
+        "transmission_code": "M5",
+        "fuel_type": "flex",
+        "propulsion_type": "combustion",
+        "fossil_city_km_l": "14.9",
+        "fossil_highway_km_l": "15.6",
+        "category_name": "Utilitário Esportivo Compacto",
+        "raw": {
+          "cycle_year": 2021,
+          "page_number": 10,
+          "row_number": 16,
+          "row_hash": "b07264ef33349eaaf8a139b83df0f41ecdf2527207df91d23f8fcefe32bf281c"
+        }
+      },
+      "powertrain": [
+        "1.0",
+        12,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "Renault",
+          "model_name": "Kwid",
+          "version_name": "Zen",
+          "motor_description": "1.0-12V",
+          "transmission_code": "M5",
+          "fuel_type": "flex",
+          "propulsion_type": "combustion",
+          "fossil_city_km_l": "14.9",
+          "fossil_highway_km_l": "15.6",
+          "category_name": "Utilitário Esportivo Compacto",
+          "raw": {
+            "cycle_year": 2021,
+            "page_number": 10,
+            "row_number": 16,
+            "row_hash": "b07264ef33349eaaf8a139b83df0f41ecdf2527207df91d23f8fcefe32bf281c"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/48/modelos/8023/anos/2021-5",
+          "sha256": "d91c4823a1afe41759b64e58034cf9dbfc94e659aa3cc23790a4a1ee66e3e301",
+          "cache_file": "d91c4823a1afe41759b64e58034cf9dbfc94e659aa3cc23790a4a1ee66e3e301.json",
+          "collected_at": "2026-09-07T01:02:07.540136+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2021/@@download/file",
+          "sha256": "3c2350a98cb5182f6d4c165be310f4edf4eb9b3162a92bf089be2a8005e2b6b7",
+          "cache_file": "pbe-veicular-2021.pdf",
+          "collected_at": "2026-09-07T01:03:43.689460+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "30a0a1a2fc4db9f8c282d0054e02ed6bdff729c052dedef83f058aa99ae98ebd",
+      "fipe_family_inventory_sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+      "shared_group": "Zen",
+      "shared_trims_as_published": "Zen",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 36,
+      "reviewed_at": "2026-09-07T01:48:34.694076+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2019,
+      "approved_version": "Move 1.0 manual",
+      "target_change_reason": "",
+      "commercial_description": "up! move 1.0 Total Flex 12V 5p",
+      "pbev_family": "up!",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 55.065,00",
+        "Marca": "VW - VolksWagen",
+        "Modelo": "up! move 1.0 Total Flex 12V 5p",
+        "AnoModelo": 2019,
+        "Combustivel": "Flex",
+        "CodigoFipe": "005366-0",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2019-5",
+      "pbev": {
+        "brand_name": "VW",
+        "model_name": "up!",
+        "version_name": "move",
+        "motor_description": "1.0-12V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "14.2",
+        "fossil_highway_km_l": "15.3",
+        "category_name": "Sub Compacto",
+        "raw": {
+          "cycle_year": 2019,
+          "page_number": 1,
+          "row_number": 8,
+          "row_hash": "01b246e49330a0a2b5f776b253aca025e30fbe987a9aef0be5fb3d698b18198f"
+        }
+      },
+      "powertrain": [
+        "1.0",
+        12,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "VW",
+          "model_name": "up!",
+          "version_name": "move",
+          "motor_description": "1.0-12V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "14.2",
+          "fossil_highway_km_l": "15.3",
+          "category_name": "Sub Compacto",
+          "raw": {
+            "cycle_year": 2019,
+            "page_number": 1,
+            "row_number": 8,
+            "row_hash": "01b246e49330a0a2b5f776b253aca025e30fbe987a9aef0be5fb3d698b18198f"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/59/modelos/6717/anos/2019-5",
+          "sha256": "ce30b2750fabc9d8801dbe5dbc8312d78af6c3d5eebdd6540688dbc1603f1e85",
+          "cache_file": "ce30b2750fabc9d8801dbe5dbc8312d78af6c3d5eebdd6540688dbc1603f1e85.json",
+          "collected_at": "2026-09-07T01:02:08.100810+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file",
+          "sha256": "d2168ac4bdd266a483468390d501565186e36949eff0c37f61fbc419be5d8804",
+          "cache_file": "veiculos_leves_2019.pdf",
+          "collected_at": "2026-09-07T01:02:54.889224+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "acee52912c45b7c4e08df60495cf55b221d234424475a6541761a6969071c951",
+      "fipe_family_inventory_sha256": "89559a4c77891431b154bd1e6f173fe91daf86e67fa929aece7a44393ace22be",
+      "shared_group": "move",
+      "shared_trims_as_published": "move",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 37,
+      "reviewed_at": "2026-09-07T01:48:34.694076+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2019,
+      "approved_version": "Connect 1.6 manual",
+      "target_change_reason": "",
+      "commercial_description": "Fox Connect 1.6 Flex 8V 5p",
+      "pbev_family": "Fox",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 56.867,00",
+        "Marca": "VW - VolksWagen",
+        "Modelo": "Fox Connect 1.6 Flex 8V 5p",
+        "AnoModelo": 2019,
+        "Combustivel": "Flex",
+        "CodigoFipe": "005481-0",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2019-5",
+      "pbev": {
+        "brand_name": "VW",
+        "model_name": "Fox",
+        "version_name": "Connect",
+        "motor_description": "1.6-8V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "11.6",
+        "fossil_highway_km_l": "13.9",
+        "category_name": "Compacto",
+        "raw": {
+          "cycle_year": 2019,
+          "page_number": 3,
+          "row_number": 18,
+          "row_hash": "2d02c9f8c9ae70108f5bc14aa72238c9f25230d321d53a7ea1593dbec5d1bb07"
+        }
+      },
+      "powertrain": [
+        "1.6",
+        8,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "VW",
+          "model_name": "Fox",
+          "version_name": "Connect",
+          "motor_description": "1.6-8V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "11.6",
+          "fossil_highway_km_l": "13.9",
+          "category_name": "Compacto",
+          "raw": {
+            "cycle_year": 2019,
+            "page_number": 3,
+            "row_number": 18,
+            "row_hash": "2d02c9f8c9ae70108f5bc14aa72238c9f25230d321d53a7ea1593dbec5d1bb07"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/59/modelos/8112/anos/2019-5",
+          "sha256": "c156f5baec8859e3ba04cb1244debaa53ecf4e5dc3267d887574a7b40053d9cb",
+          "cache_file": "c156f5baec8859e3ba04cb1244debaa53ecf4e5dc3267d887574a7b40053d9cb.json",
+          "collected_at": "2026-09-07T01:02:08.952748+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file",
+          "sha256": "d2168ac4bdd266a483468390d501565186e36949eff0c37f61fbc419be5d8804",
+          "cache_file": "veiculos_leves_2019.pdf",
+          "collected_at": "2026-09-07T01:02:54.889224+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "acee52912c45b7c4e08df60495cf55b221d234424475a6541761a6969071c951",
+      "fipe_family_inventory_sha256": "89559a4c77891431b154bd1e6f173fe91daf86e67fa929aece7a44393ace22be",
+      "shared_group": "Connect",
+      "shared_trims_as_published": "Connect",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 38,
+      "reviewed_at": "2026-09-07T01:48:34.698103+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "Active 1.2 manual",
+      "target_change_reason": "",
+      "commercial_description": "208 Active 1.2 Flex 12V 5p Mec.",
+      "pbev_family": "208",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 45.348,00",
+        "Marca": "Peugeot",
+        "Modelo": "208 Active 1.2 Flex 12V 5p Mec.",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "024219-5",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "PEUGEOT",
+        "model_name": "208",
+        "version_name": "Active",
+        "motor_description": "1.2-12V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "13.9",
+        "fossil_highway_km_l": "15.5",
+        "category_name": "COMPACTO",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 3,
+          "row_number": 17,
+          "row_hash": "08b87c634dbbdc6a0921c855a42acaf5efb4ff5288c8ce3a218f783442213054"
+        }
+      },
+      "powertrain": [
+        "1.2",
+        12,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "PEUGEOT",
+          "model_name": "208",
+          "version_name": "Active",
+          "motor_description": "1.2-12V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "13.9",
+          "fossil_highway_km_l": "15.5",
+          "category_name": "COMPACTO",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 3,
+            "row_number": 17,
+            "row_hash": "08b87c634dbbdc6a0921c855a42acaf5efb4ff5288c8ce3a218f783442213054"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/44/modelos/7552/anos/2020-5",
+          "sha256": "87debdff8991a8cc83913991dc45f8166a17417d4e31921b54dae49256960813",
+          "cache_file": "87debdff8991a8cc83913991dc45f8166a17417d4e31921b54dae49256960813.json",
+          "collected_at": "2026-09-07T01:02:09.518176+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "96ff597705654cfc1dd70b381831d4f72709d782c1dfafe60c9287b32b503c81",
+      "shared_group": "Active",
+      "shared_trims_as_published": "Active",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 39,
+      "reviewed_at": "2026-09-07T01:48:34.702389+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "shared_powertrain_group",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "Attraction 1.2 manual",
+      "target_change_reason": "",
+      "commercial_description": "C3 Attraction Pure Tech 1.2 Flex 12V Mec",
+      "pbev_family": "C3",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 48.770,00",
+        "Marca": "Citroën",
+        "Modelo": "C3 Attraction Pure Tech 1.2 Flex 12V Mec",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "011170-8",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "CITROEN",
+        "model_name": "C3",
+        "version_name": null,
+        "motor_description": "1.2-12V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "13.2",
+        "fossil_highway_km_l": "14.8",
+        "category_name": "COMPACTO",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 3,
+          "row_number": 26,
+          "row_hash": "5cbcc88eda9d4bb506dd6478b0e61eec1b0f8361274367a80128861898768523"
+        }
+      },
+      "powertrain": [
+        "1.2",
+        12,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "CITROEN",
+          "model_name": "C3",
+          "version_name": null,
+          "motor_description": "1.2-12V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "13.2",
+          "fossil_highway_km_l": "14.8",
+          "category_name": "COMPACTO",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 3,
+            "row_number": 26,
+            "row_hash": "5cbcc88eda9d4bb506dd6478b0e61eec1b0f8361274367a80128861898768523"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/13/modelos/7585/anos/2020-5",
+          "sha256": "243f5616b82720effb8d25bb5e8fabd3cc583235056133ee1aa25bf95aa6b6ba",
+          "cache_file": "243f5616b82720effb8d25bb5e8fabd3cc583235056133ee1aa25bf95aa6b6ba.json",
+          "collected_at": "2026-09-07T01:02:10.071108+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "5e6fb64e03b8fe8ce4cab8b3010cd4eff82d0c96bd7f175901bd8d5f91f4a317",
+      "shared_group": null,
+      "shared_trims_as_published": null,
+      "shared_group_explanation": "FIPE identifica o acabamento comercial e preço; PBEV comprova somente família e conjunto mecânico com consumo não conflitante. Nenhum acabamento foi inventado na linha PBEV.",
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 40,
+      "reviewed_at": "2026-09-07T01:48:34.702389+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "shared_powertrain_group",
+      "alias_id": null,
+      "approved_year": 2018,
+      "approved_version": "GT 1.0 automatico",
+      "target_change_reason": "EX não tem 2018; GT 2018 é a versão FIPE flex. PBEV valida o conjunto 1.0-12V/A-4/flex, não o acabamento GT.",
+      "commercial_description": "Picanto GT 1.0 12V Flex Aut.",
+      "pbev_family": "PICANTO",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 58.101,00",
+        "Marca": "Kia Motors",
+        "Modelo": "Picanto GT 1.0 12V Flex Aut.",
+        "AnoModelo": 2018,
+        "Combustivel": "Flex",
+        "CodigoFipe": "018090-4",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2018-5",
+      "pbev": {
+        "brand_name": "KIA",
+        "model_name": "PICANTO",
+        "version_name": "EX5/ LX5 1.0 FF AT",
+        "motor_description": "1.0 - 12V",
+        "transmission_code": "A-4",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "11.4",
+        "fossil_highway_km_l": "14.7",
+        "category_name": "Micro Compacto",
+        "raw": {
+          "cycle_year": 2018,
+          "page_number": 1,
+          "row_number": 19,
+          "row_hash": "b85234f99eafcc0341d74912384a32380b356891d6f309c17e104c19851338dd"
+        }
+      },
+      "powertrain": [
+        "1.0",
+        12,
+        false,
+        "automatic",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "KIA",
+          "model_name": "PICANTO",
+          "version_name": "EX5/ LX5 1.0 FF AT",
+          "motor_description": "1.0 - 12V",
+          "transmission_code": "A-4",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "11.4",
+          "fossil_highway_km_l": "14.7",
+          "category_name": "Micro Compacto",
+          "raw": {
+            "cycle_year": 2018,
+            "page_number": 1,
+            "row_number": 19,
+            "row_hash": "b85234f99eafcc0341d74912384a32380b356891d6f309c17e104c19851338dd"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/31/modelos/8213/anos/2018-5",
+          "sha256": "3f3a1569c1a00bcc773a3edfd449be7d781ad26e2f63669e7679fbdd1d45be83",
+          "cache_file": "3f3a1569c1a00bcc773a3edfd449be7d781ad26e2f63669e7679fbdd1d45be83.json",
+          "collected_at": "2026-09-07T01:40:54.714123+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+          "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4",
+          "cache_file": "veiculos_leves_2018.pdf",
+          "collected_at": "2026-09-07T01:02:37.462160+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a5d41bda1c51a87be9b7ee936a9e691583709472a03d15d1ac5d45ce5565ca1c",
+      "fipe_family_inventory_sha256": "a9ba024d64e8cc668210d2990caab0b04e49b4091c3ea159df8d24ee13711cf6",
+      "shared_group": "EX5/ LX5 1.0 FF AT",
+      "shared_trims_as_published": "EX5/ LX5 1.0 FF AT",
+      "shared_group_explanation": "FIPE identifica o acabamento comercial e preço; PBEV comprova somente família e conjunto mecânico com consumo não conflitante. Nenhum acabamento foi inventado na linha PBEV.",
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 41,
+      "reviewed_at": "2026-09-07T01:48:34.706429+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "shared_powertrain_group",
+      "alias_id": "qq-new-qq-v1",
+      "approved_year": 2017,
+      "approved_version": "Look 1.0 manual",
+      "target_change_reason": "2018–2020 têm conflito estruturado gasolina/flex; 2017 FIPE gasolina e PBEV G coincidem. Texto Flex da descrição FIPE é mantido como limitação, sem sobrepor o campo estruturado.",
+      "commercial_description": "QQ 1.0 Look FL 12V/1.0 12V Flex 5p",
+      "pbev_family": "NEW QQ",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 29.550,00",
+        "Marca": "Caoa Chery/Chery",
+        "Modelo": "QQ 1.0 Look FL 12V/1.0 12V Flex 5p",
+        "AnoModelo": 2017,
+        "Combustivel": "Gasolina",
+        "CodigoFipe": "073011-4",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "G"
+      },
+      "year_code": "2017-1",
+      "pbev": {
+        "brand_name": "CHERY",
+        "model_name": "NEW QQ",
+        "version_name": "1.0 LOOK 1.0 LOOK PLUS 1.0 SMILE 1.0 SMILE PLUS 1.0 ACT 1.0 ACT PLUS",
+        "motor_description": "1.0-12V",
+        "transmission_code": "M-5",
+        "fuel_type": "gasoline",
+        "propulsion_type": null,
+        "fossil_city_km_l": "11.9",
+        "fossil_highway_km_l": "13.1",
+        "category_name": "Micro Compacto",
+        "raw": {
+          "cycle_year": 2017,
+          "page_number": 1,
+          "row_number": 7,
+          "row_hash": "2d2a8a549232448ed5aa5f2252c7d135c85d75992a7d7b5986621a87bfaad43c"
+        }
+      },
+      "powertrain": [
+        "1.0",
+        12,
+        false,
+        "manual",
+        "gasoline"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "CHERY",
+          "model_name": "NEW QQ",
+          "version_name": "1.0 LOOK 1.0 LOOK PLUS 1.0 SMILE 1.0 SMILE PLUS 1.0 ACT 1.0 ACT PLUS",
+          "motor_description": "1.0-12V",
+          "transmission_code": "M-5",
+          "fuel_type": "gasoline",
+          "propulsion_type": null,
+          "fossil_city_km_l": "11.9",
+          "fossil_highway_km_l": "13.1",
+          "category_name": "Micro Compacto",
+          "raw": {
+            "cycle_year": 2017,
+            "page_number": 1,
+            "row_number": 7,
+            "row_hash": "2d2a8a549232448ed5aa5f2252c7d135c85d75992a7d7b5986621a87bfaad43c"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/161/modelos/7225/anos/2017-1",
+          "sha256": "977ea9e04583dd34f8298e69481e3df987d49873aba4c18bd7664f08f22c1d83",
+          "cache_file": "977ea9e04583dd34f8298e69481e3df987d49873aba4c18bd7664f08f22c1d83.json",
+          "collected_at": "2026-09-07T01:40:58.657665+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2017/@@download/file",
+          "sha256": "951c6b7fd4d6bb11c660816ae391f7129ed47e5aba558236d20398ece8b09f74",
+          "cache_file": "veiculos_leves_2017.pdf",
+          "collected_at": "2026-09-07T01:02:21.208868+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "228d2434bbc08ddd510743376d10e06e63660d48da86e6cc6ebfa1b67b01e3aa",
+      "fipe_family_inventory_sha256": "618b91df0b1e150ef8cd69a94a211009d216c1880ba6b7e99f03bad7e63cb984",
+      "shared_group": "1.0 LOOK 1.0 LOOK PLUS 1.0 SMILE 1.0 SMILE PLUS 1.0 ACT 1.0 ACT PLUS",
+      "shared_trims_as_published": "1.0 LOOK 1.0 LOOK PLUS 1.0 SMILE 1.0 SMILE PLUS 1.0 ACT 1.0 ACT PLUS",
+      "shared_group_explanation": "FIPE identifica o acabamento comercial e preço; PBEV comprova somente família e conjunto mecânico com consumo não conflitante. Nenhum acabamento foi inventado na linha PBEV.",
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 42,
+      "reviewed_at": "2026-09-07T01:48:34.706429+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "versioned_commercial_alias",
+      "alias_id": "palio-novo-palio-v1",
+      "approved_year": 2017,
+      "approved_version": "Attractive 1.0 manual",
+      "target_change_reason": "",
+      "commercial_description": "Palio ATTRACTIVE 1.0 EVO Fire Flex 8v 5p",
+      "pbev_family": "Novo Palio",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 41.116,00",
+        "Marca": "Fiat",
+        "Modelo": "Palio ATTRACTIVE 1.0 EVO Fire Flex 8v 5p",
+        "AnoModelo": 2017,
+        "Combustivel": "Flex",
+        "CodigoFipe": "001372-2",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2017-5",
+      "pbev": {
+        "brand_name": "FIAT",
+        "model_name": "Novo Palio",
+        "version_name": "Attractive",
+        "motor_description": "1.0-8V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "11.2",
+        "fossil_highway_km_l": "13.2",
+        "category_name": "Compacto",
+        "raw": {
+          "cycle_year": 2017,
+          "page_number": 5,
+          "row_number": 23,
+          "row_hash": "cf9af19cbc75461d936cb9a3cb9be8303213d0f2589e805ba0412a71b8e08de8"
+        }
+      },
+      "powertrain": [
+        "1.0",
+        8,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "FIAT",
+          "model_name": "Novo Palio",
+          "version_name": "Attractive",
+          "motor_description": "1.0-8V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "11.2",
+          "fossil_highway_km_l": "13.2",
+          "category_name": "Compacto",
+          "raw": {
+            "cycle_year": 2017,
+            "page_number": 5,
+            "row_number": 23,
+            "row_hash": "cf9af19cbc75461d936cb9a3cb9be8303213d0f2589e805ba0412a71b8e08de8"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos/5721/anos/2017-5",
+          "sha256": "78dbf19a01fc9c6613b268c6e2ce08ee98ee995b9ee224831892d3871dde46d2",
+          "cache_file": "78dbf19a01fc9c6613b268c6e2ce08ee98ee995b9ee224831892d3871dde46d2.json",
+          "collected_at": "2026-09-07T01:02:11.479310+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2017/@@download/file",
+          "sha256": "951c6b7fd4d6bb11c660816ae391f7129ed47e5aba558236d20398ece8b09f74",
+          "cache_file": "veiculos_leves_2017.pdf",
+          "collected_at": "2026-09-07T01:02:21.208868+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "228d2434bbc08ddd510743376d10e06e63660d48da86e6cc6ebfa1b67b01e3aa",
+      "fipe_family_inventory_sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+      "shared_group": "Attractive",
+      "shared_trims_as_published": "Attractive",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 43,
+      "reviewed_at": "2026-09-07T01:48:34.710459+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2017,
+      "approved_version": "Cult 1.4 manual",
+      "target_change_reason": "",
+      "commercial_description": "500 Cult 1.4 Flex 8V EVO Mec.",
+      "pbev_family": "500",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 70.880,00",
+        "Marca": "Fiat",
+        "Modelo": "500 Cult 1.4 Flex 8V EVO Mec.",
+        "AnoModelo": 2017,
+        "Combustivel": "Flex",
+        "CodigoFipe": "001361-7",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2017-5",
+      "pbev": {
+        "brand_name": "FIAT",
+        "model_name": "500",
+        "version_name": "Cult",
+        "motor_description": "1.4-8V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "11.4",
+        "fossil_highway_km_l": "13.0",
+        "category_name": "Micro Compacto",
+        "raw": {
+          "cycle_year": 2017,
+          "page_number": 1,
+          "row_number": 8,
+          "row_hash": "0212cdaed1bdde5c1b2a7f9728bc02f201df2e398610ed7c2392b70909165243"
+        }
+      },
+      "powertrain": [
+        "1.4",
+        8,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "FIAT",
+          "model_name": "500",
+          "version_name": "Cult",
+          "motor_description": "1.4-8V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "11.4",
+          "fossil_highway_km_l": "13.0",
+          "category_name": "Micro Compacto",
+          "raw": {
+            "cycle_year": 2017,
+            "page_number": 1,
+            "row_number": 8,
+            "row_hash": "0212cdaed1bdde5c1b2a7f9728bc02f201df2e398610ed7c2392b70909165243"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos/5614/anos/2017-5",
+          "sha256": "d88aa316c1e54e85e6dd6ec1b2da302410a58f55b004c579b08eb76fd69035a5",
+          "cache_file": "d88aa316c1e54e85e6dd6ec1b2da302410a58f55b004c579b08eb76fd69035a5.json",
+          "collected_at": "2026-09-07T01:02:12.039136+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2017/@@download/file",
+          "sha256": "951c6b7fd4d6bb11c660816ae391f7129ed47e5aba558236d20398ece8b09f74",
+          "cache_file": "veiculos_leves_2017.pdf",
+          "collected_at": "2026-09-07T01:02:21.208868+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "228d2434bbc08ddd510743376d10e06e63660d48da86e6cc6ebfa1b67b01e3aa",
+      "fipe_family_inventory_sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+      "shared_group": "Cult",
+      "shared_trims_as_published": "Cult",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 44,
+      "reviewed_at": "2026-09-07T01:48:34.710459+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "shared_powertrain_group",
+      "alias_id": "fiesta-new-fiesta-v1",
+      "approved_year": 2018,
+      "approved_version": "SE 1.6 manual",
+      "target_change_reason": "",
+      "commercial_description": "Fiesta SE 1.6 16V Flex 5p",
+      "pbev_family": "New Fiesta Hatch",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 51.457,00",
+        "Marca": "Ford",
+        "Modelo": "Fiesta SE 1.6 16V Flex 5p",
+        "AnoModelo": 2018,
+        "Combustivel": "Flex",
+        "CodigoFipe": "003351-0",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2018-5",
+      "pbev": {
+        "brand_name": "FORD",
+        "model_name": "New Fiesta Hatch",
+        "version_name": "SE / SEL",
+        "motor_description": "1.6-16V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "12.0",
+        "fossil_highway_km_l": "14.6",
+        "category_name": "Compacto",
+        "raw": {
+          "cycle_year": 2018,
+          "page_number": 5,
+          "row_number": 9,
+          "row_hash": "a94c84c3f890561474ccd1a276d6ab415003b9c4408f565397fc6fcf38d6b739"
+        }
+      },
+      "powertrain": [
+        "1.6",
+        16,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "FORD",
+          "model_name": "New Fiesta Hatch",
+          "version_name": "SE / SEL",
+          "motor_description": "1.6-16V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "12.0",
+          "fossil_highway_km_l": "14.6",
+          "category_name": "Compacto",
+          "raw": {
+            "cycle_year": 2018,
+            "page_number": 5,
+            "row_number": 9,
+            "row_hash": "a94c84c3f890561474ccd1a276d6ab415003b9c4408f565397fc6fcf38d6b739"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/22/modelos/5668/anos/2018-5",
+          "sha256": "28a02d69a788510430a71fe8a4cf86d91341f920165fb52391db20afbafd1335",
+          "cache_file": "28a02d69a788510430a71fe8a4cf86d91341f920165fb52391db20afbafd1335.json",
+          "collected_at": "2026-09-07T01:02:12.602118+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+          "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4",
+          "cache_file": "veiculos_leves_2018.pdf",
+          "collected_at": "2026-09-07T01:02:37.462160+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a5d41bda1c51a87be9b7ee936a9e691583709472a03d15d1ac5d45ce5565ca1c",
+      "fipe_family_inventory_sha256": "84d80eca26caa1d70ebe1d929d742bd25d26b7ded560314d05f7a4ae5e5c5704",
+      "shared_group": "SE / SEL",
+      "shared_trims_as_published": "SE / SEL",
+      "shared_group_explanation": "FIPE identifica o acabamento comercial e preço; PBEV comprova somente família e conjunto mecânico com consumo não conflitante. Nenhum acabamento foi inventado na linha PBEV.",
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 45,
+      "reviewed_at": "2026-09-07T01:48:34.714481+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2021,
+      "approved_version": "EX 1.6 automatico",
+      "target_change_reason": "LX não oferece 2021 na FIPE; EX 2021 é inequívoco em FIPE e PBEV, preservando família e ano.",
+      "commercial_description": "RIO EX 1.6 Flex Aut.",
+      "pbev_family": "RIO",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 79.241,00",
+        "Marca": "Kia Motors",
+        "Modelo": "RIO EX 1.6 Flex Aut.",
+        "AnoModelo": 2021,
+        "Combustivel": "Flex",
+        "CodigoFipe": "018094-7",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2021-5",
+      "pbev": {
+        "brand_name": "KIA",
+        "model_name": "RIO",
+        "version_name": "EX 1.6 FF AT HB",
+        "motor_description": "1.6 - 16V",
+        "transmission_code": "A-6",
+        "fuel_type": "flex",
+        "propulsion_type": "combustion",
+        "fossil_city_km_l": "10.5",
+        "fossil_highway_km_l": "13.4",
+        "category_name": "Médio",
+        "raw": {
+          "cycle_year": 2021,
+          "page_number": 3,
+          "row_number": 63,
+          "row_hash": "03657343477d1e58a6405560461be4c5d311f4085bfccafb98b4bd87fd10aa7a"
+        }
+      },
+      "powertrain": [
+        "1.6",
+        16,
+        false,
+        "automatic",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "KIA",
+          "model_name": "RIO",
+          "version_name": "EX 1.6 FF AT HB",
+          "motor_description": "1.6 - 16V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex",
+          "propulsion_type": "combustion",
+          "fossil_city_km_l": "10.5",
+          "fossil_highway_km_l": "13.4",
+          "category_name": "Médio",
+          "raw": {
+            "cycle_year": 2021,
+            "page_number": 3,
+            "row_number": 63,
+            "row_hash": "03657343477d1e58a6405560461be4c5d311f4085bfccafb98b4bd87fd10aa7a"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/31/modelos/8990/anos/2021-5",
+          "sha256": "e0011e4811d2cdc329b18406a1d8aa040e3afd576dc5a62b11eee99478465eea",
+          "cache_file": "e0011e4811d2cdc329b18406a1d8aa040e3afd576dc5a62b11eee99478465eea.json",
+          "collected_at": "2026-09-07T01:40:55.376411+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2021/@@download/file",
+          "sha256": "3c2350a98cb5182f6d4c165be310f4edf4eb9b3162a92bf089be2a8005e2b6b7",
+          "cache_file": "pbe-veicular-2021.pdf",
+          "collected_at": "2026-09-07T01:03:43.689460+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "30a0a1a2fc4db9f8c282d0054e02ed6bdff729c052dedef83f058aa99ae98ebd",
+      "fipe_family_inventory_sha256": "a9ba024d64e8cc668210d2990caab0b04e49b4091c3ea159df8d24ee13711cf6",
+      "shared_group": "EX 1.6 FF AT HB",
+      "shared_trims_as_published": "EX 1.6 FF AT HB",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 46,
+      "reviewed_at": "2026-09-07T01:48:34.714481+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "LT 1.4 turbo automatico",
+      "target_change_reason": "",
+      "commercial_description": "CRUZE LT 1.4 16V Turbo Flex 4p Aut.",
+      "pbev_family": "Cruze",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 89.220,00",
+        "Marca": "GM - Chevrolet",
+        "Modelo": "CRUZE LT 1.4 16V Turbo Flex 4p Aut.",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "004470-9",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "CHEVROLET",
+        "model_name": "Cruze",
+        "version_name": "LT",
+        "motor_description": "1.4-16V Turbo",
+        "transmission_code": "A-6",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "11.3",
+        "fossil_highway_km_l": "14.0",
+        "category_name": "GRANDE",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 10,
+          "row_number": 13,
+          "row_hash": "a65a98946ee5b2cf802a98fd3f8be793b0ce42c947894355710f9da665219b0d"
+        }
+      },
+      "powertrain": [
+        "1.4",
+        16,
+        true,
+        "automatic",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "CHEVROLET",
+          "model_name": "Cruze",
+          "version_name": "LT",
+          "motor_description": "1.4-16V Turbo",
+          "transmission_code": "A-6",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "11.3",
+          "fossil_highway_km_l": "14.0",
+          "category_name": "GRANDE",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 10,
+            "row_number": 13,
+            "row_hash": "a65a98946ee5b2cf802a98fd3f8be793b0ce42c947894355710f9da665219b0d"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/23/modelos/7618/anos/2020-5",
+          "sha256": "fa3c5c8d98b12e1a67494be77d2d9288fa507bb670b6ebd0d1b18ca5f626f7ab",
+          "cache_file": "fa3c5c8d98b12e1a67494be77d2d9288fa507bb670b6ebd0d1b18ca5f626f7ab.json",
+          "collected_at": "2026-09-07T01:02:13.711253+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "15c2881bb288d3ffd7f455f2eb2530971fb286605320813e9eb0fee3dfe7d305",
+      "shared_group": "LT",
+      "shared_trims_as_published": "LT",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 47,
+      "reviewed_at": "2026-09-07T01:48:34.718604+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "shared_powertrain_group",
+      "alias_id": null,
+      "approved_year": 2017,
+      "approved_version": "Dynamique 2.0 CVT",
+      "target_change_reason": "",
+      "commercial_description": "FLUENCE Sed. Dynamique 2.0 16V FLEX Aut.",
+      "pbev_family": "Fluence",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 53.743,00",
+        "Marca": "Renault",
+        "Modelo": "FLUENCE Sed. Dynamique 2.0 16V FLEX Aut.",
+        "AnoModelo": 2017,
+        "Combustivel": "Flex",
+        "CodigoFipe": "025174-7",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2017-5",
+      "pbev": {
+        "brand_name": "Renault",
+        "model_name": "Fluence",
+        "version_name": "Dynamique / Expression / Privilège",
+        "motor_description": "2.0-16V",
+        "transmission_code": "CVT",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "8.7",
+        "fossil_highway_km_l": "10.7",
+        "category_name": "Grande",
+        "raw": {
+          "cycle_year": 2017,
+          "page_number": 12,
+          "row_number": 28,
+          "row_hash": "4b4e313981b07efee6e147f62216984f9aeb2026826e3c14e00bf19ab219d4c0"
+        }
+      },
+      "powertrain": [
+        "2.0",
+        16,
+        false,
+        "cvt",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "Renault",
+          "model_name": "Fluence",
+          "version_name": "Dynamique / Expression / Privilège",
+          "motor_description": "2.0-16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "8.7",
+          "fossil_highway_km_l": "10.7",
+          "category_name": "Grande",
+          "raw": {
+            "cycle_year": 2017,
+            "page_number": 12,
+            "row_number": 28,
+            "row_hash": "4b4e313981b07efee6e147f62216984f9aeb2026826e3c14e00bf19ab219d4c0"
+          }
+        },
+        {
+          "brand_name": "Renault",
+          "model_name": "Fluence",
+          "version_name": "GT Line",
+          "motor_description": "2.0-16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "8.7",
+          "fossil_highway_km_l": "10.7",
+          "category_name": "Grande",
+          "raw": {
+            "cycle_year": 2017,
+            "page_number": 12,
+            "row_number": 29,
+            "row_hash": "14659a1e61aa8ed6ff4fe17230272c4c16deeccc3eade1b2c29be4a5de655eee"
+          }
+        },
+        {
+          "brand_name": "Renault",
+          "model_name": "Fluence",
+          "version_name": "Dynamique Plus",
+          "motor_description": "2.0-16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "8.7",
+          "fossil_highway_km_l": "10.7",
+          "category_name": "Grande",
+          "raw": {
+            "cycle_year": 2017,
+            "page_number": 12,
+            "row_number": 30,
+            "row_hash": "51c58059cb0e9c23a139f23587baee44d78d67fa0c4b8e478474188dff28ef73"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/48/modelos/5509/anos/2017-5",
+          "sha256": "8af4a7bc7c4b8909664ff90d77bbee00a4397e587fd35eda0da92296ec4ef47f",
+          "cache_file": "8af4a7bc7c4b8909664ff90d77bbee00a4397e587fd35eda0da92296ec4ef47f.json",
+          "collected_at": "2026-09-07T01:02:14.264507+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2017/@@download/file",
+          "sha256": "951c6b7fd4d6bb11c660816ae391f7129ed47e5aba558236d20398ece8b09f74",
+          "cache_file": "veiculos_leves_2017.pdf",
+          "collected_at": "2026-09-07T01:02:21.208868+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "228d2434bbc08ddd510743376d10e06e63660d48da86e6cc6ebfa1b67b01e3aa",
+      "fipe_family_inventory_sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+      "shared_group": "Dynamique / Expression / Privilège",
+      "shared_trims_as_published": "Dynamique / Expression / Privilège",
+      "shared_group_explanation": "FIPE identifica o acabamento comercial e preço; PBEV comprova somente família e conjunto mecânico com consumo não conflitante. Nenhum acabamento foi inventado na linha PBEV.",
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 48,
+      "blocked_reason": "TRANSMISSION_CONFLICT_PBEV_M6_IS_MANUAL",
+      "evidence": {
+        "fipe": [
+          {
+            "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/13/modelos/8234/anos/2019-5",
+            "year_code": "2019-5",
+            "payload": {
+              "TipoVeiculo": 1,
+              "Valor": "R$ 66.180,00",
+              "Marca": "Citroën",
+              "Modelo": "C4 LOUNGE Feel 1.6 Turbo Flex Aut.",
+              "AnoModelo": 2019,
+              "Combustivel": "Flex",
+              "CodigoFipe": "011188-0",
+              "MesReferencia": "setembro de 2026",
+              "SiglaCombustivel": "F"
+            },
+            "source_snapshot": {
+              "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/13/modelos/8234/anos/2019-5",
+              "source": "fipe_price_observation",
+              "collected_at": "2026-09-07T01:02:14.824055+00:00",
+              "request_count": 1,
+              "http_status": 200,
+              "sha256": "fa71dd4d1b0fcb7bd69f5f30ee1f3e1c94b4f08edc90967e7ce4ec0357f23a48",
+              "cache_file": "fa71dd4d1b0fcb7bd69f5f30ee1f3e1c94b4f08edc90967e7ce4ec0357f23a48.json",
+              "status": "cached_not_identity_approved"
+            }
+          }
+        ],
+        "pbev": [
+          {
+            "category_name": "Grande",
+            "brand_name": "Citroën",
+            "model_name": "C4 Lounge",
+            "version_name": "LIVE AUT / FEEL AUT / SHINE AUT",
+            "motor_description": "1.6 THP 16V Flex",
+            "transmission_code": "M-6",
+            "propulsion_type": null,
+            "fuel_type": "flex",
+            "air_conditioning_code": "S",
+            "steering_assistance_code": "E-H",
+            "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+            "emission_raw": [
+              "0,017",
+              "0,226",
+              "0,027",
+              "B",
+              "0",
+              "113"
+            ],
+            "consumption_raw": [
+              "7,3",
+              "9,0",
+              "10,9",
+              "13,2"
+            ],
+            "nmhc_mg_km": "17.000",
+            "nox_mg_km": "27.000",
+            "nmog_nox_mg_km": null,
+            "co_mg_km": "226.000",
+            "cho_mg_km": null,
+            "co2_ethanol_g_km": "0",
+            "co2_fossil_g_km": "113",
+            "pollutant_reduction_class": "B",
+            "ethanol_city_km_l": "7.3",
+            "ethanol_highway_km_l": "9.0",
+            "fossil_city_km_l": "10.9",
+            "fossil_highway_km_l": "13.2",
+            "electric_city_km_l_equivalent": null,
+            "electric_highway_km_l_equivalent": null,
+            "energy_mj_km": "1.86",
+            "pbe_relative_class": "B",
+            "pbe_absolute_class": "C",
+            "conpet_seal": null,
+            "locator": {
+              "page_number": 10,
+              "row_number": 6,
+              "row_hash": "3ee6a232a5188cf85c792152c5650ea0eff13fc3d906c2234429c176fe6e4c42",
+              "parser_version": "pbev-pdf-v1",
+              "layout_family": "pbev-l1-2017-2019-v1",
+              "source_record_key": "2019:10:6:3ee6a232a5188cf8"
+            },
+            "source_snapshot": {
+              "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file",
+              "source": "inmetro_pbev",
+              "collected_at": "2026-09-07T01:02:54.889224+00:00",
+              "request_count": 1,
+              "cache_file": "veiculos_leves_2019.pdf",
+              "sha256": "d2168ac4bdd266a483468390d501565186e36949eff0c37f61fbc419be5d8804"
+            }
+          }
+        ]
+      },
+      "notes": "PBEV 2019 p.10: FEEL AUT e M-6 na mesma linha; contradição confirmada visualmente."
+    },
+    {
+      "id": 49,
+      "reviewed_at": "2026-09-07T01:48:34.718604+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "shared_powertrain_group",
+      "alias_id": null,
+      "approved_year": 2018,
+      "approved_version": "Allure 1.6 turbo automatico",
+      "target_change_reason": "",
+      "commercial_description": "408 Sed. Bus./Allure 1.6 TB Flex 16V Aut",
+      "pbev_family": "408",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 51.548,00",
+        "Marca": "Peugeot",
+        "Modelo": "408 Sed. Bus./Allure 1.6 TB Flex 16V Aut",
+        "AnoModelo": 2018,
+        "Combustivel": "Flex",
+        "CodigoFipe": "024226-8",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2018-5",
+      "pbev": {
+        "brand_name": "Peugeot",
+        "model_name": "408",
+        "version_name": "Griffe THP A / Allure THP A / GRIFFE RG / BUSINESS",
+        "motor_description": "1.6 THP 16V Flex",
+        "transmission_code": "A-6",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "10.6",
+        "fossil_highway_km_l": "13.0",
+        "category_name": "Extra Grande",
+        "raw": {
+          "cycle_year": 2018,
+          "page_number": 16,
+          "row_number": 15,
+          "row_hash": "c5188c633537cd7b509d7f805da9f16d7baa64e63596042749cfd6e66eb0b5a1"
+        }
+      },
+      "powertrain": [
+        "1.6",
+        16,
+        true,
+        "automatic",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "Peugeot",
+          "model_name": "408",
+          "version_name": "Griffe THP A / Allure THP A / GRIFFE RG / BUSINESS",
+          "motor_description": "1.6 THP 16V Flex",
+          "transmission_code": "A-6",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "10.6",
+          "fossil_highway_km_l": "13.0",
+          "category_name": "Extra Grande",
+          "raw": {
+            "cycle_year": 2018,
+            "page_number": 16,
+            "row_number": 15,
+            "row_hash": "c5188c633537cd7b509d7f805da9f16d7baa64e63596042749cfd6e66eb0b5a1"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/44/modelos/7745/anos/2018-5",
+          "sha256": "603b42bae9c8b724aa0c614b80b46cab04114a576d09e92aa3808da3fc25f203",
+          "cache_file": "603b42bae9c8b724aa0c614b80b46cab04114a576d09e92aa3808da3fc25f203.json",
+          "collected_at": "2026-09-07T01:02:15.386037+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+          "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4",
+          "cache_file": "veiculos_leves_2018.pdf",
+          "collected_at": "2026-09-07T01:02:37.462160+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a5d41bda1c51a87be9b7ee936a9e691583709472a03d15d1ac5d45ce5565ca1c",
+      "fipe_family_inventory_sha256": "96ff597705654cfc1dd70b381831d4f72709d782c1dfafe60c9287b32b503c81",
+      "shared_group": "Griffe THP A / Allure THP A / GRIFFE RG / BUSINESS",
+      "shared_trims_as_published": "Griffe THP A / Allure THP A / GRIFFE RG / BUSINESS",
+      "shared_group_explanation": "FIPE identifica o acabamento comercial e preço; PBEV comprova somente família e conjunto mecânico com consumo não conflitante. Nenhum acabamento foi inventado na linha PBEV.",
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 50,
+      "blocked_reason": "CONFLICTING_ELANTRA_CONSUMPTION_LINES",
+      "evidence": {
+        "fipe": [
+          {
+            "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/26/modelos/7757/anos/2018-5",
+            "year_code": "2018-5",
+            "payload": {
+              "TipoVeiculo": 1,
+              "Valor": "R$ 80.542,00",
+              "Marca": "Hyundai",
+              "Modelo": "Elantra Special Edit. 2.0 16V Flex Aut.",
+              "AnoModelo": 2018,
+              "Combustivel": "Flex",
+              "CodigoFipe": "015135-1",
+              "MesReferencia": "setembro de 2026",
+              "SiglaCombustivel": "F"
+            },
+            "source_snapshot": {
+              "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/26/modelos/7757/anos/2018-5",
+              "source": "fipe_price_observation",
+              "collected_at": "2026-09-07T01:02:15.953143+00:00",
+              "request_count": 1,
+              "http_status": 200,
+              "sha256": "d5b8dc38a57fd38d5d9c9d58db30fe14073145e08b2c8ba34bd8cd88269ed79d",
+              "cache_file": "d5b8dc38a57fd38d5d9c9d58db30fe14073145e08b2c8ba34bd8cd88269ed79d.json",
+              "status": "cached_not_identity_approved"
+            }
+          }
+        ],
+        "pbev": [
+          {
+            "category_name": "Grande",
+            "brand_name": "HYUNDAI",
+            "model_name": "ELANTRA",
+            "version_name": null,
+            "motor_description": "2.0-16V",
+            "transmission_code": "A-6",
+            "propulsion_type": null,
+            "fuel_type": "flex",
+            "air_conditioning_code": "S",
+            "steering_assistance_code": "E",
+            "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+            "emission_raw": [
+              null,
+              "0,283",
+              "0,009",
+              null,
+              "0",
+              "116"
+            ],
+            "consumption_raw": [
+              "6,7",
+              "9,6",
+              "10,2",
+              "14,0"
+            ],
+            "nmhc_mg_km": null,
+            "nox_mg_km": "9.000",
+            "nmog_nox_mg_km": null,
+            "co_mg_km": "283.000",
+            "cho_mg_km": null,
+            "co2_ethanol_g_km": "0",
+            "co2_fossil_g_km": "116",
+            "pollutant_reduction_class": null,
+            "ethanol_city_km_l": "6.7",
+            "ethanol_highway_km_l": "9.6",
+            "fossil_city_km_l": "10.2",
+            "fossil_highway_km_l": "14.0",
+            "electric_city_km_l_equivalent": null,
+            "electric_highway_km_l_equivalent": null,
+            "energy_mj_km": "1.92",
+            "pbe_relative_class": "B",
+            "pbe_absolute_class": "C",
+            "conpet_seal": null,
+            "locator": {
+              "page_number": 14,
+              "row_number": 7,
+              "row_hash": "184d47cbc893cc430de647faee5428075e280721fe739c3a2a496d6c9a00c241",
+              "parser_version": "pbev-pdf-v1",
+              "layout_family": "pbev-l1-2017-2019-v1",
+              "source_record_key": "2018:14:7:184d47cbc893cc43"
+            },
+            "source_snapshot": {
+              "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+              "source": "inmetro_pbev",
+              "collected_at": "2026-09-07T01:02:37.462160+00:00",
+              "request_count": 1,
+              "cache_file": "veiculos_leves_2018.pdf",
+              "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4"
+            }
+          },
+          {
+            "category_name": "Grande",
+            "brand_name": "HYUNDAI",
+            "model_name": "ELANTRA",
+            "version_name": "B",
+            "motor_description": "2.0-16V",
+            "transmission_code": "A-6",
+            "propulsion_type": null,
+            "fuel_type": "flex",
+            "air_conditioning_code": "S",
+            "steering_assistance_code": "E",
+            "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+            "emission_raw": [
+              "0,032",
+              "0,270",
+              "0,011",
+              "B",
+              "0",
+              "117"
+            ],
+            "consumption_raw": [
+              "6,9",
+              "9,7",
+              "10,1",
+              "13,8"
+            ],
+            "nmhc_mg_km": "32.000",
+            "nox_mg_km": "11.000",
+            "nmog_nox_mg_km": null,
+            "co_mg_km": "270.000",
+            "cho_mg_km": null,
+            "co2_ethanol_g_km": "0",
+            "co2_fossil_g_km": "117",
+            "pollutant_reduction_class": "B",
+            "ethanol_city_km_l": "6.9",
+            "ethanol_highway_km_l": "9.7",
+            "fossil_city_km_l": "10.1",
+            "fossil_highway_km_l": "13.8",
+            "electric_city_km_l_equivalent": null,
+            "electric_highway_km_l_equivalent": null,
+            "energy_mj_km": "1.91",
+            "pbe_relative_class": "B",
+            "pbe_absolute_class": "C",
+            "conpet_seal": null,
+            "locator": {
+              "page_number": 14,
+              "row_number": 8,
+              "row_hash": "7495feabc6d7fbbb50ca8c9ff02d451b4a135299d7176d49b090174399df50e4",
+              "parser_version": "pbev-pdf-v1",
+              "layout_family": "pbev-l1-2017-2019-v1",
+              "source_record_key": "2018:14:8:7495feabc6d7fbbb"
+            },
+            "source_snapshot": {
+              "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+              "source": "inmetro_pbev",
+              "collected_at": "2026-09-07T01:02:37.462160+00:00",
+              "request_count": 1,
+              "cache_file": "veiculos_leves_2018.pdf",
+              "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4"
+            }
+          }
+        ]
+      },
+      "notes": "PBEV Elantra sem versão e versão B não distinguem Special Edition."
+    },
+    {
+      "id": 51,
+      "reviewed_at": "2026-09-07T01:48:34.722648+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "Attractive 1.0 manual",
+      "target_change_reason": "",
+      "commercial_description": "Grand Siena ATTRACTIVE 1.0 Flex 8V 4p",
+      "pbev_family": "Grand Siena",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 44.779,00",
+        "Marca": "Fiat",
+        "Modelo": "Grand Siena ATTRACTIVE 1.0 Flex 8V 4p",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "001481-8",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "FIAT",
+        "model_name": "Grand Siena",
+        "version_name": "Attractive",
+        "motor_description": "1.0-8V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "11.2",
+        "fossil_highway_km_l": "13.6",
+        "category_name": "MÉDIO",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 6,
+          "row_number": 28,
+          "row_hash": "cbbfb2ed965faf610b17da6b5e4be9b65fff7603af04f16c5bbbe841f91cfd05"
+        }
+      },
+      "powertrain": [
+        "1.0",
+        8,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "FIAT",
+          "model_name": "Grand Siena",
+          "version_name": "Attractive",
+          "motor_description": "1.0-8V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "11.2",
+          "fossil_highway_km_l": "13.6",
+          "category_name": "MÉDIO",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 6,
+            "row_number": 28,
+            "row_hash": "cbbfb2ed965faf610b17da6b5e4be9b65fff7603af04f16c5bbbe841f91cfd05"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos/7824/anos/2020-5",
+          "sha256": "c101d8139dd377171881a9529c873dea7239cfb0462cb67bd23f6717547abf91",
+          "cache_file": "c101d8139dd377171881a9529c873dea7239cfb0462cb67bd23f6717547abf91.json",
+          "collected_at": "2026-09-07T01:02:16.513332+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+      "shared_group": "Attractive",
+      "shared_trims_as_published": "Attractive",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 52,
+      "reviewed_at": "2026-09-07T01:48:34.722648+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "RXT 1.5 turbo CVT",
+      "target_change_reason": "",
+      "commercial_description": "ARRIZO 5 RXT 1.5 16V Turbo Flex Aut.",
+      "pbev_family": "Arrizo 5",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 66.495,00",
+        "Marca": "Caoa Chery/Chery",
+        "Modelo": "ARRIZO 5 RXT 1.5 16V Turbo Flex Aut.",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "073021-1",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "CAOA CHERY",
+        "model_name": "Arrizo 5",
+        "version_name": "RXT",
+        "motor_description": "1.5-16V Turbo",
+        "transmission_code": "CVT",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "9.9",
+        "fossil_highway_km_l": "12.1",
+        "category_name": "GRANDE",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 9,
+          "row_number": 15,
+          "row_hash": "1e596a935b140b163cd0bef7fa69a6a474f234e910f4cdb825083dccfda685ac"
+        }
+      },
+      "powertrain": [
+        "1.5",
+        16,
+        true,
+        "cvt",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "CAOA CHERY",
+          "model_name": "Arrizo 5",
+          "version_name": "RXT",
+          "motor_description": "1.5-16V Turbo",
+          "transmission_code": "CVT",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "9.9",
+          "fossil_highway_km_l": "12.1",
+          "category_name": "GRANDE",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 9,
+            "row_number": 15,
+            "row_hash": "1e596a935b140b163cd0bef7fa69a6a474f234e910f4cdb825083dccfda685ac"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/161/modelos/8514/anos/2020-5",
+          "sha256": "7a849792f6c964d8f5fba2f41e13d1b108ea6e1b63e70e7b9a4abfa59ce33fae",
+          "cache_file": "7a849792f6c964d8f5fba2f41e13d1b108ea6e1b63e70e7b9a4abfa59ce33fae.json",
+          "collected_at": "2026-09-07T01:02:17.077910+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "618b91df0b1e150ef8cd69a94a211009d216c1880ba6b7e99f03bad7e63cb984",
+      "shared_group": "RXT",
+      "shared_trims_as_published": "RXT",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 53,
+      "blocked_reason": "FIPE_2014_2016_ONLY_PBEV_CYCLE_NOT_AUDITED",
+      "evidence": {
+        "fipe": [],
+        "pbev": [
+          {
+            "category_name": "Extra Grande",
+            "brand_name": "KIA",
+            "model_name": "OPTIMA",
+            "version_name": "EX3 / LX3 2.0 AT",
+            "motor_description": "2.0 - 16V",
+            "transmission_code": "A-6",
+            "propulsion_type": null,
+            "fuel_type": "gasoline",
+            "air_conditioning_code": "S",
+            "steering_assistance_code": "E",
+            "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+            "emission_raw": [
+              "0,010",
+              "0,093",
+              "0,025",
+              "A",
+              null,
+              "135"
+            ],
+            "consumption_raw": [
+              null,
+              null,
+              "8,9",
+              "11,9"
+            ],
+            "nmhc_mg_km": "10.000",
+            "nox_mg_km": "25.000",
+            "nmog_nox_mg_km": null,
+            "co_mg_km": "93.000",
+            "cho_mg_km": null,
+            "co2_ethanol_g_km": null,
+            "co2_fossil_g_km": "135",
+            "pollutant_reduction_class": "A",
+            "ethanol_city_km_l": null,
+            "ethanol_highway_km_l": null,
+            "fossil_city_km_l": "8.9",
+            "fossil_highway_km_l": "11.9",
+            "electric_city_km_l_equivalent": null,
+            "electric_highway_km_l_equivalent": null,
+            "energy_mj_km": "2.19",
+            "pbe_relative_class": "B",
+            "pbe_absolute_class": "C",
+            "conpet_seal": null,
+            "locator": {
+              "page_number": 14,
+              "row_number": 19,
+              "row_hash": "39338c6f1bda7e489bb6364a0850f1f55e61934627aee24d8a1d4465cf99c651",
+              "parser_version": "pbev-pdf-v1",
+              "layout_family": "pbev-l1-2017-2019-v1",
+              "source_record_key": "2019:14:19:39338c6f1bda7e48"
+            },
+            "source_snapshot": {
+              "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file",
+              "source": "inmetro_pbev",
+              "collected_at": "2026-09-07T01:02:54.889224+00:00",
+              "request_count": 1,
+              "cache_file": "veiculos_leves_2019.pdf",
+              "sha256": "d2168ac4bdd266a483468390d501565186e36949eff0c37f61fbc419be5d8804"
+            }
+          }
+        ]
+      },
+      "notes": "Ano 2019 não disponível no endpoint FIPE 2.0 consultado."
+    },
+    {
+      "id": 54,
+      "reviewed_at": "2026-09-07T01:48:34.726670+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "shared_powertrain_group",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "EX 2.0 automatico",
+      "target_change_reason": "",
+      "commercial_description": "Cerato EX 2.0 16V Flex Aut.",
+      "pbev_family": "Cerato",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 81.282,00",
+        "Marca": "Kia Motors",
+        "Modelo": "Cerato EX 2.0 16V Flex Aut.",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "018093-9",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "KIA",
+        "model_name": "Cerato",
+        "version_name": "FF EX/ LX/ SX/ GT 2,0 AT",
+        "motor_description": "2.0-16V",
+        "transmission_code": "A-6",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "9.6",
+        "fossil_highway_km_l": "13.1",
+        "category_name": "GRANDE",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 9,
+          "row_number": 13,
+          "row_hash": "c7d08c59b496fbca14f961c48cc9bbd359e2268cfbaa75563c576c8bcc2cfc62"
+        }
+      },
+      "powertrain": [
+        "2.0",
+        16,
+        false,
+        "automatic",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "KIA",
+          "model_name": "Cerato",
+          "version_name": "FF EX/ LX/ SX/ GT 2,0 AT",
+          "motor_description": "2.0-16V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "9.6",
+          "fossil_highway_km_l": "13.1",
+          "category_name": "GRANDE",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 9,
+            "row_number": 13,
+            "row_hash": "c7d08c59b496fbca14f961c48cc9bbd359e2268cfbaa75563c576c8bcc2cfc62"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/31/modelos/8861/anos/2020-5",
+          "sha256": "2b6a140ba325fbea2bcce9245d84c6f3e99e2c4411c22f2b0e7a1fc680f7fbe4",
+          "cache_file": "2b6a140ba325fbea2bcce9245d84c6f3e99e2c4411c22f2b0e7a1fc680f7fbe4.json",
+          "collected_at": "2026-09-07T01:02:17.907101+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "a9ba024d64e8cc668210d2990caab0b04e49b4091c3ea159df8d24ee13711cf6",
+      "shared_group": "FF EX/ LX/ SX/ GT 2,0 AT",
+      "shared_trims_as_published": "FF EX/ LX/ SX/ GT 2,0 AT",
+      "shared_group_explanation": "FIPE identifica o acabamento comercial e preço; PBEV comprova somente família e conjunto mecânico com consumo não conflitante. Nenhum acabamento foi inventado na linha PBEV.",
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 55,
+      "reviewed_at": "2026-09-07T01:48:34.730692+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "versioned_commercial_alias",
+      "alias_id": "sentra-novo-sentra-v1",
+      "approved_year": 2020,
+      "approved_version": "SV 2.0 CVT",
+      "target_change_reason": "",
+      "commercial_description": "Sentra SV 2.0 FlexStart 16V Aut.",
+      "pbev_family": "Novo Sentra",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 74.933,00",
+        "Marca": "Nissan",
+        "Modelo": "Sentra SV 2.0 FlexStart 16V Aut.",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "023123-1",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "NISSAN",
+        "model_name": "Novo Sentra",
+        "version_name": "SV",
+        "motor_description": "2.0-16V",
+        "transmission_code": "CVT",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "9.9",
+        "fossil_highway_km_l": "12.7",
+        "category_name": "GRANDE",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 9,
+          "row_number": 10,
+          "row_hash": "e3cbab17812b0905738470885d47edf316ecda6d7cf3942d583b4a27d944c06e"
+        }
+      },
+      "powertrain": [
+        "2.0",
+        16,
+        false,
+        "cvt",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "NISSAN",
+          "model_name": "Novo Sentra",
+          "version_name": "SV",
+          "motor_description": "2.0-16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "9.9",
+          "fossil_highway_km_l": "12.7",
+          "category_name": "GRANDE",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 9,
+            "row_number": 10,
+            "row_hash": "e3cbab17812b0905738470885d47edf316ecda6d7cf3942d583b4a27d944c06e"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos/6616/anos/2020-5",
+          "sha256": "7fe7d14987404659c0dde719f943843c080b10b440b28b364d420d6e17c42953",
+          "cache_file": "7fe7d14987404659c0dde719f943843c080b10b440b28b364d420d6e17c42953.json",
+          "collected_at": "2026-09-07T01:02:18.460009+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8",
+      "shared_group": "SV",
+      "shared_trims_as_published": "SV",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    },
+    {
+      "id": 56,
+      "reviewed_at": "2026-09-07T01:48:34.732822+00:00",
+      "reviewed_by": "SIGRA source review: explicit cached evidence",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2021,
+      "approved_version": "GSX 1.5 turbo CVT",
+      "target_change_reason": "Inventário completo da marca em cache contém GSX e nenhum Pro Arrizo 6. FIPE e PBEV GSX 2021 coincidem; Pro não foi associado ao GSX.",
+      "commercial_description": "ARRIZO 6 GSX 1.5 Turbo Flex Aut.",
+      "pbev_family": "ARRIZO 6",
+      "fipe": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 79.758,00",
+        "Marca": "Caoa Chery/Chery",
+        "Modelo": "ARRIZO 6 GSX 1.5 Turbo Flex Aut.",
+        "AnoModelo": 2021,
+        "Combustivel": "Flex",
+        "CodigoFipe": "073028-9",
+        "MesReferencia": "setembro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "year_code": "2021-5",
+      "pbev": {
+        "brand_name": "CAOA CHERY",
+        "model_name": "ARRIZO 6",
+        "version_name": "GSX",
+        "motor_description": "1.5T -16V",
+        "transmission_code": "CVT",
+        "fuel_type": "flex",
+        "propulsion_type": "combustion",
+        "fossil_city_km_l": "11.0",
+        "fossil_highway_km_l": "13.3",
+        "category_name": "Grande",
+        "raw": {
+          "cycle_year": 2021,
+          "page_number": 5,
+          "row_number": 31,
+          "row_hash": "9edfcace11a563727b17953a6ada1c625db30c5ffe08d723d440fa53d8193a47"
+        }
+      },
+      "powertrain": [
+        "1.5",
+        16,
+        true,
+        "cvt",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "CAOA CHERY",
+          "model_name": "ARRIZO 6",
+          "version_name": "GSX",
+          "motor_description": "1.5T -16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex",
+          "propulsion_type": "combustion",
+          "fossil_city_km_l": "11.0",
+          "fossil_highway_km_l": "13.3",
+          "category_name": "Grande",
+          "raw": {
+            "cycle_year": 2021,
+            "page_number": 5,
+            "row_number": 31,
+            "row_hash": "9edfcace11a563727b17953a6ada1c625db30c5ffe08d723d440fa53d8193a47"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/161/modelos/9106/anos/2021-5",
+          "sha256": "18bdd004bac4ce1abf0b81c62c04bfd3591eddd5976afe939d86d1a14eee567e",
+          "cache_file": "18bdd004bac4ce1abf0b81c62c04bfd3591eddd5976afe939d86d1a14eee567e.json",
+          "collected_at": "2026-09-07T01:02:19.018402+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2021/@@download/file",
+          "sha256": "3c2350a98cb5182f6d4c165be310f4edf4eb9b3162a92bf089be2a8005e2b6b7",
+          "cache_file": "pbe-veicular-2021.pdf",
+          "collected_at": "2026-09-07T01:03:43.689460+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "30a0a1a2fc4db9f8c282d0054e02ed6bdff729c052dedef83f058aa99ae98ebd",
+      "fipe_family_inventory_sha256": "618b91df0b1e150ef8cd69a94a211009d216c1880ba6b7e99f03bad7e63cb984",
+      "shared_group": "GSX",
+      "shared_trims_as_published": "GSX",
+      "shared_group_explanation": null,
+      "source_role_notes": "Transmissão não explicitada por alguns nomes FIPE é evidenciada pelo PBEV da versão/powertrain; nunca presumida pela ausência de Aut."
+    }
+  ]
+}

@@ -5,7 +5,7 @@ from datetime import date
 from decimal import Decimal
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.multifactor_recommendation import MULTIFACTOR_COMPONENTS
 from data_platform.integrated_vehicle_cost.simulation_contracts import (
@@ -138,6 +138,5 @@ class MultifactorScenario(MultifactorHttpModel):
 
 class MultifactorRecommendationProfile(MultifactorHttpModel):
     enabled: Literal[True]
-    allow_budget_above_200k: StrictBool = False
     scenario: MultifactorScenario
     weights: MultifactorWeights = Field(default_factory=MultifactorWeights)

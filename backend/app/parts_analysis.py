@@ -23,7 +23,7 @@ def calculate_part_price_stats(db, vehicle_id: int, part_id: int) -> dict:
             "average_price": None,
             "variation_percent": None,
             "suppliers": [],
-            "alerts": ["Sem precos demonstrativos para esta peca."],
+            "alerts": ["Sem preços demonstrativos para esta peça."],
         }
 
     values = [float(item.price) for item in prices]
@@ -60,14 +60,14 @@ def build_part_price_alerts(price_stats: dict) -> list[str]:
     if price_stats["supplier_count"] == 0:
         return price_stats.get("alerts", [])
     if price_stats["max_price"] and price_stats["average_price"] and price_stats["max_price"] > price_stats["average_price"] * 1.8:
-        alerts.append("Maior preco esta mais de 80% acima da media. Compare fornecedores antes de comprar.")
+        alerts.append("O maior preço está mais de 80% acima da média. Compare fornecedores antes de comprar.")
     if price_stats["variation_percent"] and price_stats["variation_percent"] > 100:
-        alerts.append("Variacao de preco acima de 100% entre fornecedores.")
+        alerts.append("Variação de preço acima de 100% entre fornecedores.")
     if price_stats["supplier_count"] < 2:
         alerts.append("Baixa disponibilidade demonstrativa de fornecedores.")
     supplier_types = {supplier["type"] for supplier in price_stats["suppliers"]}
     if supplier_types == {"concessionaria"}:
-        alerts.append("Peca encontrada apenas em concessionaria na base demonstrativa.")
+        alerts.append("Peça encontrada apenas em concessionária na base demonstrativa.")
     return alerts
 
 
@@ -121,7 +121,7 @@ def calculate_vehicle_parts_summary(db, vehicle_id: int) -> dict:
     for part_id in part_ids:
         part = db.get(models.Part, part_id)
         stats = calculate_part_price_stats(db, vehicle_id, part_id)
-        stats["part_name"] = part.name if part else f"Peca {part_id}"
+        stats["part_name"] = part.name if part else f"Peça {part_id}"
         stats["category"] = part.category if part else "outros"
         part_stats.append(stats)
 
@@ -138,15 +138,15 @@ def calculate_vehicle_parts_summary(db, vehicle_id: int) -> dict:
     positives = []
     attention = []
     if shared_score >= 70:
-        positives.append("Boa compatibilidade de pecas com outros modelos.")
+        positives.append("Boa compatibilidade de peças com outros modelos.")
     else:
-        attention.append("Compatibilidade de pecas mais limitada na base demonstrativa.")
+        attention.append("Compatibilidade de peças mais limitada na base demonstrativa.")
     if availability_score >= 70:
-        positives.append("Fornecedores variados para as pecas analisadas.")
+        positives.append("Fornecedores variados para as peças analisadas.")
     else:
         attention.append("Disponibilidade demonstrativa de fornecedores ainda limitada.")
     if variation_risk >= 55:
-        attention.append("Algumas pecas apresentam alta variacao de preco.")
+        attention.append("Algumas peças apresentam alta variação de preço.")
 
     return {
         "vehicle": {

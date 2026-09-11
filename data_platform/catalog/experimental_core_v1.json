@@ -1,0 +1,30 @@
+{
+  "version": "catalog-experimental-core-v1",
+  "evidence_contract": "catalog-profile-evidence-v3",
+  "mode": "offline_gap_assessment_not_operational_ranking",
+  "target_month": "2026-09",
+  "minimum_options_per_profile": 10,
+  "core_coverage_required": "1",
+  "profiles": {
+    "cidade": {"all": ["price_brl", "consumption_city", "fuel", "length_mm", "width_with_mirrors_mm"], "any": [], "optional": ["ground_clearance_mm"]},
+    "app": {"all": ["price_brl", "consumption_city", "fuel", "seats", "cargo_l"], "any": [], "optional": ["rear_legroom_mm", "interior_width_mm"]},
+    "trabalho": {"all": ["price_brl", "consumption_city", "fuel"], "any": [["payload_kg", "cargo_l"]], "optional": ["length_mm", "width_with_mirrors_mm"]},
+    "familia": {"all": ["price_brl", "seats", "cargo_l", "airbags", "abs", "esc"], "any": [], "optional": ["interior_width_mm"]},
+    "estrada": {"all": ["price_brl", "consumption_highway", "fuel", "airbags", "abs", "esc"], "any": [], "optional": ["weight_kg", "power_gasoline_cv", "transmission"]},
+    "suv": {"all": ["price_brl", "seats", "cargo_l", "body_type", "ground_clearance_mm"], "any": [], "optional": ["wheelbase_mm", "width_mm", "interior_width_mm"]}
+  },
+  "interpretation": {
+    "purpose": "Readiness and collection planning only. No new score, profile weights or runtime integration in this version.",
+    "optional": "Missing optional fields never block a complete core. Full matrix coverage is reported separately from core coverage.",
+    "safety": "V3 equipment rubric requires individually documented airbags, ABS and ESC. Explicit absence is evidence, not an invented zero; availability does not certify crash safety.",
+    "body_type": "Descriptive mandatory evidence for SUV/space. Not inferred from collection group, silhouette or model name; no body-style bonus or exclusivity imposed.",
+    "fuel": "Common explicit gasoline price/distance scenario from v3; derived estimate is not observed ANP or complete TCO.",
+    "conflicts": "All unresolved source or identity conflicts remain blockers, even if an affected measurement is not in this core.",
+    "coverage": "Count present mandatory singleton groups plus satisfied OR groups, divided by total mandatory groups. No score multiplied by coverage.",
+    "identity": "Unique FIPE code/year keys, reviewed catalog trim, source hashes and pending substitution approvals are independent gates.",
+    "legacy": "Price-label crosswalk repairs only the recorded price-reference spelling, not a catalog-to-Gold mapping or approval of a different trim."
+  },
+  "broad_expansion": {"planned": 66, "identity_approved_preserved": 19, "blocked_preserved": [48, 50, 53], "backlog_ids": {"first": 57, "last": 100}, "batch_processing_enabled": false},
+  "api_policy": {"fipe_monthly_limit_user_supplied": 1000, "fipe_requires_verified_access_and_quota_receipt": true, "carpedia_monthly_limit_user_supplied": 100, "carpedia_requests_authorized": 0},
+  "production_publication_enabled": false
+}

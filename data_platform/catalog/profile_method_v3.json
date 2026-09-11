@@ -1,0 +1,45 @@
+{
+  "method_version": "catalog-profile-evidence-v3",
+  "mode": "offline_methodological_pilot_not_operational_recommendation",
+  "scales_version": "absolute-utilities-2026-09-v3",
+  "minimum_weighted_coverage": "0.80",
+  "precision": {"score": "0.000001", "weight": "0.000000000001", "money": "0.01", "rounding": "ROUND_HALF_UP"},
+  "scenario": {"monthly_km": "1000", "gasoline_brl_per_l": "6", "transmission_preference": null, "annual_estimate_rates": {}},
+  "scales": {
+    "price": {"unit": "BRL", "lower": "20000", "upper": "160000", "direction": "lower", "justification": "Declared acquisition-preference anchors for a used-car pilot, not market extrema or affordability proof."},
+    "urban_fuel": {"unit": "BRL/month", "lower": "250", "upper": "1500", "direction": "lower", "justification": "Declared monthly fuel expenditure anchors under an explicit common distance and fuel-price scenario; not complete TCO."},
+    "footprint": {"unit": "m2", "lower": "5", "upper": "11", "direction": "lower", "justification": "External envelope length times width including mirrors; smaller envelope preference, not turning radius or parking guarantee."},
+    "passenger_space": {"unit": "m2_proxy", "lower": "0.70", "upper": "1.80", "direction": "higher", "justification": "Rear legroom times measured interior width, an explicit geometric proxy only; not comfort, external width or seat count."},
+    "cargo": {"unit": "l", "lower": "150", "upper": "600", "direction": "higher", "justification": "Declared luggage-capacity preference; rear seats upright; no cargo-to-cabin conversion."},
+    "seats": {"unit": "count", "lower": "2", "upper": "7", "direction": "higher", "justification": "Declared passenger-capacity preference, not space or ride comfort."},
+    "payload": {"unit": "kg", "lower": "200", "upper": "800", "direction": "higher", "justification": "Declared total payload preference; includes occupants and baggage, not commercial usable payload."},
+    "operating_cost": {"unit": "BRL/month", "lower": "300", "upper": "2000", "direction": "lower", "justification": "Requires source-backed fuel and maintenance; excludes generic rates and does not represent complete ownership cost."},
+    "highway_consumption": {"unit": "km/l", "lower": "8", "upper": "22", "direction": "higher", "justification": "Fixed gasoline efficiency preference anchors, not cohort min/max or real-world fuel guarantee."},
+    "mass_power": {"unit": "kg/cv", "lower": "5", "upper": "25", "direction": "lower", "justification": "Gasoline nominal power and compatible curb mass; proxy for power loading, not safety or measured acceleration."},
+    "clearance": {"unit": "mm", "lower": "100", "upper": "250", "direction": "higher", "justification": "Declared nominal ground-clearance preference; load and tire caveats preserved, not off-road ability."},
+    "interior_proxy": {"unit": "m2_proxy", "lower": "3", "upper": "5.5", "direction": "higher", "justification": "Wheelbase times BODY width without mirrors; explicitly weak external proxy, not measured cabin space."},
+    "safety": {"unit": "equipment_index", "formula": "100*(min(airbags,6)/6 + ABS + ESC)/3; all three observations required", "justification": "Transparent equipment inventory preference only; not crash-test performance, reliability or probability of injury."},
+    "transmission": {"unit": "preference_match", "formula": "100 if explicit user preference matches, otherwise 0; null when preference or evidence absent", "justification": "No universal ordering of manual/automatic/CVT. Default weight zero until preference is explicitly selected."}
+  },
+  "profiles": {
+    "cidade": {"weights": {"urban_fuel": "0.45", "footprint": "0.25", "price": "0.30"}, "required": ["urban_fuel", "footprint", "price"], "required_any": []},
+    "app": {"weights": {"urban_fuel": "0.35", "passenger_space": "0.25", "cargo": "0.20", "price": "0.20"}, "required": ["urban_fuel", "passenger_space", "cargo"], "required_any": []},
+    "trabalho": {"weights": {"payload": "0.30", "cargo": "0.20", "operating_cost": "0.30", "footprint": "0.20"}, "required": ["operating_cost", "footprint"], "required_any": [["payload", "cargo"]]},
+    "familia": {"weights": {"seats": "0.20", "cargo": "0.25", "safety": "0.35", "price": "0.20"}, "required": ["seats", "cargo", "safety"], "required_any": []},
+    "estrada": {"weights": {"highway_consumption": "0.45", "safety": "0.35", "mass_power": "0.20", "transmission": "0"}, "required": ["highway_consumption", "safety"], "required_any": []},
+    "suv": {"weights": {"cargo": "0.30", "seats": "0.20", "clearance": "0.25", "interior_proxy": "0.25"}, "required": ["cargo", "seats", "clearance"], "required_any": []}
+  },
+  "formula": "u=100*clamp((x-L)/(U-L),0,1) for higher; u=100*clamp((U-x)/(U-L),0,1) for lower. No sample statistics.",
+  "weight_rule": "Positive original weights renormalized only over available criteria per vehicle; exact Decimal, final remainder to last criterion. Missing has zero effective weight but null utility and null contribution. Coverage never multiplies score.",
+  "readiness_rule": "Identity approved; target FIPE month matched; all required criteria and at least one of each required_any; coverage >=0.80; no source conflict; human substitution approval when required. Ready means only methodological pilot, not publication or efficacy.",
+  "nominal_scope": "Official same-year nominal geometry is accepted only as explicitly qualified pilot geometry. Trim-dependent unresolved ranges remain null. Never a measured individual vehicle claim.",
+  "sensitivity": {"weight_multipliers": ["0.5", "2"], "absolute_anchor_multipliers": ["0.9", "1.1"], "purpose": "One-at-a-time checks, not fit to desired rankings or selected cohort"},
+  "limitations": [
+    "Weights and utility anchors are declared methodological assumptions, not validated user preferences or evidence of efficacy.",
+    "Partial scores using different evidence subsets are exploratory and not interchangeable final suitability scores.",
+    "Publication and operational activation remain disabled regardless of methodological readiness.",
+    "No generic maintenance, depreciation, insurance, confidence score, brand, collection group or desired rank enters the score.",
+    "Statistical confidence is null until calibrated; traceability, availability and weighted coverage are separate.",
+    "Fuel-price scenario is not an observed ANP price. No claim of complete TCO or budget eligibility from partial costs."
+  ]
+}
