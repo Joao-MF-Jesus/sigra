@@ -2,7 +2,12 @@
 
 ## Decisão
 
-A expansão ampla dos IDs 57–100 permanece congelada. A base defensável é formada pelos 34 veículos legados e pelos 19 candidatos com identidade aprovada já preservados, excluindo os conflitos 48, 50 e 53. O mesmo veículo pode atender a mais de um perfil; os seis grupos não são exclusivos.
+A expansão ampla remanescente dos IDs 57–100 permanece congelada depois de um
+segundo lote controlado de 11 candidatos. A base defensável passa a conter os
+34 veículos legados, 19 identidades aprovadas no primeiro lote e 10 identidades
+exatas no segundo lote. Os conflitos 48, 50 e 53 continuam excluídos e o ID 57
+permanece bloqueado. O mesmo veículo pode atender a mais de um perfil; os seis
+grupos não são exclusivos.
 
 Esta camada é somente um gate de prontidão e planejamento offline. Ela não altera os pesos, scores ou custos V3, não ativa ranking, não publica no PostgreSQL e não autoriza chamadas externas.
 
@@ -75,6 +80,53 @@ publicação.
 A contabilidade da segunda rodada é: **seis cache hits de descoberta** e **oito novas tentativas HTTP** (seis fichas diretas, mais descoberta e ficha do ID 49). O manifesto registra **nove hashes de ficha**: sete respostas da segunda rodada e as duas fichas preservadas da primeira rodada, IDs 46 e 47. Hash de descoberta não foi contado como ficha nem como décimo dossiê.
 
 As aprovações humanas dos IDs 40, 45 e 56 foram registradas de forma versionada e auditável. O ID 41 permanece pendente; os bloqueios 48, 50 e 53 permanecem inalterados.
+
+## Segundo lote controlado dos IDs 57–100
+
+Antes de qualquer HTTP, os 44 IDs foram ordenados integralmente e a seleção foi
+congelada em `57, 58, 59, 68, 69, 70, 79, 80, 91, 92, 93`. O conjunto cobre os
+alvos de coleta de Aplicativo e Trabalho com 11 dossiês cada, Família com 8,
+Estrada com 6 e Espaço/capacidade com 8. Esses grupos orientam coleta; não são
+elegibilidade, prontidão ou recomendação.
+
+A rodada consumiu 11/11 tentativas FIPE e 10/22 tentativas CarPedia. No acumulado
+controlado, isso representa 38/38 FIPE e 28/40 CarPedia. Não houve descoberta
+CarPedia: os dez identificadores externos foram derivados exclusivamente do
+código FIPE canônico já confirmado. O ID 57 recebeu HTTP 404 no alvo FIPE exato
+de setembro/2026 e foi bloqueado antes de qualquer chamada CarPedia. Os demais
+dez passaram código FIPE, ano, versão, combustível e conjunto mecânico sem fuzzy
+matching. Nenhuma fonte retornou 401, 403 ou 429.
+
+| ID | Identidade | Preço FIPE (set/2026) | CarPedia | Espaço/capacidade acadêmico |
+|---:|---|---:|---|---|
+| 57 | bloqueada: FIPE exata retornou 404 | indisponível | não consultada | não |
+| 58 | SpaceFox Trendline 1.6 manual | R$ 50.516 | exata | bloqueado: vão livre ausente |
+| 59 | Aircross Live 1.6 manual | R$ 55.942 | exata | pronto para teste acadêmico |
+| 68 | Doblò Essence 1.8 manual | R$ 55.217 | exata | pronto para teste acadêmico |
+| 69 | C4 Picasso Intensive 1.6 turbo automático | R$ 84.584 | exata | bloqueado: vão livre ausente |
+| 70 | Tiguan Allspace Comfortline 1.4 TSI automática | R$ 116.704 | exata | pronto para teste acadêmico |
+| 79 | Jetta Comfortline 1.4 TSI automático | R$ 110.110 | exata | pronto para teste acadêmico |
+| 80 | Focus Fastback SE/SE Plus 2.0 automático | R$ 57.921 | exata | bloqueado: vão livre ausente |
+| 91 | Captur Zen 1.6 CVT | R$ 72.930 | exata | pronto para teste acadêmico |
+| 92 | 2008 Allure 1.6 automático | R$ 61.825 | exata | pronto para teste acadêmico |
+| 93 | C4 Cactus Feel 1.6 automático | R$ 67.229 | exata | pronto para teste acadêmico |
+
+As dez fichas comprovam carroceria, lugares, porta-malas, carga útil,
+comprimento, largura da carroceria, entre-eixos, cilindrada, potência,
+transmissão, combustível e tanque. Vão livre foi admitido em sete fichas: 59,
+68, 70, 79, 91, 92 e 93. Nenhuma ficha comprovou largura com espelhos, espaço
+interno de passageiros ou o inventário completo de airbags/ABS/ESC. Ausência
+permanece `null/unavailable`; largura da carroceria não substitui largura com
+espelhos. FIPE mantém preço e identidade; PBEV mantém consumo, combustível e
+transmissão. O booleano `manual` da CarPedia não é usado como câmbio.
+
+O replay acadêmico combina os nove dossiês anteriores com os dez novos, sem
+duplicidade. Todos os 19 têm identidade exata, cobertura parcial, elegibilidade
+categórica e TCO acadêmico completo nos cenários baixo/base/alto. A prontidão
+acadêmica permanece 2 em Cidade (36 e 37), 0 em Aplicativo, 2 em Trabalho (36 e
+37), 0 em Família, 0 em Estrada e sobe de 3 para 10 em Espaço/capacidade (36,
+42, 43, 59, 68, 70, 79, 91, 92 e 93). `operationally_active=0`,
+`recommended=0` e nenhum ranking operacional foi executado.
 
 ## Custos e qualidade
 

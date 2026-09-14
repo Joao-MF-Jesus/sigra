@@ -88,7 +88,7 @@ class Observation(Contract):
 
 class ProfileVehicle(Contract):
     schema_version: Literal["catalog-profile-evidence-v3"] = VERSION
-    id: StrictInt = Field(ge=1, le=56)
+    id: StrictInt = Field(ge=1, le=100)
     label: str
     identity_status: Literal["identity_approved", "legacy_binding_not_reaudited"]
     fields: dict[str, Observation]

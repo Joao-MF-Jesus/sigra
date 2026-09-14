@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 from uuid import UUID
 
-from data_platform.catalog.crosswalk import REVIEW_PATH, decide, fingerprint, mechanical_key
+from data_platform.catalog.crosswalk import BATCH2_REVIEW_PATH, REVIEW_PATH, decide, fingerprint, mechanical_key
 from data_platform.catalog.intake import load_selection
 from data_platform.contracts.fipe import FipeTarget
 from data_platform.contracts.silver_fipe import BronzeFipeInput
@@ -93,7 +93,12 @@ def prepare_source(submitted, archive, *, historical_v1=False):
     if checked['status'] != expected_status or fingerprint(checked) != fingerprint(submitted):
         raise ValueError('Activation decision changed or failed revalidation')
     review = checked['review']
-    registered = [row for row in json.loads(REVIEW_PATH.read_text(encoding='utf-8'))['reviews'] if row['id'] == candidate.id]
+    registered = [
+        row
+        for path in (REVIEW_PATH, BATCH2_REVIEW_PATH)
+        for row in json.loads(path.read_text(encoding='utf-8'))['reviews']
+        if row['id'] == candidate.id
+    ]
     if len(registered) != 1 or fingerprint(registered[0]) != fingerprint(review):
         raise ValueError('Review differs from the versioned approval inventory')
     archive.validate(review)

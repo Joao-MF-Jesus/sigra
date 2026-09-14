@@ -60,10 +60,14 @@ def usable(vehicle, name, unit=None):
     return True
 
 
-def candidate_evidence(archive):
+def candidate_evidence(archive, decisions=None):
     """Only retained FIPE/PBEV observations; no category/manual score copying."""
     from data_platform.catalog.adapter import prepare_batch
-    decisions = [row for row in review_batch()['decisions'] if row['status'] == 'identity_approved']
+    decisions = list(decisions) if decisions is not None else [
+        row for row in review_batch()['decisions'] if row['status'] == 'identity_approved'
+    ]
+    if any(row.get('status') != 'identity_approved' for row in decisions):
+        raise ValueError('Candidate evidence accepts only approved exact identities')
     prepare_batch(decisions, archive)  # Pinned review + immutable source validation.
     result = []
     for row in decisions:

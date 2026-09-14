@@ -11,7 +11,10 @@ from data_platform.transformation.fipe import parse_brl_price
 
 ALIASES_PATH = Path(__file__).with_name('crosswalk_aliases_v1.json')
 REVIEW_PATH = Path(__file__).with_name('batch1_crosswalk_v1.json')
+BATCH2_REVIEW_PATH = Path(__file__).with_name('batch2_crosswalk_v1.json')
+BATCH2_COLLECTION_PATH = Path(__file__).with_name('batch2_collection_v1.json')
 LINK_TYPES = {'exact_trim_powertrain','shared_powertrain_group','versioned_commercial_alias'}
+BATCH2_IDS = (57, 58, 59, 68, 69, 70, 79, 80, 91, 92, 93)
 
 
 def fingerprint(value):
@@ -133,9 +136,7 @@ def _decide(candidate, review, *, include_academic=True):
     return decision
 
 
-def review_batch(reviews=None, *, historical_v1=False):
-    reviews=reviews if reviews is not None else json.loads(REVIEW_PATH.read_text(encoding='utf-8'))['reviews']
-    candidates=load_selection().candidates[:22]
+def _review_scope(reviews, candidates, *, historical_v1):
     decisions=[]
     for candidate in candidates:
         entries=[row for row in reviews if row.get('id')==candidate.id]
@@ -154,3 +155,69 @@ def review_batch(reviews=None, *, historical_v1=False):
     return {'method_version': 'catalog-identity-crosswalk-v1', 'state_schema_version': 'catalog-readiness-v2',
             'batch_processed': True, 'counts': {stage.value: sum(row['gates'][stage.value] for row in current) for stage in CatalogStage},
             'blocked': sum(row['status'] == 'blocked_with_evidence' for row in current), 'decisions': current}
+
+
+def review_batch(reviews=None, *, historical_v1=False):
+    reviews=reviews if reviews is not None else json.loads(REVIEW_PATH.read_text(encoding='utf-8'))['reviews']
+    return _review_scope(reviews, load_selection().candidates[:22], historical_v1=historical_v1)
+
+
+def batch2_collection():
+    """Validate the frozen, pre-HTTP queue and bounded collection ledger."""
+    contract = json.loads(BATCH2_COLLECTION_PATH.read_text(encoding='utf-8'))
+    plan = contract.get('pre_http_plan', {})
+    queue = plan.get('priority_queue_ids')
+    selected = plan.get('selected_ids')
+    results = contract.get('results')
+    if contract.get('schema_version') != 'sigra-batch2-collection-v1':
+        raise ValueError('Batch-2 collection contract version differs')
+    if not plan.get('recorded_before_http') or not isinstance(queue, list):
+        raise ValueError('Batch-2 pre-HTTP plan is missing')
+    if len(queue) != 44 or len(set(queue)) != 44 or set(queue) != set(range(57, 101)):
+        raise ValueError('Batch-2 priority queue differs from the frozen candidate universe')
+    if tuple(selected or ()) != BATCH2_IDS:
+        raise ValueError('Batch-2 selected scope differs from the frozen priority queue')
+    if not isinstance(results, list) or tuple(row.get('id') for row in results) != BATCH2_IDS:
+        raise ValueError('Batch-2 collection results differ from the selected scope')
+    balance = plan.get('profile_target_counts', {})
+    if balance.get('aplicativo', 0) < 2 or balance.get('trabalho', 0) < 2:
+        raise ValueError('Batch-2 profile balance is incomplete')
+    if balance.get('familia', 0) < 3 or balance.get('estrada', 0) < 3 or balance.get('espaco_capacidade', 0) < 2:
+        raise ValueError('Batch-2 profile balance is incomplete')
+    for source in ('fipe', 'carpedia'):
+        accounting = contract.get('http_accounting', {}).get(source, {})
+        if accounting.get('current_executed', -1) > accounting.get('current_limit', -1):
+            raise ValueError('Batch-2 HTTP attempt limit exceeded')
+        if accounting.get('current_remaining') != accounting.get('current_limit') - accounting.get('current_executed'):
+            raise ValueError('Batch-2 HTTP attempt accounting differs')
+        if accounting.get('cumulative_executed', -1) > accounting.get('cumulative_limit', -1):
+            raise ValueError('Batch-2 cumulative HTTP attempt limit exceeded')
+    controls = contract.get('controls', {})
+    if not controls.get('raw_responses_stored_outside_repository'):
+        raise ValueError('Batch-2 raw response isolation is not recorded')
+    if any(controls.get(flag) for flag in (
+        'authenticated_url_recorded', 'credential_recorded', 'fuzzy_matching_used',
+        'publication_authorized', 'postgresql_accessed', 'frontend_or_e2e_executed',
+        'operational_activation_authorized',
+    )):
+        raise ValueError('Batch-2 collection safety controls differ')
+    return contract
+
+
+def review_batch2(reviews=None, *, historical_v1=False):
+    """Review only the frozen eleven-candidate batch-2 collection scope."""
+    batch2_collection()
+    reviews = reviews if reviews is not None else json.loads(BATCH2_REVIEW_PATH.read_text(encoding='utf-8'))['reviews']
+    identifiers = [row.get('id') for row in reviews if isinstance(row, dict)]
+    if tuple(identifiers) != BATCH2_IDS or len(set(identifiers)) != len(identifiers):
+        raise ValueError('Batch-2 review scope differs from the frozen priority queue')
+    by_id = {row.id: row for row in load_selection().candidates}
+    result = _review_scope(reviews, [by_id[identifier] for identifier in identifiers], historical_v1=historical_v1)
+    batch1_keys = {
+        row['canonical_key'] for row in review_batch(historical_v1=historical_v1)['decisions']
+        if row['status'] == ('approved_for_activation' if historical_v1 else 'identity_approved')
+    }
+    duplicates = [row for row in result['decisions'] if row.get('canonical_key') in batch1_keys]
+    if duplicates:
+        raise ValueError('Batch-2 canonical identity overlaps batch 1')
+    return result

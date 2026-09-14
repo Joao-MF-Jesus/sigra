@@ -70,3 +70,18 @@ O preview pode ordenar separadamente o escore metodológico já existente e o
 TCO de cenário, somente para observar sensibilidade. `recommended` permanece
 `false`, `recommendation_ranking` permanece vazio e publicação/ativação ficam
 proibidas pelo próprio contrato.
+
+## Replay do segundo lote controlado
+
+O replay offline combina os nove dossiês acadêmicos originais com dez novas
+identidades exatas: 58, 59, 68, 69, 70, 79, 80, 91, 92 e 93. O ID 57 não entra
+na matriz porque a consulta FIPE exata de setembro/2026 retornou 404 e nenhuma
+ficha CarPedia foi solicitada para ele.
+
+Nos três cenários, 19/19 dossiês possuem `scenario_tco_complete`, mas nenhum
+possui `observed_tco_complete`. A prontidão acadêmica é 2 em Cidade, 0 em
+Aplicativo, 2 em Trabalho, 0 em Família, 0 em Estrada e 10 em
+Espaço/capacidade. Somente a ordem de TCO deste último grupo muda entre o
+cenário baixo e os cenários base/alto; essa sensibilidade continua sendo
+preview, nunca recomendação. Em todos os perfis, `operationally_active=0` e
+`recommended=0`.

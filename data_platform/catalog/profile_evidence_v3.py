@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from data_platform.catalog.crosswalk import review_batch, fingerprint
+from data_platform.catalog.crosswalk import review_batch, review_batch2, fingerprint
 from data_platform.catalog.evidence_v2 import candidate_evidence, legacy_evidence
 from data_platform.catalog.profile_contracts_v3 import (
     VERSION, Citation, ProfileVehicle, blank_fields, observed, unavailable,
@@ -33,14 +33,17 @@ def _citation(source, provider, document, locator, page=None):
                     document=document, locator=locator, page=page, collected_at=source["collected_at"])
 
 
-def candidate_matrix(archive, technical_directory, *, carpedia_cache_directory=None):
-    """Only the 19 revalidated identities; blocked IDs never enter the pilot.
+def candidate_matrix(archive, technical_directory, *, carpedia_cache_directory=None, include_batch2=False):
+    """Only revalidated identities; blocked IDs never enter the pilot.
 
     CarPedia enrichment is opt-in and accepts only hash-bound cached fichas
     registered in the versioned evidence manifest.
     """
-    inputs = {row.identifier: row for row in candidate_evidence(archive)}
-    decisions = {row["id"]: row for row in review_batch()["decisions"] if row["status"] == "identity_approved"}
+    approved = [row for row in review_batch()["decisions"] if row["status"] == "identity_approved"]
+    if include_batch2:
+        approved.extend(row for row in review_batch2()["decisions"] if row["status"] == "identity_approved")
+    inputs = {row.identifier: row for row in candidate_evidence(archive, approved)}
+    decisions = {row["id"]: row for row in approved}
     result = []
     for identifier, row in decisions.items():
         review = row["review"]
@@ -75,8 +78,15 @@ def candidate_matrix(archive, technical_directory, *, carpedia_cache_directory=N
         ))
     result = augment_technical(tuple(result), technical_directory)
     if carpedia_cache_directory is not None:
-        from data_platform.catalog.carpedia_profile_evidence import augment_carpedia_profile_evidence
+        from data_platform.catalog.carpedia_profile_evidence import (
+            BATCH2_MANIFEST_PATH,
+            augment_carpedia_profile_evidence,
+        )
         result = augment_carpedia_profile_evidence(result, carpedia_cache_directory)
+        if include_batch2:
+            result = augment_carpedia_profile_evidence(
+                result, carpedia_cache_directory, manifest_path=BATCH2_MANIFEST_PATH,
+            )
     return result
 
 

@@ -1,0 +1,78 @@
+{
+  "schema_version": "sigra-batch2-collection-v1",
+  "selection_id": "sigra-100-2026-09-06",
+  "reference_head": "441b3d35c926c4e0dde16c215eb957a1ebe63d9b",
+  "pre_http_plan": {
+    "recorded_before_http": true,
+    "generated_at": "2026-09-14T12:05:04-03:00",
+    "priority_queue_ids": [
+      57, 58, 59, 68, 69, 70, 79, 80, 91, 92, 93,
+      60, 71, 81, 90, 61, 72, 82, 94, 62, 73, 83, 95,
+      63, 74, 84, 96, 64, 75, 85, 97, 65, 76, 86, 98,
+      66, 77, 87, 99, 67, 78, 88, 100, 89
+    ],
+    "selected_ids": [57, 58, 59, 68, 69, 70, 79, 80, 91, 92, 93],
+    "profile_target_counts": {
+      "aplicativo": 11,
+      "trabalho": 11,
+      "familia": 8,
+      "estrada": 6,
+      "espaco_capacidade": 8
+    },
+    "artifact_sha256": "25129c719e458bf3b3f98dc78f5319451770e6578ffeff0c70372fb6afa59516"
+  },
+  "cache_preflight": {
+    "fipe_family_hits": 11,
+    "pbev_cycle_hits": 11,
+    "direct_fipe_hits": 0,
+    "direct_carpedia_hits": 0
+  },
+  "http_accounting": {
+    "fipe": {
+      "current_limit": 11,
+      "current_executed": 11,
+      "current_succeeded": 10,
+      "current_failed": 1,
+      "current_remaining": 0,
+      "prior_executed": 27,
+      "cumulative_executed": 38,
+      "cumulative_limit": 38
+    },
+    "carpedia": {
+      "current_limit": 22,
+      "current_executed": 10,
+      "current_succeeded": 10,
+      "current_failed": 0,
+      "current_remaining": 12,
+      "prior_executed": 18,
+      "cumulative_executed": 28,
+      "cumulative_limit": 40,
+      "discovery_requests": 0,
+      "direct_specification_requests": 10
+    }
+  },
+  "results": [
+    {"id": 57, "status": "SOURCE_INSUFFICIENT", "reason": "FIPE_SEPTEMBER_2026_EXACT_TARGET_HTTP_404", "carpedia_requested": false},
+    {"id": 58, "status": "RESOLVED_EXACT", "fipe_sha256": "3656f6e343b4abe8cb865309cf47d9a9e48bbd913bfc230619e51826487db9de", "carpedia_sha256": "114a9861ef018673adf17a96b7ba1be98ab4f31494c3220822db4673304333f5"},
+    {"id": 59, "status": "RESOLVED_EXACT", "fipe_sha256": "e6bc0abe90ae665cb676ac1a1adab9aa158cafaec396c4e632e036b42797577c", "carpedia_sha256": "b43fb5b87b6922b50dd2457e275d241c006b9ce6fc770abc65bdab6359aa1710"},
+    {"id": 68, "status": "RESOLVED_EXACT", "fipe_sha256": "69e0e66d535ea278addf4f0e1f3fe34bade26d4c4470ce47cd58c12dac50f19b", "carpedia_sha256": "4932df20eda79e2aeb45f933a814c5e8965b5ab0b71eb781cd5a4cb251c340ed"},
+    {"id": 69, "status": "RESOLVED_EXACT", "fipe_sha256": "38ed75f7281dcfe21faf61727f90f44dde184b83a19c0c9e3a22a8c036b65975", "carpedia_sha256": "6fdbb6686aaea3f78ce06da30986fdfa3c39537603d0b84ffb629322294bd44e"},
+    {"id": 70, "status": "RESOLVED_EXACT", "fipe_sha256": "1d05ad64a914dec46f14111138b6e1753fca8e6a2e11d1ff17cd57686d176fdf", "carpedia_sha256": "cf304f2c8cdb5aa2190c84feb7aee5ebdc4bb4da265318ca11648c9969b965e0"},
+    {"id": 79, "status": "RESOLVED_EXACT", "fipe_sha256": "2fc94f09038f6dd92e078d95c7429f513e6d66e58c39037745b85374851d96f4", "carpedia_sha256": "2dac4ea7e3a4e00161f1682a448fa317d6ac40c4cc9213d5963b7fb9c5fc3db5"},
+    {"id": 80, "status": "RESOLVED_EXACT", "fipe_sha256": "dd2756bca4e9208425214a038a49291454f33fc467f9b9d2294ca628c39ce417", "carpedia_sha256": "563e09e6a70223fee96daa3ae52f3ea75414d9876d77745d092d3afda2994ffb"},
+    {"id": 91, "status": "RESOLVED_EXACT", "fipe_sha256": "3eb489ae2455b31a6d6d92fcce254c4096d5e8477fce741e6b2bae04ca9afa16", "carpedia_sha256": "ac3096b907c49bb0860ef54ef3acb40ef992b770d6f708766617d2484fb6074f"},
+    {"id": 92, "status": "RESOLVED_EXACT", "fipe_sha256": "c7dfd788563c06cc964a74a88e9faaf1471c7889564985de3a7045c88328880e", "carpedia_sha256": "365e5b5d8ad650c6baae07ef01403f50bc6ab5ab0bb5b05fc3010f82643265cb"},
+    {"id": 93, "status": "RESOLVED_EXACT", "fipe_sha256": "d094ce927a58299f6c9178a4bbfba10f6dc6f4b7b0096a22aca87548c0f6c837", "carpedia_sha256": "0600b48aaad4f0bbb060ca90527d5b96cfb2a1dfb468a10470d67a8fbdf02316"}
+  ],
+  "collection_report_sha256": "c0e6f96e1dd97f94c0d1c76cde12de2b514b9e827d5da2beeed433132e99a40c",
+  "controls": {
+    "raw_responses_stored_outside_repository": true,
+    "authenticated_url_recorded": false,
+    "credential_recorded": false,
+    "fuzzy_matching_used": false,
+    "publication_authorized": false,
+    "postgresql_accessed": false,
+    "frontend_or_e2e_executed": false,
+    "operational_activation_authorized": false
+  }
+}

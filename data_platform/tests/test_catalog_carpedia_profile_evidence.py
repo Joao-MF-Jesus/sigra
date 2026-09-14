@@ -10,12 +10,15 @@ import re
 
 import pytest
 
+import data_platform.catalog.crosswalk as crosswalk_module
 from data_platform.catalog.carpedia_profile_evidence import (
+    BATCH2_MANIFEST_PATH,
     MANIFEST_PATH,
     augment_carpedia_profile_evidence,
     carpedia_body_types,
     reprocess_carpedia_caches,
 )
+from data_platform.catalog.crosswalk import BATCH2_REVIEW_PATH, batch2_collection, review_batch2
 from data_platform.catalog.experimental_cohort import assess_cohort
 from data_platform.catalog.profile_contracts_v3 import Citation, ProfileVehicle, blank_fields, observed
 from data_platform.catalog.profile_scoring_v3 import configuration, score_cohort
@@ -58,7 +61,7 @@ def _vehicle(record: dict[str, object]) -> ProfileVehicle:
     for name, value in {
         "consumption_city": "10",
         "consumption_highway": "14",
-        "fuel": "flex",
+        "fuel": record["source_identity"]["fuel"],
         "transmission": transmission,
     }.items():
         fields[name] = observed(name, value, (_citation("pbev"),), "shared_powertrain")
@@ -110,8 +113,11 @@ def _fixture_payload(record: dict[str, object]) -> dict[str, object]:
     }
 
 
-def _offline_fixture(tmp_path: Path) -> tuple[Path, Path, dict[str, object]]:
-    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+def _offline_fixture(
+    tmp_path: Path,
+    source_manifest: Path = MANIFEST_PATH,
+) -> tuple[Path, Path, dict[str, object]]:
+    manifest = json.loads(source_manifest.read_text(encoding="utf-8"))
     cache = tmp_path / "cache"
     cache.mkdir(parents=True)
     for record in manifest["records"]:
@@ -121,6 +127,114 @@ def _offline_fixture(tmp_path: Path) -> tuple[Path, Path, dict[str, object]]:
     manifest_path = tmp_path / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False), encoding="utf-8")
     return cache, manifest_path, manifest
+
+
+def test_batch2_review_scope_is_exact_and_keeps_failed_identity_out():
+    collection = batch2_collection()
+    assert collection["pre_http_plan"]["priority_queue_ids"][:11] == [
+        57, 58, 59, 68, 69, 70, 79, 80, 91, 92, 93,
+    ]
+    assert set(collection["pre_http_plan"]["priority_queue_ids"]) == set(range(57, 101))
+    assert collection["http_accounting"]["fipe"]["current_executed"] == 11
+    assert collection["http_accounting"]["carpedia"]["current_executed"] == 10
+    assert collection["http_accounting"]["carpedia"]["current_remaining"] == 12
+    result = review_batch2()
+    assert result["counts"] == {
+        "identity_approved": 10,
+        "methodology_ready": 0,
+        "source_chain_published": 0,
+        "postgresql_validated": 0,
+        "ui_ready": 0,
+        "operationally_active": 0,
+    }
+    assert result["blocked"] == 1
+    assert [row["id"] for row in result["decisions"]] == [
+        57, 58, 59, 68, 69, 70, 79, 80, 91, 92, 93,
+    ]
+    blocked = next(row for row in result["decisions"] if row["id"] == 57)
+    assert blocked["status"] == "blocked_with_evidence"
+    assert blocked["blockers"] == ["FIPE_SEPTEMBER_2026_EXACT_TARGET_HTTP_404"]
+    assert all(
+        row["review"]["link_type"] in {"exact_trim_powertrain", "shared_powertrain_group"}
+        for row in result["decisions"] if row["status"] == "identity_approved"
+    )
+
+    changed = json.loads(BATCH2_REVIEW_PATH.read_text(encoding="utf-8"))["reviews"]
+    changed.reverse()
+    with pytest.raises(ValueError, match="frozen priority queue"):
+        review_batch2(changed)
+
+
+def test_batch2_collection_rejects_duplicate_queue_and_incomplete_profile_balance(tmp_path, monkeypatch):
+    original = batch2_collection()
+    changed = deepcopy(original)
+    changed["pre_http_plan"]["priority_queue_ids"][-1] = 57
+    path = tmp_path / "duplicate-queue.json"
+    path.write_text(json.dumps(changed, ensure_ascii=False), encoding="utf-8")
+    monkeypatch.setattr(crosswalk_module, "BATCH2_COLLECTION_PATH", path)
+    with pytest.raises(ValueError, match="priority queue"):
+        batch2_collection()
+
+    changed = deepcopy(original)
+    changed["pre_http_plan"]["profile_target_counts"]["familia"] = 2
+    path = tmp_path / "incomplete-balance.json"
+    path.write_text(json.dumps(changed, ensure_ascii=False), encoding="utf-8")
+    monkeypatch.setattr(crosswalk_module, "BATCH2_COLLECTION_PATH", path)
+    with pytest.raises(ValueError, match="profile balance"):
+        batch2_collection()
+
+
+def test_batch2_cached_fichas_are_hash_bound_exact_and_preserve_source_precedence(tmp_path):
+    cache, manifest_path, manifest = _offline_fixture(tmp_path, BATCH2_MANIFEST_PATH)
+    vehicles = tuple(_vehicle(record) for record in manifest["records"])
+
+    processed = reprocess_carpedia_caches(cache, manifest_path=manifest_path)
+    once = augment_carpedia_profile_evidence(vehicles, cache, manifest_path=manifest_path)
+    twice = augment_carpedia_profile_evidence(once, cache, manifest_path=manifest_path)
+
+    expected_ids = {58, 59, 68, 69, 70, 79, 80, 91, 92, 93}
+    assert set(processed) == expected_ids
+    assert once == twice
+    by_id = {vehicle.id: vehicle for vehicle in once}
+    clearance = {59, 68, 70, 79, 91, 92, 93}
+    assert all(by_id[identifier].fields["ground_clearance_mm"].kind == "observed" for identifier in clearance)
+    assert all(by_id[identifier].fields["ground_clearance_mm"].unit == "mm" for identifier in clearance)
+    assert all(by_id[identifier].fields["ground_clearance_mm"].kind == "unavailable" for identifier in expected_ids - clearance)
+    assert all(by_id[identifier].fields["length_mm"].kind == "observed" for identifier in expected_ids)
+    assert all(by_id[identifier].fields["width_mm"].kind == "observed" for identifier in expected_ids)
+    assert all(by_id[identifier].fields["width_with_mirrors_mm"].kind == "unavailable" for identifier in expected_ids)
+    assert all(by_id[identifier].fields["airbags"].kind == "unavailable" for identifier in expected_ids)
+    assert all(by_id[identifier].fields["abs"].kind == "unavailable" for identifier in expected_ids)
+    assert all(by_id[identifier].fields["esc"].kind == "unavailable" for identifier in expected_ids)
+    assert by_id[70].fields["transmission"].value == "automatic"
+    assert by_id[70].fields["transmission"].sources[0].provider == "pbev"
+    assert by_id[70].fields["fuel"].sources[0].provider == "pbev"
+    normalized = by_id[70].provenance["carpedia_profile_evidence"]["normalized_contract_fields"]
+    assert normalized["transmission"]["value"] == "Automatizado"
+    assert normalized["transmission"]["source_value"] == "Automatizado"
+    assert "manual" not in normalized
+
+
+def test_batch2_manifest_rejects_tampering_invalid_units_and_duplicate_fields(tmp_path):
+    cache, manifest_path, manifest = _offline_fixture(tmp_path, BATCH2_MANIFEST_PATH)
+    target = cache / manifest["records"][0]["cache_file"]
+    target.write_bytes(target.read_bytes() + b"\n")
+    with pytest.raises(ValueError, match="cache changed"):
+        reprocess_carpedia_caches(cache, manifest_path=manifest_path)
+
+    cache, manifest_path, manifest = _offline_fixture(tmp_path / "invalid-unit", BATCH2_MANIFEST_PATH)
+    record = next(row for row in manifest["records"] if row["candidate_id"] == 59)
+    field = next(row for row in record["fields"] if row["attribute_code"] == "ground_clearance")
+    field["source_unit"] = "cm"
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False), encoding="utf-8")
+    with pytest.raises(ValueError, match="field differs"):
+        reprocess_carpedia_caches(cache, manifest_path=manifest_path)
+
+    cache, manifest_path, manifest = _offline_fixture(tmp_path / "duplicate", BATCH2_MANIFEST_PATH)
+    manifest["records"][0]["fields"].append(deepcopy(manifest["records"][0]["fields"][0]))
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False), encoding="utf-8")
+    with pytest.raises(ValueError, match="field admission scope differs|Duplicate Carpedia evidence field"):
+        reprocess_carpedia_caches(cache, manifest_path=manifest_path)
 
 
 def test_offline_cache_reprocessing_is_exact_idempotent_and_preserves_official_precedence(tmp_path):

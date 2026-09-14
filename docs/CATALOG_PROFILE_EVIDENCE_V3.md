@@ -164,7 +164,21 @@ FIPE foi autorizada pelo gate do piloto e nenhum ranking conjunto é gerado.
 C4 Lounge (48): transmissão; Elantra (50): consumo; Optima (53): sem PBEV
 compatível. Permanecem fora dos 19. Picanto GT (40), QQ 2017 (41), Rio EX (45)
 e Arrizo 6 GSX (56) continuam substituições com aprovação humana pendente.
-IDs 57–100 não foram pesquisados nem preparados.
+No segundo lote controlado, foram selecionados 11 dos IDs 57–100 depois de uma
+fila completa registrada antes do HTTP. O ID 57 foi bloqueado por resposta FIPE
+404 no alvo exato e não gerou chamada CarPedia. Os IDs 58, 59, 68, 69, 70, 79,
+80, 91, 92 e 93 foram ligados por código FIPE, ano, versão, combustível e
+conjunto mecânico exatos, sem similaridade textual. O restante dos IDs 57–100
+continua congelado e não preparado.
+
+As dez fichas CarPedia cacheadas acrescentam carroceria, lugares, porta-malas,
+carga útil, comprimento, largura da carroceria, entre-eixos, cilindrada,
+potência, transmissão, combustível e tanque. Sete também comprovam vão livre.
+Nenhuma comprova largura com espelhos, medidas internas de passageiros ou o
+inventário completo de segurança; esses campos permanecem indisponíveis. A
+matriz v3 padrão conserva o lote original, e o segundo lote só entra mediante o
+parâmetro explícito `include_batch2=True`. Esse replay não publica, não ativa e
+não autoriza ranking operacional.
 
 Próximos insumos necessários: recibo de cota/mês FIPE, identidade legada revisada,
 medidas e equipamentos por versão de fontes oficiais, rubrica reproduzível de

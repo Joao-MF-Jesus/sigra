@@ -29,8 +29,13 @@ from data_platform.transformation.carpedia import build_specification, normalize
 
 
 MANIFEST_PATH = Path(__file__).with_name("carpedia_profile_evidence_v1.json")
+BATCH2_MANIFEST_PATH = Path(__file__).with_name("carpedia_profile_evidence_batch2_v1.json")
 MANIFEST_VERSION = "carpedia-profile-evidence-v1"
-EXPECTED_IDS = frozenset({36, 37, 38, 39, 42, 43, 46, 47, 49})
+BATCH2_MANIFEST_VERSION = "carpedia-profile-evidence-batch2-v1"
+EXPECTED_IDS_BY_VERSION = {
+    MANIFEST_VERSION: frozenset({36, 37, 38, 39, 42, 43, 46, 47, 49}),
+    BATCH2_MANIFEST_VERSION: frozenset({58, 59, 68, 69, 70, 79, 80, 91, 92, 93}),
+}
 PROFILE_FIELDS = {
     "body_style": "body_type",
     "seats": "seats",
@@ -57,12 +62,23 @@ EXPECTED_CODES = {
     46: _PROFILE_CODES_WITHOUT_PAYLOAD | CONTRACT_ONLY_FIELDS,
     47: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS,
     49: _PROFILE_CODES_WITHOUT_PAYLOAD | CONTRACT_ONLY_FIELDS,
+    58: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS,
+    59: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS | frozenset(PROFILE_ONLY_FIELDS),
+    68: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS | frozenset(PROFILE_ONLY_FIELDS),
+    69: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS,
+    70: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS | frozenset(PROFILE_ONLY_FIELDS),
+    79: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS | frozenset(PROFILE_ONLY_FIELDS),
+    80: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS,
+    91: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS | frozenset(PROFILE_ONLY_FIELDS),
+    92: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS | frozenset(PROFILE_ONLY_FIELDS),
+    93: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS | frozenset(PROFILE_ONLY_FIELDS),
 }
 
 
 def _load_manifest(path: Path = MANIFEST_PATH) -> dict[str, object]:
     manifest = json.loads(Path(path).read_text(encoding="utf-8"))
-    if manifest.get("schema_version") != MANIFEST_VERSION:
+    version = manifest.get("schema_version")
+    if version not in EXPECTED_IDS_BY_VERSION:
         raise ValueError("Carpedia profile evidence version mismatch")
     if manifest.get("carpedia_contract_version") != CARPEDIA_CONTRACT_VERSION:
         raise ValueError("Carpedia contract version mismatch")
@@ -75,7 +91,8 @@ def _load_manifest(path: Path = MANIFEST_PATH) -> dict[str, object]:
     if not isinstance(records, list):
         raise ValueError("Carpedia profile evidence records are invalid")
     identifiers = [row.get("candidate_id") for row in records if isinstance(row, dict)]
-    if len(records) != len(EXPECTED_IDS) or len(set(identifiers)) != len(records) or set(identifiers) != EXPECTED_IDS:
+    expected_ids = EXPECTED_IDS_BY_VERSION[version]
+    if len(records) != len(expected_ids) or len(set(identifiers)) != len(records) or set(identifiers) != expected_ids:
         raise ValueError("Carpedia profile evidence candidate scope differs")
     for record in records:
         _validate_manifest_record(record)
@@ -156,6 +173,8 @@ def _source_transmission(value: str) -> str | None:
     if "cvt" in normalized:
         return "cvt"
     if normalized == "automatico":
+        return "automatic"
+    if normalized == "automatizado":
         return "automatic"
     if normalized == "manual":
         return "manual"
@@ -398,6 +417,7 @@ def carpedia_body_types(vehicles: tuple[ProfileVehicle, ...]) -> dict[int, Obser
 
 
 __all__ = [
+    "BATCH2_MANIFEST_PATH",
     "MANIFEST_PATH",
     "augment_carpedia_profile_evidence",
     "carpedia_body_types",
