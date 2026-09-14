@@ -22,7 +22,7 @@ from data_platform.contracts.carpedia_vehicle_specs import (
 
 CARPEDIA_ALLOWED_HOSTS = frozenset({"www.carpedia.com.br"})
 _JSON_CONTENT_TYPES = frozenset({"application/json"})
-_RETRYABLE_STATUS = frozenset({408, 429, 500, 502, 503, 504})
+_RETRYABLE_STATUS = frozenset({408, 500, 502, 503, 504})
 _API_KEY_PATTERN = re.compile(r"^cpk_[A-Za-z0-9_-]{16,128}$")
 
 

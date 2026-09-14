@@ -41,7 +41,7 @@ def assess_vehicle(vehicle, profile, *, body_type=None, config=None):
     month = vehicle.fields["reference_month"].value
     if month != config["target_month"]: blockers.append("FIPE_MONTH_NOT_ALIGNED")
     if vehicle.source_conflicts: blockers.append("OPEN_SOURCE_CONFLICT")
-    if vehicle.human_approval_required and vehicle.human_approval_status != "approved":
+    if vehicle.human_approval_required and vehicle.human_approval_status != "human_approved":
         blockers.append("HUMAN_SUBSTITUTION_APPROVAL_PENDING")
     if "fuel" in mandatory and vehicle.fields["fuel"].value not in {"gasoline","flex"}:
         blockers.append("GASOLINE_SCENARIO_COMPATIBILITY_UNPROVEN")
@@ -62,7 +62,7 @@ def assess_vehicle(vehicle, profile, *, body_type=None, config=None):
             "sources":sources,"core_coverage":coverage,
             "full_field_coverage":Decimal(known_count)/Decimal(len(sources)),
             "observed_reference_month":month,"required_reference_month":config["target_month"],
-            "methodologically_eligible":not blockers,"blockers":blockers,
+            "partial_coverage_candidate":not blockers,"blockers":blockers,
             "source_conflicts":vehicle.source_conflicts,"score":None,"score_not_computed":True,
             "confidence":None,"active":False,
             "costs":cost_evidence(vehicle,v3_configuration()["scenario"])}
@@ -78,18 +78,19 @@ def assess_cohort(vehicles, *, body_types=None, stability_verified=False):
     for row in rows:
         if keys[row["canonical_key"]]>1:
             row["blockers"].append("DUPLICATE_CANONICAL_OPTION")
-            row["methodologically_eligible"]=False
-    ready={p:sorted(r["vehicle_id"] for r in rows if r["profile"]==p and r["methodologically_eligible"]) for p in config["profiles"]}
-    gaps={p:max(0,config["minimum_options_per_profile"]-len(ids)) for p,ids in ready.items()}
-    overlap={a:{b:sorted(set(left)&set(right)) for b,right in ready.items()} for a,left in ready.items()}
+            row["partial_coverage_candidate"]=False
+    partial={p:sorted(r["vehicle_id"] for r in rows if r["profile"]==p and r["partial_coverage_candidate"]) for p in config["profiles"]}
+    gaps={p:max(0,config["minimum_options_per_profile"]-len(ids)) for p,ids in partial.items()}
+    overlap={a:{b:sorted(set(left)&set(right)) for b,right in partial.items()} for a,left in partial.items()}
     return {"version":config["version"],"pool_count":len(vehicles),"target_month":config["target_month"],
-            "matrix":rows,"ready_ids":ready,"ready_counts":{p:len(ids) for p,ids in ready.items()},
-            "gaps_to_ten":gaps,"overlap":overlap,
-            "eligible_union":sorted({i for ids in ready.values() for i in ids}),
-            "missing_by_profile":{p:dict(Counter(name for r in rows if r["profile"]==p for group in r["unsatisfied_groups"] for name in group)) for p in ready},
-            "blockers_by_profile":{p:dict(Counter(b for r in rows if r["profile"]==p for b in r["blockers"])) for p in ready},
+            "matrix":rows,"partial_coverage_candidate_ids":partial,
+            "partial_coverage_candidates":{p:len(ids) for p,ids in partial.items()},
+            "gaps_to_ten_partial_coverage_candidates":gaps,"partial_coverage_overlap":overlap,
+            "partial_coverage_candidate_union":sorted({i for ids in partial.values() for i in ids}),
+            "missing_by_profile":{p:dict(Counter(name for r in rows if r["profile"]==p for group in r["unsatisfied_groups"] for name in group)) for p in partial},
+            "blockers_by_profile":{p:dict(Counter(b for r in rows if r["profile"]==p for b in r["blockers"])) for p in partial},
             "pool_temporally_aligned":all(v.fields["reference_month"].value==config["target_month"] and available(v,"price_brl") for v in vehicles),
             "stability_318_verified":stability_verified,
-            "experimental_gate_passed":not any(gaps.values()) and stability_verified,
+            "partial_coverage_capacity_gate_passed":not any(gaps.values()) and stability_verified,
             "operational_publication_authorized":False,
-            "interpretation":"Core evidence assessment permits overlap, not six exclusive groups. No ranking mixes July and September prices."}
+            "interpretation":"Partial core coverage permits overlap, but never means methodology-ready or recommendation-ready. No ranking mixes July and September prices."}

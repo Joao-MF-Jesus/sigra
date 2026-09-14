@@ -25,6 +25,6 @@
     "legacy": "Price-label crosswalk repairs only the recorded price-reference spelling, not a catalog-to-Gold mapping or approval of a different trim."
   },
   "broad_expansion": {"planned": 66, "identity_approved_preserved": 19, "blocked_preserved": [48, 50, 53], "backlog_ids": {"first": 57, "last": 100}, "batch_processing_enabled": false},
-  "api_policy": {"fipe_monthly_limit_user_supplied": 1000, "fipe_requires_verified_access_and_quota_receipt": true, "carpedia_monthly_limit_user_supplied": 100, "carpedia_requests_authorized": 0},
+  "api_policy": {"fipe_provider_daily_unauthenticated_limit_documented": 500, "fipe_attempts_authorized": 34, "fipe_retries_authorized": 0, "carpedia_monthly_limit_documented": 200, "carpedia_attempts_authorized": 10, "carpedia_credential_environment": "CARPEDIA_API_KEY", "stop_statuses": [401, 403, 429], "attempts_include_searches_pages_details_and_retries": true},
   "production_publication_enabled": false
 }

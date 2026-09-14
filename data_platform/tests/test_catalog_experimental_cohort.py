@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 from data_platform.catalog.experimental_cohort import assess_cohort, assess_vehicle, configuration
-from data_platform.catalog.experimental_planning import directed_plan, fipe_plan, replay_price_aliases
+from data_platform.catalog.experimental_planning import directed_plan, fipe_plan, price_crosswalk, replay_price_aliases
 from data_platform.catalog.intake import load_selection
 from data_platform.catalog.profile_contracts_v3 import Citation, ProfileVehicle, blank_fields, observed
 
@@ -45,7 +45,7 @@ def body(value="hatchback"):
 ])
 def test_minimum_core_is_sufficient_and_optional_fields_do_not_block(profile,values):
     row=assess_vehicle(vehicle(**values),profile,body_type=body() if profile=="suv" else None)
-    assert row["methodologically_eligible"]
+    assert row["partial_coverage_candidate"]
     assert row["core_coverage"]==1
     assert row["score"] is None and row["confidence"] is None and not row["active"]
 
@@ -56,17 +56,17 @@ def test_same_vehicle_can_be_eligible_for_all_six_without_group_or_name_input():
             "weight_kg":"1000","power_gasoline_cv":"100"}
     one=vehicle(**values)
     report=assess_cohort([one],body_types={35:body()},stability_verified=True)
-    assert report["eligible_union"]==[35]
-    assert all(ids==[35] for ids in report["ready_ids"].values())
+    assert report["partial_coverage_candidate_union"]==[35]
+    assert all(ids==[35] for ids in report["partial_coverage_candidate_ids"].values())
     renamed=ProfileVehicle.model_validate({**one.model_dump(),"label":"Preferred SUV winner","provenance":{"collection_group":"SUV"}})
-    assert assess_cohort([renamed],body_types={35:body()},stability_verified=True)["ready_ids"]==report["ready_ids"]
+    assert assess_cohort([renamed],body_types={35:body()},stability_verified=True)["partial_coverage_candidate_ids"]==report["partial_coverage_candidate_ids"]
 
 
 def test_absent_and_optional_are_separate_and_coverage_is_not_score():
     row=assess_vehicle(vehicle(),"app")
     assert set(row["absent_fields"])=={"seats","cargo_l"}
     assert row["core_coverage"]==D("0.6")
-    assert not row["methodologically_eligible"]
+    assert not row["partial_coverage_candidate"]
     assert row["costs"]["monthly_tco"] is None
     assert row["costs"]["monthly_budget_eligible"] is None
 
@@ -78,7 +78,7 @@ def test_absent_and_optional_are_separate_and_coverage_is_not_score():
 ])
 def test_independent_gates_remain_blocking(kwargs,reason):
     row=assess_vehicle(vehicle(length_mm="3800",width_with_mirrors_mm="1850",**kwargs),"cidade")
-    assert reason in row["blockers"] and not row["methodologically_eligible"]
+    assert reason in row["blockers"] and not row["partial_coverage_candidate"]
 
 
 def test_body_type_cannot_be_inferred_or_derived_from_name_collection_or_weak_source():
@@ -97,21 +97,29 @@ def test_duplicate_canonical_options_fail_closed():
             "year_code":first.fields["year_code"].model_dump()}
     second=ProfileVehicle.model_validate({**second.model_dump(),"fields":fields})
     report=assess_cohort([first,second],stability_verified=True)
-    assert report["ready_counts"]["cidade"]==0
+    assert report["partial_coverage_candidates"]["cidade"]==0
     assert all("DUPLICATE_CANONICAL_OPTION" in r["blockers"] for r in report["matrix"])
 
 
-def test_exact_fipe_plan_has_no_network_execution_and_requires_quota_receipt():
+def test_exact_fipe_plan_has_no_network_execution_and_obeys_attempt_cap():
     legacy=[vehicle(i,month="2026-07") for i in range(1,35)]
     candidates=[vehicle(i) for i in range(35,54) if i not in {48,50,53}]+[vehicle(i) for i in (54,55,56)]
     plan=fipe_plan(legacy,candidates)
     assert plan["calls_current_reference_refresh"]==34
     assert plan["calls_executed"]==0
-    assert plan["percentage_of_monthly_limit"]==D("3.4")
+    assert plan["vehicles_pending_temporal_alignment"]==34
+    assert plan["attempts_planned"]==34
+    assert plan["attempts_executed"]==0
+    assert plan["attempts_available"]==34
+    assert plan["attempt_budget_is_formally_authorized"] is True
+    assert plan["percentage_of_documented_daily_limit"]==D("6.8")
+    assert plan["authorized_attempt_limit"]==34
     assert not plan["execution_allowed"] and plan["remaining_quota_verified"] is None
     assert plan["calls_to_discover_years_or_families"]==0
     assert len({r["idempotency_key"] for r in plan["requests"]})==34
     assert fipe_plan(legacy,candidates,remaining_quota=34,access_verified=True,quota_verified=True,month_pin_verified=True)["execution_allowed"]
+    with pytest.raises(ValueError,match="attempt limit"):
+        fipe_plan(legacy,candidates,attempt_limit=35)
 
 
 def test_fipe_plan_deduplicates_an_existing_september_key_without_http():
@@ -121,6 +129,16 @@ def test_fipe_plan_deduplicates_an_existing_september_key_without_http():
     current=ProfileVehicle.model_validate({**current.model_dump(),"fields":fields})
     plan=fipe_plan([old],[current])
     assert plan["calls_current_reference_refresh"]==0 and plan["cache_reused"]==[{"vehicle_id":1,"cached_vehicle_id":35}]
+
+
+def test_legacy_identity_holds_fail_closed_before_silver_or_gold():
+    review=price_crosswalk()
+    holds={row["id"]:row for row in review["catalog_identity_holds"]}
+    pending={row["id"]:row for row in review["additional_review_flags"]}
+    assert set(holds)=={6,7,23} and set(pending)=={13,17,21,33}
+    assert all(row["resolution_status"]=="blocked_incompatible_catalog_trim" for row in holds.values())
+    assert all(not row["silver_identity_compatible"] and not row["gold_publishable"] for row in (*holds.values(),*pending.values()))
+    assert all(row["required_evidence"] for row in (*holds.values(),*pending.values()))
 
 
 def test_price_crosswalk_is_exact_hash_bound_and_never_approves_identity(tmp_path,monkeypatch):
@@ -166,5 +184,8 @@ def test_directed_plan_uses_existing_dossiers_before_selecting_another_batch():
     assert plan["additional_selected_ids"]==[]
     assert plan["wide_expansion_frozen"]
     assert plan["carpedia"]["calls_executed"]==0
-    assert plan["carpedia"]["remaining_quota"] is None
+    assert plan["carpedia"]["attempt_limit_absolute"]==10
+    assert plan["carpedia"]["attempts_remaining"]==10
+    assert [row["id"] for row in plan["carpedia"]["candidates"]]==[37,38,39,42,43,44]
+    assert plan["carpedia"]["credential_environment"]=="CARPEDIA_API_KEY"
     assert all(candidate["official_external_id"] is None for candidate in plan["carpedia"]["candidates"])

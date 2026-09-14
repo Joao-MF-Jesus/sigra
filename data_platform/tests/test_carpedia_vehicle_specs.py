@@ -20,6 +20,7 @@ from data_platform.carpedia.loader import (
 )
 from data_platform.contracts.carpedia_vehicle_specs import (
     CARPEDIA_MATCHER_VERSION,
+    CarpediaAttribute,
     CarpediaMappingStatus,
     CarpediaRequest,
     CarpediaTarget,
@@ -36,7 +37,7 @@ from data_platform.quality.carpedia_checks import (
     evaluate_quality,
     require_hard_gates,
 )
-from data_platform.transformation.carpedia import build_specification, normalize_text
+from data_platform.transformation.carpedia import build_specification, normalize_attribute, normalize_text
 
 
 API_KEY = "cpk_" + "a" * 48
@@ -210,6 +211,117 @@ def test_parser_normalizer_exact_match_decimal_and_sanitization(tmp_path):
     assert len(specification.source_fingerprint) == len(specification.normalized_fingerprint) == 64
 
 
+def test_cached_ficha_labels_preserve_units_provenance_and_ignore_manual_boolean(tmp_path):
+    payload = {
+        "ref": "09-2026",
+        "ano": 2020,
+        "manual": False,
+        "versao": {
+            "id": 44709,
+            "marca": "Chevrolet",
+            "modelo": "Cruze",
+            "nome": "CRUZE LT 1.4 16V Turbo Flex 4p Aut.",
+        },
+        "secoes": [
+            {"titulo": "Geral", "itens": [
+                {"label": "Carroceria (configuração)", "valor": "Sedã"},
+                {"label": "Número de lugares", "valor": "5"},
+                {"label": "Combustível", "valor": "Flex"},
+            ]},
+            {"titulo": "Dimensões e pesos", "itens": [
+                {"label": "Comprimento (mm)", "valor": "4665"},
+                {"label": "Largura (mm)", "valor": "1807"},
+                {"label": "Distância entre-eixos (mm)", "valor": "2700"},
+                {"label": "Carga útil (kg)", "valor": "413"},
+                {"label": "Volume do porta-malas (l)", "valor": "440"},
+            ]},
+            {"titulo": "Motor a combustão", "itens": [
+                {"label": "Potência máxima (motor a combustão) (cv)", "valor": "153"},
+                {"label": "Cilindrada (cm³)", "valor": "1399"},
+            ]},
+            {"titulo": "Transmissão e tração", "itens": [
+                {"label": "Câmbio (tipo)", "valor": "Automático"},
+            ]},
+            {"titulo": "Consumo e eficiência", "itens": [
+                {"label": "Tanque de combustível (l)", "valor": "52"},
+            ]},
+        ],
+        "fonte": {"fonte": "checktudo-ficha-tecnica-2026-07", "em": "2026-07-13"},
+    }
+    asset = _asset(tmp_path / "ficha.json", payload)
+    asset = replace(
+        asset,
+        request=CarpediaRequest(
+            "vehicle_specification",
+            "/api/v1/ficha/44709/2020",
+            external_vehicle_id=44709,
+            source_reference="44709:2020",
+        ),
+        sha256="b" * 64,
+    )
+    parsed = CarpediaJsonParser().parse(asset)
+    normalized = {item.attribute_code: item for item in map(normalize_attribute, parsed.attributes)}
+
+    assert set(normalized) == {
+        "body_style", "seats", "fuel_type", "length", "width", "wheelbase",
+        "payload_capacity", "cargo_capacity", "power", "engine_displacement",
+        "transmission", "fuel_tank_capacity",
+    }
+    expected = {
+        "body_style": ("Sedã", None),
+        "seats": (Decimal("5"), "count"),
+        "cargo_capacity": (Decimal("440.000000"), "L"),
+        "payload_capacity": (Decimal("413.000000"), "kg"),
+        "length": (Decimal("4665.000000"), "mm"),
+        "width": (Decimal("1807.000000"), "mm"),
+        "wheelbase": (Decimal("2700.000000"), "mm"),
+        "engine_displacement": (Decimal("1399.000000"), "cm3"),
+        "power": (Decimal("112.531309"), "kW"),
+        "transmission": ("Automático", None),
+        "fuel_type": ("Flex", None),
+        "fuel_tank_capacity": (Decimal("52.000000"), "L"),
+    }
+    assert {
+        code: (item.normalized_value, item.normalized_unit)
+        for code, item in normalized.items()
+    } == expected
+    for item in normalized.values():
+        assert item.provenance["origin"] == "carpedia_api_v1"
+        assert item.provenance["external_vehicle_id"] == 44709
+        assert item.provenance["model_year"] == 2020
+        assert item.provenance["response_sha256"] == "b" * 64
+        assert item.provenance["field_locator"].startswith("secoes[")
+        assert item.provenance["collected_at"] == asset.collected_at.isoformat()
+    assert [item.source_label for item in normalized.values()].count("Câmbio (tipo)") == 1
+    assert all(item.source_label != "manual" for item in normalized.values())
+
+
+@pytest.mark.parametrize(
+    "source_label,source_value,source_unit",
+    [
+        ("Comprimento (parsec)", "10", None),
+        ("Comprimento (mm)", "10 cm", None),
+    ],
+)
+def test_normalizer_rejects_invalid_or_conflicting_units(source_label, source_value, source_unit):
+    result = normalize_attribute(CarpediaAttribute(
+        attribute_code="pending_normalization",
+        source_section="Dimensões",
+        source_label=source_label,
+        source_value=source_value,
+        source_unit=source_unit,
+        normalized_value=None,
+        normalized_unit=None,
+        precision=None,
+        unit_status="pending",
+        provenance={"field_locator": "secoes[0].itens[0]"},
+    ))
+    assert result.attribute_code == "length"
+    assert result.normalized_value is None
+    assert result.normalized_unit is None
+    assert result.unit_status == "unrecognized"
+
+
 def test_identity_ambiguity_and_conflict_are_not_gold_eligible(tmp_path):
     parsed = CarpediaJsonParser().parse(_asset(tmp_path / "asset.json", _payload()))
     ambiguous = build_specification(parsed, [_candidate(1), _candidate(2)])
@@ -295,16 +407,13 @@ def test_pipeline_separates_layers_and_publishes_only_exact_match():
     assert loader.finished[0] == "succeeded"
 
 
-def test_client_auth_hash_size_content_type_and_retry_are_controlled():
+def test_client_stops_on_rate_limit_without_retry_or_secret_exposure():
     calls = []
 
     def handler(request: httpx.Request) -> httpx.Response:
         calls.append(request)
         assert request.headers.get("Authorization") == f"Bearer {API_KEY}"
-        if len(calls) == 1:
-            return httpx.Response(429, headers={"Retry-After": "0"})
-        body = json.dumps(_payload()).encode()
-        return httpx.Response(200, headers={"Content-Type": "application/json"}, content=body)
+        return httpx.Response(429, headers={"Retry-After": "0"})
 
     client = CarpediaApiClient(
         api_key=API_KEY,
@@ -318,10 +427,10 @@ def test_client_auth_hash_size_content_type_and_retry_are_controlled():
         external_vehicle_id=12345,
     )
     with tempfile.TemporaryDirectory() as temporary:
-        asset = client.fetch(request, destination_directory=Path(temporary))
-        assert asset.byte_length == asset.path.stat().st_size
-        assert len(asset.sha256) == 64
-    assert len(calls) == 2
+        with pytest.raises(RuntimeError, match="non-success status") as error:
+            client.fetch(request, destination_directory=Path(temporary))
+    assert API_KEY not in str(error.value)
+    assert len(calls) == 1
 
 
 def test_client_retries_timeout_without_exposing_secret():

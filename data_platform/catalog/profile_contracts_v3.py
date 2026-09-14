@@ -95,7 +95,7 @@ class ProfileVehicle(Contract):
     provenance: dict = Field(default_factory=dict)
     source_conflicts: tuple[str, ...] = ()
     human_approval_required: bool = False
-    human_approval_status: Literal["pending", "approved", "not_applicable"] = "not_applicable"
+    human_approval_status: Literal["pending", "human_approved", "not_applicable"] = "not_applicable"
 
     @model_validator(mode="after")
     def evidence_units_and_priority(self):

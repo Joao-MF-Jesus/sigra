@@ -1,0 +1,88 @@
+{
+  "schema_version": "carpedia-profile-evidence-v1",
+  "carpedia_contract_version": "carpedia-api-v1",
+  "normalizer_version": "carpedia-spec-normalizer-v2",
+  "scope": {
+    "candidate_ids": [46, 47],
+    "mode": "offline_hash_verified_cache_reprocessing",
+    "publication_authorized": false,
+    "database_write_authorized": false
+  },
+  "records": [
+    {
+      "candidate_id": 46,
+      "cache_file": "response-08.json",
+      "response_sha256": "0c5784eab4d7303977f9fbf00c9066678c52977c19ac74247eeec9c6aa31db19",
+      "collected_at": "2026-09-11T21:35:09.000294-03:00",
+      "source_url": "https://www.carpedia.com.br/api/v1/ficha/44709/2020",
+      "external_vehicle_id": 44709,
+      "model_year": 2020,
+      "source_reference": "09-2026",
+      "source_name": "checktudo-ficha-tecnica-2026-07",
+      "source_at": "2026-07-13",
+      "catalog_identity": {
+        "fipe_code": "004470-9",
+        "year_code": "2020-5",
+        "commercial_identity": "CRUZE LT 1.4 16V Turbo Flex 4p Aut."
+      },
+      "source_identity": {
+        "brand": "Chevrolet",
+        "model": "Cruze",
+        "version": "CRUZE LT 1.4 16V Turbo Flex 4p Aut.",
+        "fuel": "flex"
+      },
+      "fields": [
+        {"attribute_code":"body_style","profile_field":"body_type","locator":"secoes[0].itens[0]","source_section":"Geral","source_label":"Carroceria (configuração)","source_value":"Sedã","source_unit":null,"normalized_value":"Sedã","normalized_unit":null},
+        {"attribute_code":"seats","profile_field":"seats","locator":"secoes[0].itens[2]","source_section":"Geral","source_label":"Número de lugares","source_value":"5","source_unit":null,"normalized_value":"5","normalized_unit":"count"},
+        {"attribute_code":"length","profile_field":"length_mm","locator":"secoes[2].itens[0]","source_section":"Dimensões e pesos","source_label":"Comprimento (mm)","source_value":"4665","source_unit":"mm","normalized_value":"4665.000000","normalized_unit":"mm"},
+        {"attribute_code":"width","profile_field":"width_mm","locator":"secoes[2].itens[1]","source_section":"Dimensões e pesos","source_label":"Largura (mm)","source_value":"1807","source_unit":"mm","normalized_value":"1807.000000","normalized_unit":"mm"},
+        {"attribute_code":"wheelbase","profile_field":"wheelbase_mm","locator":"secoes[2].itens[3]","source_section":"Dimensões e pesos","source_label":"Distância entre-eixos (mm)","source_value":"2700","source_unit":"mm","normalized_value":"2700.000000","normalized_unit":"mm"},
+        {"attribute_code":"cargo_capacity","profile_field":"cargo_l","locator":"secoes[2].itens[4]","source_section":"Dimensões e pesos","source_label":"Volume do porta-malas (l)","source_value":"440","source_unit":"l","normalized_value":"440.000000","normalized_unit":"L"},
+        {"attribute_code":"power","profile_field":null,"locator":"secoes[4].itens[0]","source_section":"Motor a combustão","source_label":"Potência máxima (motor a combustão) (cv)","source_value":"153","source_unit":"cv","normalized_value":"112.531309","normalized_unit":"kW"},
+        {"attribute_code":"engine_displacement","profile_field":null,"locator":"secoes[4].itens[2]","source_section":"Motor a combustão","source_label":"Cilindrada (cm³)","source_value":"1399","source_unit":"cm³","normalized_value":"1399.000000","normalized_unit":"cm3"},
+        {"attribute_code":"transmission","profile_field":null,"locator":"secoes[5].itens[0]","source_section":"Transmissão e tração","source_label":"Câmbio (tipo)","source_value":"Automático","source_unit":null,"normalized_value":"Automático","normalized_unit":null},
+        {"attribute_code":"fuel_type","profile_field":null,"locator":"secoes[0].itens[4]","source_section":"Geral","source_label":"Combustível","source_value":"Flex","source_unit":null,"normalized_value":"Flex","normalized_unit":null},
+        {"attribute_code":"fuel_tank_capacity","profile_field":null,"locator":"secoes[7].itens[2]","source_section":"Consumo e eficiência","source_label":"Tanque de combustível (l)","source_value":"52","source_unit":"l","normalized_value":"52.000000","normalized_unit":"L"}
+      ],
+      "unavailable_profile_fields": ["payload_kg"]
+    },
+    {
+      "candidate_id": 47,
+      "cache_file": "response-10.json",
+      "response_sha256": "c0394eaf9f9b9a5bc05b270ed457091e93152389461921b9aee9081bf150d781",
+      "collected_at": "2026-09-11T21:35:10.880271-03:00",
+      "source_url": "https://www.carpedia.com.br/api/v1/ficha/251747/2017",
+      "external_vehicle_id": 251747,
+      "model_year": 2017,
+      "source_reference": "09-2026",
+      "source_name": "checktudo-ficha-tecnica-2026-07",
+      "source_at": "2026-07-13",
+      "catalog_identity": {
+        "fipe_code": "025174-7",
+        "year_code": "2017-5",
+        "commercial_identity": "FLUENCE Sed. Dynamique 2.0 16V FLEX Aut."
+      },
+      "source_identity": {
+        "brand": "Renault",
+        "model": "Fluence",
+        "version": "FLUENCE Sed. Dynamique 2.0 16V FLEX Aut.",
+        "fuel": "flex"
+      },
+      "fields": [
+        {"attribute_code":"body_style","profile_field":"body_type","locator":"secoes[0].itens[0]","source_section":"Geral","source_label":"Carroceria (configuração)","source_value":"Sedã","source_unit":null,"normalized_value":"Sedã","normalized_unit":null},
+        {"attribute_code":"seats","profile_field":"seats","locator":"secoes[0].itens[2]","source_section":"Geral","source_label":"Número de lugares","source_value":"5","source_unit":null,"normalized_value":"5","normalized_unit":"count"},
+        {"attribute_code":"length","profile_field":"length_mm","locator":"secoes[2].itens[0]","source_section":"Dimensões e pesos","source_label":"Comprimento (mm)","source_value":"4620","source_unit":"mm","normalized_value":"4620.000000","normalized_unit":"mm"},
+        {"attribute_code":"width","profile_field":"width_mm","locator":"secoes[2].itens[1]","source_section":"Dimensões e pesos","source_label":"Largura (mm)","source_value":"1810","source_unit":"mm","normalized_value":"1810.000000","normalized_unit":"mm"},
+        {"attribute_code":"wheelbase","profile_field":"wheelbase_mm","locator":"secoes[2].itens[3]","source_section":"Dimensões e pesos","source_label":"Distância entre-eixos (mm)","source_value":"2700","source_unit":"mm","normalized_value":"2700.000000","normalized_unit":"mm"},
+        {"attribute_code":"payload_capacity","profile_field":"payload_kg","locator":"secoes[2].itens[4]","source_section":"Dimensões e pesos","source_label":"Carga útil (kg)","source_value":"413","source_unit":"kg","normalized_value":"413.000000","normalized_unit":"kg"},
+        {"attribute_code":"cargo_capacity","profile_field":"cargo_l","locator":"secoes[2].itens[5]","source_section":"Dimensões e pesos","source_label":"Volume do porta-malas (l)","source_value":"530","source_unit":"l","normalized_value":"530.000000","normalized_unit":"L"},
+        {"attribute_code":"power","profile_field":null,"locator":"secoes[4].itens[0]","source_section":"Motor a combustão","source_label":"Potência máxima (motor a combustão) (cv)","source_value":"143","source_unit":"cv","normalized_value":"105.176321","normalized_unit":"kW"},
+        {"attribute_code":"engine_displacement","profile_field":null,"locator":"secoes[4].itens[2]","source_section":"Motor a combustão","source_label":"Cilindrada (cm³)","source_value":"1997","source_unit":"cm³","normalized_value":"1997.000000","normalized_unit":"cm3"},
+        {"attribute_code":"transmission","profile_field":null,"locator":"secoes[5].itens[0]","source_section":"Transmissão e tração","source_label":"Câmbio (tipo)","source_value":"Automático (CVT)","source_unit":null,"normalized_value":"Automático (CVT)","normalized_unit":null},
+        {"attribute_code":"fuel_type","profile_field":null,"locator":"secoes[0].itens[4]","source_section":"Geral","source_label":"Combustível","source_value":"Flex","source_unit":null,"normalized_value":"Flex","normalized_unit":null},
+        {"attribute_code":"fuel_tank_capacity","profile_field":null,"locator":"secoes[7].itens[2]","source_section":"Consumo e eficiência","source_label":"Tanque de combustível (l)","source_value":"60","source_unit":"l","normalized_value":"60.000000","normalized_unit":"L"}
+      ],
+      "unavailable_profile_fields": []
+    }
+  ]
+}

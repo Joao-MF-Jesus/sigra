@@ -116,7 +116,7 @@ def score_vehicle(vehicle, profile, target_month, *, weights=None, config=None, 
         reasons.append("WEIGHTED_COVERAGE_BELOW_0_80")
     if vehicle.source_conflicts:
         reasons.append("OPEN_SOURCE_CONFLICT")
-    if vehicle.human_approval_required and vehicle.human_approval_status != "approved":
+    if vehicle.human_approval_required and vehicle.human_approval_status != "human_approved":
         reasons.append("HUMAN_SUBSTITUTION_APPROVAL_PENDING")
     if score is None:
         reasons.append("NO_COMPARABLE_SCORE")

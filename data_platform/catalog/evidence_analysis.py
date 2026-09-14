@@ -1,5 +1,6 @@
 """Reproducible comparisons; do not demand six different rankings."""
 from decimal import Decimal
+from datetime import date
 from itertools import combinations
 import json
 from pathlib import Path
@@ -16,8 +17,20 @@ def change_control():
         row = decisions[change['candidate_id']]; review = row['review']
         if change['original'] != row['original'] or change['proposed'] != {'version': review['approved_version'], 'year': review['approved_year']}:
             raise ValueError('Change-control target differs from immutable review')
-        if change['human_approval_status'] != 'pending' or change['human_approval_required'] is not True:
-            raise ValueError('This version contains no human approval receipt')
+        if change['human_approval_required'] is not True or change['human_approval_status'] not in {'pending', 'human_approved'}:
+            raise ValueError('Invalid human approval state')
+        receipt = change.get('approval_receipt')
+        if change['human_approval_status'] == 'human_approved':
+            if not isinstance(receipt, dict) or receipt.get('decision') != 'human_approved':
+                raise ValueError('Approved substitution requires an explicit receipt')
+            if not isinstance(change.get('justification'), str) or not change['justification'].strip():
+                raise ValueError('Human approval justification is required')
+            if not all(isinstance(receipt.get(key), str) and receipt[key].strip()
+                       for key in ('approved_by', 'recorded_at', 'authorization_reference', 'scope')):
+                raise ValueError('Human approval receipt is incomplete')
+            date.fromisoformat(receipt['recorded_at'])
+        elif receipt is not None:
+            raise ValueError('Pending substitution cannot carry an approval receipt')
         result.append({**change, 'reason': review['target_change_reason'], 'sources': review['source_references'],
                        'review_fingerprint': fingerprint(review), 'fipe_description': review['fipe']['Modelo'],
                        'structured_fipe_fuel': review['fipe']['Combustivel'], 'pbev_fuel': review['pbev']['fuel_type'],

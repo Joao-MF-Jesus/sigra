@@ -13,7 +13,7 @@ from uuid import UUID
 CARPEDIA_SOURCE_NAME = "carpedia_api_v1"
 CARPEDIA_CONTRACT_VERSION = "carpedia-api-v1"
 CARPEDIA_PARSER_VERSION = "carpedia-ficha-v1"
-CARPEDIA_NORMALIZER_VERSION = "carpedia-spec-normalizer-v1"
+CARPEDIA_NORMALIZER_VERSION = "carpedia-spec-normalizer-v2"
 CARPEDIA_MATCHER_VERSION = "carpedia-exact-identity-v1"
 CARPEDIA_PUBLICATION_VERSION = "carpedia-spec-shadow-v1"
 CARPEDIA_LICENSE_STATUS = "approved_with_restrictions"

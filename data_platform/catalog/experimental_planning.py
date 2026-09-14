@@ -50,8 +50,9 @@ def replay_price_aliases(vehicles, cache_path):
     return tuple(output),diagnostics
 
 
-def fipe_plan(legacy, candidates, *, remaining_quota=None, access_verified=False, quota_verified=False, month_pin_verified=False):
-    """Exact request inventory, not an executable downloader or quota assumption."""
+def fipe_plan(legacy, candidates, *, remaining_quota=None, access_verified=False, quota_verified=False,
+              month_pin_verified=False, attempt_limit=34):
+    """Exact request inventory bounded by the explicitly authorized attempt cap."""
     target='2026-09'; all_rows=tuple(legacy)+tuple(candidates)
     cached={(v.fields['fipe_code'].value,v.fields['year_code'].value):v for v in all_rows
             if available(v,'price_brl') and v.fields['reference_month'].value==target}
@@ -69,24 +70,32 @@ def fipe_plan(legacy, candidates, *, remaining_quota=None, access_verified=False
             'price_reference_not_catalog_identity':v.identity_status!='identity_approved',
             'catalog_review_flags':v.provenance.get('experimental_catalog_review_flags',[])})
     if len({r['idempotency_key'] for r in requests})!=len(requests): raise ValueError('Duplicate quota request target')
-    if remaining_quota is not None and (isinstance(remaining_quota,bool) or not isinstance(remaining_quota,int) or not 0<=remaining_quota<=1000):
+    if isinstance(attempt_limit,bool) or not isinstance(attempt_limit,int) or not 0<attempt_limit<=34:
+        raise ValueError('FIPE attempt limit must be an integer from 1 through 34')
+    if remaining_quota is not None and (isinstance(remaining_quota,bool) or not isinstance(remaining_quota,int) or remaining_quota<0):
         raise ValueError('Quota remaining must be a verified integer balance, not the plan limit')
     blockers=[]
-    if not access_verified: blockers.append('AUTHENTICATED_ACCESS_CONTRACT_NOT_VERIFIED')
-    if not quota_verified or remaining_quota is None: blockers.append('QUOTA_RECEIPT_NOT_VERIFIED')
-    if remaining_quota is not None and remaining_quota<len(requests): blockers.append('INSUFFICIENT_QUOTA')
+    if not access_verified: blockers.append('PROVIDER_CONTRACT_NOT_VERIFIED')
+    if len(requests)>attempt_limit: blockers.append('AUTHORIZED_ATTEMPT_LIMIT_EXCEEDED')
+    if quota_verified and remaining_quota is not None and remaining_quota<len(requests): blockers.append('PROVIDER_QUOTA_INSUFFICIENT')
     if not month_pin_verified: blockers.append('SEPTEMBER_REFERENCE_PIN_NOT_VERIFIED')
     if any(r['catalog_review_flags'] for r in requests): blockers.append('CATALOG_TARGET_REVIEW_PENDING')
     return {'version':'experimental-fipe-refresh-plan-v1','target_month':target,
         'provider_base_from_existing_client':'https://fipe.parallelum.com.br/api/v2',
         'request_template_from_existing_contract':'/cars/{fipe_code}/years/{year_code}',
         'calls_current_reference_refresh':len(requests),'calls_executed':0,'calls_to_discover_years_or_families':0,
+        'vehicles_pending_temporal_alignment':len(requests),
+        'attempts_planned':len(requests),'attempts_executed':0,'attempts_available':attempt_limit,
+        'attempt_budget_is_formally_authorized':True,
         'cache_reused':reused,'cached_candidate_prices':len(candidates),'requests':requests,
-        'monthly_limit_user_supplied':1000,'percentage_of_monthly_limit':Decimal(len(requests))/Decimal(10),
+        'authorized_attempt_limit':attempt_limit,
+        'attempts_include_searches_details_and_retries':True,
+        'provider_documented_unauthenticated_daily_limit':500,
+        'percentage_of_documented_daily_limit':Decimal(len(requests))/Decimal(5),
         'remaining_quota_verified':remaining_quota if quota_verified else None,
         'remaining_after_planned_calls':remaining_quota-len(requests) if quota_verified and remaining_quota is not None and remaining_quota>=len(requests) else None,
         'execution_allowed':not blockers,'blockers':blockers,
-        'access_limitation':'Existing clients expose FIPE_API_URL but no authenticated FIPE-key or quota receipt integration. Do not invent an environment variable, authentication header or account balance.',
+        'access_limitation':'The official public API documents anonymous access. No FIPE credential is invented or required; the project authorization remains the stricter 34-attempt cap.',
         'cache_protocol':['Keep July cache immutable. Write a new September receipt only after authorization.',
             'Key by API version, exact FIPE code/year and requested month; validate response identity, positive Decimal price and exact month.',
             'Persist SHA256, sanitized URL, timestamp and validated month; atomic new-file receipt. Existing valid same-key receipt means zero repeat calls.',
@@ -122,20 +131,23 @@ def directed_plan(vehicles, assessment, selection):
     # Only reviewed identities without unresolved conflicts or human holds are
     # counted as potential dossiers, not as eligible without their missing facts.
     potential=[v for v in vehicles if v.identity_status=='identity_approved' and not v.source_conflicts
-               and not (v.human_approval_required and v.human_approval_status!='approved')]
+               and not (v.human_approval_required and v.human_approval_status!='human_approved')]
     counts={v.id:sum(o.kind!='unavailable' and o.value is not None for o in v.fields.values()) for v in potential}
     prioritized=sorted(potential,key=lambda v:(-counts[v.id],v.id))
     target=10
     chosen=prioritized[:target]
     dossiers=[{'id':v.id,'vehicle':v.label,'existing_evidence_fields':counts[v.id],
                'cached_oem':bool(v.provenance.get('technical_review_sha256')),
-               'profiles_still_missing':[r['profile'] for r in assessment['matrix'] if r['vehicle_id']==v.id and not r['methodologically_eligible']],
+               'profiles_still_missing':[r['profile'] for r in assessment['matrix'] if r['vehicle_id']==v.id and not r['partial_coverage_candidate']],
                'fipe_code':v.fields['fipe_code'].value,'year_code':v.fields['year_code'].value,
                'sources_to_reuse':{s.sha256:s.model_dump(mode='json') for o in v.fields.values() for s in o.sources}}
               for v in chosen]
     if {c.id for c in selection.candidates}!=set(range(35,101)): raise ValueError('Expansion manifest changed')
     backlog=[{'id':c.id,'vehicle':f'{c.brand} {c.model_family} {c.target_version} {c.model_year}',
               'status':'expansion_backlog_not_prepared','active':False} for c in selection.candidates if c.id>=57]
+    carpedia_priority_order=(37,38,39,42,43,44,46,47,49)
+    carpedia_dossiers=[next(d for d in dossiers if d['id']==identifier)
+                       for identifier in carpedia_priority_order if any(d['id']==identifier for d in dossiers)]
     return {'version':'experimental-gap-directed-plan-v1','priority_dossiers':dossiers,
             'potential_existing_without_holds':len(potential),'potential_is_not_ready':True,
             'priority_rule':'Descending count of individually sourced fields, then ID for deterministic scheduling only. No prices, utility scores, collection group or desired ranking used.',
@@ -150,14 +162,17 @@ def directed_plan(vehicles, assessment, selection):
                 'fipe_for_priority':{'new_price_calls':0,'already_september':True},
                 'source_yield_not_guaranteed':True,'elapsed_hours_estimate':None,
                 'reason':'Document discovery, access, exact trim and equipment completeness are not measured; no invented delivery-time estimate.'},
-            'carpedia':{'status':'PLAN_ONLY_NOT_AUTHORIZED','base_url':'https://www.carpedia.com.br',
-                'contract_version':'carpedia-api-v1','endpoint_template':'/api/v1/ficha/{official_external_id}/{model_year}',
-                'maximum_one_cached_response_per_identity':True,'provisional_specification_calls':len(chosen),
-                'calls_executed':0,'share_of_user_supplied_100_request_limit':str(len(chosen))+'%',
-                'remaining_quota':None,'official_id_discovery_calls':None,
-                'candidates':[{'id':d['id'],'fipe_code':d['fipe_code'],'year_code':d['year_code'],'official_external_id':None,'url':None} for d in dossiers],
+            'carpedia':{'status':'AUTHORIZED_BUT_CREDENTIAL_MISSING','base_url':'https://www.carpedia.com.br',
+                'contract_version':'carpedia-api-v1','discovery_endpoint_template':'/api/v1/modelos/{brand}/{model}/versoes',
+                'endpoint_template':'/api/v1/ficha/{official_external_id}/{model_year}',
+                'credential_environment':'CARPEDIA_API_KEY','attempt_limit_absolute':10,
+                'attempts_include_searches_details_and_retries':True,
+                'maximum_one_cached_response_per_identity':True,'provisional_specification_calls':None,
+                'calls_executed':0,'attempts_remaining':10,
+                'provider_documented_monthly_free_requests':200,'official_id_discovery_calls':None,
+                'candidates':[{'id':d['id'],'fipe_code':d['fipe_code'],'year_code':d['year_code'],'official_external_id':None,'url':None} for d in carpedia_dossiers],
                 'expected_optional_fields':['body_type','seats','cargo_l','length_mm','width_mm','ground_clearance_mm','weight_kg','power_gasoline_cv','airbags','abs','esc','payload_kg'],
                 'multi_field_response_possible':True,'response_completeness_guaranteed':False,
                 'cache_key':'contract+official_id+year+response_SHA256; immutable receipt, collection timestamp and exact version match',
                 'official_confirmation_required':['Exact version/year/engine/fuel/transmission','FIPE identity/price/month','PBEV consumption/powertrain','Any technical conflict with OEM','Equipment trim scope and measurement units'],
-                'execution_blockers':['Further human authorization','Verified account quota','Verified external ID per identity','Current API contract confirmation before calls']}}
+                'execution_blockers':['CARPEDIA_API_KEY is not configured','Verified external ID per identity before specification lookup']}}

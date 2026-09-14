@@ -33,8 +33,12 @@ def _citation(source, provider, document, locator, page=None):
                     document=document, locator=locator, page=page, collected_at=source["collected_at"])
 
 
-def candidate_matrix(archive, technical_directory):
-    """Only the 19 revalidated identities; blocked IDs never enter the pilot."""
+def candidate_matrix(archive, technical_directory, *, carpedia_cache_directory=None):
+    """Only the 19 revalidated identities; blocked IDs never enter the pilot.
+
+    CarPedia enrichment is opt-in and accepts only the two hash-bound cached
+    fichas registered in the versioned evidence manifest.
+    """
     inputs = {row.identifier: row for row in candidate_evidence(archive)}
     decisions = {row["id"]: row for row in review_batch()["decisions"] if row["status"] == "identity_approved"}
     result = []
@@ -69,7 +73,11 @@ def candidate_matrix(archive, technical_directory):
                         "raw_snapshots_hash_verified": True, "no_source_publication": True},
             human_approval_required=row["human_approval_required"], human_approval_status=row["human_approval_status"],
         ))
-    return augment_technical(tuple(result), technical_directory)
+    result = augment_technical(tuple(result), technical_directory)
+    if carpedia_cache_directory is not None:
+        from data_platform.catalog.carpedia_profile_evidence import augment_carpedia_profile_evidence
+        result = augment_carpedia_profile_evidence(result, carpedia_cache_directory)
+    return result
 
 
 def legacy_matrix(cache_path, expected_sha256):

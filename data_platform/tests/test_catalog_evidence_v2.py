@@ -92,11 +92,19 @@ def test_historical_v1_results_are_identical_and_explicit():
     assert method()['method_version'] == 'academic-demo-v1'
 
 
-def test_change_control_is_pending_and_preserves_qq_contradiction():
+def test_change_control_records_approved_substitutions_and_preserves_qq_hold():
     control = change_control()
     assert {row['candidate_id'] for row in control['changes']} == {40, 41, 45, 56}
-    assert all(row['human_approval_required'] and row['human_approval_status'] == 'pending' and row['sources'] for row in control['changes'])
+    assert all(row['human_approval_required'] and row['sources'] for row in control['changes'])
+    by_id = {row['candidate_id']: row for row in control['changes']}
+    assert {identifier for identifier, row in by_id.items() if row['human_approval_status'] == 'human_approved'} == {40, 45, 56}
+    assert all(by_id[identifier]['approval_receipt']['decision'] == 'human_approved' for identifier in (40, 45, 56))
+    assert all(by_id[identifier]['justification'] for identifier in (40, 45, 56))
+    assert all(by_id[identifier]['approval_receipt']['recorded_at'] == '2026-09-11' for identifier in (40, 45, 56))
     qq = next(row for row in control['changes'] if row['candidate_id'] == 41)
+    assert qq['human_approval_status'] == 'pending' and 'approval_receipt' not in qq
+    assert qq['silver_publication_status'] == 'blocked_pending_human_decision'
+    assert qq['gold_publishable'] is False and '2018 to 2017' in qq['decision_required']
     assert 'Flex' in qq['fipe_description'] and qq['structured_fipe_fuel'] == 'Gasolina' and qq['pbev_fuel'] == 'gasoline'
 
 
