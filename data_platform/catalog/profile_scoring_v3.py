@@ -66,6 +66,36 @@ def criterion_values(vehicle, costs, scenario):
     return output
 
 
+def criterion_derivations(vehicle, values):
+    """Expose deterministic geometry without relabelling it as observation."""
+    output = {}
+    if values["footprint"] is not None:
+        output["footprint"] = {
+            "value": values["footprint"], "unit": "m2",
+            "method_version": VERSION,
+            "formula": "length_mm * width_with_mirrors_mm / 1_000_000",
+            "inputs": {
+                "length_mm": vehicle.fields["length_mm"].value,
+                "width_with_mirrors_mm": vehicle.fields["width_with_mirrors_mm"].value,
+            },
+            "reason": None,
+        }
+    else:
+        output["footprint"] = {
+            "value": None, "unit": "m2", "method_version": VERSION,
+            "formula": None,
+            "inputs": {},
+            "reason": "Length and width including mirrors are both required",
+        }
+    if values["passenger_space"] is None:
+        output["passenger_space"] = {
+            "value": None, "unit": "m2_proxy", "method_version": VERSION,
+            "formula": None, "inputs": {},
+            "reason": "Rear legroom and measured interior width are required; seats or exterior dimensions are not substitutes",
+        }
+    return output
+
+
 def score_vehicle(vehicle, profile, target_month, *, weights=None, config=None, scenario=None):
     config = configuration() if config is None else config
     scenario = config["scenario"] if scenario is None else scenario
@@ -105,23 +135,37 @@ def score_vehicle(vehicle, profile, target_month, *, weights=None, config=None, 
     coverage = sum((weights[key] for key in present), Decimal(0))/total_weight
     required_missing = [key for key in definition["required"] if values[key] is None]
     required_any_missing = [group for group in definition["required_any"] if not any(values[key] is not None for key in group)]
-    reasons = []
-    if vehicle.identity_status != "identity_approved":
-        reasons.append("LEGACY_BINDING_NOT_REAUDITED")
-    if not temporal_ok:
-        reasons.append("PRICE_REFERENCE_MONTH_NOT_ALIGNED")
+    identity_resolved = vehicle.identity_status == "identity_approved"
+    scoreability_reasons = []
     if required_missing or required_any_missing:
-        reasons.append("PROFILE_REQUIRED_EVIDENCE_MISSING")
-    if coverage < exact(config["minimum_weighted_coverage"]):
-        reasons.append("WEIGHTED_COVERAGE_BELOW_0_80")
-    if vehicle.source_conflicts:
-        reasons.append("OPEN_SOURCE_CONFLICT")
-    if vehicle.human_approval_required and vehicle.human_approval_status != "human_approved":
-        reasons.append("HUMAN_SUBSTITUTION_APPROVAL_PENDING")
+        scoreability_reasons.append("PROFILE_REQUIRED_EVIDENCE_MISSING")
+    diagnostic_score_reasons = []
     if score is None:
-        reasons.append("NO_COMPARABLE_SCORE")
+        diagnostic_score_reasons.append("NO_COMPARABLE_SCORE")
+    eligibility_reasons = []
+    if not identity_resolved:
+        eligibility_reasons.append("LEGACY_BINDING_NOT_REAUDITED")
+    if not temporal_ok:
+        eligibility_reasons.append("PRICE_REFERENCE_MONTH_NOT_ALIGNED")
+    if vehicle.source_conflicts:
+        eligibility_reasons.append("OPEN_SOURCE_CONFLICT")
+    if vehicle.human_approval_required and vehicle.human_approval_status != "human_approved":
+        eligibility_reasons.append("HUMAN_SUBSTITUTION_APPROVAL_PENDING")
+    coverage_reasons = []
+    if coverage < exact(config["minimum_weighted_coverage"]):
+        coverage_reasons.append("WEIGHTED_COVERAGE_BELOW_0_80")
+    profile_scoreable = not scoreability_reasons
+    profile_eligible = not eligibility_reasons
+    methodology_ready = profile_scoreable and profile_eligible and not coverage_reasons
+    recommendation_reasons = []
+    if not methodology_ready:
+        recommendation_reasons.append("METHODOLOGY_NOT_READY")
+    if not costs["is_complete_tco"]:
+        recommendation_reasons.append("TCO_INCOMPLETE")
+    reasons = eligibility_reasons + scoreability_reasons + coverage_reasons + diagnostic_score_reasons
     return {
         "id": vehicle.id, "label": vehicle.label, "profile": profile,
+        "profile_label": definition.get("display_name", profile),
         "preview_score": score, "final_recommendation_score": None,
         "criteria_values": {key: values[key] for key in weights}, "utilities": utilities,
         "contributions": contributions, "original_weights": weights, "effective_weights": effective,
@@ -131,8 +175,22 @@ def score_vehicle(vehicle, profile, target_month, *, weights=None, config=None, 
         "weighted_coverage": coverage, "coverage_not_score": True,
         "confidence": {"value": None, "status": "not_calibrated", "traceable": all(vehicle.fields[name].sources for key in present for name in CRITERION_FIELDS[key])},
         "criterion_evidence": {key: {field: vehicle.fields[field] for field in CRITERION_FIELDS[key]} for key in weights},
+        "criterion_derivations": criterion_derivations(vehicle, values),
         "costs": costs, "source_conflicts": vehicle.source_conflicts,
-        "methodology_ready": not reasons, "gate_reasons": reasons,
+        "identity_resolved": identity_resolved,
+        "partial_coverage_candidate": bool(present),
+        "profile_scoreable": profile_scoreable,
+        "profile_eligible": profile_eligible,
+        "methodology_ready": methodology_ready,
+        "tco_complete": costs["is_complete_tco"],
+        "recommendable": methodology_ready and costs["is_complete_tco"],
+        "recommended": False,
+        "scoreability_reasons": scoreability_reasons,
+        "diagnostic_score_reasons": diagnostic_score_reasons,
+        "eligibility_reasons": eligibility_reasons,
+        "coverage_reasons": coverage_reasons,
+        "recommendation_reasons": recommendation_reasons,
+        "gate_reasons": reasons,
         "operationally_active": False,
         "limitations": config["limitations"] + vehicle.provenance.get("technical_limitations", []),
         "nominal_measurement_scope": config["nominal_scope"],
@@ -149,8 +207,13 @@ def score_cohort(vehicles, profile, target_month, **options):
     rows = [score_vehicle(v, profile, target_month, **options) for v in vehicles]
     ranked = sorted((r for r in rows if r["preview_score"] is not None), key=lambda r: (-r["preview_score"], r["id"]))
     top = ranked[:10]
-    return {"profile": profile, "target_month": target_month, "records": rows,
-            "ranking": ranked, "top10": top,
+    recommendable = [r for r in ranked if r["recommendable"]]
+    profile_config = options.get("config") or configuration()
+    return {"profile": profile, "profile_label": profile_config["profiles"][profile].get("display_name", profile),
+            "target_month": target_month, "records": rows,
+            "ranking": ranked, "diagnostic_preview_ranking": ranked, "top10": top,
             "top10_boundary_ids": [r["id"] for r in ranked if top and r["preview_score"] >= top[-1]["preview_score"]],
             "methodology_ready_ids": [r["id"] for r in rows if r["methodology_ready"]],
+            "recommendable_ids": [r["id"] for r in recommendable],
+            "recommendation_ranking": [], "recommended_ids": [], "recommendation_executed": False,
             "rank_scope": "Exploratory partial utilities; differing evidence masks are NOT equal suitability. ID sorts display ties only."}

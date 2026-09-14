@@ -5,19 +5,24 @@
   "target_month": "2026-09",
   "minimum_options_per_profile": 10,
   "core_coverage_required": "1",
+  "status_definitions": {
+    "partial_coverage_candidate": "Some relevant profile evidence is present; this is not complete core, scoreability, readiness or recommendation.",
+    "core_coverage_complete": "All preliminary mandatory singleton and OR groups are evidenced; eligibility is reported independently.",
+    "profile_eligible": "Identity, time, conflict, human approval, traceability and explicit compatibility gates pass."
+  },
   "profiles": {
     "cidade": {"all": ["price_brl", "consumption_city", "fuel", "length_mm", "width_with_mirrors_mm"], "any": [], "optional": ["ground_clearance_mm"]},
     "app": {"all": ["price_brl", "consumption_city", "fuel", "seats", "cargo_l"], "any": [], "optional": ["rear_legroom_mm", "interior_width_mm"]},
     "trabalho": {"all": ["price_brl", "consumption_city", "fuel"], "any": [["payload_kg", "cargo_l"]], "optional": ["length_mm", "width_with_mirrors_mm"]},
     "familia": {"all": ["price_brl", "seats", "cargo_l", "airbags", "abs", "esc"], "any": [], "optional": ["interior_width_mm"]},
     "estrada": {"all": ["price_brl", "consumption_highway", "fuel", "airbags", "abs", "esc"], "any": [], "optional": ["weight_kg", "power_gasoline_cv", "transmission"]},
-    "suv": {"all": ["price_brl", "seats", "cargo_l", "body_type", "ground_clearance_mm"], "any": [], "optional": ["wheelbase_mm", "width_mm", "interior_width_mm"]}
+    "suv": {"display_name": "Espaço/capacidade", "compatibility_key_note": "Historical key only; no SUV body-style requirement.", "all": ["price_brl", "seats", "cargo_l", "body_type", "ground_clearance_mm"], "any": [], "optional": ["wheelbase_mm", "width_mm", "interior_width_mm"]}
   },
   "interpretation": {
     "purpose": "Readiness and collection planning only. No new score, profile weights or runtime integration in this version.",
     "optional": "Missing optional fields never block a complete core. Full matrix coverage is reported separately from core coverage.",
     "safety": "V3 equipment rubric requires individually documented airbags, ABS and ESC. Explicit absence is evidence, not an invented zero; availability does not certify crash safety.",
-    "body_type": "Descriptive mandatory evidence for SUV/space. Not inferred from collection group, silhouette or model name; no body-style bonus or exclusivity imposed.",
+    "body_type": "Descriptive mandatory evidence for Espaço/capacidade (historical key suv). Not inferred from collection group, silhouette or model name; no body-style bonus, SUV classification or exclusivity imposed.",
     "fuel": "Common explicit gasoline price/distance scenario from v3; derived estimate is not observed ANP or complete TCO.",
     "conflicts": "All unresolved source or identity conflicts remain blockers, even if an affected measurement is not in this core.",
     "coverage": "Count present mandatory singleton groups plus satisfied OR groups, divided by total mandatory groups. No score multiplied by coverage.",

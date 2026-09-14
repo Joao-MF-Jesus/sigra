@@ -46,6 +46,9 @@ def body(value="hatchback"):
 def test_minimum_core_is_sufficient_and_optional_fields_do_not_block(profile,values):
     row=assess_vehicle(vehicle(**values),profile,body_type=body() if profile=="suv" else None)
     assert row["partial_coverage_candidate"]
+    assert row["core_coverage_complete"]
+    assert row["profile_eligible"]
+    assert not row["methodology_ready"] and not row["recommended"]
     assert row["core_coverage"]==1
     assert row["score"] is None and row["confidence"] is None and not row["active"]
 
@@ -66,7 +69,8 @@ def test_absent_and_optional_are_separate_and_coverage_is_not_score():
     row=assess_vehicle(vehicle(),"app")
     assert set(row["absent_fields"])=={"seats","cargo_l"}
     assert row["core_coverage"]==D("0.6")
-    assert not row["partial_coverage_candidate"]
+    assert row["partial_coverage_candidate"]
+    assert not row["core_coverage_complete"]
     assert row["costs"]["monthly_tco"] is None
     assert row["costs"]["monthly_budget_eligible"] is None
 
@@ -78,7 +82,9 @@ def test_absent_and_optional_are_separate_and_coverage_is_not_score():
 ])
 def test_independent_gates_remain_blocking(kwargs,reason):
     row=assess_vehicle(vehicle(length_mm="3800",width_with_mirrors_mm="1850",**kwargs),"cidade")
-    assert reason in row["blockers"] and not row["partial_coverage_candidate"]
+    assert reason in row["blockers"]
+    assert row["partial_coverage_candidate"] and row["core_coverage_complete"]
+    assert not row["profile_eligible"]
 
 
 def test_body_type_cannot_be_inferred_or_derived_from_name_collection_or_weak_source():
@@ -90,6 +96,18 @@ def test_body_type_cannot_be_inferred_or_derived_from_name_collection_or_weak_so
         assess_vehicle(v,"suv",body_type=derived)
 
 
+def test_historical_suv_key_is_space_capacity_and_does_not_require_suv_body_style():
+    config = configuration()
+    assert config["profiles"]["suv"]["display_name"] == "Espaço/capacidade"
+    assert "no SUV body-style requirement" in config["profiles"]["suv"]["compatibility_key_note"]
+    hatch = assess_vehicle(
+        vehicle(seats="5", cargo_l="400", ground_clearance_mm="180"),
+        "suv", body_type=body("Hatch"),
+    )
+    assert hatch["core_coverage_complete"] and hatch["profile_eligible"]
+    assert hatch["sources"]["body_type"].value == "Hatch"
+
+
 def test_duplicate_canonical_options_fail_closed():
     first=vehicle(35,length_mm="3800",width_with_mirrors_mm="1850")
     second=vehicle(36,length_mm="3900",width_with_mirrors_mm="1900")
@@ -97,7 +115,9 @@ def test_duplicate_canonical_options_fail_closed():
             "year_code":first.fields["year_code"].model_dump()}
     second=ProfileVehicle.model_validate({**second.model_dump(),"fields":fields})
     report=assess_cohort([first,second],stability_verified=True)
-    assert report["partial_coverage_candidates"]["cidade"]==0
+    assert report["partial_coverage_candidates"]["cidade"]==2
+    assert report["core_coverage_complete_candidates"]["cidade"]==2
+    assert report["core_coverage_complete_and_eligible_candidates"]["cidade"]==0
     assert all("DUPLICATE_CANONICAL_OPTION" in r["blockers"] for r in report["matrix"])
 
 

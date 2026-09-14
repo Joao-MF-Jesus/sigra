@@ -43,13 +43,22 @@ ficam fora do repositório. Nenhum PDF, cache, banco ou log faz parte destes arq
 | Trabalho | carga 30%, porta-malas 20%, custo operacional comprovado 30%, envelope 20% | custo operacional, envelope e carga ou porta-malas |
 | Família | lugares 20%, porta-malas 25%, segurança 35%, preço 20% | lugares, porta-malas, segurança |
 | Estrada | consumo rodoviário 45%, segurança 35%, peso/potência 20%, transmissão 0% | consumo e segurança |
-| SUV/espaço | porta-malas 30%, lugares 20%, altura livre 25%, proxy dimensional 25% | porta-malas, lugares e altura livre |
+| Espaço/capacidade (`suv` por compatibilidade) | porta-malas 30%, lugares 20%, altura livre 25%, proxy dimensional 25% | porta-malas, lugares e altura livre |
 
-Cobertura ponderada mínima: **80%**, além dos critérios obrigatórios, identidade
-aprovada, mês alinhado, rastreabilidade, ausência de conflito e aprovação humana
-quando a versão/ano foi substituída. `methodology_ready` é calculado por perfil;
-não altera o estado persistente de revisão, não significa eficácia validada,
-recomendação defensável, elegibilidade financeira ou autorização de publicação.
+Os estados são deliberadamente separados: `identity_resolved` exige identidade
+exata; `partial_coverage_candidate` registra alguma evidência relevante;
+`profile_scoreable` exige todas as entradas obrigatórias; `profile_eligible`
+aplica identidade, tempo, conflitos, aprovações e regras eliminatórias declaradas;
+`methodology_ready` soma scoreabilidade, elegibilidade e cobertura ponderada
+mínima de **80%**. `recommended` só pode existir após TCO completo e execução
+explícita do ranking de recomendação. Assim, a ordem de `preview_score` permanece
+diagnóstico e nunca é publicada como recomendação.
+
+A chave histórica `suv` não classifica carroceria. O perfil aceita qualquer
+carroceria documentada e mede exclusivamente espaço/capacidade pelos critérios
+versionados. Por isso o rótulo correto é **Espaço/capacidade**; um hatch pode ser
+calculável nesse perfil sem ser apresentado como SUV. Nenhuma regra foi mudada
+para incluir ou excluir o ID 36.
 
 Os limites absolutos estão integralmente no JSON: para preferência crescente,
 `100 * clamp((x-L)/(U-L), 0, 1)`; decrescente,
@@ -60,7 +69,7 @@ perturbação por vez. Não se ajustam pesos para obter determinado vencedor.
 Segurança exige conjuntamente número total de airbags, ABS e ESC comprovados;
 não é nota de crash test. Transmissão só recebe peso positivo após preferência
 explícita, sem considerar automático universalmente melhor. Envelope usa largura
-com espelhos. Proxy de espaço SUV usa entre-eixos × largura da carroceria, sem
+com espelhos. Proxy de Espaço/capacidade usa entre-eixos × largura da carroceria, sem
 espelhos, explicitamente fraco; **não é medida de cabine ou conforto**. Espaço
 para aplicativo exige medidas internas, não lugares ou dimensões externas.
 
@@ -97,27 +106,45 @@ comprovados para Kwid Zen 2021, up! Move 2019 e Fox Connect 2019:
   convertidos em médias inventadas. Células comuns do motor/manual são vinculadas
   explicitamente; medidas internas e porta-malas continuam indisponíveis.
 
-Cobertura técnica dos 19: lugares 3; porta-malas 1; comprimento 1; largura sem
-espelhos 2; largura com espelhos 3; entre-eixos 3; altura livre 2; massa 1;
-potência 3; carga 1; airbags 1; ABS 1; ESC 0; espaço interno 0. O relatório
+Cobertura técnica dos 19 após o replay CarPedia offline: lugares 10;
+porta-malas 10; comprimento 9; largura sem espelhos 10; largura com espelhos 3;
+entre-eixos 10; altura livre 4; massa 1; potência a gasolina 3; carga 7;
+airbags 1; ABS 1; ESC 0; espaço interno 0. O relatório
 externo registra cobertura e motivos de ausência de todos os campos por veículo.
 
-**Somente ID 36 (up! Move) passa Cidade**, com 100% dos três critérios e geometria
-nominal expressamente qualificada. Nenhum candidato passa os outros cinco
-perfis. QQ conserva o conflito entre descrição FIPE Flex e combustível estruturado
+**IDs 36 (up! Move) e 37 (Fox Connect) passam Cidade**, com 100% dos três
+critérios e geometria nominal expressamente qualificada. Espaço/capacidade
+contém 36, 42 e 43; os demais perfis permanecem sem dossiê v3 pronto. QQ
+conserva o conflito entre descrição FIPE Flex e combustível estruturado
 gasolina. A aprovação de identidade existente não é revogada nem tomada como
 aprovação metodológica. Diferenças entre previews não comprovam eficácia.
 
 ## Custos e tempo
 
 Cenário explícito: 1.000 km/mês, gasolina manual R$ 6/l; não é observação ANP.
-O combustível calculado é uma estimativa separada. Nenhum candidato tem custo
+O combustível calculado é uma estimativa separada, identificada como
+`scenario_estimate`, e não entra no total conhecido. Uma derivação de combustível
+admissível no TCO requer consumo PBEV e preço ANP com semana, geografia e tipo de
+combustível. Nenhum candidato tem essa observação ANP. Nenhum candidato tem custo
 observado de manutenção, IPVA, seguro ou depreciação; nenhum tem TCO completo.
 Taxas anuais configuráveis, se fornecidas, são projeções, não observações. A
 divisão anual/12 ocorre apenas ao derivar o componente mensal, sem alterar o
 contrato ou os valores de manutenção existentes. Nenhuma decisão de orçamento
 é tomada pelo piloto. Financiamento, estacionamento e pedágio são despesas de
 contexto fora do escopo declarado de cinco componentes.
+
+`footprint` é a derivação determinística e versionada
+`length_mm × width_with_mirrors_mm ÷ 1.000.000`, em m². Largura de carroceria não
+substitui largura com espelhos. `passenger_space` continua indisponível sem
+entrepernas traseiro e largura interna medidos; lugares, entre-eixos e dimensões
+externas não são usados como aproximação.
+
+A camada acadêmica expõe separadamente `body_footprint_m2`, calculado por
+`length_mm × body_width_mm ÷ 1.000.000` e acompanhado pelos hashes das duas
+evidências. Esse diagnóstico não é o critério `footprint` v3. O perfil Trabalho
+também conserva `operating_cost` em `BRL/month`: apenas seu gate acadêmico pode
+usar o TCO do cenário na mesma unidade; o método operacional continua exigindo
+combustível e manutenção com evidência aceita.
 
 Os 34 legados têm cache FIPE julho/2026. Somente 30 referências passam a
 comparação estrita existente; IDs 9, 15, 19 e 21 permanecem sem preço aceito.

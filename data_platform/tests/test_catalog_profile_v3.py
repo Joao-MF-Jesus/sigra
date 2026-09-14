@@ -84,6 +84,7 @@ def test_costs_manual_fuel_and_explicit_rates_are_not_observed_or_complete_tco()
     scenario["annual_estimate_rates"] = {"maintenance":"0.06", "insurance":"0.03", "depreciation":"0.10", "ipva":"0.04"}
     result = cost_evidence(vehicle(), scenario)
     assert result["observed_monthly_fuel_cost"] is None
+    assert result["derived_monthly_fuel_cost"] is None
     assert result["known_monthly_cost"] is None
     assert result["estimated_components"]["fuel"] == D("500.00")
     assert result["estimated_components"]["maintenance"] == D("250.00")
@@ -91,6 +92,10 @@ def test_costs_manual_fuel_and_explicit_rates_are_not_observed_or_complete_tco()
     assert result["monthly_tco"] is None and not result["is_complete_tco"]
     assert result["proven_operating_cost"] is None
     assert result["monthly_budget_eligible"] is None
+    assert result["component_evidence"]["fuel"]["status"] == "scenario_estimate"
+    assert result["component_evidence"]["fuel"]["origin"] == "PBEV consumption plus explicit user scenario"
+    assert result["component_evidence"]["ipva"]["status"] == "scenario_estimate"
+    assert result["total_evidence"]["status"] == "unavailable"
 
 
 def test_anp_no_silent_fallback_and_annual_conversion_exactly_once():
@@ -104,6 +109,9 @@ def test_anp_no_silent_fallback_and_annual_conversion_exactly_once():
     assert costs["known_components"]["maintenance"] == D("266.67")
     assert costs["known_monthly_cost"] == D("766.67")
     assert costs["observed_monthly_fuel_cost"] == D("500")
+    assert costs["derived_monthly_fuel_cost"] == D("500")
+    assert costs["component_evidence"]["fuel"]["status"] == "derived_from_observed_inputs"
+    assert costs["component_evidence"]["maintenance"]["method"] == "maintenance_annual_brl / 12 exactly once"
     assert not costs["is_complete_tco"]
 
 
@@ -113,6 +121,22 @@ def test_complete_cost_requires_each_component_not_estimates():
     result = cost_evidence(v,{**configuration()["scenario"],"fuel_price_mode":"anp"})
     assert result["monthly_tco"] == 900 and result["is_complete_tco"]
     assert result["estimated_monthly_cost"] is None
+
+
+def test_complete_tco_makes_a_ready_vehicle_recommendable_but_does_not_execute_recommendation():
+    v = vehicle(
+        length_mm="4000", width_with_mirrors_mm="1800", gasoline_brl_per_l="6",
+        maintenance_annual_brl="1200", ipva_annual_brl="1200",
+        insurance_annual_brl="1200", depreciation_annual_brl="1200",
+    )
+    v = changed(v, provenance={"anp_context":{"week_start":"2026-09-07","geography":"SP","fuel":"gasoline"}})
+    scenario = {**configuration()["scenario"], "fuel_price_mode":"anp"}
+    row = score_vehicle(v, "cidade", "2026-09", scenario=scenario)
+    assert row["methodology_ready"] and row["tco_complete"] and row["recommendable"]
+    assert not row["recommended"]
+    cohort = score_cohort([v], "cidade", "2026-09", scenario=scenario)
+    assert cohort["recommendable_ids"] == [1]
+    assert cohort["recommended_ids"] == [] and not cohort["recommendation_executed"]
 
 
 @pytest.mark.parametrize("fuel",["diesel","ethanol","electric"])
@@ -130,14 +154,60 @@ def test_safety_requires_all_evidence_zero_is_distinct_from_missing():
 
 def test_readiness_requires_identity_month_coverage_required_sources_and_approval():
     v = vehicle(length_mm="4000",width_with_mirrors_mm="1800")
-    assert score_vehicle(v,"cidade","2026-09")["methodology_ready"]
+    ready = score_vehicle(v,"cidade","2026-09")
+    assert ready["identity_resolved"] and ready["partial_coverage_candidate"]
+    assert ready["profile_scoreable"] and ready["profile_eligible"] and ready["methodology_ready"]
+    assert not ready["tco_complete"] and not ready["recommendable"] and not ready["recommended"]
     cases = [changed(v,identity_status="legacy_binding_not_reaudited"), changed(v,source_conflicts=("unresolved",)),
              changed(v,human_approval_required=True,human_approval_status="pending"), vehicle()]
     for candidate in cases:
         assert not score_vehicle(candidate,"cidade","2026-09")["methodology_ready"]
     row = score_vehicle(v,"cidade","2026-07")
-    assert row["preview_score"] is None and not row["methodology_ready"]
+    assert row["preview_score"] is None and row["profile_scoreable"] and not row["profile_eligible"]
+    assert not row["methodology_ready"]
     assert not row["operationally_active"]
+
+
+def test_footprint_is_versioned_and_passenger_space_is_never_inferred_from_exterior_data():
+    row = score_vehicle(
+        vehicle(length_mm="4000", width_mm="1700", width_with_mirrors_mm="1900", wheelbase_mm="2500", seats="5"),
+        "cidade", "2026-09",
+    )
+    footprint = row["criterion_derivations"]["footprint"]
+    assert footprint["value"] == D("7.6")
+    assert footprint["unit"] == "m2"
+    assert footprint["method_version"] == "catalog-profile-evidence-v3"
+    app = score_vehicle(
+        vehicle(length_mm="4000", width_mm="1700", width_with_mirrors_mm="1900", wheelbase_mm="2500", seats="5", cargo_l="400"),
+        "app", "2026-09",
+    )
+    assert app["criteria_values"]["passenger_space"] is None
+    assert "Rear legroom" in app["criterion_derivations"]["passenger_space"]["reason"]
+    assert not app["profile_scoreable"]
+
+
+def test_profile_key_suv_is_documented_as_space_capacity_without_body_style_elimination():
+    config = configuration()
+    definition = config["profiles"]["suv"]
+    assert definition["display_name"] == "Espaço/capacidade"
+    assert definition["eligibility"] == {"categorical_rules": [], "eliminatory_rules": []}
+    hatch = vehicle(seats="5", cargo_l="400", ground_clearance_mm="180", wheelbase_mm="2500", width_mm="1700")
+    row = score_vehicle(hatch, "suv", "2026-09")
+    assert row["profile_eligible"] and row["methodology_ready"]
+    assert not row["recommendable"] and not row["recommended"]
+
+
+def test_cohort_preserves_diagnostic_order_but_never_labels_it_recommendation_without_complete_tco():
+    report = score_cohort(
+        [vehicle(1, length_mm="4000", width_with_mirrors_mm="1800")],
+        "cidade", "2026-09",
+    )
+    assert report["ranking"] == report["diagnostic_preview_ranking"]
+    assert report["methodology_ready_ids"] == [1]
+    assert report["recommendable_ids"] == []
+    assert report["recommended_ids"] == []
+    assert report["recommendation_ranking"] == []
+    assert report["recommendation_executed"] is False
 
 
 def test_no_joint_preview_for_mixed_or_missing_months():

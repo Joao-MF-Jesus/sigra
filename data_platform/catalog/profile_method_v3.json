@@ -5,6 +5,14 @@
   "minimum_weighted_coverage": "0.80",
   "precision": {"score": "0.000001", "weight": "0.000000000001", "money": "0.01", "rounding": "ROUND_HALF_UP"},
   "scenario": {"monthly_km": "1000", "gasoline_brl_per_l": "6", "transmission_preference": null, "annual_estimate_rates": {}},
+  "status_definitions": {
+    "identity_resolved": "Exact reviewed identity with canonical keys; never textual similarity.",
+    "partial_coverage_candidate": "At least one relevant profile field is evidenced; eligibility is reported independently.",
+    "profile_scoreable": "Every required criterion and one member of each required_any group is calculable.",
+    "profile_eligible": "Identity, temporal, conflict, human-approval and declared categorical/eliminatory gates pass.",
+    "methodology_ready": "Profile is scoreable and eligible and reaches minimum weighted evidence coverage.",
+    "recommended": "Only after methodology readiness, complete TCO and an explicitly executed recommendation ranking."
+  },
   "scales": {
     "price": {"unit": "BRL", "lower": "20000", "upper": "160000", "direction": "lower", "justification": "Declared acquisition-preference anchors for a used-car pilot, not market extrema or affordability proof."},
     "urban_fuel": {"unit": "BRL/month", "lower": "250", "upper": "1500", "direction": "lower", "justification": "Declared monthly fuel expenditure anchors under an explicit common distance and fuel-price scenario; not complete TCO."},
@@ -22,16 +30,17 @@
     "transmission": {"unit": "preference_match", "formula": "100 if explicit user preference matches, otherwise 0; null when preference or evidence absent", "justification": "No universal ordering of manual/automatic/CVT. Default weight zero until preference is explicitly selected."}
   },
   "profiles": {
-    "cidade": {"weights": {"urban_fuel": "0.45", "footprint": "0.25", "price": "0.30"}, "required": ["urban_fuel", "footprint", "price"], "required_any": []},
-    "app": {"weights": {"urban_fuel": "0.35", "passenger_space": "0.25", "cargo": "0.20", "price": "0.20"}, "required": ["urban_fuel", "passenger_space", "cargo"], "required_any": []},
-    "trabalho": {"weights": {"payload": "0.30", "cargo": "0.20", "operating_cost": "0.30", "footprint": "0.20"}, "required": ["operating_cost", "footprint"], "required_any": [["payload", "cargo"]]},
-    "familia": {"weights": {"seats": "0.20", "cargo": "0.25", "safety": "0.35", "price": "0.20"}, "required": ["seats", "cargo", "safety"], "required_any": []},
-    "estrada": {"weights": {"highway_consumption": "0.45", "safety": "0.35", "mass_power": "0.20", "transmission": "0"}, "required": ["highway_consumption", "safety"], "required_any": []},
-    "suv": {"weights": {"cargo": "0.30", "seats": "0.20", "clearance": "0.25", "interior_proxy": "0.25"}, "required": ["cargo", "seats", "clearance"], "required_any": []}
+    "cidade": {"display_name": "Cidade", "weights": {"urban_fuel": "0.45", "footprint": "0.25", "price": "0.30"}, "required": ["urban_fuel", "footprint", "price"], "required_any": [], "eligibility": {"categorical_rules": [], "eliminatory_rules": []}},
+    "app": {"display_name": "Aplicativo", "weights": {"urban_fuel": "0.35", "passenger_space": "0.25", "cargo": "0.20", "price": "0.20"}, "required": ["urban_fuel", "passenger_space", "cargo"], "required_any": [], "eligibility": {"categorical_rules": [], "eliminatory_rules": []}},
+    "trabalho": {"display_name": "Trabalho", "weights": {"payload": "0.30", "cargo": "0.20", "operating_cost": "0.30", "footprint": "0.20"}, "required": ["operating_cost", "footprint"], "required_any": [["payload", "cargo"]], "eligibility": {"categorical_rules": [], "eliminatory_rules": []}},
+    "familia": {"display_name": "Família", "weights": {"seats": "0.20", "cargo": "0.25", "safety": "0.35", "price": "0.20"}, "required": ["seats", "cargo", "safety"], "required_any": [], "eligibility": {"categorical_rules": [], "eliminatory_rules": []}},
+    "estrada": {"display_name": "Estrada", "weights": {"highway_consumption": "0.45", "safety": "0.35", "mass_power": "0.20", "transmission": "0"}, "required": ["highway_consumption", "safety"], "required_any": [], "eligibility": {"categorical_rules": [], "eliminatory_rules": []}},
+    "suv": {"display_name": "Espaço/capacidade", "compatibility_key_note": "Historical key only; it does not classify or require SUV body style.", "weights": {"cargo": "0.30", "seats": "0.20", "clearance": "0.25", "interior_proxy": "0.25"}, "required": ["cargo", "seats", "clearance"], "required_any": [], "eligibility": {"categorical_rules": [], "eliminatory_rules": []}}
   },
   "formula": "u=100*clamp((x-L)/(U-L),0,1) for higher; u=100*clamp((U-x)/(U-L),0,1) for lower. No sample statistics.",
   "weight_rule": "Positive original weights renormalized only over available criteria per vehicle; exact Decimal, final remainder to last criterion. Missing has zero effective weight but null utility and null contribution. Coverage never multiplies score.",
-  "readiness_rule": "Identity approved; target FIPE month matched; all required criteria and at least one of each required_any; coverage >=0.80; no source conflict; human substitution approval when required. Ready means only methodological pilot, not publication or efficacy.",
+  "readiness_rule": "Identity approved; target FIPE month matched; all required criteria and at least one of each required_any; coverage >=0.80; no source conflict; human substitution approval when required. Ready means calculable and eligible in the methodological pilot, not recommendation, publication or efficacy.",
+  "recommendation_rule": "Recommended requires methodology readiness, complete five-component TCO and an explicitly executed recommendation ranking. Diagnostic preview order is never recommendation.",
   "nominal_scope": "Official same-year nominal geometry is accepted only as explicitly qualified pilot geometry. Trim-dependent unresolved ranges remain null. Never a measured individual vehicle claim.",
   "sensitivity": {"weight_multipliers": ["0.5", "2"], "absolute_anchor_multipliers": ["0.9", "1.1"], "purpose": "One-at-a-time checks, not fit to desired rankings or selected cohort"},
   "limitations": [

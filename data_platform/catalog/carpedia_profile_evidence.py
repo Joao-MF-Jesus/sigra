@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from dataclasses import replace
 from datetime import datetime
 from decimal import Decimal
 import hashlib
@@ -29,7 +30,7 @@ from data_platform.transformation.carpedia import build_specification, normalize
 
 MANIFEST_PATH = Path(__file__).with_name("carpedia_profile_evidence_v1.json")
 MANIFEST_VERSION = "carpedia-profile-evidence-v1"
-EXPECTED_IDS = frozenset({46, 47})
+EXPECTED_IDS = frozenset({36, 37, 38, 39, 42, 43, 46, 47, 49})
 PROFILE_FIELDS = {
     "body_style": "body_type",
     "seats": "seats",
@@ -39,12 +40,23 @@ PROFILE_FIELDS = {
     "width": "width_mm",
     "wheelbase": "wheelbase_mm",
 }
+PROFILE_ONLY_FIELDS = {"ground_clearance": "ground_clearance_mm"}
+PROFILE_FIELD_BY_CODE = {**PROFILE_FIELDS, **PROFILE_ONLY_FIELDS}
 CONTRACT_ONLY_FIELDS = frozenset(
     {"power", "engine_displacement", "transmission", "fuel_type", "fuel_tank_capacity"}
 )
+_FULL_PROFILE_CODES = frozenset(PROFILE_FIELDS)
+_PROFILE_CODES_WITHOUT_PAYLOAD = _FULL_PROFILE_CODES - {"payload_capacity"}
 EXPECTED_CODES = {
-    46: frozenset({"body_style", "seats", "length", "width", "wheelbase", "cargo_capacity", *CONTRACT_ONLY_FIELDS}),
-    47: frozenset({"body_style", "seats", "length", "width", "wheelbase", "payload_capacity", "cargo_capacity", *CONTRACT_ONLY_FIELDS}),
+    36: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS,
+    37: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS,
+    38: _PROFILE_CODES_WITHOUT_PAYLOAD | CONTRACT_ONLY_FIELDS,
+    39: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS,
+    42: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS | frozenset(PROFILE_ONLY_FIELDS),
+    43: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS | frozenset(PROFILE_ONLY_FIELDS),
+    46: _PROFILE_CODES_WITHOUT_PAYLOAD | CONTRACT_ONLY_FIELDS,
+    47: _FULL_PROFILE_CODES | CONTRACT_ONLY_FIELDS,
+    49: _PROFILE_CODES_WITHOUT_PAYLOAD | CONTRACT_ONLY_FIELDS,
 }
 
 
@@ -64,7 +76,7 @@ def _load_manifest(path: Path = MANIFEST_PATH) -> dict[str, object]:
         raise ValueError("Carpedia profile evidence records are invalid")
     identifiers = [row.get("candidate_id") for row in records if isinstance(row, dict)]
     if len(records) != len(EXPECTED_IDS) or len(set(identifiers)) != len(records) or set(identifiers) != EXPECTED_IDS:
-        raise ValueError("Carpedia profile evidence must contain exactly IDs 46 and 47")
+        raise ValueError("Carpedia profile evidence candidate scope differs")
     for record in records:
         _validate_manifest_record(record)
     return manifest
@@ -100,10 +112,43 @@ def _validate_manifest_record(record: dict[str, object]) -> None:
         raise ValueError("Duplicate Carpedia evidence field")
     for field in fields:
         code = field["attribute_code"]
-        expected_profile = PROFILE_FIELDS.get(code)
+        expected_profile = PROFILE_FIELD_BY_CODE.get(code)
         if field.get("profile_field") != expected_profile:
             if not (code in CONTRACT_ONLY_FIELDS and field.get("profile_field") is None):
                 raise ValueError("Carpedia profile field mapping is invalid")
+
+
+def _profile_only_normalization(item, expected):
+    """Admit narrowly versioned profile fields without changing the API normalizer contract."""
+    if expected["attribute_code"] not in PROFILE_ONLY_FIELDS:
+        return item
+    if expected["attribute_code"] != "ground_clearance":
+        raise ValueError("Unsupported profile-only Carpedia field")
+    if normalize_text(item.source_label) != "vao livre do solo mm":
+        raise ValueError("Carpedia ground-clearance label or unit is not exact")
+    match = re.fullmatch(r"\s*(\d+(?:[.,]\d+)?)\s*", item.source_value)
+    if match is None:
+        raise ValueError("Carpedia ground clearance is not an exact millimetre value")
+    value_text = match.group(1).replace(",", ".")
+    value = Decimal(value_text)
+    if not value.is_finite() or value <= 0:
+        raise ValueError("Carpedia ground clearance must be positive")
+    precision = len(value_text.rsplit(".", 1)[1]) if "." in value_text else 0
+    return replace(
+        item,
+        attribute_code="ground_clearance",
+        source_unit="mm",
+        normalized_value=value.quantize(Decimal("0.000001")),
+        normalized_unit="mm",
+        precision=precision,
+        unit_status="recognized",
+        provenance={
+            **item.provenance,
+            "profile_evidence_normalizer_version": MANIFEST_VERSION,
+            "unit_locator": "source_label",
+            "source_value_preserved": True,
+        },
+    )
 
 
 def _source_transmission(value: str) -> str | None:
@@ -133,7 +178,7 @@ def reprocess_carpedia_caches(
     *,
     manifest_path: Path = MANIFEST_PATH,
 ) -> dict[int, dict[str, object]]:
-    """Reprocess only the two authorized fichas; no network, database or fallback."""
+    """Reprocess only the hash-bound authorized fichas; no network, database or fallback."""
     directory = Path(cache_directory).resolve(strict=True)
     manifest = _load_manifest(manifest_path)
     output: dict[int, dict[str, object]] = {}
@@ -201,16 +246,16 @@ def reprocess_carpedia_caches(
         )
         if specification.mapping.status != CarpediaMappingStatus.MATCHED or specification.mapping.match_method != "exact_identity":
             raise ValueError("Carpedia cache did not produce one exact identity")
-        selected_codes = EXPECTED_CODES[identifier]
-        recognized = [item for item in specification.parsed.attributes if item.attribute_code in selected_codes]
-        if Counter(item.attribute_code for item in recognized) != Counter(selected_codes):
-            raise ValueError("Carpedia cache contains a missing or duplicate admitted attribute")
-        by_locator = {item.provenance.get("field_locator"): item for item in recognized}
-        if len(by_locator) != len(recognized):
+        parsed_by_locator = {
+            item.provenance.get("field_locator"): item
+            for item in specification.parsed.attributes
+        }
+        if len(parsed_by_locator) != len(specification.parsed.attributes):
             raise ValueError("Carpedia field locator is missing or duplicated")
         fields: dict[str, object] = {}
         for expected in record["fields"]:
-            item = by_locator.get(expected["locator"])
+            raw_item = parsed_by_locator.get(expected["locator"])
+            item = _profile_only_normalization(raw_item, expected) if raw_item is not None else None
             normalized_value = str(item.normalized_value) if item and isinstance(item.normalized_value, Decimal) else (item.normalized_value if item else None)
             if item is None or {
                 "attribute_code": item.attribute_code,
@@ -228,6 +273,8 @@ def reprocess_carpedia_caches(
             if item.unit_status not in {"recognized", "not_applicable"}:
                 raise ValueError("Carpedia admitted field has an invalid or unavailable unit")
             fields[item.attribute_code] = item
+        if Counter(fields.keys()) != Counter(EXPECTED_CODES[identifier]):
+            raise ValueError("Carpedia cache contains a missing or duplicate admitted attribute")
         output[identifier] = {
             "record": record,
             "specification": specification,
@@ -269,6 +316,7 @@ def augment_carpedia_profile_evidence(
         fields = dict(vehicle.fields)
         body_type = None
         admitted_profile_fields = []
+        preserved_existing_profile_fields = []
         normalized_contract_fields = {}
         for expected in record["fields"]:
             item = evidence["fields"][expected["attribute_code"]]
@@ -303,7 +351,14 @@ def augment_carpedia_profile_evidence(
                 candidate_observation = observed(profile_field, item.normalized_value, (citation,))
                 if fields[profile_field].kind == "unavailable":
                     fields[profile_field] = candidate_observation
-                elif fields[profile_field] != candidate_observation:
+                elif fields[profile_field] == candidate_observation:
+                    pass
+                elif (
+                    fields[profile_field].value == candidate_observation.value
+                    and fields[profile_field].unit == candidate_observation.unit
+                ):
+                    preserved_existing_profile_fields.append(profile_field)
+                else:
                     raise ValueError("Carpedia enrichment cannot overwrite existing profile evidence")
             admitted_profile_fields.append(profile_field)
         carpedia_fuel = _source_fuel(evidence["fields"]["fuel_type"].source_value)
@@ -324,6 +379,7 @@ def augment_carpedia_profile_evidence(
                 "source_concordance": {"fuel": carpedia_fuel, "transmission": carpedia_transmission},
                 "normalized_contract_fields": normalized_contract_fields,
                 "admitted_profile_fields": admitted_profile_fields,
+                "preserved_existing_profile_fields": preserved_existing_profile_fields,
                 "unavailable_profile_fields": record["unavailable_profile_fields"],
             },
         }

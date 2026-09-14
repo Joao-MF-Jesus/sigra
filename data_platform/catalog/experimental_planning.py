@@ -138,7 +138,7 @@ def directed_plan(vehicles, assessment, selection):
     chosen=prioritized[:target]
     dossiers=[{'id':v.id,'vehicle':v.label,'existing_evidence_fields':counts[v.id],
                'cached_oem':bool(v.provenance.get('technical_review_sha256')),
-               'profiles_still_missing':[r['profile'] for r in assessment['matrix'] if r['vehicle_id']==v.id and not r['partial_coverage_candidate']],
+               'profiles_still_missing':[r['profile'] for r in assessment['matrix'] if r['vehicle_id']==v.id and not r['core_coverage_complete']],
                'fipe_code':v.fields['fipe_code'].value,'year_code':v.fields['year_code'].value,
                'sources_to_reuse':{s.sha256:s.model_dump(mode='json') for o in v.fields.values() for s in o.sources}}
               for v in chosen]

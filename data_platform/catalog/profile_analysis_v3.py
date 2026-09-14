@@ -66,6 +66,17 @@ def analyze_cohort(vehicles, month):
         for row in preview["records"]:
             groups.setdefault("|".join(row["used_criteria"]) or "none", []).append(row["id"])
         evidence_groups[name] = groups
+    status_names = (
+        "identity_resolved", "partial_coverage_candidate", "profile_scoreable",
+        "profile_eligible", "methodology_ready", "tco_complete", "recommendable", "recommended",
+    )
+    status_ids = {
+        name: {
+            status: [row["id"] for row in preview["records"] if row[status]]
+            for status in status_names
+        }
+        for name, preview in profiles.items()
+    }
     return {"count": len(vehicles), "month": month, "profiles": profiles,
             "field_coverage": coverage,
             "vehicle_coverage": [{"id": v.id, "observed_fields": sum(o.kind == "observed" for o in v.fields.values()),
@@ -78,6 +89,11 @@ def analyze_cohort(vehicles, month):
             "sensitivity": {name: sensitivity(vehicles, name, month, p) for name, p in profiles.items()},
             "cohort_stability": {"checks": len(stability), "all_passed": True, "details": stability},
             "evidence_mask_groups": evidence_groups,
+            "status_ids_by_profile": status_ids,
+            "status_counts_by_profile": {
+                name: {status: len(ids) for status, ids in statuses.items()}
+                for name, statuses in status_ids.items()
+            },
             "methodology_ready_ids": ready, "methodology_ready": len(ready), "active": 0,
             "interpretation": "Partial-score top10s are diagnostics, not equally evidenced suitability rankings. Different orders do not prove efficacy.",
             "ready_preview_by_profile": {name: [r["id"] for r in p["ranking"] if r["methodology_ready"]][:10]

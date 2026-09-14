@@ -36,8 +36,8 @@ def _citation(source, provider, document, locator, page=None):
 def candidate_matrix(archive, technical_directory, *, carpedia_cache_directory=None):
     """Only the 19 revalidated identities; blocked IDs never enter the pilot.
 
-    CarPedia enrichment is opt-in and accepts only the two hash-bound cached
-    fichas registered in the versioned evidence manifest.
+    CarPedia enrichment is opt-in and accepts only hash-bound cached fichas
+    registered in the versioned evidence manifest.
     """
     inputs = {row.identifier: row for row in candidate_evidence(archive)}
     decisions = {row["id"]: row for row in review_batch()["decisions"] if row["status"] == "identity_approved"}

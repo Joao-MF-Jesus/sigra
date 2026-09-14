@@ -15,26 +15,26 @@ Esta camada é somente um gate de prontidão e planejamento offline. Ela não al
 | Trabalho | preço FIPE do mês, consumo urbano, combustível e ao menos um entre carga útil ou porta-malas | comprimento e largura com espelhos |
 | Família | preço FIPE do mês, assentos, porta-malas, airbags, ABS e ESC | largura interna |
 | Estrada | preço FIPE do mês, consumo rodoviário, combustível, airbags, ABS e ESC | peso, potência a gasolina e câmbio |
-| SUV/espaço | preço FIPE do mês, assentos, porta-malas, carroceria documentada e vão livre | entre-eixos, largura e largura interna |
+| Espaço/capacidade (`suv`) | preço FIPE do mês, assentos, porta-malas, carroceria documentada e vão livre | entre-eixos, largura e largura interna |
 
 Ausência não vira zero. Airbags, ABS e ESC são inventário explícito de equipamentos, não nota de segurança. Carroceria é descrição documentada por variante e não pode ser inferida por nome, silhueta ou grupo de coleta. Cobertura do núcleo e score continuam conceitos separados.
 
 ## Resultado material da matriz 34 + 19
 
-| Perfil | `partial_coverage_candidates` | IDs | Lacuna documental preliminar até 10 |
+| Perfil | `core_coverage_complete_and_eligible_candidates` | IDs | Lacuna documental preliminar até 10 |
 |---|---:|---|---:|
-| Cidade | 1 | 36 | 9 |
-| Aplicativo | 2 | 46, 47 | 8 |
-| Trabalho | 2 | 46, 47 | 8 |
+| Cidade | 2 | 36, 37 | 8 |
+| Aplicativo | 9 | 36, 37, 38, 39, 42, 43, 46, 47, 49 | 1 |
+| Trabalho | 9 | 36, 37, 38, 39, 42, 43, 46, 47, 49 | 1 |
 | Família | 0 | — | 10 |
 | Estrada | 0 | — | 10 |
-| SUV/espaço | 0 | — | 10 |
+| Espaço/capacidade (`suv`) | 3 | 36, 42, 43 | 7 |
 
 As lacunas não devem ser somadas para decidir quantos veículos comprar/coletar: um único dossiê completo pode cobrir os seis perfis. O limite inferior matemático de novos candidatos é zero porque há 14 identidades aprovadas sem conflito ou aprovação humana pendente; porém a completude documental dessas identidades ainda não foi comprovada. Portanto, nenhum ID adicional foi selecionado.
 
-`partial_coverage_candidates` mede somente o núcleo mínimo preliminar e não representa recomendação pronta nem `methodology_ready`. Na metodologia V3, os IDs 46 e 47 permanecem com `methodology_ready=false` em todos os seis perfis; Cidade mantém somente o ID 36 pronto. Nenhum ranking conjunto foi gerado.
+`partial_coverage_candidates` agora significa literalmente que existe alguma evidência relevante do perfil e é contado independentemente da elegibilidade. `core_coverage_complete_candidates` mede apenas completude documental; `profile_eligible` aplica os gates independentes. A tabela acima usa a interseção explícita `core_coverage_complete_and_eligible_candidates`, equivalente ao antigo núcleo preliminar aprovado. Na metodologia V3, Cidade contém os IDs 36 e 37 e Espaço/capacidade contém os IDs 36, 42 e 43 como `methodology_ready`; Aplicativo, Trabalho, Família e Estrada permanecem sem dossiê pronto. Os cinco resultados são calculáveis e elegíveis apenas segundo suas rubricas; nenhum é recomendável porque o TCO operacional continua incompleto. Nenhum ranking de recomendação foi executado.
 
-Os dez primeiros dossiês existentes para coleta dirigida são 36, 37, 38, 39, 42, 43, 44, 46, 47 e 49. Essa ordem usa apenas quantidade de evidências já observadas e ID como desempate, nunca preço, score desejado ou grupo comercial. A primeira rodada CarPedia consumiu o teto local de dez tentativas: oito descobertas exatas e duas fichas, para os IDs 46 e 47. O ID 44 permaneceu sem identificador de modelo inequívoco e o limite foi atingido antes do ID 49. Uma rodada futura, ainda não executada, pode reutilizar os identificadores já descobertos para seis fichas diretas (36, 37, 38, 39, 42 e 43) e reservar até duas tentativas para descoberta e ficha do ID 49. Os IDs 57–100 ficam apenas no backlog.
+Os dez primeiros dossiês existentes para coleta dirigida são 36, 37, 38, 39, 42, 43, 44, 46, 47 e 49. Essa ordem usa apenas quantidade de evidências já observadas e ID como desempate, nunca preço, score desejado ou grupo comercial. A primeira rodada CarPedia consumiu o teto local de dez tentativas: oito descobertas exatas e duas fichas, para os IDs 46 e 47. A segunda rodada reutilizou seis descobertas do cache e consumiu exatamente oito tentativas HTTP: seis fichas diretas para os IDs 36, 37, 38, 39, 42 e 43, mais descoberta e ficha do ID 49. Todas retornaram HTTP 200 e passaram código FIPE, versão, ano, combustível e identidade exatos. O ID 44 permanece sem identificador inequívoco por causa de Fiesta/New Fiesta, sem chamada. A expansão via CarPedia fica temporariamente encerrada e os IDs 57–100 continuam apenas no backlog.
 
 ## Alinhamento FIPE e identidade
 
@@ -48,11 +48,31 @@ Uma nova chamada ao mesmo endpoint de preço não resolve esses sete casos: 6, 7
 
 ## Coleta e CarPedia
 
-Primeiro devem ser reutilizados PBEV, cache FIPE e documentos OEM já preservados. As fichas CarPedia dos IDs 46 e 47 foram reprocessadas exclusivamente do cache, ligadas a hash, identificador externo, ano, localizador de campo e momento da coleta. Nenhum valor foi estimado e ausência continuou `null/unavailable`.
+Primeiro devem ser reutilizados PBEV, cache FIPE e documentos OEM já preservados. As fichas CarPedia dos IDs 36, 37, 38, 39, 42, 43, 46, 47 e 49 foram reprocessadas exclusivamente do cache consolidado, ligadas a hash, identificador externo, ano, localizador de campo e momento da coleta. Nenhum valor foi estimado e ausência continuou `null/unavailable`.
 
-A documentação e o cliente versionado preservam autenticação Bearer, descoberta de versões em `/api/v1/modelos/{marca}/{modelo}/versoes`, ficha em `/api/v1/ficha/{fipeId}/{ano}` e parada em 401, 403 ou 429. Nesta integração offline nenhuma chamada foi realizada. As fichas cacheadas de Cruze (46) e Fluence (47) possuem identidade exata por código FIPE/identificador externo, ano e descrição versionada. Carroceria, lugares, porta-malas, comprimento, largura da carroceria, entre-eixos, cilindrada, potência, câmbio, combustível e tanque foram reconhecidos; carga útil existe somente para o ID 47. O campo CarPedia `manual` não é usado como transmissão. Largura da carroceria não foi promovida a largura com espelhos e potência flex genérica não foi promovida a potência a gasolina. Preço e mês continuam FIPE; consumo, combustível e câmbio continuam PBEV. CarPedia nunca substitui silenciosamente fonte oficial.
+A documentação e o cliente versionado preservam autenticação Bearer, descoberta de versões em `/api/v1/modelos/{marca}/{modelo}/versoes`, ficha em `/api/v1/ficha/{fipeId}/{ano}` e parada em 401, 403 ou 429. As nove fichas cacheadas possuem identidade exata por código FIPE/identificador externo, ano e descrição versionada. Carroceria, lugares, porta-malas, comprimento, largura da carroceria, entre-eixos, cilindrada, potência, câmbio, combustível e tanque foram reconhecidos nos nove veículos; carga útil permanece indisponível nos IDs 38, 46 e 49. Campos de fabricante já presentes e concordantes são preservados, sem troca de proveniência. O campo CarPedia `manual` não é usado como transmissão. Largura da carroceria não foi promovida a largura com espelhos e potência flex genérica não foi promovida a potência a gasolina. Preço, mês e identidade continuam FIPE; consumo, combustível e câmbio continuam PBEV. CarPedia nunca substitui silenciosamente fonte prioritária.
 
-No núcleo experimental, ambos os dossiês passam os requisitos mínimos de aplicativo e trabalho. Isso não os torna `methodology_ready` na V3: aplicativo ainda exige o critério de espaço de passageiros; trabalho ainda exige custo operacional e pegada com largura incluindo espelhos; os demais perfis também mantêm suas lacunas obrigatórias. O TCO permanece incompleto, sem conversão de ausência em zero. Nenhum ranking conjunto foi gerado porque os sete legados acima continuam temporalmente desalinhados.
+A auditoria offline posterior recuperou `ground_clearance_mm` explicitamente
+nas fichas exatas dos IDs 42 (147 mm) e 43 (125 mm), com hash, localizador,
+unidade e instante de coleta. O ID 36 também contém 164 mm na ficha CarPedia,
+mas mantém os 162 mm já vinculados ao documento do fabricante; a divergência
+não é sobrescrita. Nenhuma das nove fichas contém rótulo inequívoco de airbags,
+ABS, ESC, largura com espelhos ou medida interna de passageiros. Campo ausente
+permanece desconhecido, nunca `false`. A nota Latin NCAP presente no ID 42 não
+é convertida em inventário de airbags, ABS ou ESC.
+
+No núcleo experimental, os nove dossiês completam os requisitos preliminares de Aplicativo e Trabalho; Cidade contém 36 e 37 e Espaço/capacidade contém 36, 42 e 43. A chave interna `suv` é mantida somente por compatibilidade: não existe requisito categórico de carroceria SUV e os hatches não são reclassificados. Isso não equivale a recomendação pronta: Aplicativo ainda exige espaço de passageiros; Trabalho ainda exige custo operacional e pegada com largura incluindo espelhos; Família e Estrada exigem inventário de segurança. O TCO operacional permanece incompleto, sem conversão de ausência em zero. Nenhum ranking de recomendação foi gerado porque os sete legados acima continuam temporalmente desalinhados, o gate mínimo de dez opções por perfil continua reprovado e nenhum dos nove tem os cinco componentes observacionais de TCO.
+
+Na camada acadêmica separada, o TCO de cenário em `BRL/month` pode preencher
+somente o `operating_cost` acadêmico de Trabalho. Com a largura com espelhos já
+documentada, isso torna 36 e 37 `academic_test_ready` para Trabalho, sem mudar
+`profile_scoreable`, `methodology_ready` ou ativação operacional. A derivação
+`body_footprint_m2` é calculada para os nove a partir de comprimento e largura
+da carroceria, mas não satisfaz o `footprint` v3 de Cidade/Trabalho, que continua
+exigindo largura com espelhos. Nenhuma dessas classificações é recomendação ou
+publicação.
+
+A contabilidade da segunda rodada é: **seis cache hits de descoberta** e **oito novas tentativas HTTP** (seis fichas diretas, mais descoberta e ficha do ID 49). O manifesto registra **nove hashes de ficha**: sete respostas da segunda rodada e as duas fichas preservadas da primeira rodada, IDs 46 e 47. Hash de descoberta não foi contado como ficha nem como décimo dossiê.
 
 As aprovações humanas dos IDs 40, 45 e 56 foram registradas de forma versionada e auditável. O ID 41 permanece pendente; os bloqueios 48, 50 e 53 permanecem inalterados.
 

@@ -43,6 +43,25 @@ def cost_evidence(vehicle, scenario):
     known = dict.fromkeys(COMPONENTS)
     estimates = dict.fromkeys(COMPONENTS)
     derivations = {}
+    unavailable_reasons = {
+        "fuel": "Required PBEV consumption and selected fuel-price evidence are unavailable",
+        "maintenance": "No observed maintenance_annual_brl and no explicit versioned scenario rate",
+        "ipva": "No observed ipva_annual_brl and no explicit versioned scenario rate",
+        "insurance": "No observed insurance_annual_brl and no explicit versioned scenario rate",
+        "depreciation": "No observed depreciation_annual_brl and no explicit versioned scenario rate",
+    }
+    component_evidence = {
+        component: {
+            "value": None,
+            "unit": "BRL/month",
+            "status": "unavailable",
+            "origin": None,
+            "method": None,
+            "reason": unavailable_reasons[component],
+            "sources": (),
+        }
+        for component in COMPONENTS
+    }
     mode = scenario.get("fuel_price_mode", "manual")
     # PBEV fossil figures here are specifically gasoline. Other fuels cannot
     # use this scenario silently.
@@ -56,6 +75,15 @@ def cost_evidence(vehicle, scenario):
             estimates["fuel"] = rounded(fuel)
             price = manual_price
             basis = "explicit_user_scenario_not_ANP_observation"
+            component_evidence["fuel"] = {
+                "value": rounded(fuel),
+                "unit": "BRL/month",
+                "status": "scenario_estimate",
+                "origin": "PBEV consumption plus explicit user scenario",
+                "method": "monthly_km / consumption_city_km_l * scenario_gasoline_brl_per_l",
+                "reason": "Scenario fuel price is not an observed ANP price and is excluded from complete TCO",
+                "sources": tuple(vehicle.fields["consumption_city"].sources),
+            }
         elif available(vehicle, "gasoline_brl_per_l"):
             context = vehicle.provenance.get("anp_context", {})
             # Fail closed on source/time/geography. A bare price is insufficient.
@@ -68,9 +96,20 @@ def cost_evidence(vehicle, scenario):
             known["fuel"] = rounded(fuel)
             refs.extend(vehicle.fields["gasoline_brl_per_l"].sources)
             basis = "derived_from_observed_PBEV_and_ANP_under_user_distance_not_actual_spending"
+            component_evidence["fuel"] = {
+                "value": rounded(fuel),
+                "unit": "BRL/month",
+                "status": "derived_from_observed_inputs",
+                "origin": "PBEV consumption and ANP fuel price",
+                "method": "monthly_km / consumption_city_km_l * anp_gasoline_brl_per_l",
+                "reason": None,
+                "sources": tuple(vehicle.fields["consumption_city"].sources)
+                + tuple(vehicle.fields["gasoline_brl_per_l"].sources),
+            }
         else:
             price = None
             basis = "ANP_unavailable_no_manual_fallback"
+            component_evidence["fuel"]["reason"] = "ANP gasoline price with week, geography and fuel provenance is unavailable"
         refs.extend(vehicle.fields["consumption_city"].sources)
         derivations["fuel"] = {
             "formula": "monthly_km / observed_gasoline_city_km_l * selected_gasoline_brl_per_l",
@@ -84,6 +123,15 @@ def cost_evidence(vehicle, scenario):
             known[component] = rounded(observation.value / Decimal(12))
             derivations[component] = {"formula": name+" / 12 exactly once", "sources": observation.sources,
                                       "annual_value": observation.value, "status": "observed_input_monthly_conversion"}
+            component_evidence[component] = {
+                "value": known[component],
+                "unit": "BRL/month",
+                "status": "derived_from_observed_annual_input",
+                "origin": observation.sources[0].provider if observation.sources else None,
+                "method": name + " / 12 exactly once",
+                "reason": None,
+                "sources": tuple(observation.sources),
+            }
         elif component in scenario["annual_estimate_rates"] and available(vehicle, "price_brl"):
             rate = exact(scenario["annual_estimate_rates"][component])
             estimates[component] = rounded(vehicle.fields["price_brl"].value * rate / Decimal(12))
@@ -91,6 +139,15 @@ def cost_evidence(vehicle, scenario):
                 "formula": "acquisition_reference_price * explicit_user_annual_rate / 12",
                 "annual_rate": rate, "acquisition_reference_price": vehicle.fields["price_brl"].value,
                 "status": "user_configured_projection_not_observation",
+            }
+            component_evidence[component] = {
+                "value": estimates[component],
+                "unit": "BRL/month",
+                "status": "scenario_estimate",
+                "origin": "FIPE acquisition reference plus explicit user rate",
+                "method": "price_brl * explicit_annual_rate / 12",
+                "reason": "Projection is not observed evidence and is excluded from complete TCO",
+                "sources": tuple(vehicle.fields["price_brl"].sources),
             }
     missing = [key for key in COMPONENTS if known[key] is None]
     def partial_sum(values):
@@ -102,6 +159,8 @@ def cost_evidence(vehicle, scenario):
         "acquisition_reference_price": vehicle.fields["price_brl"].value,
         "reference_month": vehicle.fields["reference_month"].value,
         "observed_monthly_fuel_cost": known["fuel"],
+        "derived_monthly_fuel_cost": known["fuel"],
+        "observed_monthly_fuel_cost_semantics": "legacy field name; value, when present, is derived from PBEV and ANP observations, never observed spending",
         "known_monthly_cost": known_total,
         "estimated_monthly_cost": estimated_total,
         "known_components": known,
@@ -113,6 +172,14 @@ def cost_evidence(vehicle, scenario):
         "monthly_budget_eligible": None,
         "label": "custo mensal parcial" if missing else "TCO no escopo declarado de cinco componentes",
         "unit": "BRL/month", "derivations": derivations,
+        "component_evidence": component_evidence,
+        "total_evidence": {
+            "value": known_total if not missing else None,
+            "unit": "BRL/month",
+            "status": "complete" if not missing else "unavailable",
+            "method": "sum of five complete source-backed monthly components" if not missing else None,
+            "reason": None if not missing else "Missing components: " + ", ".join(missing),
+        },
         "urban_fuel_for_scenario": rounded(fuel),
         "proven_operating_cost": known["fuel"] + known["maintenance"] if known["fuel"] is not None and known["maintenance"] is not None else None,
         "assumptions": {
