@@ -122,11 +122,19 @@ transmissão. O booleano `manual` da CarPedia não é usado como câmbio.
 
 O replay acadêmico combina os nove dossiês anteriores com os dez novos, sem
 duplicidade. Todos os 19 têm identidade exata, cobertura parcial, elegibilidade
-categórica e TCO acadêmico completo nos cenários baixo/base/alto. A prontidão
-acadêmica permanece 2 em Cidade (36 e 37), 0 em Aplicativo, 2 em Trabalho (36 e
-37), 0 em Família, 0 em Estrada e sobe de 3 para 10 em Espaço/capacidade (36,
-42, 43, 59, 68, 70, 79, 91, 92 e 93). `operationally_active=0`,
+categórica e TCO acadêmico completo nos cenários baixo/base/alto. A revisão
+documental oficial de largura aberta entre retrovisores eleva a prontidão
+acadêmica de Cidade e Trabalho de 2 para 10: IDs 36, 37, 46, 47, 69, 70, 79, 91,
+92 e 93. Aplicativo, Família e Estrada permanecem em 0. Espaço/capacidade
+permanece em 10 (36, 42, 43, 59, 68, 70, 79, 91, 92 e 93).
+`operationally_active=0`,
 `recommended=0` e nenhum ranking operacional foi executado.
+
+Os oito fatos novos são dimensões nominais de manuais oficiais, com URL, página,
+localizador, data e SHA-256 no contrato `profile_sources_v3.json`. Não há proxy:
+largura de carroceria e largura com retrovisores recolhidos são mantidas distintas
+da largura aberta. O gate acadêmico de Trabalho pode usar apenas o TCO de cenário
+versionado como `operating_cost`; isso não torna seu gate operacional completo.
 
 ## Custos e qualidade
 

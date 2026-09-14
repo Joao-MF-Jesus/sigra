@@ -134,7 +134,13 @@ def augment_technical(vehicles, directory):
             raise ValueError("Invalid cache filename")
         if hashlib.sha256((directory/name).read_bytes()).hexdigest() != source["sha256"]:
             raise ValueError("Manufacturer snapshot changed")
-    if {row["id"] for row in spec["vehicles"]} != {35, 36, 37}:
+    expected_ids = spec.get("expected_vehicle_ids")
+    if (not isinstance(expected_ids, list) or not expected_ids
+            or any(type(identifier) is not int for identifier in expected_ids)
+            or expected_ids != sorted(set(expected_ids))):
+        raise ValueError("Invalid technical pilot scope declaration")
+    actual_ids = [row["id"] for row in spec["vehicles"]]
+    if actual_ids != expected_ids:
         raise ValueError("Unexpected technical pilot scope")
     reviews = {row["id"]: row for row in spec["vehicles"]}
 

@@ -10,7 +10,7 @@ from data_platform.catalog.profile_contracts_v3 import Citation, ProfileVehicle,
 from data_platform.catalog.profile_costs_v3 import cost_evidence
 from data_platform.catalog.profile_scoring_v3 import configuration, score_cohort, score_vehicle, utility
 from data_platform.catalog.profile_analysis_v3 import analyze_cohort, combined_preview
-from data_platform.catalog.profile_evidence_v3 import canonical_month, augment_technical
+from data_platform.catalog.profile_evidence_v3 import TECHNICAL_PATH, canonical_month, augment_technical
 
 
 def citation(provider):
@@ -281,7 +281,8 @@ def test_technical_adapter_hash_identity_and_overwrite_fail_closed(tmp_path,monk
     fact = {"value":"5","document_id":"fixture","locator":"test row","page":1,"applicability":"exact_variant","limitations":[]}
     records = [{"id":i,"fipe_code":"TEST-001","year_code":"2021-5","expected_fipe_description":"Synthetic fixture",
                 "fields":{"seats":fact},"unavailable":{},"source_conflicts":[],"binding_rationale":"unit fixture","limitations":[]} for i in (35,36,37)]
-    specification = {"version":VERSION,"sources":{"fixture":citation_data},"vehicles":records}
+    specification = {"version":VERSION,"expected_vehicle_ids":[35,36,37],
+                     "sources":{"fixture":citation_data},"vehicles":records}
     path=tmp_path/"facts.json"; path.write_text(json.dumps(specification),encoding="utf-8")
     monkeypatch.setattr(module,"TECHNICAL_PATH",path)
     assert augment_technical([vehicle(35)],tmp_path)[0].fields["seats"].value == 5
@@ -292,3 +293,26 @@ def test_technical_adapter_hash_identity_and_overwrite_fail_closed(tmp_path,monk
     (tmp_path/"fixture.pdf").write_bytes(b"tampered")
     with pytest.raises(ValueError,match="snapshot changed"):
         augment_technical([vehicle(35)],tmp_path)
+
+
+def test_versioned_mirror_width_contract_is_exact_hash_bound_and_never_uses_folded_width():
+    specification = json.loads(TECHNICAL_PATH.read_text(encoding="utf-8"))
+    expected = {46: "2042", 47: "2037", 69: "2117", 70: "2099",
+                79: "2037", 91: "1998", 92: "2004", 93: "1979"}
+    assert specification["expected_vehicle_ids"] == [35, 36, 37, *expected]
+    reviews = {row["id"]: row for row in specification["vehicles"]}
+    for identifier, value in expected.items():
+        review = reviews[identifier]
+        assert set(review["fields"]) == {"width_with_mirrors_mm"}
+        fact = review["fields"]["width_with_mirrors_mm"]
+        source = specification["sources"][fact["document_id"]]
+        assert fact["value"] == value and fact["applicability"] == "model_nominal"
+        assert source["provider"] == "manufacturer" and source["url"].startswith("https://")
+        assert len(source["sha256"]) == 64 and int(source["sha256"], 16) >= 0
+        assert source["cache_file"].endswith(".pdf") and fact["page"] > 0
+        assert any(token in fact["locator"].casefold()
+                   for token in ("retrovisor", "retroviseur", "mirror", "espelho"))
+    assert "1.971" in reviews[69]["fields"]["width_with_mirrors_mm"]["locator"]
+    assert "plegados" in reviews[69]["fields"]["width_with_mirrors_mm"]["locator"]
+    assert "1.828" in reviews[92]["fields"]["width_with_mirrors_mm"]["locator"]
+    assert "rabattus" in reviews[92]["fields"]["width_with_mirrors_mm"]["locator"]

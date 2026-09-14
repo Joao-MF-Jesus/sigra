@@ -1,7 +1,8 @@
 # Piloto metodológico v3 — evidência, não ativação
 
-Contrato: `catalog-profile-evidence-v3`. Escopo: 34 legados, 19 identidades
-aprovadas do lote 1. Não há chamada de rede, conexão a banco, endpoint, alteração
+Contrato: `catalog-profile-evidence-v3`. Escopo: 34 legados e a coorte acadêmica
+atual de 19 identidades (nove do primeiro lote e dez do Batch 2). Não há conexão
+a banco, endpoint, alteração
 de DTO produtivo, nova migration ou ativação neste módulo. A decisão global
 continua `BLOCKED_INSUFFICIENT_PROFILE_EVIDENCE`.
 
@@ -12,7 +13,7 @@ continua `BLOCKED_INSUFFICIENT_PROFILE_EVIDENCE`.
   ou CarPedia. Contratos congelados, com propriedades extras proibidas.
 - `profile_method_v3.json`: pesos, critérios obrigatórios, escalas absolutas,
   precisão, fórmulas, justificativas e análise de sensibilidade versionadas.
-- `profile_sources_v3.json`: revisão explícita por campo de quatro PDFs oficiais,
+- `profile_sources_v3.json`: revisão explícita por campo de doze PDFs oficiais,
   com URL, SHA-256, documento, página/linha, data e aplicabilidade por versão.
 - `profile_evidence_v3.py`: revalida bytes FIPE/PBEV com os adaptadores existentes;
   aceita enriquecimento técnico somente para ID/código FIPE/ano/descrição exatos.
@@ -88,8 +89,10 @@ comuns e respeita empates. Ranking vazio dá similaridade indisponível, não ze
 rodoviário a gasolina PBEV e conjunto mecânico rastreável. Foram reutilizadas
 os snapshots necessários, dentro de um inventário de 72 respostas FIPE e cinco
 PDFs PBEV, sem nova chamada a essas APIs. A coleta
-adicional foi limitada a seis downloads públicos de fabricantes (dois índices
-e quatro PDFs), após inventário e orçamento. Nenhuma consulta ANP ou CarPedia.
+inicial foi limitada a seis downloads públicos de fabricantes (dois índices
+e quatro PDFs), após inventário e orçamento. A rodada documental de largura
+acrescentou oito manuais oficiais para oito identidades já integradas; não houve
+chamada FIPE ou CarPedia, seleção de veículo novo ou acesso ANP.
 Cota restante FIPE/CarPedia desconhecida, não presumida ilimitada.
 
 Revisão visual das páginas oficiais acrescentou atributos individualmente
@@ -106,15 +109,27 @@ comprovados para Kwid Zen 2021, up! Move 2019 e Fox Connect 2019:
   convertidos em médias inventadas. Células comuns do motor/manual são vinculadas
   explicitamente; medidas internas e porta-malas continuam indisponíveis.
 
-Cobertura técnica dos 19 após o replay CarPedia offline: lugares 10;
-porta-malas 10; comprimento 9; largura sem espelhos 10; largura com espelhos 3;
-entre-eixos 10; altura livre 4; massa 1; potência a gasolina 3; carga 7;
-airbags 1; ABS 1; ESC 0; espaço interno 0. O relatório
-externo registra cobertura e motivos de ausência de todos os campos por veículo.
+Cobertura técnica dos 19 após o replay CarPedia offline e a revisão documental
+de largura com espelhos: lugares 10; porta-malas 10; comprimento 9; largura sem
+espelhos 10; largura com espelhos 10; entre-eixos 10; altura livre 4; massa 1;
+potência a
+gasolina 3; carga 7; airbags 1; ABS 1; ESC 0; espaço interno 0. Os valores novos
+são dimensões nominais de fabricante, não medições individuais.
 
-**IDs 36 (up! Move) e 37 (Fox Connect) passam Cidade**, com 100% dos três
-critérios e geometria nominal expressamente qualificada. Espaço/capacidade
-contém 36, 42 e 43; os demais perfis permanecem sem dossiê v3 pronto. QQ
+**IDs 36, 37, 46, 47, 69, 70, 79, 91, 92 e 93 passam Cidade**, com 100% dos
+três critérios e geometria nominal expressamente qualificada. Os oito vínculos
+novos usam manuais oficiais de Chevrolet, Renault, Citroën, Volkswagen e
+Peugeot, por modelo/geração/ano exatos. No C4 Picasso, a mudança oficial de nome
+para C4 SpaceTourer em maio de 2018 é registrada explicitamente; não há associação
+por semelhança textual. No Peugeot 2008, 1.828 mm é a largura com retrovisores
+recolhidos e foi rejeitada; o valor aberto é 2.004 mm. No C4 Picasso, 1.971 mm é
+a largura recolhida e foi rejeitada; o valor aberto é 2.117 mm. Largura de
+carroceria nunca substitui largura com espelhos.
+
+Espaço/capacidade permanece com 36, 42, 43, 59, 68, 70, 79, 91, 92 e 93.
+Trabalho tem os mesmos dez IDs de Cidade apenas no gate acadêmico, porque o TCO
+de cenário não satisfaz o custo operacional observado. Aplicativo, Família e
+Estrada permanecem sem dossiê pronto. QQ
 conserva o conflito entre descrição FIPE Flex e combustível estruturado
 gasolina. A aprovação de identidade existente não é revogada nem tomada como
 aprovação metodológica. Diferenças entre previews não comprovam eficácia.
@@ -175,7 +190,9 @@ As dez fichas CarPedia cacheadas acrescentam carroceria, lugares, porta-malas,
 carga útil, comprimento, largura da carroceria, entre-eixos, cilindrada,
 potência, transmissão, combustível e tanque. Sete também comprovam vão livre.
 Nenhuma comprova largura com espelhos, medidas internas de passageiros ou o
-inventário completo de segurança; esses campos permanecem indisponíveis. A
+inventário completo de segurança. A largura com espelhos dos IDs 46, 47, 69,
+70, 79, 91, 92 e 93 vem exclusivamente da revisão documental oficial posterior,
+não das fichas CarPedia. A
 matriz v3 padrão conserva o lote original, e o segundo lote só entra mediante o
 parâmetro explícito `include_batch2=True`. Esse replay não publica, não ativa e
 não autoriza ranking operacional.

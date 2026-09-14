@@ -1,5 +1,6 @@
 {
   "version": "catalog-profile-evidence-v3",
+  "expected_vehicle_ids": [35, 36, 37, 46, 47, 69, 70, 79, 91, 92, 93],
   "review_mode": "explicit field-by-field manual review, including rendered pages; never text similarity",
   "sources": {
     "kwid_manual": {
@@ -33,6 +34,70 @@
       "cache_file": "fox-2019.pdf",
       "document": "Volkswagen Fox MY2019 D191.5B1.FOX.66; official MY2019 index",
       "collected_at": "2026-09-09T16:24:03.536545+00:00"
+    },
+    "cruze_2020_manual": {
+      "provider": "manufacturer",
+      "url": "https://meu.chevrolet.com.br/content/dam/gmownercenter/gmsa/gmbr/dynamic/manuals/2020/chevrolet/Cruze/pt/om_ng-chevrolet_Cruze_my20-pt_BR.pdf.pdf",
+      "sha256": "d8b6d5be870780ffa2f80e0f3a26c2218225322b28c20804a1640e81e74f829f",
+      "cache_file": "chevrolet-cruze-my2020.pdf",
+      "document": "Chevrolet Cruze Manual do Proprietario MY2020, GMSA 13391262",
+      "collected_at": "2026-09-14T17:34:09.370892+00:00"
+    },
+    "fluence_2017_manual": {
+      "provider": "manufacturer",
+      "url": "https://cdn.group.renault.com/ren/br/renault-new-cars/editorial/manuais/manuais-fluence/2017/NU1142-4-L38-PTB.pdf",
+      "sha256": "b08608cdb7533bb00e7850e592f594241ddf255d793b215f29e0329ba9144876",
+      "cache_file": "renault-fluence-2017.pdf",
+      "document": "Renault Fluence Manual do proprietario 2017, NU1142-4-L38-PTB",
+      "collected_at": "2026-09-14T17:45:52.516666+00:00"
+    },
+    "c4_picasso_2018_manual": {
+      "provider": "manufacturer",
+      "url": "https://service.citroen.com/ACddb/modeles/c4picasso/eGuide_c4picasso_c4pn_ed01-18/pdfs/9999_9999_215_es-ES.pdf",
+      "sha256": "daa0dcc86ddab987d24a2ffe64aa4bc0126f367cb9f7a572cf72463fdfb98787",
+      "cache_file": "citroen-c4-picasso-ed01-2018.pdf",
+      "document": "Citroen C4 Picasso/C4 SpaceTourer guide, edition 01-2018",
+      "collected_at": "2026-09-14T17:34:52.369387+00:00"
+    },
+    "tiguan_allspace_2020_supplement": {
+      "provider": "manufacturer",
+      "url": "https://www.vw.com.br/idhub/content/dam/onehub_pkw/importers/br/literatura-de-bordo/manual-tiguan-allspace/Tiguan2020-suplemento.pdf",
+      "sha256": "8c44569fe2b3ab71845df475bfb7579794a990169085253f1f13054b3062abca",
+      "cache_file": "vw-tiguan-allspace-my2020-supplement.pdf",
+      "document": "Volkswagen Tiguan Allspace MY2020 supplement, edition 08-2019",
+      "collected_at": "2026-09-14T17:34:54.532034+00:00"
+    },
+    "jetta_2020_supplement": {
+      "provider": "manufacturer",
+      "url": "https://www.vw.com.br/idhub/content/dam/onehub_pkw/importers/br/literatura-de-bordo/manual-novo-jetta/Jetta_MY%202020_Suplemento.pdf",
+      "sha256": "40f0f023d4ed50d022d1371166bcd1e85efbe1dd062a34f40e48d811b2d1dc31",
+      "cache_file": "vw-jetta-my2020-supplement.pdf",
+      "document": "Volkswagen Jetta MY2020 supplement, edition 11-2019",
+      "collected_at": "2026-09-14T17:34:55.610656+00:00"
+    },
+    "captur_2020_manual": {
+      "provider": "manufacturer",
+      "url": "https://cdn.group.renault.com/ren/br/renault-new-cars/editorial/manuais/manuais_2020/captur/Manual-Captur.pdf",
+      "sha256": "bad568eae3c1d7472d75ce18c744575094e882d4d6e0ee66af6f8d304c1661e3",
+      "cache_file": "renault-captur-2020.pdf",
+      "document": "Renault Captur Manual do proprietario 2020",
+      "collected_at": "2026-09-14T17:35:00.623973+00:00"
+    },
+    "peugeot_2008_2018_onward_manual": {
+      "provider": "manufacturer",
+      "url": "https://public.servicebox.peugeot.com/APddb/modeles/2008/eGuide_2008_2008_ed01-18/pdfs/9999_9999_227_fr-FR.pdf",
+      "sha256": "4017da0267aac5265432dd5afcb890fd3b2718ccdc0c76a36ef7e5365db2da8b",
+      "cache_file": "peugeot-2008-ed01-2018.pdf",
+      "document": "Peugeot 2008 guide, edition 01-2018; Service Box period 02-05-2018 onward",
+      "collected_at": "2026-09-14T17:35:32.594080+00:00"
+    },
+    "c4_cactus_2019_onward_manual": {
+      "provider": "manufacturer",
+      "url": "https://service.citroen.com/ACddb/modeles/c4c/eGuide_c4c_c4c_ed01-19/pdfs/9999_9999_277_es-ES.pdf",
+      "sha256": "e8f31769420feac08ce676636202bf74341202775d7f7ff815035ec813f05ecd",
+      "cache_file": "citroen-c4-cactus-ed01-2019.pdf",
+      "document": "Citroen C4 Cactus guide, edition 01-2019; Service Box period 01-10-2019 onward",
+      "collected_at": "2026-09-14T17:36:40.700787+00:00"
     }
   },
   "vehicles": [
@@ -325,6 +390,166 @@
       "limitations": [
         "Unresolved technical ranges preserved as unavailable, not source conflict between identical configurations."
       ]
+    },
+    {
+      "id": 46,
+      "fipe_code": "004470-9",
+      "year_code": "2020-5",
+      "expected_fipe_description": "CRUZE LT 1.4 16V Turbo Flex 4p Aut.",
+      "binding_rationale": "Exact FIPE model year and sedan identity. Chevrolet MY2020 manual lists LT automatic sedan and gives one sedan-wide mirror-to-mirror dimension; no hatch value is transferred.",
+      "fields": {
+        "width_with_mirrors_mm": {
+          "value": "2042",
+          "document_id": "cruze_2020_manual",
+          "page": 306,
+          "locator": "Printed303, Modelo Sedan, item D: Largura total (entre retrovisores) - 2.042 mm",
+          "applicability": "model_nominal",
+          "limitations": ["Model-year nominal dimension, not an individual vehicle measurement"]
+        }
+      },
+      "unavailable": {},
+      "source_conflicts": [],
+      "limitations": ["Only the explicitly labeled sedan mirror-to-mirror dimension is admitted"]
+    },
+    {
+      "id": 47,
+      "fipe_code": "025174-7",
+      "year_code": "2017-5",
+      "expected_fipe_description": "FLUENCE Sed. Dynamique 2.0 16V FLEX Aut.",
+      "binding_rationale": "Exact Brazilian Renault Fluence 2017 manual and sedan generation. The dimension drawing is model-wide; no trim equipment is inferred for Dynamique.",
+      "fields": {
+        "width_with_mirrors_mm": {
+          "value": "2037",
+          "document_id": "fluence_2017_manual",
+          "page": 183,
+          "locator": "Printed6.3, rear-view lower dimension arrow spans both exterior mirrors: 2,037 m",
+          "applicability": "model_nominal",
+          "limitations": ["Unit conversion m*1000 documented; model-wide drawing, not trim equipment"]
+        }
+      },
+      "unavailable": {},
+      "source_conflicts": [],
+      "limitations": ["No textual model-name similarity or trim substitution is used"]
+    },
+    {
+      "id": 69,
+      "fipe_code": "011160-0",
+      "year_code": "2018-1",
+      "expected_fipe_description": "C4 Picasso Intensive 1.6 Turbo 16V Aut.",
+      "binding_rationale": "Citroen officially renamed C4 Picasso to C4 SpaceTourer in May 2018. The official c4picasso/c4pn edition 01-2018 covers the same five-seat body and separates it from Grand C4; no Grand value is used.",
+      "fields": {
+        "width_with_mirrors_mm": {
+          "value": "2117",
+          "document_id": "c4_picasso_2018_manual",
+          "page": 245,
+          "locator": "Printed243, five-seat C4 body drawing: 1.971 mm marked with footnote Retrovisores plegados; distinct open width 2.117 mm",
+          "applicability": "model_nominal",
+          "limitations": ["Manufacturer-documented commercial rename only; dimension is body-level, not trim-specific"]
+        }
+      },
+      "unavailable": {},
+      "source_conflicts": [],
+      "limitations": ["Grand C4 dimensions and trim-specific equipment are excluded"]
+    },
+    {
+      "id": 70,
+      "fipe_code": "005487-9",
+      "year_code": "2020-5",
+      "expected_fipe_description": "TIGUAN Allspac Comf 250 TSI 1.4 Flex",
+      "binding_rationale": "Exact Tiguan Allspace MY2020 supplement and 1.4 TSI 110 kW powertrain column matching Comfortline 250 TSI.",
+      "fields": {
+        "width_with_mirrors_mm": {
+          "value": "2099",
+          "document_id": "tiguan_allspace_2020_supplement",
+          "page": 35,
+          "locator": "Printed33 Fig16 table A: Largura (de espelho externo a espelho externo) 2.099 mm",
+          "applicability": "model_nominal",
+          "limitations": ["Nominal MY2020 model dimension"]
+        }
+      },
+      "unavailable": {},
+      "source_conflicts": [],
+      "limitations": ["No value from the 2.0 TSI column is transferred"]
+    },
+    {
+      "id": 79,
+      "fipe_code": "005504-2",
+      "year_code": "2020-5",
+      "expected_fipe_description": "JETTA Comfort. 250 TSI 1.4 Flex 16v Aut.",
+      "binding_rationale": "Exact Jetta MY2020 supplement. The standard Jetta table is distinct from the following Jetta GLI table and is consistent with the 1.4 TSI 110 kW section.",
+      "fields": {
+        "width_with_mirrors_mm": {
+          "value": "2037",
+          "document_id": "jetta_2020_supplement",
+          "page": 36,
+          "locator": "Printed34 Fig16 table C, standard Jetta before Jetta GLI subsection: Largura (de espelho externo a espelho externo) 2.037 mm",
+          "applicability": "model_nominal",
+          "limitations": ["Standard Jetta table selected; GLI subsection is not used"]
+        }
+      },
+      "unavailable": {},
+      "source_conflicts": [],
+      "limitations": ["No GLI-specific trim fact is transferred"]
+    },
+    {
+      "id": 91,
+      "fipe_code": "025261-1",
+      "year_code": "2020-5",
+      "expected_fipe_description": "CAPTUR Zen 1.6 16V Flex 5p Aut.",
+      "binding_rationale": "Exact Renault Captur 2020 manual and model generation. The rear-view dimension is model-wide; no trim equipment is inferred for Zen.",
+      "fields": {
+        "width_with_mirrors_mm": {
+          "value": "1998",
+          "document_id": "captur_2020_manual",
+          "page": 193,
+          "locator": "Printed6.3 rear view: lower width arrow spans the exterior mirrors and is labeled 1,998 m; body/track dimensions are separate",
+          "applicability": "model_nominal",
+          "limitations": ["Unit conversion m*1000 documented; model-wide drawing"]
+        }
+      },
+      "unavailable": {},
+      "source_conflicts": [],
+      "limitations": ["No dimension is inferred from track or body width"]
+    },
+    {
+      "id": 92,
+      "fipe_code": "024211-0",
+      "year_code": "2020-5",
+      "expected_fipe_description": "2008 Allure 1.6 Flex 16V 5p Aut.",
+      "binding_rationale": "Official Peugeot Service Box assigns this first-generation 2008 guide to registrations from 02-05-2018 onward, covering the 2020 target generation. The model-wide dimension does not assert trim equipment.",
+      "fields": {
+        "width_with_mirrors_mm": {
+          "value": "2004",
+          "document_id": "peugeot_2008_2018_onward_manual",
+          "page": 170,
+          "locator": "Printed168 rear view: 1.828 mm is explicitly footnoted Retroviseurs rabattus; the distinct open width is 2.004 mm",
+          "applicability": "model_nominal",
+          "limitations": ["Model-generation dimension; French-market manual does not assert Brazilian trim equipment"]
+        }
+      },
+      "unavailable": {},
+      "source_conflicts": [],
+      "limitations": ["Folded-mirror width 1.828 mm is explicitly rejected"]
+    },
+    {
+      "id": 93,
+      "fipe_code": "011198-8",
+      "year_code": "2020-5",
+      "expected_fipe_description": "C4 CACTUS FEEL 1.6 16V Flex Aut.",
+      "binding_rationale": "Official Citroen Service Box assigns the facelift C4 Cactus edition to registrations from 01-10-2019 onward, covering the 2020 target generation. The model-wide dimension does not assert trim equipment.",
+      "fields": {
+        "width_with_mirrors_mm": {
+          "value": "1979",
+          "document_id": "c4_cactus_2019_onward_manual",
+          "page": 144,
+          "locator": "Printed142 rear view: outermost width arrow spans both exterior mirrors and is labeled 1.979 mm; body and track widths are separate",
+          "applicability": "model_nominal",
+          "limitations": ["Model-generation dimension; Spanish-market manual does not assert Brazilian trim equipment"]
+        }
+      },
+      "unavailable": {},
+      "source_conflicts": [],
+      "limitations": ["Body width 1.714 mm is explicitly not used as mirror-to-mirror width"]
     }
   ]
 }

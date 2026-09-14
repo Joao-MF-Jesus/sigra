@@ -210,3 +210,30 @@ def test_invalid_diagnostic_units_and_zero_distance_fail_closed():
     zero_distance["common_inputs"]["monthly_km"]["value"] = "0"
     with pytest.raises(ValueError, match="must be positive"):
         validate_configuration(zero_distance)
+
+
+def test_eight_exact_mirror_widths_raise_only_city_and_work_academic_readiness_to_ten():
+    identifiers = tuple(range(36, 55))
+    before_vehicles = tuple(
+        vehicle(identifier, width_with_mirrors_mm="1900" if index < 2 else None)
+        for index, identifier in enumerate(identifiers)
+    )
+    after_vehicles = tuple(
+        vehicle(identifier, width_with_mirrors_mm="1900" if index < 10 else None)
+        for index, identifier in enumerate(identifiers)
+    )
+    before = evaluate_cohort(before_vehicles, "2026-09")["scenarios"]["base"]
+    after = evaluate_cohort(after_vehicles, "2026-09")["scenarios"]["base"]
+    assert before["cidade"]["counts"]["academic_test_ready"] == 2
+    assert before["trabalho"]["counts"]["academic_test_ready"] == 2
+    assert after["cidade"]["counts"]["academic_test_ready"] == 10
+    assert after["trabalho"]["counts"]["academic_test_ready"] == 10
+    for profile in ("app", "familia", "estrada", "suv"):
+        assert (after[profile]["counts"]["academic_test_ready"]
+                == before[profile]["counts"]["academic_test_ready"])
+    assert all(
+        details["counts"]["operationally_active"] == 0
+        and details["counts"]["recommended"] == 0
+        and not details["recommendation_executed"]
+        for details in after.values()
+    )
