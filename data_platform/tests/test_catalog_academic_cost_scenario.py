@@ -165,6 +165,25 @@ def test_complete_academic_tco_never_estimates_safety_or_unblocks_safety_profile
     assert "PROFILE_REQUIRED_EVIDENCE_MISSING" in row["blockers"]
 
 
+def test_two_exact_safety_inventories_unblock_only_those_two_family_and_road_rows():
+    unsupported = vehicle(36)
+    cruze = vehicle(46, airbags="6", abs=True, esc=True)
+    focus = vehicle(80, airbags="6", abs=True, esc=True)
+    report = evaluate_cohort([unsupported, cruze, focus], "2026-09")["scenarios"]["base"]
+    for profile in ("familia", "estrada"):
+        rows = report[profile]["rows"]
+        assert report[profile]["counts"]["academic_test_ready"] == 2
+        assert [row["id"] for row in rows if row["academic_test_ready"]] == [46, 80]
+        missing = next(row for row in rows if row["id"] == 36)
+        assert "safety" in missing["academic_coverage"]["required_missing"]
+    assert all(
+        details["counts"]["operationally_active"] == 0
+        and details["counts"]["recommended"] == 0
+        and not details["recommendation_executed"]
+        for details in report.values()
+    )
+
+
 def test_duplicate_ids_and_thresholds_cannot_promote_readiness():
     one = vehicle()
     with pytest.raises(ValueError, match="Duplicate"):

@@ -26,7 +26,7 @@ TEXT_UNITS = {"text", "YYYY-MM"}
 
 
 class Citation(Contract):
-    provider: Literal["fipe", "pbev", "anp", "manufacturer", "carpedia"]
+    provider: Literal["fipe", "pbev", "anp", "manufacturer", "carpedia", "latinncap"]
     url: str
     sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     document: str = Field(min_length=1)

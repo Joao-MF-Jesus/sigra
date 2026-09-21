@@ -13,8 +13,10 @@ continua `BLOCKED_INSUFFICIENT_PROFILE_EVIDENCE`.
   ou CarPedia. Contratos congelados, com propriedades extras proibidas.
 - `profile_method_v3.json`: pesos, critérios obrigatórios, escalas absolutas,
   precisão, fórmulas, justificativas e análise de sensibilidade versionadas.
-- `profile_sources_v3.json`: revisão explícita por campo de doze PDFs oficiais,
-  com URL, SHA-256, documento, página/linha, data e aplicabilidade por versão.
+- `profile_sources_v3.json`: revisão explícita por campo de treze PDFs oficiais
+  e uma extração textual normalizada de PDF oficial cujo transporte direto foi
+  recusado pelo publicador, com URL, SHA-256 do artefato auditado,
+  documento, página/linha, data e aplicabilidade por versão.
 - `profile_evidence_v3.py`: revalida bytes FIPE/PBEV com os adaptadores existentes;
   aceita enriquecimento técnico somente para ID/código FIPE/ano/descrição exatos.
 - `profile_costs_v3.py`: separa custos conhecidos, estimativas e componentes
@@ -109,12 +111,14 @@ comprovados para Kwid Zen 2021, up! Move 2019 e Fox Connect 2019:
   convertidos em médias inventadas. Células comuns do motor/manual são vinculadas
   explicitamente; medidas internas e porta-malas continuam indisponíveis.
 
-Cobertura técnica dos 19 após o replay CarPedia offline e a revisão documental
-de largura com espelhos: lugares 10; porta-malas 10; comprimento 9; largura sem
-espelhos 10; largura com espelhos 10; entre-eixos 10; altura livre 4; massa 1;
-potência a
-gasolina 3; carga 7; airbags 1; ABS 1; ESC 0; espaço interno 0. Os valores novos
-são dimensões nominais de fabricante, não medições individuais.
+Cobertura técnica dos 19 após o replay CarPedia offline e as revisões documentais
+de largura com espelhos e segurança: lugares 19; porta-malas 19; comprimento 19;
+largura sem espelhos 19; largura com espelhos 10; entre-eixos 19; altura livre 10;
+massa 0; potência a gasolina 2; carga 16; airbags 0; ABS 1; ESC 1; espaço interno 0.
+ABS e ESC admitidos pertencem ao ID 80. Nenhum inventário completo foi aprovado:
+os fatos preliminares do Cruze e a contagem de airbags do Focus são mantidos em
+`pending_fields`, fora de `fields`. Ausência de prova continua `null/unavailable`,
+nunca `false`.
 
 **IDs 36, 37, 46, 47, 69, 70, 79, 91, 92 e 93 passam Cidade**, com 100% dos
 três critérios e geometria nominal expressamente qualificada. Os oito vínculos
@@ -128,11 +132,25 @@ carroceria nunca substitui largura com espelhos.
 
 Espaço/capacidade permanece com 36, 42, 43, 59, 68, 70, 79, 91, 92 e 93.
 Trabalho tem os mesmos dez IDs de Cidade apenas no gate acadêmico, porque o TCO
-de cenário não satisfaz o custo operacional observado. Aplicativo, Família e
-Estrada permanecem sem dossiê pronto. QQ
+de cenário não satisfaz o custo operacional observado. Família e Estrada
+permanecem sem inventário completo após a revisão de aplicabilidade; Aplicativo permanece sem dossiê
+pronto. QQ
 conserva o conflito entre descrição FIPE Flex e combustível estruturado
 gasolina. A aprovação de identidade existente não é revogada nem tomada como
 aprovação metodológica. Diferenças entre previews não comprovam eficácia.
+
+O laudo Cruze identifica a configuração Latin NCAP pelo VIN `8AGBB69S0LR100117`
+e pela data de produção, sem nomear LT. O ano FIPE não comprova sozinho esse
+vínculo: airbags, ABS e ESC permanecem pendentes para o ID 46. A ficha Ford MY2018
+mostra ABS/EBD e ESC/TCS em todas as configurações; esses dois campos são
+admitidos para o ID 80. A contagem de airbags exige conferir a coluna SE Plus,
+pois a extração contém cinco células e quatro títulos sem preservar as mesclagens.
+Estrelas de crash test não entram no método.
+No caso Ford, o servidor recusou o download direto do PDF com HTTP 403;
+o hash registrado vincula uma extração textual normalizada do documento oficial,
+não os bytes do PDF. Nenhum dos outros 17 veículos foi promovido
+por manual genérico, ano próximo, mercado diferente, item opcional ou semelhança
+textual.
 
 ## Custos e tempo
 
@@ -177,8 +195,9 @@ FIPE foi autorizada pelo gate do piloto e nenhum ranking conjunto é gerado.
 ## Bloqueios preservados e próximos requisitos
 
 C4 Lounge (48): transmissão; Elantra (50): consumo; Optima (53): sem PBEV
-compatível. Permanecem fora dos 19. Picanto GT (40), QQ 2017 (41), Rio EX (45)
-e Arrizo 6 GSX (56) continuam substituições com aprovação humana pendente.
+compatível. Permanecem fora dos 19. As substituições Picanto GT (40), Rio EX (45)
+e Arrizo 6 GSX (56) têm aprovação humana registrada em `change_control_v2.json`,
+sem ativação operacional. QQ 2017 (41) continua com aprovação pendente.
 No segundo lote controlado, foram selecionados 11 dos IDs 57–100 depois de uma
 fila completa registrada antes do HTTP. O ID 57 foi bloqueado por resposta FIPE
 404 no alvo exato e não gerou chamada CarPedia. Os IDs 58, 59, 68, 69, 70, 79,

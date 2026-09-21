@@ -1,6 +1,6 @@
 {
   "version": "catalog-profile-evidence-v3",
-  "expected_vehicle_ids": [35, 36, 37, 46, 47, 69, 70, 79, 91, 92, 93],
+  "expected_vehicle_ids": [35, 36, 37, 46, 47, 69, 70, 79, 80, 91, 92, 93],
   "review_mode": "explicit field-by-field manual review, including rendered pages; never text similarity",
   "sources": {
     "kwid_manual": {
@@ -98,6 +98,22 @@
       "cache_file": "citroen-c4-cactus-ed01-2019.pdf",
       "document": "Citroen C4 Cactus guide, edition 01-2019; Service Box period 01-10-2019 onward",
       "collected_at": "2026-09-14T17:36:40.700787+00:00"
+    },
+    "cruze_latin_ncap_2019_vin_my2020": {
+      "provider": "latinncap",
+      "url": "https://www.latinncap.com/en/download/result/file/126",
+      "sha256": "de3a76c51e5d43b6a34efa51cf00da8429dffc5e714f2233277f673eaf8d5adf",
+      "cache_file": "latin-ncap-chevrolet-cruze-2019-vin-my2020.pdf",
+      "document": "Latin NCAP Chevrolet Cruze + 6 Airbags, from 21-05-2019, VIN 8AGBB69S0LR100117",
+      "collected_at": "2026-09-14T19:12:32.7363731+00:00"
+    },
+    "focus_fastback_my2018_ficha_extract": {
+      "provider": "manufacturer",
+      "url": "https://www.ford.com.br/content/dam/Ford/website-assets/latam/br/nameplate/focus-fastback/brochures/Focus_Fastback-Ficha_Tecnica-My18.pdf",
+      "sha256": "1e3940d6757b16104ac78fdc595138e5062cd4b65e7c963da5a37616925ebcef",
+      "cache_file": "ford-focus-fastback-my2018-web-extract.json",
+      "document": "Ford Focus Fastback 2018 official technical-sheet equipment matrix; normalized web-extractor snapshot",
+      "collected_at": "2026-09-14T19:16:09.9850132+00:00"
     }
   },
   "vehicles": [
@@ -407,9 +423,71 @@
           "limitations": ["Model-year nominal dimension, not an individual vehicle measurement"]
         }
       },
-      "unavailable": {},
+      "safety_review": {
+        "status": "pending_exact_variant_applicability",
+        "reviewed_at": "2026-09-21",
+        "reason": "Latin NCAP identifies a six-airbag sedan configuration from a production date and VIN, but the inspected PDF does not name LT. FIPE model year alone does not establish the target trim and production applicability."
+      },
+      "pending_fields": {
+        "airbags": {
+          "value": "6",
+          "document_id": "cruze_latin_ncap_2019_vin_my2020",
+          "page": 1,
+          "locator": "Safety equipment matrix: two frontal, two side-body and two side-head airbags; title identifies +6 Airbags and VIN 8AGBB69S0LR100117",
+          "applicability": "exact_variant",
+          "condition": "standard_on_assessed_configuration",
+          "target_version": "LT 1.4 Turbo automatic sedan",
+          "target_generation": "second-generation Cruze sedan",
+          "target_year": 2020,
+          "evidence_class": "identifiable_homologation_configuration",
+          "limitations": ["Equipment inventory only; the crash-test star rating is not imported"]
+        },
+        "abs": {
+          "value": true,
+          "document_id": "cruze_latin_ncap_2019_vin_my2020",
+          "page": 1,
+          "locator": "Safety equipment matrix: ABS (4 channel) YES; VIN 8AGBB69S0LR100117",
+          "applicability": "exact_variant",
+          "condition": "standard_on_assessed_configuration",
+          "target_version": "LT 1.4 Turbo automatic sedan",
+          "target_generation": "second-generation Cruze sedan",
+          "target_year": 2020,
+          "evidence_class": "identifiable_homologation_configuration",
+          "limitations": ["Boolean records equipment presence, not crash performance"]
+        },
+        "esc": {
+          "value": true,
+          "document_id": "cruze_latin_ncap_2019_vin_my2020",
+          "page": 1,
+          "locator": "Safety equipment matrix: ESC (UN13 or GTR8) YES; VIN 8AGBB69S0LR100117",
+          "applicability": "exact_variant",
+          "condition": "standard_on_assessed_configuration",
+          "target_version": "LT 1.4 Turbo automatic sedan",
+          "target_generation": "second-generation Cruze sedan",
+          "target_year": 2020,
+          "evidence_class": "identifiable_homologation_configuration",
+          "limitations": ["Boolean records equipment presence, not crash performance"]
+        }
+      },
+      "unavailable": {
+        "airbags": {
+          "reason": "SAFETY_TRIM_APPLICABILITY_UNPROVEN: assessed Latin NCAP configuration is not yet bound to the exact LT MY2020 target.",
+          "citations": [{"document_id": "cruze_latin_ncap_2019_vin_my2020", "page": 1, "locator": "CAR DETAILS, SAFETY EQUIPMENT and title with production-date/VIN restriction; LT trim not named"}]
+        },
+        "abs": {
+          "reason": "SAFETY_TRIM_APPLICABILITY_UNPROVEN: assessed Latin NCAP configuration is not yet bound to the exact LT MY2020 target.",
+          "citations": [{"document_id": "cruze_latin_ncap_2019_vin_my2020", "page": 1, "locator": "ABS yes on assessed configuration; exact LT target applicability pending"}]
+        },
+        "esc": {
+          "reason": "SAFETY_TRIM_APPLICABILITY_UNPROVEN: assessed Latin NCAP configuration is not yet bound to the exact LT MY2020 target.",
+          "citations": [{"document_id": "cruze_latin_ncap_2019_vin_my2020", "page": 1, "locator": "ESC yes on assessed configuration; exact LT target applicability pending"}]
+        }
+      },
       "source_conflicts": [],
-      "limitations": ["Only the explicitly labeled sedan mirror-to-mirror dimension is admitted"]
+      "limitations": [
+        "Only the explicitly labeled sedan mirror-to-mirror dimension is admitted",
+        "Latin NCAP observations remain in pending_fields for audit and are not admitted vehicle evidence; the crash-test rating is not imported"
+      ]
     },
     {
       "id": 47,
@@ -490,6 +568,69 @@
       "unavailable": {},
       "source_conflicts": [],
       "limitations": ["No GLI-specific trim fact is transferred"]
+    },
+    {
+      "id": 80,
+      "fipe_code": "003417-7",
+      "year_code": "2018-5",
+      "expected_fipe_description": "Focus Fastback SE/SE PLUS 2.0 Flex Aut.",
+      "binding_rationale": "Exact Ford Focus Fastback MY2018 technical sheet. The approved target is SE Plus 2.0 automatic. ABS and ESC are marked standard in every equipment column; the airbag row requires visual confirmation of the column spans.",
+      "safety_review": {
+        "status": "partial_inventory_airbag_column_pending",
+        "reviewed_at": "2026-09-21",
+        "reason": "Text extraction exposes five equipment cells but four trim headings. Without the column spans, the six-airbag mark cannot yet be assigned unequivocally to SE Plus. Direct PDF download returned HTTP403; the existing normalized snapshot is not a hash of original PDF bytes."
+      },
+      "pending_fields": {
+        "airbags": {
+          "value": "6",
+          "document_id": "focus_fastback_my2018_ficha_extract",
+          "page": 2,
+          "locator": "SEGURANCA matrix, SE PLUS 2.0L column: 6 Air bags (Frontais, Laterais e Cortina) marked X",
+          "applicability": "exact_variant",
+          "condition": "standard",
+          "target_version": "SE Plus 2.0 automatic",
+          "target_generation": "third-generation Focus Fastback Brazil",
+          "target_year": 2018,
+          "evidence_class": "exact_variant_equipment_matrix",
+          "limitations": ["SHA-256 binds the normalized extractor snapshot because direct publisher download returned HTTP 403"]
+        }
+      },
+      "fields": {
+        "abs": {
+          "value": true,
+          "document_id": "focus_fastback_my2018_ficha_extract",
+          "page": 2,
+          "locator": "SEGURANCA matrix: Freios ABS com EBD marked X in all five equipment cells; technical brake row explicitly states ABS/EBD",
+          "applicability": "exact_variant",
+          "condition": "standard",
+          "target_version": "SE Plus 2.0 automatic",
+          "target_generation": "third-generation Focus Fastback Brazil",
+          "target_year": 2018,
+          "evidence_class": "exact_variant_equipment_matrix",
+          "limitations": ["Boolean records equipment presence, not crash performance"]
+        },
+        "esc": {
+          "value": true,
+          "document_id": "focus_fastback_my2018_ficha_extract",
+          "page": 2,
+          "locator": "SEGURANCA matrix: Controle eletronico de estabilidade (ESC) e tracao (TCS) marked X in all five equipment cells",
+          "applicability": "exact_variant",
+          "condition": "standard",
+          "target_version": "SE Plus 2.0 automatic",
+          "target_generation": "third-generation Focus Fastback Brazil",
+          "target_year": 2018,
+          "evidence_class": "exact_variant_equipment_matrix",
+          "limitations": ["Boolean records equipment presence, not crash performance"]
+        }
+      },
+      "unavailable": {
+        "airbags": {
+          "reason": "SAFETY_AIRBAG_COLUMN_UNVERIFIED: five equipment cells versus four extracted trim headings; exact SE Plus column spans require visual confirmation.",
+          "citations": [{"document_id": "focus_fastback_my2018_ficha_extract", "page": 2, "locator": "SEGURANCA: 2-airbag row X X - - -; 6-airbag row - - X X X; trim header spans not retained in normalized snapshot"}]
+        }
+      },
+      "source_conflicts": [],
+      "limitations": ["Equipment inventory only; no crash-rating score is imported", "Airbag count remains unavailable until exact equipment-column applicability is verified"]
     },
     {
       "id": 91,

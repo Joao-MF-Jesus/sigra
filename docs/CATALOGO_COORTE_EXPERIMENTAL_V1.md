@@ -2,12 +2,19 @@
 
 ## Decisão
 
-A expansão ampla remanescente dos IDs 57–100 permanece congelada depois de um
-segundo lote controlado de 11 candidatos. A base defensável passa a conter os
-34 veículos legados, 19 identidades aprovadas no primeiro lote e 10 identidades
-exatas no segundo lote. Os conflitos 48, 50 e 53 continuam excluídos e o ID 57
-permanece bloqueado. O mesmo veículo pode atender a mais de um perfil; os seis
-grupos não são exclusivos.
+Escopo confirmado pelo usuário em 21/09/2026: **60 automóveis no total**,
+incluindo os **34 legados preservados e 26 novos**. Os seis perfis compartilham
+esse universo; sobreposição entre perfis é permitida e não cria novos veículos.
+O objetivo de 26 novos elegíveis e publicados academicamente ainda não foi
+atingido: há **19 novos com identidade e TCO acadêmico** (nove do primeiro replay
+e dez do segundo), restando selecionar e processar **somente sete**. Quantidade
+integrada não comprova prontidão de todos os perfis nem publicação.
+
+A seleção dos sete será posterior à revisão documental de segurança e deverá
+priorizar Aplicativo, Família e Estrada. Nesta etapa nenhum novo ID foi escolhido.
+Os demais candidatos permanecem versionados e inativos como backlog: não excluir,
+renumerar nem reutilizar IDs. As aprovações humanas existentes são preservadas;
+o ID 41 segue pendente e os bloqueios 48, 50, 53 e 57 continuam vigentes.
 
 Esta camada é somente um gate de prontidão e planejamento offline. Ela não altera os pesos, scores ou custos V3, não ativa ranking, não publica no PostgreSQL e não autoriza chamadas externas.
 
@@ -125,7 +132,9 @@ duplicidade. Todos os 19 têm identidade exata, cobertura parcial, elegibilidade
 categórica e TCO acadêmico completo nos cenários baixo/base/alto. A revisão
 documental oficial de largura aberta entre retrovisores eleva a prontidão
 acadêmica de Cidade e Trabalho de 2 para 10: IDs 36, 37, 46, 47, 69, 70, 79, 91,
-92 e 93. Aplicativo, Família e Estrada permanecem em 0. Espaço/capacidade
+92 e 93. Após a revisão de aplicabilidade das fontes, Família e Estrada
+permanecem em 0; os dois inventários antes contados provisoriamente ainda não
+satisfazem a prova de configuração exata. Aplicativo permanece em 0. Espaço/capacidade
 permanece em 10 (36, 42, 43, 59, 68, 70, 79, 91, 92 e 93).
 `operationally_active=0`,
 `recommended=0` e nenhum ranking operacional foi executado.
@@ -135,6 +144,33 @@ localizador, data e SHA-256 no contrato `profile_sources_v3.json`. Não há prox
 largura de carroceria e largura com retrovisores recolhidos são mantidas distintas
 da largura aberta. O gate acadêmico de Trabalho pode usar apenas o TCO de cenário
 versionado como `operating_cost`; isso não torna seu gate operacional completo.
+
+## Inventário acadêmico de segurança
+
+A busca documental priorizou os 19 veículos já integrados e não criou Batch 3.
+Os dois resultados preliminares foram reavaliados em 21/09/2026. O laudo Latin
+NCAP do Cruze documenta um sedã com seis airbags, ABS e ESC a partir de uma
+data/VIN, mas não identifica a versão LT. Falta a ponte documental entre essa
+configuração e o ID 46 MY2020. Os três valores foram conservados em
+`pending_fields`, com origem e hash, e não alimentam a prontidão.
+
+No Focus Fastback MY2018 (ID 80), a extração mostra cinco células de equipamentos
+e quatro títulos de versão, sem preservar as colunas mescladas. O total de airbags
+permanece pendente até comprovar a coluna SE Plus. ABS/EBD e ESC/TCS são positivos
+em todas as cinco células e permanecem admitidos. O download direto do PDF
+retornou HTTP 403; o SHA-256 existente identifica a extração normalizada, não os
+bytes originais do PDF. A classificação em estrelas não foi importada.
+
+Os outros 17 veículos continuam com segurança desconhecida. Documentos de outro
+ano ou mercado, manuais que dizem “se equipado”, catálogos sem coluna inequívoca
+da versão e testes Latin NCAP que abrangem configuração diferente foram
+rejeitados. Equipamento opcional não virou padrão; ausência de campo não virou
+`false`. Nenhum dos 19 possui inventário completo aprovado nesta revisão;
+Família e Estrada permanecem em 0, com lacuna de dez inventários exatos.
+Cruze e Focus seguem prioritários para fechar a aplicabilidade documental.
+Cidade, Trabalho e Espaço/capacidade permanecem com 10;
+Aplicativo permanece com 0. `operationally_active=0`, `recommended=0` e nenhum
+ranking operacional foi criado.
 
 ## Custos e qualidade
 

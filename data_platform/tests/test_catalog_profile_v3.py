@@ -277,7 +277,7 @@ def test_analysis_sensitivity_stability_and_empty_rankings():
 def test_technical_adapter_hash_identity_and_overwrite_fail_closed(tmp_path,monkeypatch):
     import data_platform.catalog.profile_evidence_v3 as module
     raw = b"synthetic fixture not a real PDF"; (tmp_path/"fixture.pdf").write_bytes(raw)
-    citation_data = {"url":"https://example.org/source","sha256":hashlib.sha256(raw).hexdigest(),"document":"fixture","cache_file":"fixture.pdf","collected_at":"2026-09-09T00:00:00Z"}
+    citation_data = {"provider":"manufacturer","url":"https://example.org/source","sha256":hashlib.sha256(raw).hexdigest(),"document":"fixture","cache_file":"fixture.pdf","collected_at":"2026-09-09T00:00:00Z"}
     fact = {"value":"5","document_id":"fixture","locator":"test row","page":1,"applicability":"exact_variant","limitations":[]}
     records = [{"id":i,"fipe_code":"TEST-001","year_code":"2021-5","expected_fipe_description":"Synthetic fixture",
                 "fields":{"seats":fact},"unavailable":{},"source_conflicts":[],"binding_rationale":"unit fixture","limitations":[]} for i in (35,36,37)]
@@ -299,11 +299,11 @@ def test_versioned_mirror_width_contract_is_exact_hash_bound_and_never_uses_fold
     specification = json.loads(TECHNICAL_PATH.read_text(encoding="utf-8"))
     expected = {46: "2042", 47: "2037", 69: "2117", 70: "2099",
                 79: "2037", 91: "1998", 92: "2004", 93: "1979"}
-    assert specification["expected_vehicle_ids"] == [35, 36, 37, *expected]
+    assert specification["expected_vehicle_ids"] == [35, 36, 37, 46, 47, 69, 70, 79, 80, 91, 92, 93]
     reviews = {row["id"]: row for row in specification["vehicles"]}
     for identifier, value in expected.items():
         review = reviews[identifier]
-        assert set(review["fields"]) == {"width_with_mirrors_mm"}
+        assert "width_with_mirrors_mm" in review["fields"]
         fact = review["fields"]["width_with_mirrors_mm"]
         source = specification["sources"][fact["document_id"]]
         assert fact["value"] == value and fact["applicability"] == "model_nominal"
@@ -316,3 +316,75 @@ def test_versioned_mirror_width_contract_is_exact_hash_bound_and_never_uses_fold
     assert "plegados" in reviews[69]["fields"]["width_with_mirrors_mm"]["locator"]
     assert "1.828" in reviews[92]["fields"]["width_with_mirrors_mm"]["locator"]
     assert "rabattus" in reviews[92]["fields"]["width_with_mirrors_mm"]["locator"]
+
+
+def test_versioned_safety_review_preserves_unverified_claims_outside_admitted_fields():
+    specification = json.loads(TECHNICAL_PATH.read_text(encoding="utf-8"))
+    reviews = {row["id"]: row for row in specification["vehicles"]}
+    expected = {46: {}, 80: {"abs": True, "esc": True}}
+    for identifier, values in expected.items():
+        review = reviews[identifier]
+        for field, value in values.items():
+            fact = review["fields"][field]
+            source = specification["sources"][fact["document_id"]]
+            assert fact["value"] == value
+            assert fact["condition"] in {"standard", "standard_on_assessed_configuration"}
+            assert fact["target_year"] == int(review["year_code"].split("-")[0])
+            assert fact["target_version"] and fact["target_generation"]
+            assert fact["evidence_class"] in {
+                "exact_variant_equipment_matrix", "identifiable_homologation_configuration",
+            }
+            assert fact["applicability"] == "exact_variant"
+            assert len(source["sha256"]) == 64 and int(source["sha256"], 16) >= 0
+            assert source["provider"] in {"manufacturer", "latinncap"}
+            assert "rating" not in fact["locator"].casefold()
+        assert any("rating" in note.casefold() for note in review["limitations"])
+    assert set(reviews[46]["pending_fields"]) == {"airbags", "abs", "esc"}
+    assert set(reviews[80]["pending_fields"]) == {"airbags"}
+    for identifier in (46, 80):
+        review = reviews[identifier]
+        for name, fact in review["pending_fields"].items():
+            assert name not in review["fields"]
+            assert review["unavailable"][name]["reason"]
+            assert review["unavailable"][name]["citations"]
+            assert fact["document_id"] in specification["sources"]
+            assert fact["target_year"] == int(review["year_code"].split("-")[0])
+    assert Citation(
+        provider="latinncap", url="https://www.latinncap.com/en/result/126/example",
+        sha256="b" * 64, document="SYNTHETIC UNIT TEST ONLY", locator="row=1",
+        collected_at="2026-09-14T00:00:00Z",
+    ).provider == "latinncap"
+
+
+def test_pending_safety_facts_never_reach_profile_or_academic_readiness(tmp_path, monkeypatch):
+    import data_platform.catalog.profile_evidence_v3 as module
+    from data_platform.catalog.academic_cost_scenario import evaluate_cohort
+
+    specification = json.loads(TECHNICAL_PATH.read_text(encoding="utf-8"))
+    for source in specification["sources"].values():
+        content = ("SYNTHETIC TEST SNAPSHOT: " + source["cache_file"]).encode()
+        (tmp_path / source["cache_file"]).write_bytes(content)
+        source["sha256"] = hashlib.sha256(content).hexdigest()
+    local_contract = tmp_path / "contract.json"
+    local_contract.write_text(json.dumps(specification), encoding="utf-8")
+    monkeypatch.setattr(module, "TECHNICAL_PATH", local_contract)
+    targets = [vehicle(
+        row["id"], fipe_code=row["fipe_code"], year_code=row["year_code"],
+        commercial_identity=row["expected_fipe_description"], seats="5", cargo_l="440",
+    ) for row in specification["vehicles"] if row["id"] in (46, 80)]
+    result = augment_technical(targets, tmp_path)
+    assert result == augment_technical(targets, tmp_path)
+    for row in result:
+        assert row.fields["airbags"].value is None
+        assert row.fields["airbags"].kind == "unavailable"
+        assert row.fields["airbags"].sources
+    focus = next(row for row in result if row.id == 80)
+    assert focus.fields["abs"].value is True and focus.fields["esc"].value is True
+    cruze = next(row for row in result if row.id == 46)
+    assert cruze.fields["abs"].value is None and cruze.fields["esc"].value is None
+    for profiles in evaluate_cohort(result, "2026-09")["scenarios"].values():
+        for profile in ("familia", "estrada"):
+            assert profiles[profile]["counts"]["academic_test_ready"] == 0
+            assert all("safety" in row["academic_coverage"]["required_missing"] for row in profiles[profile]["rows"])
+            assert profiles[profile]["counts"]["operationally_active"] == 0
+            assert not profiles[profile]["recommendation_executed"]

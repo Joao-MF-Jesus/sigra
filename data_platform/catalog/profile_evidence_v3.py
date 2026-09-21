@@ -133,7 +133,7 @@ def augment_technical(vehicles, directory):
         if Path(name).name != name:
             raise ValueError("Invalid cache filename")
         if hashlib.sha256((directory/name).read_bytes()).hexdigest() != source["sha256"]:
-            raise ValueError("Manufacturer snapshot changed")
+            raise ValueError("Technical source snapshot changed")
     expected_ids = spec.get("expected_vehicle_ids")
     if (not isinstance(expected_ids, list) or not expected_ids
             or any(type(identifier) is not int for identifier in expected_ids)
@@ -146,7 +146,7 @@ def augment_technical(vehicles, directory):
 
     def citation(fact):
         source = spec["sources"][fact["document_id"]]
-        return _citation(source, "manufacturer", source["document"], fact["locator"], fact["page"])
+        return _citation(source, source["provider"], source["document"], fact["locator"], fact["page"])
 
     output = []
     for vehicle in vehicles:
