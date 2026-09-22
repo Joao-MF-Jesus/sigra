@@ -1,0 +1,950 @@
+{
+  "version": "legacy-technical-v4-evidence-v1",
+  "normalizer_version": "carpedia-spec-normalizer-v2",
+  "publication_authorized": false,
+  "database_write_authorized": false,
+  "records": [
+    {
+      "id": 2,
+      "catalog": {
+        "brand": "Chevrolet",
+        "id": 2,
+        "model": "Prisma LT",
+        "year": 2018
+      },
+      "fipe_code": "004436-9",
+      "commercial_identity": "PRISMA Sed. LT 1.4 8V FlexPower 4p Aut.",
+      "year_code": "2018-5",
+      "external_id": 44369,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/chevrolet/prisma/versoes",
+        "cache_file": "carpedia-1.json",
+        "sha256": "2b77ee8ffdcdbbddbe72b9e0599eed1fcb059ce7e07a5f9c14787e9c93343576",
+        "collected_at": "2026-09-22T19:50:25.794570+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/44369/2018",
+        "cache_file": "carpedia-2.json",
+        "sha256": "1beb90829e4d8e06499466292c620568e99b3e981ef6ebfc1750862ff3c6978d",
+        "collected_at": "2026-09-22T19:50:26.464903+00:00"
+      },
+      "discovery_identity": {
+        "id": 44369,
+        "nome": "PRISMA Sed. LT 1.4 8V FlexPower 4p Aut.",
+        "anos": [
+          "2019",
+          "2018",
+          "2017",
+          "2016",
+          "2015",
+          "2014"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 44369,
+        "year": 2018,
+        "brand": "Chevrolet",
+        "model": "Prisma",
+        "version": "PRISMA Sed. LT 1.4 8V FlexPower 4p Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 3,
+      "catalog": {
+        "brand": "Chevrolet",
+        "id": 3,
+        "model": "Cobalt LTZ",
+        "year": 2018
+      },
+      "fipe_code": "004421-0",
+      "commercial_identity": "COBALT LTZ 1.8 8V Econo.Flex 4p Aut.",
+      "year_code": "2018-5",
+      "external_id": 44210,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/chevrolet/cobalt/versoes",
+        "cache_file": "carpedia-3.json",
+        "sha256": "e67e92ccacb2756595c4fd453f2f1da5ab14ac379e632b4ef1a02e40df7a7e6d",
+        "collected_at": "2026-09-22T19:50:27.120469+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/44210/2018",
+        "cache_file": "carpedia-4.json",
+        "sha256": "b6b2e7af7dba6da7cdf13ab8372434c476a64a34597ea9a738d04edd50acb352",
+        "collected_at": "2026-09-22T19:50:27.779787+00:00"
+      },
+      "discovery_identity": {
+        "id": 44210,
+        "nome": "COBALT LTZ 1.8 8V Econo.Flex 4p Aut.",
+        "anos": [
+          "2020",
+          "2019",
+          "2018",
+          "2017",
+          "2016",
+          "2015",
+          "2014",
+          "2013"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 44210,
+        "year": 2018,
+        "brand": "Chevrolet",
+        "model": "Cobalt",
+        "version": "COBALT LTZ 1.8 8V Econo.Flex 4p Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 4,
+      "catalog": {
+        "brand": "Chevrolet",
+        "id": 4,
+        "model": "Spin LT",
+        "year": 2019
+      },
+      "fipe_code": "004415-6",
+      "commercial_identity": "SPIN LT 1.8 8V Econo.Flex 5p Aut.",
+      "year_code": "2019-5",
+      "external_id": 44156,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/chevrolet/spin/versoes",
+        "cache_file": "carpedia-5.json",
+        "sha256": "7e2e680df9901b4a50e57707b7179bcae875661a4d11df456dd485deccb0ff13",
+        "collected_at": "2026-09-22T19:50:28.228010+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/44156/2019",
+        "cache_file": "carpedia-6.json",
+        "sha256": "682e254438e45373c91957c197cf268a91e27e2cacca1244a74b2b2e71ba8e7e",
+        "collected_at": "2026-09-22T19:50:28.623467+00:00"
+      },
+      "discovery_identity": {
+        "id": 44156,
+        "nome": "SPIN LT 1.8 8V Econo.Flex 5p Aut.",
+        "anos": [
+          "0 Km",
+          "2026",
+          "2025",
+          "2024",
+          "2023",
+          "2022",
+          "2021",
+          "2020",
+          "2019",
+          "2017",
+          "2016",
+          "2015",
+          "2014",
+          "2013"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 44156,
+        "year": 2019,
+        "brand": "Chevrolet",
+        "model": "Spin",
+        "version": "SPIN LT 1.8 8V Econo.Flex 5p Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 5,
+      "catalog": {
+        "brand": "Chevrolet",
+        "id": 5,
+        "model": "Tracker LT",
+        "year": 2021
+      },
+      "fipe_code": "004522-5",
+      "commercial_identity": "TRACKER LT 1.0 Turbo 12V Flex Aut.",
+      "year_code": "2021-5",
+      "external_id": 45225,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/chevrolet/tracker/versoes",
+        "cache_file": "carpedia-7.json",
+        "sha256": "2aa1f4bc5c9e0d29b611967f4e8263bfe60ecd5ba4913970f55258519f5a7ad8",
+        "collected_at": "2026-09-22T19:50:29.027015+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/45225/2021",
+        "cache_file": "carpedia-8.json",
+        "sha256": "63115e99d48564e0cfa480e09db632bddd80bd99dc5931552f99e767a52808e8",
+        "collected_at": "2026-09-22T19:50:29.430135+00:00"
+      },
+      "discovery_identity": {
+        "id": 45225,
+        "nome": "TRACKER LT 1.0 Turbo 12V Flex Aut.",
+        "anos": [
+          "0 Km",
+          "2027",
+          "2026",
+          "2025",
+          "2024",
+          "2023",
+          "2022",
+          "2021",
+          "2020"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 45225,
+        "year": 2021,
+        "brand": "Chevrolet",
+        "model": "Tracker",
+        "version": "TRACKER LT 1.0 Turbo 12V Flex Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 8,
+      "catalog": {
+        "brand": "Hyundai",
+        "id": 8,
+        "model": "Creta Attitude",
+        "year": 2019
+      },
+      "fipe_code": "015157-2",
+      "commercial_identity": "Creta Attitude 1.6 16V Flex Aut.",
+      "year_code": "2019-5",
+      "external_id": 151572,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/hyundai/creta/versoes",
+        "cache_file": "carpedia-9.json",
+        "sha256": "ec2ed45b0fb362109d00ba59cb5e1b91dbd3407f1642d414505a12a3252e2337",
+        "collected_at": "2026-09-22T19:50:30.043704+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/151572/2019",
+        "cache_file": "carpedia-10.json",
+        "sha256": "0a2402c55b348698c8429fe93680743664e2c70b41ea29885d700e399a8f5806",
+        "collected_at": "2026-09-22T19:50:30.470519+00:00"
+      },
+      "discovery_identity": {
+        "id": 151572,
+        "nome": "Creta Attitude 1.6 16V Flex Aut.",
+        "anos": [
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 151572,
+        "year": 2019,
+        "brand": "Hyundai",
+        "model": "Creta",
+        "version": "Creta Attitude 1.6 16V Flex Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 9,
+      "catalog": {
+        "brand": "Toyota",
+        "id": 9,
+        "model": "Corolla GLi",
+        "year": 2018
+      },
+      "fipe_code": "002109-1",
+      "commercial_identity": "Corolla GLi 1.8 Flex 16V  Aut.",
+      "year_code": "2018-5",
+      "external_id": 21091,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/toyota/corolla/versoes",
+        "cache_file": "carpedia-11.json",
+        "sha256": "a0afd15eb4ba6022267a2e7e9b9114d74d7c268e5de6c4193bc71e49ce078685",
+        "collected_at": "2026-09-22T19:50:30.877538+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/21091/2018",
+        "cache_file": "carpedia-12.json",
+        "sha256": "2a10df11ddc0c256614f72f4b50275cd4bd4e4e965b2d742a790454522cda6d0",
+        "collected_at": "2026-09-22T19:50:31.383060+00:00"
+      },
+      "discovery_identity": {
+        "id": 21091,
+        "nome": "Corolla GLi 1.8 Flex 16V  Aut.",
+        "anos": [
+          "2019",
+          "2018",
+          "2017",
+          "2016",
+          "2015",
+          "2014",
+          "2013",
+          "2012",
+          "2011",
+          "2010"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 21091,
+        "year": 2018,
+        "brand": "Toyota",
+        "model": "Corolla",
+        "version": "Corolla GLi 1.8 Flex 16V Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 10,
+      "catalog": {
+        "brand": "Toyota",
+        "id": 10,
+        "model": "Etios XLS",
+        "year": 2018
+      },
+      "fipe_code": "002150-4",
+      "commercial_identity": "ETIOS XLS 1.5 Flex 5p Aut.",
+      "year_code": "2018-5",
+      "external_id": 21504,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/toyota/etios/versoes",
+        "cache_file": "carpedia-13.json",
+        "sha256": "99f9fab3fd89a3847dbb7819ab4221be670c96b7d44009e910f47325c945b5fc",
+        "collected_at": "2026-09-22T19:50:32.017042+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/21504/2018",
+        "cache_file": "carpedia-14.json",
+        "sha256": "64039ff197cd7bdde068c459344fdcfa16085c730ee70e0710ca977aa9045080",
+        "collected_at": "2026-09-22T19:50:32.823081+00:00"
+      },
+      "discovery_identity": {
+        "id": 21504,
+        "nome": "ETIOS XLS 1.5 Flex 5p Aut.",
+        "anos": [
+          "2019",
+          "2018",
+          "2017"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 21504,
+        "year": 2018,
+        "brand": "Toyota",
+        "model": "Etios",
+        "version": "ETIOS XLS 1.5 Flex 5p Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 14,
+      "catalog": {
+        "brand": "Honda",
+        "id": 14,
+        "model": "City LX",
+        "year": 2018
+      },
+      "fipe_code": "014059-7",
+      "commercial_identity": "CITY Sedan LX 1.5 Flex 16V 4p Aut.",
+      "year_code": "2018-5",
+      "external_id": 140597,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/honda/city/versoes",
+        "cache_file": "carpedia-15.json",
+        "sha256": "e80f96e6727f94e8c3714a10cfeb63dce3e69448c8a075329b67624fc5df5df3",
+        "collected_at": "2026-09-22T19:50:33.519504+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/140597/2018",
+        "cache_file": "carpedia-16.json",
+        "sha256": "369ed4c5f1a83409a4c5a0cb99f10e289e19e835780135d956bc2336621b1fc1",
+        "collected_at": "2026-09-22T19:50:33.988919+00:00"
+      },
+      "discovery_identity": {
+        "id": 140597,
+        "nome": "CITY Sedan LX 1.5 Flex 16V 4p Aut.",
+        "anos": [
+          "0 Km",
+          "2026",
+          "2025",
+          "2024",
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017",
+          "2016",
+          "2015",
+          "2014",
+          "2013",
+          "2012",
+          "2011",
+          "2010"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 140597,
+        "year": 2018,
+        "brand": "Honda",
+        "model": "City",
+        "version": "CITY Sedan LX 1.5 Flex 16V 4p Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 15,
+      "catalog": {
+        "brand": "Honda",
+        "id": 15,
+        "model": "Civic EX",
+        "year": 2017
+      },
+      "fipe_code": "014091-0",
+      "commercial_identity": "Civic Sedan EX 2.0 Flex 16V Aut.4p",
+      "year_code": "2017-5",
+      "external_id": 140910,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/honda/civic/versoes",
+        "cache_file": "carpedia-17.json",
+        "sha256": "a0e53a6c219a007bb3e4e1223f5efd3c11255775bfbf27f61e9dea977a3ab60a",
+        "collected_at": "2026-09-22T19:50:34.424176+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/140910/2017",
+        "cache_file": "carpedia-18.json",
+        "sha256": "d5860c9a4be713cd39f7439e041b2a3e6a98775469fb17839db4e8feb33eeeee",
+        "collected_at": "2026-09-22T19:50:34.835544+00:00"
+      },
+      "discovery_identity": {
+        "id": 140910,
+        "nome": "Civic Sedan EX 2.0 Flex 16V Aut.4p",
+        "anos": [
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 140910,
+        "year": 2017,
+        "brand": "Honda",
+        "model": "Civic",
+        "version": "Civic Sedan EX 2.0 Flex 16V Aut.4p",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 16,
+      "catalog": {
+        "brand": "Honda",
+        "id": 16,
+        "model": "HR-V LX",
+        "year": 2018
+      },
+      "fipe_code": "014086-4",
+      "commercial_identity": "HR-V LX 1.8 Flexone 16V 5p Aut.",
+      "year_code": "2018-5",
+      "external_id": 140864,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/honda/hr-v/versoes",
+        "cache_file": "carpedia-19.json",
+        "sha256": "984b9266ed46bda46b4b82222359ba1010381588f5e8b03d3ec29fe42ea4df39",
+        "collected_at": "2026-09-22T19:50:35.562156+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/140864/2018",
+        "cache_file": "carpedia-20.json",
+        "sha256": "3acf456edb6fa15ea42f13660f17b63df997c5ccb63c2093824eaed7b28ea0a1",
+        "collected_at": "2026-09-22T19:50:36.240164+00:00"
+      },
+      "discovery_identity": {
+        "id": 140864,
+        "nome": "HR-V LX 1.8 Flexone 16V 5p Aut.",
+        "anos": [
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017",
+          "2016"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 140864,
+        "year": 2018,
+        "brand": "Honda",
+        "model": "HR-V",
+        "version": "HR-V LX 1.8 Flexone 16V 5p Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 20,
+      "catalog": {
+        "brand": "Volkswagen",
+        "id": 20,
+        "model": "Voyage Comfortline",
+        "year": 2018
+      },
+      "fipe_code": "005458-5",
+      "commercial_identity": "VOYAGE Comfortline 1.0 T.Flex 12V 4p",
+      "year_code": "2018-5",
+      "external_id": 54585,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/volkswagen/voyage/versoes",
+        "cache_file": "carpedia-21.json",
+        "sha256": "6a7841b96405f1e1ac4b29f498dfa84c8a269c94fa65a60b717d3b216ed0ec75",
+        "collected_at": "2026-09-22T19:50:36.756232+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/54585/2018",
+        "cache_file": "carpedia-22.json",
+        "sha256": "c89231488d81ffbdf4840806ca5eea983ad34f98f7beebd0dcf3c91fef24384a",
+        "collected_at": "2026-09-22T19:50:37.375386+00:00"
+      },
+      "discovery_identity": {
+        "id": 54585,
+        "nome": "VOYAGE Comfortline 1.0 T.Flex 12V 4p",
+        "anos": [
+          "2018",
+          "2017"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 54585,
+        "year": 2018,
+        "brand": "Volkswagen",
+        "model": "Voyage",
+        "version": "VOYAGE Comfortline 1.0 T.Flex 12V 4p",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 22,
+      "catalog": {
+        "brand": "Fiat",
+        "id": 22,
+        "model": "Mobi Like",
+        "year": 2021
+      },
+      "fipe_code": "001461-3",
+      "commercial_identity": "MOBI LIKE 1.0 Fire Flex 5p.",
+      "year_code": "2021-5",
+      "external_id": 14613,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/fiat/mobi/versoes",
+        "cache_file": "carpedia-23.json",
+        "sha256": "67c00aa1c504908d8cc6e85780b40ed1104e6605be9a9efa1acab47d87d815ee",
+        "collected_at": "2026-09-22T19:50:37.929000+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/14613/2021",
+        "cache_file": "carpedia-24.json",
+        "sha256": "30cf4ac3ef40cff004b2546d1e2b3e84144f5c168813d8f96c2a6fdb504bdae1",
+        "collected_at": "2026-09-22T19:50:38.497253+00:00"
+      },
+      "discovery_identity": {
+        "id": 14613,
+        "nome": "MOBI LIKE 1.0 Fire Flex 5p.",
+        "anos": [
+          "0 Km",
+          "2027",
+          "2026",
+          "2025",
+          "2024",
+          "2023",
+          "2022",
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 14613,
+        "year": 2021,
+        "brand": "Fiat",
+        "model": "Mobi",
+        "version": "MOBI LIKE 1.0 Fire Flex 5p.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 29,
+      "catalog": {
+        "brand": "Nissan",
+        "id": 29,
+        "model": "March SV",
+        "year": 2018
+      },
+      "fipe_code": "023143-6",
+      "commercial_identity": "MARCH SV 1.6 16V FlexStart 5p Aut.",
+      "year_code": "2018-5",
+      "external_id": 231436,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/nissan/march/versoes",
+        "cache_file": "carpedia-25.json",
+        "sha256": "4206358a554b9d6ec6b1749285c0c48bb3833555e2ad99d172dc0de9252c4796",
+        "collected_at": "2026-09-22T19:50:38.956068+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/231436/2018",
+        "cache_file": "carpedia-26.json",
+        "sha256": "544df4b5e7b541c8437a1a3419d3f9571623de8ef3a809a78207fd725bb59d41",
+        "collected_at": "2026-09-22T19:50:39.410432+00:00"
+      },
+      "discovery_identity": {
+        "id": 231436,
+        "nome": "MARCH SV 1.6 16V FlexStart 5p Aut.",
+        "anos": [
+          "2020",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 231436,
+        "year": 2018,
+        "brand": "Nissan",
+        "model": "March",
+        "version": "MARCH SV 1.6 16V FlexStart 5p Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 30,
+      "catalog": {
+        "brand": "Nissan",
+        "id": 30,
+        "model": "Versa SV",
+        "year": 2019
+      },
+      "fipe_code": "023144-4",
+      "commercial_identity": "VERSA SV 1.6 16V FlexStart 4p Aut.",
+      "year_code": "2019-5",
+      "external_id": 231444,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/nissan/versa/versoes",
+        "cache_file": "carpedia-27.json",
+        "sha256": "a9f1f8c8da479c6922e3277f7155689de570eea88b2fe7037db989b01e438129",
+        "collected_at": "2026-09-22T19:50:39.838278+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/231444/2019",
+        "cache_file": "carpedia-28.json",
+        "sha256": "55cfcb318cec7abcec2523a2ac1fcdbc2d33278062a9c855b7117d5ee3339f7b",
+        "collected_at": "2026-09-22T19:50:40.263698+00:00"
+      },
+      "discovery_identity": {
+        "id": 231444,
+        "nome": "VERSA SV 1.6 16V FlexStart 4p Aut.",
+        "anos": [
+          "2020",
+          "2019",
+          "2018",
+          "2017"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 231444,
+        "year": 2019,
+        "brand": "Nissan",
+        "model": "Versa",
+        "version": "VERSA SV 1.6 16V FlexStart 4p Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 31,
+      "catalog": {
+        "brand": "Nissan",
+        "id": 31,
+        "model": "Kicks S",
+        "year": 2020
+      },
+      "fipe_code": "023156-8",
+      "commercial_identity": "KICKS S 1.6 16V Flex 5p Aut.",
+      "year_code": "2020-5",
+      "external_id": 231568,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/nissan/kicks/versoes",
+        "cache_file": "carpedia-29.json",
+        "sha256": "008f42170c6109828f40cdca8614fd1d6fd0de0c07f9f03f34cc9b9e53508abd",
+        "collected_at": "2026-09-22T19:50:40.690736+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/231568/2020",
+        "cache_file": "carpedia-30.json",
+        "sha256": "45c2d1c3e8d467235ccfaab59b029818d73f7ae5ef7b7c384d48a189682ef6d2",
+        "collected_at": "2026-09-22T19:50:41.122675+00:00"
+      },
+      "discovery_identity": {
+        "id": 231568,
+        "nome": "KICKS S 1.6 16V Flex 5p Aut.",
+        "anos": [
+          "2021",
+          "2020",
+          "2019",
+          "2018"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 231568,
+        "year": 2020,
+        "brand": "Nissan",
+        "model": "Kicks",
+        "version": "KICKS S 1.6 16V Flex 5p Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 32,
+      "catalog": {
+        "brand": "Jeep",
+        "id": 32,
+        "model": "Renegade Sport",
+        "year": 2019
+      },
+      "fipe_code": "017034-8",
+      "commercial_identity": "Renegade Sport 1.8 4x2 Flex 16V Aut.",
+      "year_code": "2019-5",
+      "external_id": 170348,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/jeep/renegade/versoes",
+        "cache_file": "carpedia-31.json",
+        "sha256": "ca8b82fb06a26fa71f4bad5bb84569c3c09537878c0faec5dcd01256565a404a",
+        "collected_at": "2026-09-22T19:50:41.556104+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/170348/2019",
+        "cache_file": "carpedia-32.json",
+        "sha256": "a1fc6569c21e6437a19730653eeea5563bd759a4b294e10709eb578587de6f9f",
+        "collected_at": "2026-09-22T19:50:41.986101+00:00"
+      },
+      "discovery_identity": {
+        "id": 170348,
+        "nome": "Renegade Sport 1.8 4x2 Flex 16V Aut.",
+        "anos": [
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017",
+          "2016"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 170348,
+        "year": 2019,
+        "brand": "Jeep",
+        "model": "Renegade",
+        "version": "Renegade Sport 1.8 4x2 Flex 16V Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 33,
+      "catalog": {
+        "brand": "Ford",
+        "id": 33,
+        "model": "Ka SE",
+        "year": 2019
+      },
+      "fipe_code": "003408-8",
+      "commercial_identity": "Ka 1.0 SE/SE Plus TiVCT Flex 5p",
+      "year_code": "2019-5",
+      "external_id": 34088,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/ford/ka/versoes",
+        "cache_file": "carpedia-33.json",
+        "sha256": "20cd9540f35341ffdcf8ae87fa2396d29e53a5c3b2e7e82c622e1f025e44e205",
+        "collected_at": "2026-09-22T19:50:42.508312+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/34088/2019",
+        "cache_file": "carpedia-34.json",
+        "sha256": "81f5c96c75387beb8eb7a279a1a2cc71b798267d938d96d182f4196deddbd5a3",
+        "collected_at": "2026-09-22T19:50:43.102288+00:00"
+      },
+      "discovery_identity": {
+        "id": 34088,
+        "nome": "Ka 1.0 SE/SE Plus TiVCT Flex 5p",
+        "anos": [
+          "2021",
+          "2020",
+          "2019",
+          "2018",
+          "2017",
+          "2016",
+          "2015"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 34088,
+        "year": 2019,
+        "brand": "Ford",
+        "model": "Ka",
+        "version": "Ka 1.0 SE/SE Plus TiVCT Flex 5p",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    {
+      "id": 34,
+      "catalog": {
+        "brand": "Ford",
+        "id": 34,
+        "model": "EcoSport SE",
+        "year": 2018
+      },
+      "fipe_code": "003440-1",
+      "commercial_identity": "EcoSport SE 1.5 12V Flex 5p Aut.",
+      "year_code": "2018-5",
+      "external_id": 34401,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/ford/ecosport/versoes",
+        "cache_file": "carpedia-35.json",
+        "sha256": "4585ed98238afca9657d5743c494b814d9eaef440fe6efa88af234c3076fd37e",
+        "collected_at": "2026-09-22T19:50:43.515652+00:00"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/34401/2018",
+        "cache_file": "carpedia-36.json",
+        "sha256": "5d325af8b2ad83f4d63a04cd1dfcd67d125f9bf62bb356488bbbaa597f245747",
+        "collected_at": "2026-09-22T19:50:43.912210+00:00"
+      },
+      "discovery_identity": {
+        "id": 34401,
+        "nome": "EcoSport SE 1.5 12V Flex 5p Aut.",
+        "anos": [
+          "2021",
+          "2020",
+          "2019",
+          "2018"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 34401,
+        "year": 2018,
+        "brand": "Ford",
+        "model": "EcoSport",
+        "version": "EcoSport SE 1.5 12V Flex 5p Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    }
+  ],
+  "fipe_33": {
+    "provider": "fipe",
+    "url": "https://fipe.parallelum.com.br/api/v2/cars/003408-8/years/2019-5",
+    "cache_file": "fipe-1.json",
+    "sha256": "95a8a34094c73179ca6647e97e731e3513489c49d69625c1dc5771afb17d7d8b",
+    "collected_at": "2026-09-22T19:50:44.115172+00:00"
+  }
+}
