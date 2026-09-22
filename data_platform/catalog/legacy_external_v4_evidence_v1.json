@@ -1,0 +1,365 @@
+{
+  "version": "legacy-controlled-external-v4-v1",
+  "methodology": "academic-profile-pilot-v4",
+  "publication_authorized": false,
+  "database_write_authorized": false,
+  "admitted_ids": [
+    12
+  ],
+  "scope_ids": [
+    1,
+    6,
+    7,
+    9,
+    11,
+    12,
+    13,
+    17,
+    18,
+    19,
+    21,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    33
+  ],
+  "dispositions": [
+    {
+      "id": 1,
+      "status": "blocked",
+      "catalog": {
+        "id": 1,
+        "brand": "Chevrolet",
+        "model": "Onix LT",
+        "year": 2021
+      },
+      "reason": "OEM MY2021 pp.227-228 distinguishes 1LT/2LT/5LT/8LT; catalog LT alone still does not select an option.",
+      "human_approval_required": false
+    },
+    {
+      "id": 6,
+      "status": "blocked",
+      "catalog": {
+        "id": 6,
+        "brand": "Hyundai",
+        "model": "HB20 Comfort",
+        "year": 2020
+      },
+      "reason": "Catalog Comfort versus FIPE/PBEV Vision; no approved substitution. Need exact Comfort 2020 code/year and powertrain.",
+      "human_approval_required": true
+    },
+    {
+      "id": 7,
+      "status": "blocked",
+      "catalog": {
+        "id": 7,
+        "brand": "Hyundai",
+        "model": "HB20S Comfort",
+        "year": 2020
+      },
+      "reason": "Catalog Comfort versus FIPE/PBEV Vision; no approved substitution. Need exact HB20S Comfort 2020 identity.",
+      "human_approval_required": true
+    },
+    {
+      "id": 9,
+      "status": "blocked",
+      "catalog": {
+        "id": 9,
+        "brand": "Toyota",
+        "model": "Corolla GLi",
+        "year": 2018
+      },
+      "reason": "Existing fiche only says automatic; OEM Toyota request returned 403 and provider stopped. No repeat fiche.",
+      "human_approval_required": false
+    },
+    {
+      "id": 11,
+      "status": "blocked",
+      "catalog": {
+        "id": 11,
+        "brand": "Toyota",
+        "model": "Yaris XL",
+        "year": 2020
+      },
+      "reason": "PBEV identifies XL Live; cached FIPE/catalog XL does not prove Live scope in 2020.",
+      "human_approval_required": true
+    },
+    {
+      "id": 12,
+      "status": "admitted",
+      "catalog": {
+        "id": 12,
+        "brand": "Toyota",
+        "model": "Corolla Cross XR",
+        "year": 2022
+      },
+      "reason": "Exact Corolla Cross XR 2.0 16V flex 2022, distinct from XRE and hybrid rows; XR20 is XR with the separately printed 2.0 engine. New binding fills the absent 2022 source; no prior material configuration is replaced.",
+      "human_approval_required": false
+    },
+    {
+      "id": 13,
+      "status": "blocked",
+      "catalog": {
+        "id": 13,
+        "brand": "Honda",
+        "model": "Fit EX",
+        "year": 2017
+      },
+      "reason": "FIPE combined EX/S and July year-code 2017-1 conflict with Flex wording; exact 2017 Fit row not found in local parsed cycle.",
+      "human_approval_required": true
+    },
+    {
+      "id": 17,
+      "status": "blocked",
+      "catalog": {
+        "id": 17,
+        "brand": "Volkswagen",
+        "model": "Gol Trendline",
+        "year": 2019
+      },
+      "reason": "PBEV 2019 distinguishes wheel sizes but does not name Trendline; generic FIPE description cannot resolve catalog trim.",
+      "human_approval_required": true
+    },
+    {
+      "id": 18,
+      "status": "blocked",
+      "catalog": {
+        "id": 18,
+        "brand": "Volkswagen",
+        "model": "Polo MSI",
+        "year": 2019
+      },
+      "reason": "PBEV Polo 1.6 versions are blank; catalog MSI-to-version scope is not explicit.",
+      "human_approval_required": false
+    },
+    {
+      "id": 19,
+      "status": "blocked",
+      "catalog": {
+        "id": 19,
+        "brand": "Volkswagen",
+        "model": "Virtus MSI",
+        "year": 2019
+      },
+      "reason": "PBEV Virtus 1.6 version is blank; MSI scope unproved; FIPE also says 5p while commercial sedan context needs review.",
+      "human_approval_required": true
+    },
+    {
+      "id": 21,
+      "status": "blocked",
+      "catalog": {
+        "id": 21,
+        "brand": "Volkswagen",
+        "model": "T-Cross 200 TSI",
+        "year": 2020
+      },
+      "reason": "PBEV separately lists 200TSI and Comfortline 200TSI; catalog 200TSI cannot silently become FIPE Comfortline.",
+      "human_approval_required": true
+    },
+    {
+      "id": 23,
+      "status": "blocked",
+      "catalog": {
+        "id": 23,
+        "brand": "Fiat",
+        "model": "Uno Attractive",
+        "year": 2018
+      },
+      "reason": "Local PBEV Attractive 1.0-8V differs from cached FIPE Drive 1.0-6V. Need correct Attractive FIPE key.",
+      "human_approval_required": true
+    },
+    {
+      "id": 24,
+      "status": "blocked",
+      "catalog": {
+        "id": 24,
+        "brand": "Fiat",
+        "model": "Argo Drive",
+        "year": 2020
+      },
+      "reason": "Drive and Drive Stop & Start coexist; cached FIPE does not resolve configuration. No row cherry-picking.",
+      "human_approval_required": true
+    },
+    {
+      "id": 25,
+      "status": "blocked",
+      "catalog": {
+        "id": 25,
+        "brand": "Fiat",
+        "model": "Cronos Drive",
+        "year": 2020
+      },
+      "reason": "Drive manual, automated and Stop & Start alternatives coexist; cached FIPE omits enough configuration to resolve uniquely.",
+      "human_approval_required": true
+    },
+    {
+      "id": 26,
+      "status": "blocked",
+      "catalog": {
+        "id": 26,
+        "brand": "Renault",
+        "model": "Sandero Zen",
+        "year": 2020
+      },
+      "reason": "PBEV 2020 local Sandero rows name Authentique/Expression, not Zen; no local reviewed trim rename.",
+      "human_approval_required": true
+    },
+    {
+      "id": 27,
+      "status": "blocked",
+      "catalog": {
+        "id": 27,
+        "brand": "Renault",
+        "model": "Logan Zen",
+        "year": 2020
+      },
+      "reason": "Logan Zen 1.0 appears as Logan and Logan-P2; exact generation scope unresolved.",
+      "human_approval_required": true
+    },
+    {
+      "id": 28,
+      "status": "blocked",
+      "catalog": {
+        "id": 28,
+        "brand": "Renault",
+        "model": "Duster Zen",
+        "year": 2020
+      },
+      "reason": "PBEV 2020 Duster names Dynamique/Expression or leaves version blank; none explicitly proves Zen.",
+      "human_approval_required": true
+    },
+    {
+      "id": 33,
+      "status": "blocked",
+      "catalog": {
+        "id": 33,
+        "brand": "Ford",
+        "model": "Ka SE",
+        "year": 2019
+      },
+      "reason": "Existing fiche aggregates SE/SE Plus; official Ford archived media kit redirects to generic home. No repeat fiche.",
+      "human_approval_required": false
+    }
+  ],
+  "admission": {
+    "id": 12,
+    "catalog": {
+      "id": 12,
+      "brand": "Toyota",
+      "model": "Corolla Cross XR",
+      "year": 2022
+    },
+    "fipe": {
+      "source": "fipe_12",
+      "year_code": "2022-5",
+      "expected_identity": {
+        "brand": "Toyota",
+        "model": "Corolla Cross XR 2.0 16V Flex Aut.",
+        "modelYear": 2022,
+        "fuel": "Flex",
+        "codeFipe": "002201-2"
+      },
+      "reference_month": "2026-09",
+      "legacy_price_cache": false
+    },
+    "fipe_source": {
+      "cache_file": "4eef8cc0010d658af2bde9b957b18ce2fe53d9a09d2638f4e0072c563c73b53d.json",
+      "sha256": "c8c2feb1b63a5bb4bc535c06db30427c3c417e937f351bca100e93d03df523b6",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/002201-2/years/2022-5",
+      "collected_at": "2026-09-11T22:54:12.206909+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "pbev_source": {
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/pbe-veicular-2022.pdf/@@download/file",
+      "cache_file": "document-3.pdf",
+      "sha256": "64cadc11a252641f2568c0f0e5d5749189505d7a1f10a30a375e9f38f83b87fd",
+      "collected_at": "2026-09-22T21:22:07.472781+00:00",
+      "document": "document-3.pdf"
+    },
+    "pbev": {
+      "row_hash": "522ca6e315668a2fe13e6472e77fbe74f7ba4a5af42b858b0adaeb58091614ae",
+      "page": 2,
+      "row_number": 17,
+      "identity": {
+        "brand_name": "TOYOTA",
+        "model_name": "COROLLA CROSS",
+        "version_name": "XR 20",
+        "motor_description": "2.0 - 16V",
+        "transmission_code": "CVT",
+        "fuel_type": "flex"
+      },
+      "powertrain": [
+        "2.0",
+        16,
+        false,
+        "cvt",
+        "flex"
+      ],
+      "consumption": {
+        "fossil_city_km_l": "11.7",
+        "fossil_highway_km_l": "13.0"
+      },
+      "unit": "km/l",
+      "rationale": "Exact Corolla Cross XR 2.0 16V flex 2022, distinct from XRE and hybrid rows; XR20 is XR with the separately printed 2.0 engine. New binding fills the absent 2022 source; no prior material configuration is replaced."
+    },
+    "technical": {
+      "id": 12,
+      "catalog": {
+        "id": 12,
+        "brand": "Toyota",
+        "model": "Corolla Cross XR",
+        "year": 2022
+      },
+      "commercial_identity": "Corolla Cross XR 2.0 16V Flex Aut.",
+      "fipe_code": "002201-2",
+      "year_code": "2022-5",
+      "external_id": 22012,
+      "discovery": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/modelos/toyota/corolla-cross/versoes",
+        "cache_file": "carpedia-10.json",
+        "sha256": "97c557e6b7b262addbf0e426176dc201b75b59dfbe61709f6bbc49af895927a4",
+        "collected_at": "2026-09-22T21:26:53.625136+00:00",
+        "document": "carpedia-10.json"
+      },
+      "fiche": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/22012/2022",
+        "cache_file": "carpedia-11.json",
+        "sha256": "5633601754b49ff647598ebb49e88316bc774a27999e3f5d0ac4b2b3dfbfdea7",
+        "collected_at": "2026-09-22T21:30:55.634547+00:00",
+        "document": "carpedia-11.json"
+      },
+      "discovery_identity": {
+        "id": 22012,
+        "nome": "Corolla Cross XR 2.0 16V Flex Aut.",
+        "anos": [
+          "0 Km",
+          "2026",
+          "2025",
+          "2024",
+          "2023",
+          "2022"
+        ],
+        "combustiveis": [
+          "Flex"
+        ]
+      },
+      "source_identity": {
+        "external_id": 22012,
+        "year": 2022,
+        "brand": "Toyota",
+        "model": "Corolla Cross",
+        "version": "Corolla Cross XR 2.0 16V Flex Aut.",
+        "source_name": "checktudo-ficha-tecnica-2026-07",
+        "source_at": "2026-07-13"
+      }
+    },
+    "canonical_identity_change": false
+  }
+}
