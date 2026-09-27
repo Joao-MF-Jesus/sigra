@@ -1,0 +1,1388 @@
+{
+  "version": "academic-cohort-v5-evidence-v1",
+  "records": [
+    {
+      "id": 62,
+      "catalog_target": {
+        "id": 62,
+        "candidate_key": "sigra-100-2026-09-06:62",
+        "collection_group": "Trabalho",
+        "collection_order": 6,
+        "batch": 2,
+        "brand": "Volkswagen",
+        "model_family": "Golf",
+        "target_version": "Comfortline 1.0 TSI automatico",
+        "model_year": 2018,
+        "category": "compact_hatch",
+        "source_row": 29,
+        "status": "selected",
+        "identity_note": "Fixar código FIPE, ano e versão antes de criar o vínculo Gold.",
+        "fipe_family_url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/59/modelos",
+        "pbev_cycle_url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file"
+      },
+      "fipe_identity": {
+        "Marca": "VW - VolksWagen",
+        "Modelo": "Golf Comfort. 200 TSI 1.0 Flex 12V Aut.",
+        "AnoModelo": 2018,
+        "CodigoFipe": "005494-1",
+        "Combustivel": "Flex",
+        "MesReferencia": "setembro de 2026",
+        "Valor": "R$ 97.301,00"
+      },
+      "pbev_identity": {
+        "brand_name": "VW",
+        "model_name": "GOLF",
+        "version_name": "COMFORTLINE",
+        "motor_description": "1.0-12V",
+        "transmission_code": "A-6",
+        "fuel_type": "flex"
+      },
+      "pbev_row_hash": "9a88587a388b036d0129a23d685e335cd5eae952528f5ccad7f00e09a3010fbb",
+      "pbev_locator": {
+        "page": 7,
+        "row": 13
+      },
+      "source_identity": {
+        "id": 54941,
+        "nome": "Golf Comfort. 200 TSI 1.0 Flex 12V Aut.",
+        "marca": "Volkswagen",
+        "modelo": "Golf"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "review": {
+        "status": "exact_variant_reviewed",
+        "year": 2018,
+        "rationale": "Explicit reserved target and named single PBEV trim; FIPE complete commercial model, fuel, engine, gear and exact CarPedia year/code checked. No shared trim or fuzzy match."
+      },
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/59/modelos/8369/anos/2018-5",
+          "sha256": "4fc907bcb1e3c4efdd2598e1ed9bdd4c7e8e37b6ca9fa78f49762a89a3c0e188",
+          "cache_file": "fipe-62-5.raw",
+          "collected_at": "2026-09-27T04:07:49.314009+00:00",
+          "document": "fipe exact 62/2018"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/54941/2018",
+          "sha256": "756f334956fa5fe6b6335643ed0647a1d5760d2a3d5f6996240b35689679ccd0",
+          "cache_file": "carpedia-62-6.raw",
+          "collected_at": "2026-09-27T04:07:49.402674+00:00",
+          "document": "carpedia exact 62/2018"
+        },
+        "pbev": {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+          "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4",
+          "cache_file": "veiculos_leves_2018.pdf",
+          "collected_at": "2026-09-07T01:02:37.462160+00:00",
+          "provider": "pbev",
+          "document": "PBEV 2018 original audited table"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2018-parsed.json",
+          "sha256": "a5d41bda1c51a87be9b7ee936a9e691583709472a03d15d1ac5d45ce5565ca1c"
+        }
+      },
+      "fields": [
+        {
+          "name": "seats",
+          "attribute_code": "seats",
+          "value": "5",
+          "unit": "count",
+          "source_label": "Número de lugares",
+          "source_section": "Geral",
+          "source_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "name": "length_mm",
+          "attribute_code": "length",
+          "value": "4255.000000",
+          "unit": "mm",
+          "source_label": "Comprimento (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "4255",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "name": "width_mm",
+          "attribute_code": "width",
+          "value": "1799.000000",
+          "unit": "mm",
+          "source_label": "Largura (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "1799",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "name": "wheelbase_mm",
+          "attribute_code": "wheelbase",
+          "value": "2630.000000",
+          "unit": "mm",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "2630",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "name": "payload_kg",
+          "attribute_code": "payload_capacity",
+          "value": "497.000000",
+          "unit": "kg",
+          "source_label": "Carga útil (kg)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "497",
+          "locator": "secoes[2].itens[4]"
+        },
+        {
+          "name": "cargo_l",
+          "attribute_code": "cargo_capacity",
+          "value": "313.000000",
+          "unit": "l",
+          "source_label": "Volume do porta-malas (l)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "313",
+          "locator": "secoes[2].itens[5]"
+        }
+      ],
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Flex"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "999"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Turbocompressor"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Automático"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "6"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Tração",
+          "value": "Dianteira (FWD)"
+        },
+        {
+          "section": "Chassi, direção, freios e rodas",
+          "label": "Medida dos pneus",
+          "value": "205/55 R16"
+        }
+      ],
+      "limitations": [
+        "CarPedia technical source assertions with upstream provenance, not independent measurement",
+        "No inferred safety equipment",
+        "Body width is not mirror width",
+        "No source publication or activation"
+      ],
+      "engine_binding": {
+        "commercial_displacement_l": "1.0",
+        "pbev_displacement_l": "1.0",
+        "pbev_valves": 12,
+        "aspiration": "Turbocompressor",
+        "aspiration_source": "CarPedia explicit field; omission in PBEV does not mean naturally aspirated"
+      }
+    },
+    {
+      "id": 65,
+      "catalog_target": {
+        "id": 65,
+        "candidate_key": "sigra-100-2026-09-06:65",
+        "collection_group": "Trabalho",
+        "collection_order": 9,
+        "batch": 2,
+        "brand": "Fiat",
+        "model_family": "Punto",
+        "target_version": "Attractive 1.4 manual",
+        "model_year": 2017,
+        "category": "compact_hatch",
+        "source_row": 32,
+        "status": "selected",
+        "identity_note": "Fixar código FIPE, ano e versão antes de criar o vínculo Gold.",
+        "fipe_family_url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos",
+        "pbev_cycle_url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2017/@@download/file"
+      },
+      "fipe_identity": {
+        "Marca": "Fiat",
+        "Modelo": "Punto ATTRACTIVE 1.4 Fire Flex 8V 5p",
+        "AnoModelo": 2017,
+        "CodigoFipe": "001313-7",
+        "Combustivel": "Flex",
+        "MesReferencia": "setembro de 2026",
+        "Valor": "R$ 44.254,00"
+      },
+      "pbev_identity": {
+        "brand_name": "FIAT",
+        "model_name": "Punto",
+        "version_name": "Attractive",
+        "motor_description": "1.4-8V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex"
+      },
+      "pbev_row_hash": "48870887bd63cb03254609b9eeabd5d0d12b28af1661ad4e5537880bb57691a2",
+      "pbev_locator": {
+        "page": 5,
+        "row": 19
+      },
+      "source_identity": {
+        "id": 13137,
+        "nome": "Punto ATTRACTIVE 1.4 Fire Flex 8V 5p",
+        "marca": "Fiat",
+        "modelo": "Punto"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "review": {
+        "status": "exact_variant_reviewed",
+        "year": 2017,
+        "rationale": "Explicit reserved target and named single PBEV trim; FIPE complete commercial model, fuel, engine, gear and exact CarPedia year/code checked. No shared trim or fuzzy match."
+      },
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos/5273/anos/2017-5",
+          "sha256": "5477f3bc2b283d1939d342a7f129fed2ffa2bbc9ff21e2a27c444036f68e1411",
+          "cache_file": "fipe-65-7.raw",
+          "collected_at": "2026-09-27T04:07:49.802608+00:00",
+          "document": "fipe exact 65/2017"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/13137/2017",
+          "sha256": "ef59a008f96ce831bd59fbf16b615bbe13a2160b7fb91b895e3ec99c2115f47e",
+          "cache_file": "carpedia-65-8.raw",
+          "collected_at": "2026-09-27T04:07:49.901551+00:00",
+          "document": "carpedia exact 65/2017"
+        },
+        "pbev": {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2017/@@download/file",
+          "sha256": "951c6b7fd4d6bb11c660816ae391f7129ed47e5aba558236d20398ece8b09f74",
+          "cache_file": "veiculos_leves_2017.pdf",
+          "collected_at": "2026-09-07T01:02:21.208868+00:00",
+          "provider": "pbev",
+          "document": "PBEV 2017 original audited table"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2017-parsed.json",
+          "sha256": "228d2434bbc08ddd510743376d10e06e63660d48da86e6cc6ebfa1b67b01e3aa"
+        }
+      },
+      "fields": [
+        {
+          "name": "seats",
+          "attribute_code": "seats",
+          "value": "5",
+          "unit": "count",
+          "source_label": "Número de lugares",
+          "source_section": "Geral",
+          "source_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "name": "length_mm",
+          "attribute_code": "length",
+          "value": "4065.000000",
+          "unit": "mm",
+          "source_label": "Comprimento (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "4065",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "name": "width_mm",
+          "attribute_code": "width",
+          "value": "1687.000000",
+          "unit": "mm",
+          "source_label": "Largura (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "1687",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "name": "wheelbase_mm",
+          "attribute_code": "wheelbase",
+          "value": "2510.000000",
+          "unit": "mm",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "2510",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "name": "payload_kg",
+          "attribute_code": "payload_capacity",
+          "value": "400.000000",
+          "unit": "kg",
+          "source_label": "Carga útil (kg)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "400",
+          "locator": "secoes[2].itens[5]"
+        },
+        {
+          "name": "cargo_l",
+          "attribute_code": "cargo_capacity",
+          "value": "280.000000",
+          "unit": "l",
+          "source_label": "Volume do porta-malas (l)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "280",
+          "locator": "secoes[2].itens[6]"
+        }
+      ],
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Flex"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "1368"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Natural"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Manual"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "5"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Tração",
+          "value": "Dianteira (FWD)"
+        },
+        {
+          "section": "Chassi, direção, freios e rodas",
+          "label": "Medida dos pneus",
+          "value": "185/60 R15"
+        }
+      ],
+      "limitations": [
+        "CarPedia technical source assertions with upstream provenance, not independent measurement",
+        "No inferred safety equipment",
+        "Body width is not mirror width",
+        "No source publication or activation"
+      ],
+      "engine_binding": {
+        "commercial_displacement_l": "1.4",
+        "pbev_displacement_l": "1.4",
+        "pbev_valves": 8,
+        "aspiration": "Natural",
+        "aspiration_source": "CarPedia explicit field; omission in PBEV does not mean naturally aspirated"
+      }
+    },
+    {
+      "id": 72,
+      "catalog_target": {
+        "id": 72,
+        "candidate_key": "sigra-100-2026-09-06:72",
+        "collection_group": "Família",
+        "collection_order": 5,
+        "batch": 2,
+        "brand": "Honda",
+        "model_family": "CR-V",
+        "target_version": "Touring 1.5 turbo CVT",
+        "model_year": 2019,
+        "category": "compact_suv",
+        "source_row": 39,
+        "status": "selected",
+        "identity_note": "Fixar código FIPE, ano e versão antes de criar o vínculo Gold.",
+        "fipe_family_url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos",
+        "pbev_cycle_url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file"
+      },
+      "fipe_identity": {
+        "Marca": "Honda",
+        "Modelo": "CR-V Touring 1.5 16V 4WD 5p Aut.",
+        "AnoModelo": 2019,
+        "CodigoFipe": "014100-3",
+        "Combustivel": "Gasolina",
+        "MesReferencia": "setembro de 2026",
+        "Valor": "R$ 145.194,00"
+      },
+      "pbev_identity": {
+        "brand_name": "HONDA",
+        "model_name": "CR-V",
+        "version_name": "TOURING",
+        "motor_description": "1.5T-16V",
+        "transmission_code": "CVT",
+        "fuel_type": "gasoline"
+      },
+      "pbev_row_hash": "a12925dd91408057952e8756445883143d0a24ba9e40b6e32b06ec1972ef6d69",
+      "pbev_locator": {
+        "page": 25,
+        "row": 15
+      },
+      "source_identity": {
+        "id": 141003,
+        "nome": "CR-V Touring 1.5 16V 4WD 5p Aut.",
+        "marca": "Honda",
+        "modelo": "CR-V"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "review": {
+        "status": "exact_variant_reviewed",
+        "year": 2019,
+        "rationale": "Explicit reserved target and named single PBEV trim; FIPE complete commercial model, fuel, engine, gear and exact CarPedia year/code checked. No shared trim or fuzzy match."
+      },
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/8282/anos/2019-1",
+          "sha256": "f0bc222afc509eb7efdf198ef304f6ac9ebbec37c70af3965b3b5c18bc6e9469",
+          "cache_file": "fipe-72-19.raw",
+          "collected_at": "2026-09-27T04:11:24.370249+00:00",
+          "document": "fipe exact 72/2019"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/141003/2019",
+          "sha256": "54aa83a48c0fb15104e7eabc1b4f4e4c418345291c51ac85c522eb55c045bdb8",
+          "cache_file": "carpedia-72-20.raw",
+          "collected_at": "2026-09-27T04:11:24.659882+00:00",
+          "document": "carpedia exact 72/2019"
+        },
+        "pbev": {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file",
+          "sha256": "d2168ac4bdd266a483468390d501565186e36949eff0c37f61fbc419be5d8804",
+          "cache_file": "veiculos_leves_2019.pdf",
+          "collected_at": "2026-09-07T01:02:54.889224+00:00",
+          "provider": "pbev",
+          "document": "PBEV 2019 original audited table"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2019-parsed.json",
+          "sha256": "acee52912c45b7c4e08df60495cf55b221d234424475a6541761a6969071c951"
+        }
+      },
+      "fields": [
+        {
+          "name": "seats",
+          "attribute_code": "seats",
+          "value": "5",
+          "unit": "count",
+          "source_label": "Número de lugares",
+          "source_section": "Geral",
+          "source_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "name": "length_mm",
+          "attribute_code": "length",
+          "value": "4591.000000",
+          "unit": "mm",
+          "source_label": "Comprimento (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "4591",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "name": "width_mm",
+          "attribute_code": "width",
+          "value": "1855.000000",
+          "unit": "mm",
+          "source_label": "Largura (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "1855",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "name": "wheelbase_mm",
+          "attribute_code": "wheelbase",
+          "value": "2660.000000",
+          "unit": "mm",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "2660",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "name": "payload_kg",
+          "attribute_code": "payload_capacity",
+          "value": "523.000000",
+          "unit": "kg",
+          "source_label": "Carga útil (kg)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "523",
+          "locator": "secoes[2].itens[5]"
+        },
+        {
+          "name": "cargo_l",
+          "attribute_code": "cargo_capacity",
+          "value": "522.000000",
+          "unit": "l",
+          "source_label": "Volume do porta-malas (l)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "522",
+          "locator": "secoes[2].itens[6]"
+        }
+      ],
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Gasolina"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "1498"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Turbocompressor"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Automático (CVT)"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "7"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Tração",
+          "value": "Sob Demanda (4WD)"
+        },
+        {
+          "section": "Chassi, direção, freios e rodas",
+          "label": "Medida dos pneus",
+          "value": "235/60 R18"
+        }
+      ],
+      "limitations": [
+        "CarPedia technical source assertions with upstream provenance, not independent measurement",
+        "No inferred safety equipment",
+        "Body width is not mirror width",
+        "No source publication or activation"
+      ],
+      "engine_binding": {
+        "commercial_displacement_l": "1.5",
+        "pbev_displacement_l": "1.5",
+        "pbev_valves": 16,
+        "aspiration": "Turbocompressor",
+        "aspiration_source": "CarPedia explicit field; omission in PBEV does not mean naturally aspirated"
+      }
+    },
+    {
+      "id": 76,
+      "catalog_target": {
+        "id": 76,
+        "candidate_key": "sigra-100-2026-09-06:76",
+        "collection_group": "Família",
+        "collection_order": 9,
+        "batch": 2,
+        "brand": "Peugeot",
+        "model_family": "5008",
+        "target_version": "Griffe 1.6 turbo automatico",
+        "model_year": 2019,
+        "category": "suv",
+        "source_row": 43,
+        "status": "selected",
+        "identity_note": "Fixar código FIPE, ano e versão antes de criar o vínculo Gold.",
+        "fipe_family_url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/44/modelos",
+        "pbev_cycle_url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file"
+      },
+      "fipe_identity": {
+        "Marca": "Peugeot",
+        "Modelo": "5008 Griffe 1.6 Turbo 16V 5p Aut.",
+        "AnoModelo": 2019,
+        "CodigoFipe": "024235-7",
+        "Combustivel": "Gasolina",
+        "MesReferencia": "setembro de 2026",
+        "Valor": "R$ 109.514,00"
+      },
+      "pbev_identity": {
+        "brand_name": "Peugeot",
+        "model_name": "5008",
+        "version_name": "GRIFFE AT",
+        "motor_description": "1.6 THP 16V",
+        "transmission_code": "A-6",
+        "fuel_type": "gasoline"
+      },
+      "pbev_row_hash": "579da9109fb8a2aa548863fd2da13260bf6c9dc7981f59150c0abe1ee469f1e0",
+      "pbev_locator": {
+        "page": 22,
+        "row": 6
+      },
+      "source_identity": {
+        "id": 242357,
+        "nome": "5008 Griffe 1.6 Turbo 16V 5p Aut.",
+        "marca": "Peugeot",
+        "modelo": "5008"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "review": {
+        "status": "exact_variant_reviewed",
+        "year": 2019,
+        "rationale": "Explicit reserved target and named single PBEV trim; FIPE complete commercial model, fuel, engine, gear and exact CarPedia year/code checked. No shared trim or fuzzy match."
+      },
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/44/modelos/8244/anos/2019-1",
+          "sha256": "0d1a468cdef957a0e39e1b20d9f8da0e02fbdb909a6b5c5f8d354a8ba25267c6",
+          "cache_file": "fipe-76-1.raw",
+          "collected_at": "2026-09-27T04:05:47.296849+00:00",
+          "document": "fipe exact 76/2019"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/242357/2019",
+          "sha256": "93f19b86663132ba2177d4c18839fd5c5a2e3857d93c4979c2cd778e48c66390",
+          "cache_file": "carpedia-76-2.raw",
+          "collected_at": "2026-09-27T04:06:38.857189+00:00",
+          "document": "carpedia exact 76/2019"
+        },
+        "pbev": {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file",
+          "sha256": "d2168ac4bdd266a483468390d501565186e36949eff0c37f61fbc419be5d8804",
+          "cache_file": "veiculos_leves_2019.pdf",
+          "collected_at": "2026-09-07T01:02:54.889224+00:00",
+          "provider": "pbev",
+          "document": "PBEV 2019 original audited table"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2019-parsed.json",
+          "sha256": "acee52912c45b7c4e08df60495cf55b221d234424475a6541761a6969071c951"
+        }
+      },
+      "fields": [
+        {
+          "name": "seats",
+          "attribute_code": "seats",
+          "value": "7",
+          "unit": "count",
+          "source_label": "Número de lugares",
+          "source_section": "Geral",
+          "source_value": "7",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "name": "length_mm",
+          "attribute_code": "length",
+          "value": "4641.000000",
+          "unit": "mm",
+          "source_label": "Comprimento (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "4641",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "name": "width_mm",
+          "attribute_code": "width",
+          "value": "1844.000000",
+          "unit": "mm",
+          "source_label": "Largura (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "1844",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "name": "wheelbase_mm",
+          "attribute_code": "wheelbase",
+          "value": "2840.000000",
+          "unit": "mm",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "2840",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "name": "payload_kg",
+          "attribute_code": "payload_capacity",
+          "value": "795.000000",
+          "unit": "kg",
+          "source_label": "Carga útil (kg)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "795",
+          "locator": "secoes[2].itens[5]"
+        },
+        {
+          "name": "cargo_l",
+          "attribute_code": "cargo_capacity",
+          "value": "237.000000",
+          "unit": "l",
+          "source_label": "Volume do porta-malas (l)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "237",
+          "locator": "secoes[2].itens[6]"
+        }
+      ],
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Gasolina"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "1598"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Turbocompressor"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Automático"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "6"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Tração",
+          "value": "Dianteira (FWD)"
+        },
+        {
+          "section": "Chassi, direção, freios e rodas",
+          "label": "Medida dos pneus",
+          "value": "225/55 R18"
+        }
+      ],
+      "limitations": [
+        "CarPedia technical source assertions with upstream provenance, not independent measurement",
+        "No inferred safety equipment",
+        "Body width is not mirror width",
+        "No source publication or activation"
+      ],
+      "engine_binding": {
+        "commercial_displacement_l": "1.6",
+        "pbev_displacement_l": "1.6",
+        "pbev_valves": 16,
+        "aspiration": "Turbocompressor",
+        "aspiration_source": "CarPedia explicit field; omission in PBEV does not mean naturally aspirated"
+      }
+    },
+    {
+      "id": 77,
+      "catalog_target": {
+        "id": 77,
+        "candidate_key": "sigra-100-2026-09-06:77",
+        "collection_group": "Família",
+        "collection_order": 10,
+        "batch": 2,
+        "brand": "Chevrolet",
+        "model_family": "Trailblazer",
+        "target_version": "LTZ 3.6 gasolina automatico",
+        "model_year": 2019,
+        "category": "suv",
+        "source_row": 44,
+        "status": "selected",
+        "identity_note": "Fixar código FIPE, ano e versão antes de criar o vínculo Gold.",
+        "fipe_family_url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/23/modelos",
+        "pbev_cycle_url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file"
+      },
+      "fipe_identity": {
+        "Marca": "GM - Chevrolet",
+        "Modelo": "TRAILBLAZER LTZ 3.6 V6  Aut.",
+        "AnoModelo": 2019,
+        "CodigoFipe": "004430-0",
+        "Combustivel": "Gasolina",
+        "MesReferencia": "setembro de 2026",
+        "Valor": "R$ 143.791,00"
+      },
+      "pbev_identity": {
+        "brand_name": "CHEVROLET",
+        "model_name": "TRAILBLAZER",
+        "version_name": "LTZ Gasolina 4x4",
+        "motor_description": "3.6-24V",
+        "transmission_code": "A-6",
+        "fuel_type": "gasoline"
+      },
+      "pbev_row_hash": "8054d1bb94c56ef0add298e61799963da930f9527196310427d99dfead3bb2d8",
+      "pbev_locator": {
+        "page": 31,
+        "row": 7
+      },
+      "source_identity": {
+        "id": 44300,
+        "nome": "TRAILBLAZER LTZ 3.6 V6  Aut.",
+        "marca": "Chevrolet",
+        "modelo": "Trailblazer"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "review": {
+        "status": "exact_variant_reviewed",
+        "year": 2019,
+        "rationale": "Explicit reserved target and named single PBEV trim; FIPE complete commercial model, fuel, engine, gear and exact CarPedia year/code checked. No shared trim or fuzzy match."
+      },
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/23/modelos/6269/anos/2019-1",
+          "sha256": "a10472a98bebeeacd13129de229d4486d331f2718755283a875506f6ba25a22c",
+          "cache_file": "fipe-77-11.raw",
+          "collected_at": "2026-09-27T04:07:51.622652+00:00",
+          "document": "fipe exact 77/2019"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/44300/2019",
+          "sha256": "29cb2f4f71aef1901613afa554856099e6f1b2f62435cf1cf38bb94dacdb4d5c",
+          "cache_file": "carpedia-77-12.raw",
+          "collected_at": "2026-09-27T04:07:51.719180+00:00",
+          "document": "carpedia exact 77/2019"
+        },
+        "pbev": {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file",
+          "sha256": "d2168ac4bdd266a483468390d501565186e36949eff0c37f61fbc419be5d8804",
+          "cache_file": "veiculos_leves_2019.pdf",
+          "collected_at": "2026-09-07T01:02:54.889224+00:00",
+          "provider": "pbev",
+          "document": "PBEV 2019 original audited table"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2019-parsed.json",
+          "sha256": "acee52912c45b7c4e08df60495cf55b221d234424475a6541761a6969071c951"
+        }
+      },
+      "fields": [
+        {
+          "name": "seats",
+          "attribute_code": "seats",
+          "value": "7",
+          "unit": "count",
+          "source_label": "Número de lugares",
+          "source_section": "Geral",
+          "source_value": "7",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "name": "length_mm",
+          "attribute_code": "length",
+          "value": "4887.000000",
+          "unit": "mm",
+          "source_label": "Comprimento (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "4887",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "name": "width_mm",
+          "attribute_code": "width",
+          "value": "1902.000000",
+          "unit": "mm",
+          "source_label": "Largura (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "1902",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "name": "wheelbase_mm",
+          "attribute_code": "wheelbase",
+          "value": "2845.000000",
+          "unit": "mm",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "2845",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "name": "payload_kg",
+          "attribute_code": "payload_capacity",
+          "value": "614.000000",
+          "unit": "kg",
+          "source_label": "Carga útil (kg)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "614",
+          "locator": "secoes[2].itens[5]"
+        },
+        {
+          "name": "cargo_l",
+          "attribute_code": "cargo_capacity",
+          "value": "205.000000",
+          "unit": "l",
+          "source_label": "Volume do porta-malas (l)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "205",
+          "locator": "secoes[2].itens[6]"
+        }
+      ],
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Gasolina"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "3564"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Natural"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Automático"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "6"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Tração",
+          "value": "Sob Demanda (4WD)"
+        },
+        {
+          "section": "Chassi, direção, freios e rodas",
+          "label": "Medida dos pneus",
+          "value": "265/60 R18"
+        }
+      ],
+      "limitations": [
+        "CarPedia technical source assertions with upstream provenance, not independent measurement",
+        "No inferred safety equipment",
+        "Body width is not mirror width",
+        "No source publication or activation"
+      ],
+      "engine_binding": {
+        "commercial_displacement_l": "3.6",
+        "pbev_displacement_l": "3.6",
+        "pbev_valves": 24,
+        "aspiration": "Natural",
+        "aspiration_source": "CarPedia explicit field; omission in PBEV does not mean naturally aspirated"
+      }
+    },
+    {
+      "id": 88,
+      "catalog_target": {
+        "id": 88,
+        "candidate_key": "sigra-100-2026-09-06:88",
+        "collection_group": "Estrada",
+        "collection_order": 10,
+        "batch": 3,
+        "brand": "Honda",
+        "model_family": "Accord",
+        "target_version": "Touring 2.0 turbo automatico",
+        "model_year": 2020,
+        "category": "midsize_sedan",
+        "source_row": 55,
+        "status": "selected",
+        "identity_note": "Fixar código FIPE, ano e versão antes de criar o vínculo Gold.",
+        "fipe_family_url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos",
+        "pbev_cycle_url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file"
+      },
+      "fipe_identity": {
+        "Marca": "Honda",
+        "Modelo": "Accord Sedan Touring 2.0 TB 16V Aut.",
+        "AnoModelo": 2020,
+        "CodigoFipe": "014101-1",
+        "Combustivel": "Gasolina",
+        "MesReferencia": "setembro de 2026",
+        "Valor": "R$ 170.332,00"
+      },
+      "pbev_identity": {
+        "brand_name": "HONDA",
+        "model_name": "Accord",
+        "version_name": "Touring",
+        "motor_description": "2.0-16V",
+        "transmission_code": "A-10",
+        "fuel_type": "gasoline"
+      },
+      "pbev_row_hash": "1ccb8bd4d74735da71cd3ebdfdd9607bbbbf266d76551dbb0d190bd4928de2f9",
+      "pbev_locator": {
+        "page": 13,
+        "row": 8
+      },
+      "source_identity": {
+        "id": 141011,
+        "nome": "Accord Sedan Touring 2.0 TB 16V Aut.",
+        "marca": "Honda",
+        "modelo": "Accord"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "review": {
+        "status": "exact_variant_reviewed",
+        "year": 2020,
+        "rationale": "Explicit reserved target and named single PBEV trim; FIPE complete commercial model, fuel, engine, gear and exact CarPedia year/code checked. No shared trim or fuzzy match."
+      },
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/8520/anos/2020-1",
+          "sha256": "d5d3b3e5878c8f633eae6ea8c18c9ec0d4768c5a42bb62ea02a833ef9dc0ac03",
+          "cache_file": "fipe-88-21.raw",
+          "collected_at": "2026-09-27T04:11:25.937042+00:00",
+          "document": "fipe exact 88/2020"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/141011/2020",
+          "sha256": "608977b68665696a9c6220b09eea8d1d509768b0d776d0853049213abbdaf37d",
+          "cache_file": "carpedia-88-22.raw",
+          "collected_at": "2026-09-27T04:11:26.039442+00:00",
+          "document": "carpedia exact 88/2020"
+        },
+        "pbev": {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "provider": "pbev",
+          "document": "PBEV 2020 original audited table"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      },
+      "fields": [
+        {
+          "name": "seats",
+          "attribute_code": "seats",
+          "value": "5",
+          "unit": "count",
+          "source_label": "Número de lugares",
+          "source_section": "Geral",
+          "source_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "name": "length_mm",
+          "attribute_code": "length",
+          "value": "4889.000000",
+          "unit": "mm",
+          "source_label": "Comprimento (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "4889",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "name": "width_mm",
+          "attribute_code": "width",
+          "value": "1862.000000",
+          "unit": "mm",
+          "source_label": "Largura (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "1862",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "name": "wheelbase_mm",
+          "attribute_code": "wheelbase",
+          "value": "2830.000000",
+          "unit": "mm",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "2830",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "name": "payload_kg",
+          "attribute_code": "payload_capacity",
+          "value": "483.000000",
+          "unit": "kg",
+          "source_label": "Carga útil (kg)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "483",
+          "locator": "secoes[2].itens[5]"
+        },
+        {
+          "name": "cargo_l",
+          "attribute_code": "cargo_capacity",
+          "value": "574.000000",
+          "unit": "l",
+          "source_label": "Volume do porta-malas (l)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "574",
+          "locator": "secoes[2].itens[6]"
+        }
+      ],
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Gasolina"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "1996"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Turbocompressor"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Automático"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "10"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Tração",
+          "value": "Dianteira (FWD)"
+        },
+        {
+          "section": "Chassi, direção, freios e rodas",
+          "label": "Medida dos pneus",
+          "value": "235/45 R18"
+        }
+      ],
+      "limitations": [
+        "CarPedia technical source assertions with upstream provenance, not independent measurement",
+        "No inferred safety equipment",
+        "Body width is not mirror width",
+        "No source publication or activation"
+      ],
+      "engine_binding": {
+        "commercial_displacement_l": "2.0",
+        "pbev_displacement_l": "2.0",
+        "pbev_valves": 16,
+        "aspiration": "Turbocompressor",
+        "aspiration_source": "CarPedia explicit field; omission in PBEV does not mean naturally aspirated"
+      }
+    },
+    {
+      "id": 94,
+      "catalog_target": {
+        "id": 94,
+        "candidate_key": "sigra-100-2026-09-06:94",
+        "collection_group": "SUV/Espaço",
+        "collection_order": 5,
+        "batch": 3,
+        "brand": "Caoa Chery",
+        "model_family": "Tiggo 2",
+        "target_version": "Look 1.5 automatico",
+        "model_year": 2020,
+        "category": "compact_suv",
+        "source_row": 61,
+        "status": "selected",
+        "identity_note": "A marca aparece em códigos históricos distintos na consulta FIPE; fixar o código usado.",
+        "fipe_family_url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/161/modelos",
+        "pbev_cycle_url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file"
+      },
+      "fipe_identity": {
+        "Marca": "Caoa Chery/Chery",
+        "Modelo": "Tiggo 2 Look 1.5 16V Flex Aut.5p",
+        "AnoModelo": 2020,
+        "CodigoFipe": "073019-0",
+        "Combustivel": "Flex",
+        "MesReferencia": "setembro de 2026",
+        "Valor": "R$ 62.130,00"
+      },
+      "pbev_identity": {
+        "brand_name": "CAOA CHERY",
+        "model_name": "Tiggo 2",
+        "version_name": "Look",
+        "motor_description": "1.5-16V",
+        "transmission_code": "A-4",
+        "fuel_type": "flex"
+      },
+      "pbev_row_hash": "48a538f4301bf21f0f5ec41b110dbe7f9e2a95bb208852ed11f730fba544c351",
+      "pbev_locator": {
+        "page": 17,
+        "row": 8
+      },
+      "source_identity": {
+        "id": 730190,
+        "nome": "Tiggo 2 Look 1.5 16V Flex Aut.5p",
+        "marca": "Caoa Chery",
+        "modelo": "Tiggo 2"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "review": {
+        "status": "exact_variant_reviewed",
+        "year": 2020,
+        "rationale": "Explicit reserved target and named single PBEV trim; FIPE complete commercial model, fuel, engine, gear and exact CarPedia year/code checked. No shared trim or fuzzy match."
+      },
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/161/modelos/8340/anos/2020-5",
+          "sha256": "984b9af3970cd7b81d9084253dc0f994d4d6f575c0834c4fbc79daa850467eb2",
+          "cache_file": "fipe-94-13.raw",
+          "collected_at": "2026-09-27T04:07:52.333170+00:00",
+          "document": "fipe exact 94/2020"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/730190/2020",
+          "sha256": "df852671d3da17f796f23a8c26bb5dcc9631c436a700224b366a72cb85616a25",
+          "cache_file": "carpedia-94-14.raw",
+          "collected_at": "2026-09-27T04:07:52.459291+00:00",
+          "document": "carpedia exact 94/2020"
+        },
+        "pbev": {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "provider": "pbev",
+          "document": "PBEV 2020 original audited table"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      },
+      "fields": [
+        {
+          "name": "seats",
+          "attribute_code": "seats",
+          "value": "5",
+          "unit": "count",
+          "source_label": "Número de lugares",
+          "source_section": "Geral",
+          "source_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "name": "length_mm",
+          "attribute_code": "length",
+          "value": "4200.000000",
+          "unit": "mm",
+          "source_label": "Comprimento (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "4200",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "name": "width_mm",
+          "attribute_code": "width",
+          "value": "1760.000000",
+          "unit": "mm",
+          "source_label": "Largura (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "1760",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "name": "wheelbase_mm",
+          "attribute_code": "wheelbase",
+          "value": "2555.000000",
+          "unit": "mm",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "2555",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "name": "cargo_l",
+          "attribute_code": "cargo_capacity",
+          "value": "420.000000",
+          "unit": "l",
+          "source_label": "Volume do porta-malas (l)",
+          "source_section": "Dimensões e pesos",
+          "source_value": "420",
+          "locator": "secoes[2].itens[5]"
+        }
+      ],
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Flex"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "1496"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Natural"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Automático"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "4"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Tração",
+          "value": "Dianteira (FWD)"
+        },
+        {
+          "section": "Chassi, direção, freios e rodas",
+          "label": "Medida dos pneus",
+          "value": "205/55 R16"
+        }
+      ],
+      "limitations": [
+        "CarPedia technical source assertions with upstream provenance, not independent measurement",
+        "No inferred safety equipment",
+        "Body width is not mirror width",
+        "No source publication or activation"
+      ],
+      "engine_binding": {
+        "commercial_displacement_l": "1.5",
+        "pbev_displacement_l": "1.5",
+        "pbev_valves": 16,
+        "aspiration": "Natural",
+        "aspiration_source": "CarPedia explicit field; omission in PBEV does not mean naturally aspirated"
+      }
+    }
+  ]
+}

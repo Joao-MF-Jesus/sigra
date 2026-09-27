@@ -1,0 +1,410 @@
+{
+  "version": "academic-cohort-v5-collection-v1",
+  "target_count": 60,
+  "reviewed_priority_ids": [
+    61,
+    62,
+    65,
+    67,
+    72,
+    74,
+    76,
+    77,
+    82,
+    85,
+    88,
+    89,
+    90,
+    94,
+    96,
+    97,
+    100
+  ],
+  "admitted_ids": [
+    62,
+    65,
+    72,
+    76,
+    77,
+    88,
+    94
+  ],
+  "candidates": [
+    {
+      "id": 61,
+      "decision": "blocked",
+      "reason": "Generation/body dimensions not reconciled: returned 4365/1837/2613 mm; official second-generation archive does not establish these measurements for exact Allure MY2020. No cross-year repair."
+    },
+    {
+      "id": 62,
+      "decision": "admitted_academic_only",
+      "reason": "Exact reviewed FIPE/PBEV/technical binding; no safety inferred"
+    },
+    {
+      "id": 65,
+      "decision": "admitted_academic_only",
+      "reason": "Exact reviewed FIPE/PBEV/technical binding; no safety inferred"
+    },
+    {
+      "id": 67,
+      "decision": "blocked",
+      "reason": "No individually verified current FIPE plus exact technical year dossier in reused cache."
+    },
+    {
+      "id": 72,
+      "decision": "admitted_academic_only",
+      "reason": "Exact reviewed FIPE/PBEV/technical binding; no safety inferred"
+    },
+    {
+      "id": 74,
+      "decision": "blocked",
+      "reason": "PBEV ix35 GL exact row specifies aro17; technical response specifies 225/55 R18. Configuration conflict."
+    },
+    {
+      "id": 76,
+      "decision": "admitted_academic_only",
+      "reason": "Exact reviewed FIPE/PBEV/technical binding; no safety inferred"
+    },
+    {
+      "id": 77,
+      "decision": "admitted_academic_only",
+      "reason": "Exact reviewed FIPE/PBEV/technical binding; no safety inferred"
+    },
+    {
+      "id": 82,
+      "decision": "blocked",
+      "reason": "No individually verified current FIPE plus exact technical year dossier in reused cache."
+    },
+    {
+      "id": 85,
+      "decision": "blocked",
+      "reason": "No individually verified current FIPE plus exact technical year dossier in reused cache."
+    },
+    {
+      "id": 88,
+      "decision": "admitted_academic_only",
+      "reason": "Exact reviewed FIPE/PBEV/technical binding; no safety inferred"
+    },
+    {
+      "id": 89,
+      "decision": "blocked",
+      "reason": "No individually verified current FIPE plus exact technical year dossier in reused cache."
+    },
+    {
+      "id": 90,
+      "decision": "blocked",
+      "reason": "No individually verified current FIPE plus exact technical year dossier in reused cache."
+    },
+    {
+      "id": 94,
+      "decision": "admitted_academic_only",
+      "reason": "Exact reviewed FIPE/PBEV/technical binding; no safety inferred"
+    },
+    {
+      "id": 96,
+      "decision": "blocked",
+      "reason": "No individually verified current FIPE plus exact technical year dossier in reused cache."
+    },
+    {
+      "id": 97,
+      "decision": "blocked",
+      "reason": "No individually verified current FIPE plus exact technical year dossier in reused cache."
+    },
+    {
+      "id": 100,
+      "decision": "blocked",
+      "reason": "No individually verified current FIPE plus exact technical year dossier in reused cache."
+    }
+  ],
+  "budget": {
+    "carpedia": {
+      "limit": 9,
+      "executed": 9,
+      "remaining": 0,
+      "http_success": 9,
+      "http_failed": 0
+    },
+    "fipe": {
+      "limit": 18,
+      "executed": 11,
+      "remaining": 7,
+      "http_success": 11,
+      "http_failed": 0
+    },
+    "public_documents": {
+      "limit": 21,
+      "executed": 21,
+      "remaining": 0,
+      "http_success": 4,
+      "http_failed": 0,
+      "document_download_attempts": 4,
+      "search_discovery_attempts": 17,
+      "accounting": "Conservative: each public discovery query consumes one unit, in addition to each direct document request; search transport HTTP status is not exposed by the search tool.",
+      "search_http_status": "not_exposed"
+    }
+  },
+  "attempts": [
+    {
+      "provider": "fipe",
+      "id": 76,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/44/modelos/8244/anos/2019-1",
+      "started_at": "2026-09-27T04:05:47.296849+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-76-1.raw",
+      "sha256": "0d1a468cdef957a0e39e1b20d9f8da0e02fbdb909a6b5c5f8d354a8ba25267c6"
+    },
+    {
+      "provider": "carpedia",
+      "id": 76,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/242357/2019",
+      "started_at": "2026-09-27T04:06:38.857189+00:00",
+      "http_status": 200,
+      "cache_file": "carpedia-76-2.raw",
+      "sha256": "93f19b86663132ba2177d4c18839fd5c5a2e3857d93c4979c2cd778e48c66390"
+    },
+    {
+      "provider": "fipe",
+      "id": 61,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/44/modelos/5427/anos/2020-1",
+      "started_at": "2026-09-27T04:07:48.110968+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-61-3.raw",
+      "sha256": "0aa4552400df77e9d015203ff418ad8341a41083a64f384abfd62869b33f7813"
+    },
+    {
+      "provider": "carpedia",
+      "id": 61,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/241750/2020",
+      "started_at": "2026-09-27T04:07:48.487183+00:00",
+      "http_status": 200,
+      "cache_file": "carpedia-61-4.raw",
+      "sha256": "19d17e39372f148533501a02defc19a7be23a7b73832e88e1e6608a0dfd8a57c"
+    },
+    {
+      "provider": "fipe",
+      "id": 62,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/59/modelos/8369/anos/2018-5",
+      "started_at": "2026-09-27T04:07:49.314009+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-62-5.raw",
+      "sha256": "4fc907bcb1e3c4efdd2598e1ed9bdd4c7e8e37b6ca9fa78f49762a89a3c0e188"
+    },
+    {
+      "provider": "carpedia",
+      "id": 62,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/54941/2018",
+      "started_at": "2026-09-27T04:07:49.402674+00:00",
+      "http_status": 200,
+      "cache_file": "carpedia-62-6.raw",
+      "sha256": "756f334956fa5fe6b6335643ed0647a1d5760d2a3d5f6996240b35689679ccd0"
+    },
+    {
+      "provider": "fipe",
+      "id": 65,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos/5273/anos/2017-5",
+      "started_at": "2026-09-27T04:07:49.802608+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-65-7.raw",
+      "sha256": "5477f3bc2b283d1939d342a7f129fed2ffa2bbc9ff21e2a27c444036f68e1411"
+    },
+    {
+      "provider": "carpedia",
+      "id": 65,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/13137/2017",
+      "started_at": "2026-09-27T04:07:49.901551+00:00",
+      "http_status": 200,
+      "cache_file": "carpedia-65-8.raw",
+      "sha256": "ef59a008f96ce831bd59fbf16b615bbe13a2160b7fb91b895e3ec99c2115f47e"
+    },
+    {
+      "provider": "fipe",
+      "id": 74,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/26/modelos/7859/anos/2020-5",
+      "started_at": "2026-09-27T04:07:50.812829+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-74-9.raw",
+      "sha256": "771d559ccc88a7563c625df0159bce848582c892fe999bedc7b83cff98d4cf25"
+    },
+    {
+      "provider": "carpedia",
+      "id": 74,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/151459/2020",
+      "started_at": "2026-09-27T04:07:50.918634+00:00",
+      "http_status": 200,
+      "cache_file": "carpedia-74-10.raw",
+      "sha256": "e7df646a68c7ebac0870c43b58b7ec91e7447919d26050c63ac1cc9990138854"
+    },
+    {
+      "provider": "fipe",
+      "id": 77,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/23/modelos/6269/anos/2019-1",
+      "started_at": "2026-09-27T04:07:51.622652+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-77-11.raw",
+      "sha256": "a10472a98bebeeacd13129de229d4486d331f2718755283a875506f6ba25a22c"
+    },
+    {
+      "provider": "carpedia",
+      "id": 77,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/44300/2019",
+      "started_at": "2026-09-27T04:07:51.719180+00:00",
+      "http_status": 200,
+      "cache_file": "carpedia-77-12.raw",
+      "sha256": "29cb2f4f71aef1901613afa554856099e6f1b2f62435cf1cf38bb94dacdb4d5c"
+    },
+    {
+      "provider": "fipe",
+      "id": 94,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/161/modelos/8340/anos/2020-5",
+      "started_at": "2026-09-27T04:07:52.333170+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-94-13.raw",
+      "sha256": "984b9af3970cd7b81d9084253dc0f994d4d6f575c0834c4fbc79daa850467eb2"
+    },
+    {
+      "provider": "carpedia",
+      "id": 94,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/730190/2020",
+      "started_at": "2026-09-27T04:07:52.459291+00:00",
+      "http_status": 200,
+      "cache_file": "carpedia-94-14.raw",
+      "sha256": "df852671d3da17f796f23a8c26bb5dcc9631c436a700224b366a72cb85616a25"
+    },
+    {
+      "provider": "public_documents",
+      "id": 76,
+      "url": "https://www.media.stellantis.com/br-pt/peugeot/peugeot-5008-2018-a-2019",
+      "started_at": "2026-09-27T04:08:05.720461+00:00",
+      "http_status": 200,
+      "cache_file": "public_documents-76-15.raw",
+      "sha256": "3b4e2b5d3ea89842625188ed2362a72dd49ed7a9012f3f276e815cf59d5e534f"
+    },
+    {
+      "provider": "public_documents",
+      "id": 76,
+      "url": "https://www.media.stellantis.com/br-pt/peugeot/press/novo-suv-peugeot-5008-chega-para-completar-a-gama-e-tornar-a-marca-referencia-no-universo-de-utilitarios-esportivos",
+      "started_at": "2026-09-27T04:08:30.436932+00:00",
+      "http_status": 200,
+      "cache_file": "public_documents-76-16.raw",
+      "sha256": "b43df20e4efb5d1ef75cddfee918ad294de1cd0c361f26b879c3b3469f3f7876"
+    },
+    {
+      "provider": "fipe",
+      "id": 72,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas",
+      "started_at": "2026-09-27T04:10:12.581118+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-72-17.raw",
+      "sha256": "51b2b37890c40fa2631e1a54070dd5331d684c950cd8612100681188b5e92624",
+      "error_type": "ValueError",
+      "local_validator_correction": "Discovery is a list, not a ficha object; cached 200 revalidated, no HTTP repeated"
+    },
+    {
+      "provider": "fipe",
+      "id": 72,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos",
+      "started_at": "2026-09-27T04:11:00.959958+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-72-18.raw",
+      "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd"
+    },
+    {
+      "provider": "fipe",
+      "id": 72,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/8282/anos/2019-1",
+      "started_at": "2026-09-27T04:11:24.370249+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-72-19.raw",
+      "sha256": "f0bc222afc509eb7efdf198ef304f6ac9ebbec37c70af3965b3b5c18bc6e9469"
+    },
+    {
+      "provider": "carpedia",
+      "id": 72,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/141003/2019",
+      "started_at": "2026-09-27T04:11:24.659882+00:00",
+      "http_status": 200,
+      "cache_file": "carpedia-72-20.raw",
+      "sha256": "54aa83a48c0fb15104e7eabc1b4f4e4c418345291c51ac85c522eb55c045bdb8"
+    },
+    {
+      "provider": "fipe",
+      "id": 88,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/8520/anos/2020-1",
+      "started_at": "2026-09-27T04:11:25.937042+00:00",
+      "http_status": 200,
+      "cache_file": "fipe-88-21.raw",
+      "sha256": "d5d3b3e5878c8f633eae6ea8c18c9ec0d4768c5a42bb62ea02a833ef9dc0ac03"
+    },
+    {
+      "provider": "carpedia",
+      "id": 88,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/141011/2020",
+      "started_at": "2026-09-27T04:11:26.039442+00:00",
+      "http_status": 200,
+      "cache_file": "carpedia-88-22.raw",
+      "sha256": "608977b68665696a9c6220b09eea8d1d509768b0d776d0853049213abbdaf37d"
+    },
+    {
+      "provider": "public_documents",
+      "id": 61,
+      "url": "https://www.media.stellantis.com/br-pt/peugeot/novo-peugeot-3008-2016-a-2025",
+      "started_at": "2026-09-27T04:27:12.680947+00:00",
+      "http_status": 200,
+      "cache_file": "public_documents-61-23.raw",
+      "sha256": "e1c76a72116d30f6ed093e03eab1a49d0106ffea01e0b0311073166e19102d74"
+    },
+    {
+      "provider": "public_documents",
+      "id": 61,
+      "url": "https://www.media.stellantis.com/br-pt/peugeot/press/novo-suv-peugeot-3008-chega-ao-brasil-e-consolida-momento-historico-da-marca",
+      "started_at": "2026-09-27T04:27:41.628327+00:00",
+      "http_status": 200,
+      "cache_file": "public_documents-61-24.raw",
+      "sha256": "ecc49e0659fd756a11b0e7c6c800ec9b8d56f3776760f055f48a31d7e691a53c"
+    }
+  ],
+  "retry_count": 0,
+  "raw_responses_in_repository": false,
+  "cache_accounting": {
+    "existing_backlog_dossiers_reviewed": 40,
+    "existing_fipe_family_cache_candidate_hits": 7,
+    "existing_fipe_family_cache_candidate_ids": [
+      61,
+      62,
+      65,
+      74,
+      76,
+      77,
+      94
+    ],
+    "distinct_reused_fipe_family_endpoints": 6,
+    "pbev_parsed_cache_candidate_hits": 9,
+    "distinct_pbev_year_tables": 4,
+    "carpedia_ficha_cache_hits_for_new_targets": 0,
+    "definition": "Candidate-level reuse before collection; seven candidate hits share six FIPE family endpoints; nine PBEV candidate hits share four year tables. Replay reads are not counted as new requests."
+  },
+  "local_validation_corrections": [
+    {
+      "attempt": 17,
+      "cause": "Brand discovery returns list, not ficha object",
+      "resolution": "Revalidated stored HTTP200, no duplicate request"
+    }
+  ],
+  "safety_review": {
+    "61": "Generation ambiguity retained, not admitted.",
+    "76": "Official MY2018 launch lists six airbags/ABS/ESP, but exact MY2019 configuration continuity not proven; not admitted.",
+    "new_complete_inventories": 0,
+    "other_collected_ids": "No explicit airbags/ABS/ESC in exact technical payload; unknown is not false."
+  },
+  "search_queries": 17,
+  "search_queries_are_not_document_downloads": true,
+  "limitations": [
+    "Budget is an upper bound, not an obligation to spend.",
+    "Nine ficha attempts cannot establish seventeen new technical dossiers when cache lacks exact evidence.",
+    "Document research is not exhaustive; no claim that all official sources were exhausted.",
+    "No endpoint or credential stored in authenticated form; all raw bytes remain external."
+  ],
+  "decision": "ACADEMIC_COHORT_V5_PARTIAL",
+  "operationally_active": 0,
+  "recommended": 0
+}
