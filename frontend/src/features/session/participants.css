@@ -1,0 +1,14 @@
+.test-history, .test-feedback { min-width: 0; padding: 1rem; border: 1px solid var(--border-color, #49433d); border-radius: 1rem; }
+.test-feedback { margin-top: 1rem; }
+.test-feedback form { display: grid; gap: 1rem; }
+.test-feedback label { display: grid; gap: .5rem; }
+.test-feedback select, .test-feedback textarea, .login-form input { width: 100%; min-width: 0; box-sizing: border-box; font-size: 1rem; }
+.test-feedback select, .test-feedback button, .test-history button, .login-form button { min-height: 44px; font-size: 1rem; }
+.test-feedback textarea { min-height: 6rem; resize: vertical; }
+.test-history ol { display: grid; gap: .75rem; padding-left: 1.5rem; }
+.test-history li, .test-history dd, .test-feedback p { overflow-wrap: anywhere; }
+.test-history pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.test-history button { max-width: 100%; white-space: normal; }
+.test-feedback .study-priority { display: flex; align-items: center; gap: .75rem; min-height: 44px; }
+.study-priority input { flex: 0 0 auto; width: 1.25rem; height: 1.25rem; }
+.test-feedback fieldset { min-width: 0; }

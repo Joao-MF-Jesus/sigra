@@ -486,6 +486,16 @@ class AlembicStructureTest(unittest.TestCase):
             / "20260723_0001_initial_schema.py"
         ).read_text(encoding="utf-8")
         for table_name in Base.metadata.tables:
+            if table_name in {"participant_study_sessions", "participant_questionnaires"}:
+                instrument_revision = (PROJECT_ROOT / "backend" / "alembic" / "versions"
+                                       / "20261007_0015_tcc_study_instrument.py").read_text(encoding="utf-8")
+                self.assertIn(f'"{table_name}"', instrument_revision)
+                continue
+            if table_name in {"auth_sessions", "participant_test_runs"}:
+                participant_revision = (PROJECT_ROOT / "backend" / "alembic" / "versions"
+                                        / "20261007_0014_tcc_participant_trials.py").read_text(encoding="utf-8")
+                self.assertIn(f'"{table_name}"', participant_revision)
+                continue
             self.assertIn(f'"{table_name}"', revision)
         self.assertNotIn("ensure_seed_data", revision)
         self.assertNotIn("create_all", revision)

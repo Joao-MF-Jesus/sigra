@@ -1,9 +1,11 @@
 export function formatCurrency(value) {
+  if (value === null || value === undefined || value === "" || typeof value === "boolean") return "Não informado";
   if (!Number.isFinite(Number(value))) return "Não informado";
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(value));
 }
 
 export function formatScore(value) {
+  if (value === null || value === undefined || value === "" || typeof value === "boolean") return "Não informado";
   if (!Number.isFinite(Number(value))) return "Não informado";
   return `${Number(value).toLocaleString("pt-BR", { maximumFractionDigits: 2 })}/100`;
 }

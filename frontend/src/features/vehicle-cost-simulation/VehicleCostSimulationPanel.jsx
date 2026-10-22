@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { requestIntegratedGoldCatalog, requestVehicleCostSimulation } from "../../api/sigraApi.js";
+import { useSession } from "../session/SessionContext.jsx";
+import { TestFeedback } from "../session/TestHistory.jsx";
 import {
   FUEL_OPTIONS,
   buildSimulationPayload,
@@ -52,11 +54,12 @@ function SimulationResult({ response, vehicleSk }) {
     <p className="form-help">Comparação com o cenário analítico de referência: diferença mensal de {currency(result.monthly_cost_difference_brl)}. Essa referência não altera os parâmetros informados por você.</p>
     <details className="data-provenance"><summary>Sobre os dados</summary><p>Fontes de referência: FIPE, PBEV e ANP.</p></details>
     {[...(result.warnings || []), ...(result.limitations || [])].length > 0 && <ul className="vehicle-simulation-warnings">{[...(result.warnings || []), ...(result.limitations || [])].map((message) => <li key={message}>{message}</li>)}</ul>}
-    <p className="vehicle-simulation-disclaimer">Resultado somente de simulação. Nenhuma preferência foi salva e as fontes publicadas permaneceram inalteradas.</p>
+    <p className="vehicle-simulation-disclaimer">Resultado somente de simulação. As fontes publicadas permanecem inalteradas.{response?.test_run ? " Esta execução foi registrada no seu histórico privado." : " Execução como visitante, sem registro pessoal."}</p>
   </section>;
 }
 
 export default function VehicleCostSimulationPanel({ vehicle, profile }) {
+  const { user } = useSession();
   const [form, setForm] = useState(() => createSimulationForm(profile));
   const [errors, setErrors] = useState({});
   const [catalog, setCatalog] = useState([]);
@@ -127,7 +130,7 @@ export default function VehicleCostSimulationPanel({ vehicle, profile }) {
     if (!validation.isValid) return;
     setLoading(true);
     try {
-      const data = await requestVehicleCostSimulation(buildSimulationPayload(form));
+      const data = await requestVehicleCostSimulation(buildSimulationPayload(form), { recordTest: Boolean(user) });
       setResponse(data);
     } catch (error) {
       setApiError(simulationErrorPresentation(error));
@@ -161,5 +164,6 @@ export default function VehicleCostSimulationPanel({ vehicle, profile }) {
       <button type="submit" disabled={loading || catalogLoading || !form.vehicle_sk}>{loading ? "Calculando..." : "Calcular meu cenário"}</button>
     </form>
     {response && <SimulationResult response={response} vehicleSk={form.vehicle_sk} />}
+    {user && response?.test_run && <TestFeedback key={response.test_run.id} run={response.test_run} />}
   </section>;
 }

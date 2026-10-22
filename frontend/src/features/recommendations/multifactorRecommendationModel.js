@@ -12,8 +12,46 @@ export const MULTIFACTOR_WEIGHT_FIELDS = Object.freeze(
   Object.keys(MULTIFACTOR_DEFAULT_WEIGHTS),
 );
 
+export const REFERENCE_PERSONALIZATION = "user-profile-multifactor-v1";
+export const DERIVED_PERSONALIZATION = "academic-derived-seven-v1";
+export const DERIVED_BASE_CONFIGURATION = "academic-derived-base-five-v1";
+export const DERIVED_EXPANDED_CONFIGURATION = "academic-derived-expanded-seven-v1";
+export const DERIVED_CONFIGURATION_LABELS = Object.freeze({
+  [DERIVED_BASE_CONFIGURATION]: "Base — cinco dimensões",
+  [DERIVED_EXPANDED_CONFIGURATION]: "Ampliada — sete dimensões",
+});
+
+// Preset vectors come from the versioned server contract, not vehicle gaps.
+export function selectDerivedConfiguration(profile, identifier, registry) {
+  const preset = registry?.configurations?.[identifier];
+  if (!DERIVED_CONFIGURATION_LABELS[identifier] || !preset?.weights
+      || Object.keys(preset.weights).length !== MULTIFACTOR_WEIGHT_FIELDS.length
+      || MULTIFACTOR_WEIGHT_FIELDS.some((key) => preset.weights[key] == null)
+      || Object.values(preset.weights).some((value) => !Number.isFinite(Number(value)) || Number(value) < 0 || Number(value) > 100)
+      || Math.abs(Object.values(preset.weights).reduce((sum, value) => sum + Number(value), 0) - 100) > 1e-9) {
+    throw new Error("Configuração acadêmica indisponível; recarregue a metodologia.");
+  }
+  return { ...profile, multifactor_configuration_id: identifier,
+    ...Object.fromEntries(MULTIFACTOR_WEIGHT_FIELDS.map((key) => [`weight_${key}`, preset.weights[key]])) };
+}
+
+export function updatePersonalizationProfile(profile, field, value, registry) {
+  if (field === "multifactor_configuration_id" && value) return selectDerivedConfiguration(profile, value, registry);
+  return { ...profile, [field]: value,
+    ...(field === "multifactor_policy_version" ? { multifactor_configuration_id: "" } : {}) };
+}
+export const DERIVED_DIMENSIONS = Object.freeze({
+  total_cost: ["Combustível estimado no cenário", "Menor gasto projetado de combustível; compartilha o consumo com eficiência."],
+  usage_fit: ["Compatibilidade documental com o perfil", "Condição de entrada: veículos igualmente compatíveis recebem a mesma nota."],
+  comfort: ["Capacidade do porta-malas", "Capacidade documentada em litros; não é avaliação de conforto."],
+  safety: ["Inventário de equipamentos de segurança", "Airbags, ABS e ESC comprovados; ausência explícita conta, desconhecido não. Não é teste de colisão."],
+  performance: ["Relação massa/potência com gasolina", "Massa e potência da versão exata em kg/cv; não é avaliação rodoviária."],
+  efficiency: ["Consumo combinado no cenário", "Consumo documentado ou informado; compartilha evidência com combustível."],
+  legacy_quality: ["Manutenção e desvalorização estimadas", "Dois custos de cenário; não comprova confiabilidade histórica nem disponibilidade de peças."],
+});
+
 const WEIGHT_LABELS = Object.freeze({
-  total_cost: "Custo no cenário",
+  total_cost: "Custo de combustível",
   usage_fit: "Adequação ao uso",
   comfort: "Conforto",
   safety: "Segurança",
@@ -53,6 +91,10 @@ function positiveDecimal(value, label, errors, field, { allowZero = false } = {}
 export function buildMultifactorProfile(profile) {
   if (!profile.multifactor_enabled) return { errors: {}, payload: null, isValid: true };
   const errors = {};
+  const policy = profile.multifactor_policy_version || REFERENCE_PERSONALIZATION;
+  if (![REFERENCE_PERSONALIZATION, DERIVED_PERSONALIZATION].includes(policy)) errors.multifactor_policy_version = "Selecione uma metodologia disponível.";
+  const configurationId = profile.multifactor_configuration_id;
+  if (policy === DERIVED_PERSONALIZATION && configurationId && !DERIVED_CONFIGURATION_LABELS[configurationId]) errors.multifactor_configuration_id = "Selecione uma configuração disponível.";
   const weights = {};
   let weightTotal = 0;
   for (const code of MULTIFACTOR_WEIGHT_FIELDS) {
@@ -100,6 +142,8 @@ export function buildMultifactorProfile(profile) {
     isValid,
     payload: isValid ? {
       enabled: true,
+      ...(policy === DERIVED_PERSONALIZATION ? { policy_version: policy } : {}),
+      ...(policy === DERIVED_PERSONALIZATION && configurationId ? { configuration_id: configurationId } : {}),
       scenario: {
         monthly_distance_km: monthlyDistance,
         city_percentage: cityPercentage,
@@ -118,17 +162,20 @@ export function buildMultifactorProfile(profile) {
   };
 }
 
-export function resetMultifactorWeightFields(profile) {
+export function resetMultifactorWeightFields(profile, registry) {
+  const preset = profile.multifactor_policy_version === DERIVED_PERSONALIZATION
+    ? registry?.configurations?.[profile.multifactor_configuration_id] : null;
   return Object.fromEntries(
-    MULTIFACTOR_WEIGHT_FIELDS.map((code) => [`weight_${code}`, MULTIFACTOR_DEFAULT_WEIGHTS[code]]),
+    MULTIFACTOR_WEIGHT_FIELDS.map((code) => [`weight_${code}`, preset?.weights?.[code] ?? MULTIFACTOR_DEFAULT_WEIGHTS[code]]),
   );
 }
 
 export function multifactorWeightSummary(profile) {
+  const derived = profile.multifactor_policy_version === DERIVED_PERSONALIZATION;
   const entries = MULTIFACTOR_WEIGHT_FIELDS.map((code) => ({
     code,
-    label: WEIGHT_LABELS[code],
-    description: MULTIFACTOR_WEIGHT_DESCRIPTIONS[code],
+    label: derived ? DERIVED_DIMENSIONS[code][0] : WEIGHT_LABELS[code],
+    description: derived ? DERIVED_DIMENSIONS[code][1] : MULTIFACTOR_WEIGHT_DESCRIPTIONS[code],
     value: Number(decimalString(profile[`weight_${code}`]) || 0),
   }));
   const total = entries.reduce((sum, item) => sum + item.value, 0);

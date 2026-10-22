@@ -101,7 +101,7 @@ def test_postgresql_carpedia_schema_constraints_guard_and_cycle(monkeypatch):
     restored = create_engine(POSTGRESQL_URL, pool_pre_ping=True)
     try:
         with restored.connect() as connection:
-            assert connection.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "20260811_0012"
+            assert connection.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == "20261005_0013"
     finally:
         restored.dispose()
 

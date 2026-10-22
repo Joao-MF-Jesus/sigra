@@ -1,0 +1,18 @@
+{
+  "schema": "sigra-deploy-target-v1",
+  "confirmed": false,
+  "profile": "homologation",
+  "project_ref": "tqlufobzzaabakflyxha",
+  "organization_id": "tzsztlsmvmxwaypzslzr",
+  "project_name": "sigra-tcc-homologacao",
+  "endpoint_mode": "session",
+  "host": "aws-1-sa-east-1.pooler.supabase.com",
+  "port": 5432,
+  "database": "sigra_revision6_homologation_test",
+  "database_oid": null,
+  "runtime_role": "sigra_revision6_runtime",
+  "ca_sha256": "",
+  "alembic_revision": "20261007_0015",
+  "protocol_version": "tcc-appendices-cd-v1",
+  "research_release_authorized": false
+}

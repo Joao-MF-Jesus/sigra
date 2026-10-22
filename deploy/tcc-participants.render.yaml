@@ -1,0 +1,48 @@
+# REVIEW TEMPLATE ONLY. No migration/bootstrap in build/start; no automatic deploy.
+# Configure actual project, secrets, domain and CA before any manual deployment.
+services:
+  - type: web
+    name: sigra-tcc-participants-api
+    runtime: python
+    rootDir: .
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT --proxy-headers
+    healthCheckPath: /health
+    autoDeployTrigger: off
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: DATABASE_ENV
+        value: homologation
+      - key: DATABASE_SSL_REQUIRED
+        value: "true"
+      - key: DATABASE_ECHO
+        value: "false"
+      - key: DATABASE_POOL_SIZE
+        value: "3"
+      - key: DATABASE_MAX_OVERFLOW
+        value: "2"
+      - key: PUBLIC_DEMO_MODE
+        value: "false"
+      - key: ACADEMIC_COHORT_ENABLED
+        value: "true"
+      - key: FIPE_AUTO_REFRESH
+        value: "false"
+      - key: API_DOCS_ENABLED
+        value: "false"
+      - key: SIGRA_COOKIE_SECURE
+        value: "true"
+      - key: SIGRA_COOKIE_SAMESITE
+        value: lax
+      - key: SIGRA_TCC_COLLECTION_MODE
+        value: homologation
+      - key: DATABASE_URL
+        sync: false
+      - key: SIGRA_RESEARCH_PSEUDONYM_KEY
+        sync: false
+      - key: SIGRA_SYSTEM_VERSION
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: ALLOWED_HOSTS
+        sync: false

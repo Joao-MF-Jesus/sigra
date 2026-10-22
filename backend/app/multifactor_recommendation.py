@@ -4,7 +4,7 @@ from __future__ import annotations
 from copy import deepcopy
 from decimal import Decimal, ROUND_HALF_UP
 import math
-from typing import Iterable, Mapping, Sequence
+from typing import Callable, Iterable, Mapping, Sequence
 
 from app.recommendation_identity import resolve_recommendation_identity
 
@@ -214,6 +214,7 @@ def apply_multifactor_ranking(
     *,
     gold_identities: Sequence[Mapping] | None = None,
     catalog_references: Mapping[int, Mapping] | None = None,
+    evidence_resolver: Callable | None = None,
 ) -> list[dict[str, object]]:
     """Reordena somente o caminho opt-in sem modificar o ranking de origem."""
     baseline = list(baseline_results)
@@ -249,7 +250,9 @@ def apply_multifactor_ranking(
                 )
             )
             continue
-        gold, identity_diagnostic = resolve_recommendation_identity(
+        # An explicit source adapter may supply already-validated, request-local
+        # simulation evidence. It must not manufacture a public/Gold identity.
+        gold, identity_diagnostic = evidence_resolver(item) if evidence_resolver else resolve_recommendation_identity(
             vehicle, simulation.results, gold_identities=gold_identities,
             reference=(catalog_references or {}).get(vehicle.get("id")),
         )

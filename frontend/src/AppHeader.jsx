@@ -8,7 +8,7 @@ const BASE_NAV_ITEMS = Object.freeze([
   { id: "online", label: "Referências" },
 ]);
 
-export default function AppHeader({ activeTab, currentUser, publicDemo, status, onNavigate, onLogout }) {
+export default function AppHeader({ activeTab, currentUser, publicDemo, status, onNavigate, onLogout, candidateSource }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const items = [
     ...BASE_NAV_ITEMS.slice(0, 2),
@@ -16,6 +16,7 @@ export default function AppHeader({ activeTab, currentUser, publicDemo, status, 
     ...BASE_NAV_ITEMS.slice(2, 3),
     ...(!publicDemo ? [{ id: "my-car", label: "Meu carro" }] : []),
     ...BASE_NAV_ITEMS.slice(3),
+    ...(!publicDemo && currentUser ? [{ id: "test-history", label: "Meus testes" }] : []),
     ...(!publicDemo && currentUser?.role === "admin" ? [{ id: "admin", label: "Admin" }] : []),
   ];
 
@@ -30,8 +31,8 @@ export default function AppHeader({ activeTab, currentUser, publicDemo, status, 
         <span className="brand-mark" aria-hidden="true">S</span>
         <span><strong>SIGRA</strong><small>Escolhas automotivas com contexto</small></span>
       </button>
-      <div className="header-trust" aria-label="Fontes de dados ativas">
-        <span>FIPE</span><span>PBEV</span><span>ANP</span>
+      <div className="header-trust" aria-label={candidateSource === "academic_v6" ? "Referências da recomendação de cenário" : "Fontes de dados ativas"}>
+        <span>FIPE</span><span>PBEV</span><span>{candidateSource === "academic_v6" ? "Cenário v6" : "ANP"}</span>
       </div>
       <button className="mobile-menu-button" type="button" aria-controls="primary-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen((current) => !current)}>
         <span aria-hidden="true">{menuOpen ? "×" : "☰"}</span>

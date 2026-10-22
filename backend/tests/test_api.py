@@ -39,7 +39,30 @@ class ApiTest(unittest.TestCase):
         cls.tmpdir.cleanup()
 
     def client(self):
-        return TestClient(self.app)
+        # Existing CRUD regressions now authenticate a disposable, operator-provisioned
+        # account. Authorization itself is covered separately, without overriding guards.
+        from app import auth, models
+        from app.database import SessionLocal
+        from datetime import datetime, timedelta, timezone
+        token = auth.secrets.token_urlsafe(32)
+        with SessionLocal() as db:
+            account = db.get(models.User, 1)
+            if account is None:
+                account = models.User(id=1, name="Test operator", email="operator@example.test")
+                db.add(account)
+            if not account.password_hash:
+                account.password_hash = auth.hash_password("Disposable-regression-password")
+            account.normalized_email = account.email.strip().casefold()
+            account.email = "operator@example.test"
+            account.normalized_email = account.email
+            account.role = "admin"
+            db.flush()
+            db.add(models.AuthSession(token_digest=auth._digest(token), user_id=1,
+                                     expires_at=datetime.now(timezone.utc) + timedelta(hours=1)))
+            db.commit()
+        http = TestClient(self.app, headers={"X-SIGRA-CSRF": "1"})
+        http.cookies.set(auth.COOKIE_NAME, token)
+        return http
 
     def test_health_and_docs(self):
         with self.client() as client:
@@ -81,24 +104,30 @@ class ApiTest(unittest.TestCase):
             self.assertEqual(status.json()["provider"], "API Parallelum")
 
     def test_login_user_admin_and_invalid(self):
+        from app import auth
+        auth._attempts.clear()
         with self.client() as client:
+            registration = client.post("/auth/register", json={
+                "name": "Participante de teste", "email": "api-participant@example.test",
+                "password": "Disposable-participant-password"})
+            self.assertEqual(registration.status_code, 201)
             user_login = client.post(
                 "/auth/login",
-                json={"email": "usuario@sigra.local", "password": "usuario123", "role": "user"},
+                json={"email": "api-participant@example.test", "password": "Disposable-participant-password"},
             )
             self.assertEqual(user_login.status_code, 200)
-            self.assertEqual(user_login.json()["role"], "user")
+            self.assertEqual(user_login.json()["role"], "participant")
 
             admin_login = client.post(
                 "/auth/login",
-                json={"email": "admin@sigra.local", "password": "admin123", "role": "admin"},
+                json={"email": "operator@example.test", "password": "Disposable-regression-password"},
             )
             self.assertEqual(admin_login.status_code, 200)
             self.assertEqual(admin_login.json()["role"], "admin")
 
             denied_login = client.post(
                 "/auth/login",
-                json={"email": "admin@sigra.local", "password": "errada", "role": "admin"},
+                json={"email": "operator@example.test", "password": "Wrong-disposable-password"},
             )
             self.assertEqual(denied_login.status_code, 401)
 
@@ -923,7 +952,9 @@ class ApiTest(unittest.TestCase):
                     "description": "Usuario inexistente",
                 },
             )
-            self.assertEqual(invalid_user.status_code, 404)
+            # The authenticated participant cannot submit another owner's ID,
+            # even when that account does not exist.
+            self.assertEqual(invalid_user.status_code, 403)
 
     def test_motorcycle_v020_sources_metrics_eligibility_and_reserved_endpoint(self):
         from backend.tests.test_motorcycle_spec_v1 import objective_payload

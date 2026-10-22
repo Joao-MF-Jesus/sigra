@@ -1,0 +1,26 @@
+{
+  "version": "academic-derived-configurations-v1",
+  "method_version": "academic-derived-seven-v1",
+  "enabled_by_default": false,
+  "selection_rule": "Explicit participant selection only; never inferred from profile or missing evidence.",
+  "adjustment_rule": "Explicit edits keep the selected preset ID and record actual/normalized weights and weights_adjusted; unknown positive-weight input blocks final score.",
+  "comparison_warning": "Notas de configurações ou pesos diferentes não devem ser comparadas diretamente.",
+  "configurations": {
+    "academic-derived-base-five-v1": {
+      "label": "Base — cinco dimensões",
+      "proposed_profiles": ["cidade", "app", "trabalho", "suv"],
+      "optional_profiles": ["familia", "estrada"],
+      "weights": {"total_cost": "33.3333", "usage_fit": "26.6667", "comfort": "13.3333", "safety": "0", "performance": "0", "efficiency": "13.3333", "legacy_quality": "13.3334"},
+      "justification": "Project methodological choice: the five active reference weights sum to 75; divide each by 75 and multiply by 100, round half-up to four decimal places, and assign the 0.0001 percentage-point residual to the last active dimension. Fixed vector for every vehicle; not adapted to evidence gaps.",
+      "documentary_gates_unchanged": true
+    },
+    "academic-derived-expanded-seven-v1": {
+      "label": "Ampliada — sete dimensões",
+      "proposed_profiles": ["familia", "estrada"],
+      "optional_profiles": ["cidade", "app", "trabalho", "suv"],
+      "weights": {"total_cost": "25", "usage_fit": "20", "comfort": "10", "safety": "15", "performance": "10", "efficiency": "10", "legacy_quality": "10"},
+      "justification": "Project methodological choice: preserve the seven reference weights exactly; positive unknown dimensions block the final score.",
+      "documentary_gates_unchanged": true
+    }
+  }
+}

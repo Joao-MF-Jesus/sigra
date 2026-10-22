@@ -1,3 +1,5 @@
+import { DERIVED_CONFIGURATION_LABELS } from "./multifactorRecommendationModel.js";
+
 export const RECOMMENDATION_WIZARD_STEPS = Object.freeze([
   Object.freeze({ id: "need", label: "Necessidade", shortLabel: "Uso" }),
   Object.freeze({ id: "budget", label: "Orçamento", shortLabel: "Orçamento" }),
@@ -14,6 +16,8 @@ const ERROR_STEP = Object.freeze({
   recommendation_strategy: "priorities",
   monthly_mileage: "priorities",
   fuel_price: "priorities",
+  cost_scenario: "priorities",
+  cohort_weights: "advanced",
 });
 
 export function clampWizardStep(index) {
@@ -76,6 +80,6 @@ export function recommendationReview(profile = {}) {
     ["Limite mensal", profile.monthly_limit ? `R$ ${profile.monthly_limit}` : "Não informado"],
     ["Prioridade", strategyLabels[profile.recommendation_strategy] || "Não informada"],
     ["Rotina", `${profile.monthly_mileage || "0"} km/mês · combustível a R$ ${profile.fuel_price || "0"}`],
-    ["Perfil multifator", profile.multifactor_enabled ? "Ativado com parâmetros próprios" : "Desativado — ranking histórico"],
+    ["Perfil multifator", profile.multifactor_enabled ? (profile.multifactor_policy_version === "academic-derived-seven-v1" ? `Solicitado — alternativa acadêmica derivada v1; ${DERIVED_CONFIGURATION_LABELS[profile.multifactor_configuration_id] || "configuração não selecionada"}; depende das evidências` : "Solicitado — depende das evidências dos critérios") : "Desativado — ranking histórico"],
   ];
 }

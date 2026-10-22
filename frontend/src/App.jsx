@@ -3,15 +3,26 @@ import {
   createEmptyFinancialSummary,
   requestOperationalData,
   requestRecommendations,
+  requestRecommendationMetadata,
   resolveOperationalUserId,
+  requestSession,
+  requestLogout,
+  sessionFetch as fetch,
 } from "./api/sigraApi.js";
+import AuthPanel from "./features/session/AuthPanel.jsx";
+import StudyBeforeRanking from "./features/session/StudyBeforeRanking.jsx";
+import TestHistory, { TestFeedback } from "./features/session/TestHistory.jsx";
+import { SessionContext } from "./features/session/SessionContext.jsx";
+import "./features/session/participants.css";
 import AppHeader from "./AppHeader.jsx";
 import RecommendationDetails from "./features/recommendations/RecommendationDetails.jsx";
 import RecommendationForm from "./features/recommendations/RecommendationForm.jsx";
 import RecommendationPage from "./features/recommendations/RecommendationPage.jsx";
 import FinancingPage from "./features/financing/FinancingPage.jsx";
+import CohortRecommendationResults from "./features/recommendations/CohortRecommendationResults.jsx";
+import { validateCohortRecommendation } from "./features/recommendations/cohortRecommendationModel.js";
 import { isLatestRequest, shouldMarkResultsStale, validateRecommendationProfile } from "./features/recommendations/recommendationValidation.js";
-import { MULTIFACTOR_DEFAULT_WEIGHTS, resetMultifactorWeightFields } from "./features/recommendations/multifactorRecommendationModel.js";
+import { MULTIFACTOR_DEFAULT_WEIGHTS, resetMultifactorWeightFields, updatePersonalizationProfile } from "./features/recommendations/multifactorRecommendationModel.js";
 import { getRecommendationErrorPresentation } from "./features/recommendations/recommendationModel.js";
 import { API_URL, PUBLIC_DEMO_MODE } from "./config/runtime.js";
 
@@ -57,13 +68,11 @@ function purchaseSourceButtons(sources = [], bestSource = null) {
 
 function App() {
   const [activeTab, setActiveTab] = useState("recommendations");
+  const [operationalVisited, setOperationalVisited] = useState(false);
+  const [candidateMetadata, setCandidateMetadata] = useState(null);
+  const [candidateError, setCandidateError] = useState("");
+  const [candidateRetry, setCandidateRetry] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
-  const [loginRole, setLoginRole] = useState("user");
-  const [loginForm, setLoginForm] = useState({
-    email: "",
-    password: "",
-  });
-  const [loginError, setLoginError] = useState("");
   const [profile, setProfile] = useState({
     vehicle_type: "car",
     budget: "70000",
@@ -92,6 +101,7 @@ function App() {
   const [recommendationErrors, setRecommendationErrors] = useState({});
   const [recommendationError, setRecommendationError] = useState(null);
   const [recommendationLoading, setRecommendationLoading] = useState(false);
+  const [studyReady, setStudyReady] = useState(false);
   const [recommendationStale, setRecommendationStale] = useState(false);
   const [recommendationHasCalculated, setRecommendationHasCalculated] = useState(false);
   const recommendationRequestId = useRef(0);
@@ -167,7 +177,7 @@ function App() {
         setMyCarForm((current) => ({ ...current, vehicle_id: data[0].id, year_model: data[0].year }));
         setPartsVehicleId(data[0].id);
       }
-      setStatus("Dados carregados da base demonstrativa.");
+      setStatus("Cadastro operacional carregado. A fonte da recomendação é identificada nos resultados.");
     } catch {
       setStatus("API indisponível. Não foi possível carregar a base de veículos.");
     }
@@ -176,7 +186,10 @@ function App() {
   async function runRecommendation(event) {
     event?.preventDefault?.();
     if (recommendationLoading) return;
-    const validation = validateRecommendationProfile(profile);
+    if (!candidateMetadata) return;
+    if (currentUser && !studyReady) { setStatus("Conclua a apresentação e as respostas anteriores ao ranking."); return; }
+    const validation = candidateMetadata.candidate_source === "academic_v6"
+      ? validateCohortRecommendation(profile, candidateMetadata) : validateRecommendationProfile(profile);
     setRecommendationErrors(validation.errors);
     if (!validation.isValid) return;
 
@@ -189,7 +202,7 @@ function App() {
     setRecommendationLoading(true);
     setRecommendationError(null);
     try {
-      const data = await requestRecommendations(validation.payload, { signal: controller.signal });
+      const data = await requestRecommendations(validation.payload, { signal: controller.signal, recordTest: Boolean(currentUser) });
       if (!isLatestRequest(requestId, recommendationRequestId.current)) return;
       setRecommendations(data.recommendations);
       setRecommendationMetadata(data);
@@ -302,7 +315,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...expenseForm,
-          user_id: currentUser?.role === "admin" ? 1 : currentUser?.id || expenseForm.user_id,
+          user_id: currentUser?.id,
           amount: Number(expenseForm.amount),
           vehicle_id: Number(expenseForm.vehicle_id),
         }),
@@ -330,7 +343,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...myCarForm,
-          user_id: currentUser.role === "admin" ? 1 : currentUser.id,
+          user_id: currentUser.id,
           vehicle_id: Number(myCarForm.vehicle_id),
           year_model: Number(myCarForm.year_model),
           current_km: Number(myCarForm.current_km),
@@ -341,7 +354,7 @@ function App() {
         throw new Error("Falha ao cadastrar veículo");
       }
       setStatus("Veículo do usuário cadastrado com sucesso.");
-      await loadMyCarData(currentUser.role === "admin" ? 1 : currentUser.id);
+      await loadMyCarData(currentUser.id);
       setRecommendationStale(shouldMarkResultsStale(recommendationHasCalculated));
     } catch {
       setStatus("Não foi possível cadastrar o veículo do usuário.");
@@ -403,57 +416,84 @@ function App() {
     }
   }
 
-  async function submitLogin(event) {
-    event.preventDefault();
-    if (PUBLIC_DEMO_MODE) {
-      setLoginError("Login desabilitado no ambiente demonstrativo público.");
-      return;
-    }
-    setLoginError("");
-    try {
-      const response = await fetch(`${API_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...loginForm, role: loginRole }),
-      });
-      if (!response.ok) {
-        throw new Error("Credenciais invalidas");
-      }
-      const user = await response.json();
-      setCurrentUser(user);
-      localStorage.setItem("sigra-session", JSON.stringify(user));
-      setExpenseForm((current) => ({ ...current, user_id: user.id }));
-      setMyCarForm((current) => ({ ...current, user_id: user.id }));
-      setActiveTab(user.role === "admin" ? "admin" : "recommendations");
-      setStatus(`Sessão iniciada como ${user.role === "admin" ? "administrador" : "usuário"}.`);
-    } catch {
-      setLoginError("Email, senha ou perfil incorretos.");
-    }
-  }
-
-  function chooseLoginRole(role) {
-    setLoginRole(role);
-    setLoginError("");
-    setLoginForm({ email: "", password: "" });
-  }
-
-  function logout() {
-    setCurrentUser(null);
-    localStorage.removeItem("sigra-session");
+  function authenticated(user) {
+    setStudyReady(false);
+    recommendationAbortController.current?.abort();
+    recommendationRequestId.current += 1;
+    setRecommendationLoading(false);
+    setRecommendationMetadata(null);
+    setCurrentUser(user);
+    setExpenseForm((current) => ({ ...current, user_id: user.id }));
+    setMyCarForm((current) => ({ ...current, user_id: user.id }));
     setActiveTab("recommendations");
-    setStatus("Você está navegando como visitante.");
+    setStatus("Sessão iniciada. Seus próximos testes serão registrados na sua conta.");
+  }
+
+  async function logout() {
+    try {
+      await requestLogout();
+      recommendationAbortController.current?.abort();
+      recommendationRequestId.current += 1;
+      setRecommendationLoading(false);
+      setCurrentUser(null);
+      setStudyReady(false);
+      setMyCars([]); setVehicleHistory(null); setExpenses([]); setSummary(createEmptyFinancialSummary());
+      setRecommendationMetadata(null);
+      localStorage.removeItem("sigra-session");
+      setActiveTab("recommendations");
+      setStatus("Sessão encerrada. Você está navegando como visitante.");
+    } catch { setStatus("Não foi possível encerrar a sessão no servidor. Tente novamente."); }
   }
 
   useEffect(() => {
+    localStorage.removeItem("sigra-session"); // Discard the old, non-authenticating demo identity.
+    if (PUBLIC_DEMO_MODE) return;
+    const controller = new AbortController();
+    requestSession({ signal: controller.signal }).then(({ user }) => {
+      if (!controller.signal.aborted && user) authenticated(user);
+    }).catch((failure) => {
+      if (failure.name !== "AbortError") setStatus("Sessão pessoal indisponível. O modo visitante continua disponível.");
+    });
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
     document.documentElement.dataset.theme = "graphite";
-    loadVehicles();
-    searchOnlineCars({ preventDefault() {} });
     if (PUBLIC_DEMO_MODE) localStorage.removeItem("sigra-session");
     return () => {
       recommendationAbortController.current?.abort();
       operationalDataAbortController.current?.abort();
     };
   }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setCandidateMetadata(null);
+    setCandidateError("");
+    requestRecommendationMetadata({ signal: controller.signal }).then((data) => {
+      if (controller.signal.aborted) return;
+      if (!["academic_v6", "operational"].includes(data.candidate_source)) throw new Error("Fonte de candidatos inválida");
+      setCandidateMetadata(data);
+      if (data.candidate_source === "operational") setOperationalVisited(true);
+    }).catch((error) => {
+      if (error.name !== "AbortError" && !controller.signal.aborted) setCandidateError(error.status === 404
+        ? "A API ativa ainda não oferece o contrato de candidatos. Reinicie o backend com a versão atual, sem reaplicar migrations."
+        : "Não foi possível validar a fonte de candidatos. Nenhuma base alternativa foi inventada.");
+    });
+    return () => controller.abort();
+  }, [candidateRetry]);
+
+  // Operational IDs are loaded only for operational screens, never for v6 recommendations.
+  useEffect(() => {
+    if (operationalVisited) {
+      loadVehicles();
+      searchOnlineCars({ preventDefault() {} });
+    }
+  }, [operationalVisited]);
+
+  useEffect(() => {
+    if (activeTab !== "recommendations") setOperationalVisited(true);
+  }, [activeTab]);
 
   useEffect(() => {
     operationalDataAbortController.current?.abort();
@@ -483,15 +523,18 @@ function App() {
   const safeExpenses = Array.isArray(expenses) ? expenses : [];
 
   function updateProfile(field, value) {
+    recommendationAbortController.current?.abort();
+    recommendationRequestId.current += 1;
+    setRecommendationLoading(false);
     recommendationProfileVersion.current += 1;
-    setProfile((current) => ({ ...current, [field]: value }));
+    setProfile((current) => updatePersonalizationProfile(current, field, value, candidateMetadata?.alternative_personalization?.configuration_registry));
     setRecommendationErrors((current) => ({ ...current, [field]: undefined }));
     setRecommendationStale(shouldMarkResultsStale(recommendationHasCalculated));
   }
 
   function resetMultifactorWeights() {
     recommendationProfileVersion.current += 1;
-    setProfile((current) => ({ ...current, ...resetMultifactorWeightFields(current) }));
+    setProfile((current) => ({ ...current, ...resetMultifactorWeightFields(current, candidateMetadata?.alternative_personalization?.configuration_registry) }));
     setRecommendationErrors((current) => ({ ...current, multifactor_weights: undefined }));
     setRecommendationStale(shouldMarkResultsStale(recommendationHasCalculated));
   }
@@ -657,6 +700,7 @@ function App() {
 
   function navigateToSection(tab) {
     setActiveTab(tab);
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -671,7 +715,7 @@ function App() {
   }
 
   return (
-    <div className="app-shell">
+    <SessionContext.Provider value={{ user: currentUser }}><div className="app-shell">
       {PUBLIC_DEMO_MODE && (
         <div
           className="demo-mode-banner"
@@ -686,6 +730,7 @@ function App() {
       )}
       <AppHeader
         activeTab={activeTab}
+        candidateSource={candidateMetadata?.candidate_source}
         currentUser={currentUser}
         publicDemo={PUBLIC_DEMO_MODE}
         status={status}
@@ -694,37 +739,29 @@ function App() {
       />
 
       {!PUBLIC_DEMO_MODE && !currentUser && (
-        <details className="account-access">
-          <summary>Acessar recursos pessoais</summary>
-          <section className="login-panel">
-            <p>O modo visitante permite simular recomendações sem cadastro. Entre somente se quiser acessar histórico e registros pessoais.</p>
-            <div className="segmented-control" aria-label="Selecionar perfil">
-              <button className={loginRole === "user" ? "active" : ""} type="button" onClick={() => chooseLoginRole("user")}>Usuário</button>
-              <button className={loginRole === "admin" ? "active" : ""} type="button" onClick={() => chooseLoginRole("admin")}>Admin</button>
-            </div>
-            <form className="login-form" onSubmit={submitLogin}>
-              <label>Email<input type="email" autoComplete="email" value={loginForm.email} onChange={(event) => setLoginForm((current) => ({ ...current, email: event.target.value }))} /></label>
-              <label>Senha<input type="password" autoComplete="current-password" value={loginForm.password} onChange={(event) => setLoginForm((current) => ({ ...current, password: event.target.value }))} /></label>
-              {loginError && <p className="login-error" role="alert">{loginError}</p>}
-              <button type="submit">Entrar</button>
-            </form>
-          </section>
-        </details>
+        <AuthPanel onAuthenticated={authenticated} />
       )}
 
       <main className="workspace-v2">
+        {currentUser && <StudyBeforeRanking key={currentUser.id} onReady={setStudyReady} />}
         <section className="content">
           {activeTab === "recommendations" && <>
             <section className="experience-hero" aria-labelledby="experience-title">
               <div><p className="eyebrow">Recomendação orientada à sua realidade</p><h1 id="experience-title">Encontre o veículo certo para você.</h1><p>Informe seu orçamento, sua rotina e suas prioridades. O SIGRA compara as opções e explica cada recomendação.</p><div className="hero-actions"><button type="button" onClick={startRecommendation}>Encontrar meu veículo</button><button className="ghost-button" type="button" onClick={() => navigateToSection("comparison")}>Entender a comparação</button></div></div>
-              <dl className="hero-proof" aria-label="Compromissos da análise"><div><dt>01</dt><dd><strong>Mesmo perfil</strong><span>para todas as alternativas</span></dd></div><div><dt>02</dt><dd><strong>Custos explicáveis</strong><span>calculados no backend</span></dd></div><div><dt>03</dt><dd><strong>Dados rastreáveis</strong><span>FIPE, PBEV e ANP</span></dd></div></dl>
+              <dl className="hero-proof" aria-label="Compromissos da análise"><div><dt>01</dt><dd><strong>Mesmo perfil</strong><span>para todas as alternativas</span></dd></div><div><dt>02</dt><dd><strong>Custos explicáveis</strong><span>calculados no backend</span></dd></div><div><dt>03</dt><dd><strong>Dados rastreáveis</strong><span>{candidateMetadata?.candidate_source === "academic_v6" ? "FIPE, PBEV e cenário versionado" : "FIPE, PBEV e ANP"}</span></dd></div></dl>
             </section>
             <div className="recommendation-workbench">
               <section ref={recommendationFormSectionRef} className="recommendation-builder" aria-label="Construção do perfil">
-                <RecommendationForm profile={profile} errors={recommendationErrors} loading={recommendationLoading} onChange={updateProfile} onResetMultifactorWeights={resetMultifactorWeights} onSubmit={runRecommendation} />
+                {!candidateMetadata && !candidateError && <p role="status">Validando fonte de candidatos…</p>}
+                {candidateError && <div role="alert"><p>{candidateError}</p><button type="button" onClick={() => setCandidateRetry((v) => v + 1)}>Tentar carregar candidatos novamente</button></div>}
+                {candidateMetadata?.candidate_source === "academic_v6" && <details className="data-provenance"><summary>Sobre a base de veículos</summary><p>60 veículos selecionados. Cobertura documental: Cidade {candidateMetadata.profile_counts?.cidade ?? "não confirmada"} · Aplicativo {candidateMetadata.profile_counts?.app ?? "não confirmada"} · Trabalho {candidateMetadata.profile_counts?.trabalho ?? "não confirmada"} · Espaço {candidateMetadata.profile_counts?.suv ?? "não confirmada"} · Família {candidateMetadata.profile_counts?.familia ?? "não confirmada"} · Estrada {candidateMetadata.profile_counts?.estrada ?? "não confirmada"}. Custos estimados; nenhuma evidência ausente é preenchida.</p></details>}
+                <RecommendationForm profile={profile} candidateMetadata={candidateMetadata} errors={recommendationErrors} loading={recommendationLoading || !candidateMetadata || Boolean(currentUser && !studyReady)} onChange={updateProfile} onResetMultifactorWeights={resetMultifactorWeights} onSubmit={runRecommendation} />
+                {currentUser && <p className="section-note">Seu próximo resultado será registrado no histórico privado para avaliação do teste.</p>}
               </section>
               <section className="recommendation-output" aria-label="Resultado da análise">
-                <RecommendationPage
+                {candidateMetadata?.candidate_source === "academic_v6" && profile.vehicle_type === "car" ? <CohortRecommendationResults
+                  state={{ recommendations: safeRecommendations, metadata: recommendationMetadata, loading: recommendationLoading, error: recommendationError, stale: recommendationStale, hasCalculated: recommendationHasCalculated }}
+                  onRetry={runRecommendation} showAll={showAllRecommendations} onToggleShowAll={() => setShowAllRecommendations((v) => !v)} profile={profile} /> : <RecommendationPage
                   vehicleType={profile.vehicle_type}
                   state={{ recommendations: safeRecommendations, metadata: recommendationMetadata, loading: recommendationLoading, error: recommendationError, stale: recommendationStale, hasCalculated: recommendationHasCalculated }}
                   showAll={showAllRecommendations}
@@ -733,7 +770,8 @@ function App() {
                   onDetails={setSelectedRecommendationDetails}
                   onParts={(item) => { setActiveTab("parts"); setPartsVehicleId(item.vehicle.id); loadPartsAnalysis(item.vehicle.id); }}
                   onCompare={(item) => { if (!selectedIds.includes(item.vehicle.id)) toggleVehicle(item.vehicle.id); setActiveTab("comparison"); }}
-                />
+                />}
+                {currentUser && recommendationMetadata?.test_run && !recommendationStale && <TestFeedback key={recommendationMetadata.test_run.id} run={recommendationMetadata.test_run} />}
               </section>
             </div>
           </>}
@@ -781,7 +819,8 @@ function App() {
           </>
           )}
 
-          {activeTab === "financing" && <FinancingPage cars={safeVehicles} />}
+          {activeTab === "financing" && <FinancingPage cars={safeVehicles} key={currentUser?.id || "visitor"} />}
+          {activeTab === "test-history" && currentUser && <TestHistory key={currentUser.id} user={currentUser} />}
 
           {activeTab === "expenses" && (
           <>
@@ -1323,7 +1362,7 @@ function App() {
         onParts={(item) => { setActiveTab("parts"); setPartsVehicleId(item.vehicle.id); loadPartsAnalysis(item.vehicle.id); setSelectedRecommendationDetails(null); }}
         onCompare={(item) => { if (!selectedIds.includes(item.vehicle.id)) toggleVehicle(item.vehicle.id); setActiveTab("comparison"); setSelectedRecommendationDetails(null); }}
       />
-    </div>
+    </div></SessionContext.Provider>
   );
 }
 

@@ -21,9 +21,12 @@ STATELESS_WRITE_ROUTES = frozenset(
         "/financing/reverse-simulate",
         "/financing/compare",
         "/motorcycles/recommendations",
+        "/api/v1/academic-cohort/evaluate",
     }
 )
 PRIVATE_READ_PREFIXES = (
+    "/api/v1/test-runs",
+    "/api/v1/admin",
     "/auth",
     "/users",
     "/expenses",

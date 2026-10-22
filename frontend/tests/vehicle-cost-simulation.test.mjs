@@ -128,7 +128,7 @@ test("interface exibe fontes e resultados do backend sem reproduzir fórmulas", 
   const panel = readFileSync(new URL("../src/features/vehicle-cost-simulation/VehicleCostSimulationPanel.jsx", import.meta.url), "utf8");
   const details = readFileSync(new URL("../src/features/recommendations/RecommendationDetails.jsx", import.meta.url), "utf8");
   const app = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
-  assert.match(panel, /requestVehicleCostSimulation\(buildSimulationPayload\(form\)\)/);
+  assert.match(panel, /requestVehicleCostSimulation\(buildSimulationPayload\(form\), \{ recordTest: Boolean\(user\) \}\)/);
   assert.match(panel, /monthly_fuel_cost_brl/);
   assert.match(panel, /Fontes de referência: FIPE, PBEV e ANP/);
   assert.match(panel, /Tentar novamente/);

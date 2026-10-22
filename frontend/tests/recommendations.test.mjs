@@ -68,7 +68,7 @@ test("sessão válida usa a rota oficial do relatório com user_id explícito", 
     "http://127.0.0.1:8000/expenses",
     "http://127.0.0.1:8000/reports/financial-summary?user_id=7",
   ]);
-  assert.equal(resolveOperationalUserId({ id: 99, role: "admin" }), 1);
+  assert.equal(resolveOperationalUserId({ id: 99, role: "admin" }), 99);
 });
 
 test("seed visual de motocicletas possui quatro modelos demonstrativos distintos", () => {

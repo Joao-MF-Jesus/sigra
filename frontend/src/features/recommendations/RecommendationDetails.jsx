@@ -3,6 +3,7 @@ import ConfidenceIndicator from "./ConfidenceIndicator.jsx";
 import { formatCurrency, formatScore, getConfidence, getMaintenanceMetric, getPartsMetric, getRecommendationStatusLabel } from "./recommendationModel.js";
 import VehicleCostSimulationPanel from "../vehicle-cost-simulation/VehicleCostSimulationPanel.jsx";
 import MultifactorBreakdown from "./MultifactorBreakdown.jsx";
+import CohortVehicleDetails from "./CohortVehicleDetails.jsx";
 
 function DetailGrid({ items }) {
   return <dl className="spec-list modal-spec-list">{items.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>;
@@ -46,6 +47,7 @@ export default function RecommendationDetails({ item, metadata, profile, onClose
   }, [item, onClose]);
 
   if (!item) return null;
+  if (item.vehicle.identity_namespace === "academic_v6") return <CohortVehicleDetails item={item} onClose={onClose} dialogRef={dialogRef} closeButtonRef={closeButtonRef} />;
   const vehicle = item.vehicle;
   const confidence = item.confidence || item.recommendation_summary?.confidence || {};
   const confidenceView = getConfidence(item);

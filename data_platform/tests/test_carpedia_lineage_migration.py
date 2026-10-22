@@ -62,4 +62,4 @@ def test_carpedia_lineage_migration_is_sqlite_noop_and_single_head():
     assert _offline_sql("sqlite", "downgrade") == ""
     root = Path(__file__).parents[2]
     script = ScriptDirectory.from_config(Config(str(root / "backend" / "alembic.ini")))
-    assert script.get_heads() == ["20260811_0012"]
+    assert script.get_heads() == ["20261005_0013"]

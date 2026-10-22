@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useSession } from "../session/SessionContext.jsx";
 import MultifactorProfileFields from "./MultifactorProfileFields.jsx";
 import { isRecommendationSubmitDisabled } from "./recommendationValidation.js";
+import { recommendationPriorityOptions, unavailablePriorityMessage } from "./recommendationPriorityModel.js";
 import {
   RECOMMENDATION_WIZARD_STEPS,
   firstStepWithError,
@@ -39,12 +41,18 @@ function WizardProgress({ current, maxVisited, onSelect }) {
   </div>;
 }
 
-export default function RecommendationForm({ profile, errors, loading, onChange, onResetMultifactorWeights, onSubmit }) {
+export default function RecommendationForm({ profile, errors, loading, onChange, onResetMultifactorWeights, onSubmit, candidateMetadata }) {
+  const { user } = useSession();
   const [stepIndex, setStepIndex] = useState(0);
   const [maxVisited, setMaxVisited] = useState(0);
   const formRef = useRef(null);
-  const disabled = isRecommendationSubmitDisabled({ loading, vehicleType: profile.vehicle_type });
   const review = useMemo(() => recommendationReview(profile), [profile]);
+  const cohort = candidateMetadata?.candidate_source === "academic_v6";
+  const priorities = recommendationPriorityOptions(candidateMetadata);
+  const priorityError = cohort ? unavailablePriorityMessage(profile.recommendation_strategy, candidateMetadata) : "";
+  const disabled = isRecommendationSubmitDisabled({ loading, vehicleType: profile.vehicle_type }) || Boolean(priorityError);
+  const visibleReview = cohort ? [...review,
+    ["Cenário de custos", ({ low: "Baixo", base: "Base", high: "Alto" })[profile.cost_scenario || "base"]]] : review;
 
   useEffect(() => {
     const errorStep = firstStepWithError(errors);
@@ -96,23 +104,30 @@ export default function RecommendationForm({ profile, errors, loading, onChange,
 
       <section className="wizard-step" data-step-panel="priorities" hidden={stepIndex !== 2} aria-labelledby="wizard-priorities-title">
         <p className="eyebrow">O que importa</p><h2 id="wizard-priorities-title" tabIndex="-1">Defina a prioridade da análise</h2><p className="wizard-intro">O SIGRA aplica o mesmo perfil a todas as alternativas comparáveis.</p>
-        <Field label="O que deve pesar mais?" htmlFor="recommendation-strategy" error={errors.recommendation_strategy} errorId="recommendation-strategy-error"><select data-testid="recommendation-strategy" value={profile.recommendation_strategy} onChange={(event) => onChange("recommendation_strategy", event.target.value)}><option value="lowest_cost">Menor custo possível</option><option value="budget_economy">Economia dentro do orçamento</option><option value="cost_benefit">Custo-benefício</option><option value="balanced">Equilíbrio geral</option><option value="comfort_space">Conforto e espaço</option><option value="best_within_budget">Melhor categoria dentro do orçamento</option></select></Field>
+        <Field label="O que deve pesar mais?" htmlFor="recommendation-strategy" error={priorityError || errors.recommendation_strategy} errorId="recommendation-strategy-error" hint={cohort ? "Disponíveis nesta coorte: " + priorities.filter((row) => row.available).map((row) => row.label).join(" e ") + ". A escolha é explícita; não há substituição automática." : undefined} hintId="recommendation-strategy-hint"><select data-testid="recommendation-strategy" value={profile.recommendation_strategy} onChange={(event) => onChange("recommendation_strategy", event.target.value)}>{priorities.map((option) => <option key={option.value} value={option.value} disabled={!option.available}>{option.label}{!option.available ? " — indisponível nesta coorte" : ""}</option>)}</select></Field>
+        {cohort && <>
+          <p className="field-hint">Custo-benefício usa a classificação de referência por critérios documentados do uso escolhido. Menor custo possível ordena pelo TCO estimado dentro de cada grupo comparável. Se você ativar a personalização, sua pontuação passa a ordenar os veículos pontuados; esta prioridade permanece registrada como referência.</p>
+          <details className="data-provenance"><summary>Por que as outras prioridades estão indisponíveis?</summary><p>Faltam as avaliações históricas exigidas pelo método original. As configurações Base e Ampliada usam métricas explicitamente derivadas e custos de cenário; não fornecem notas originais de conforto, confiabilidade ou categoria. Nenhuma nota ausente vira zero e nenhuma prioridade alternativa é aplicada.</p></details>
+        </>}
+        {cohort && <Field label="Cenário de manutenção, impostos, seguro e depreciação" htmlFor="recommendation-cost-scenario" error={errors.cost_scenario}>
+          <select value={profile.cost_scenario || "base"} onChange={(event) => onChange("cost_scenario", event.target.value)}><option value="low">Baixo</option><option value="base">Base</option><option value="high">Alto</option></select>
+        </Field>}
         <div className="wizard-field-grid">
           <Field label="Quilometragem mensal" htmlFor="recommendation-monthly-mileage" error={errors.monthly_mileage} errorId="recommendation-monthly-mileage-error" hint="Uma estimativa da sua rotina já é suficiente." hintId="recommendation-monthly-mileage-hint"><input data-testid="recommendation-monthly-mileage" type="number" min="0" inputMode="decimal" value={profile.monthly_mileage} onChange={(event) => onChange("monthly_mileage", event.target.value)} /></Field>
           <Field label="Preço do combustível" htmlFor="recommendation-fuel-price" error={errors.fuel_price} errorId="recommendation-fuel-price-error" hint="Valor de referência informado por você para o ranking histórico." hintId="recommendation-fuel-price-hint"><input data-testid="recommendation-fuel-price" type="number" min="0.01" step="0.01" inputMode="decimal" value={profile.fuel_price} onChange={(event) => onChange("fuel_price", event.target.value)} /></Field>
         </div>
-        <div className="wizard-actions"><button className="ghost-button" data-testid="recommendation-back-priorities" type="button" onClick={() => goTo(previousWizardStep(stepIndex))}>Voltar</button><button data-testid="recommendation-next-priorities" type="button" onClick={advance}>Continuar</button></div>
+        <div className="wizard-actions"><button className="ghost-button" data-testid="recommendation-back-priorities" type="button" onClick={() => goTo(previousWizardStep(stepIndex))}>Voltar</button><button data-testid="recommendation-next-priorities" type="button" onClick={advance} disabled={Boolean(priorityError)}>Continuar</button></div>
       </section>
 
       <section className="wizard-step" data-step-panel="advanced" hidden={stepIndex !== 3} aria-labelledby="wizard-advanced-title">
-        <p className="eyebrow">Opcional</p><h2 id="wizard-advanced-title" tabIndex="-1">Quer personalizar ainda mais?</h2><p className="wizard-intro">Se você não ativar o perfil multifator, o ranking legado permanece exatamente como antes.</p>
-        <MultifactorProfileFields profile={profile} errors={errors} onChange={onChange} onResetWeights={onResetMultifactorWeights} />
+        <p className="eyebrow">Opcional</p><h2 id="wizard-advanced-title" tabIndex="-1">Quer personalizar ainda mais?</h2><p className="wizard-intro">Se você não ativar o perfil multifator, a classificação de referência permanece como antes.</p>
+        <MultifactorProfileFields profile={profile} errors={errors} onChange={onChange} onResetWeights={onResetMultifactorWeights} candidateSource={candidateMetadata?.candidate_source} alternativeEnabled={candidateMetadata?.alternative_personalization?.available === true} configurationRegistry={candidateMetadata?.alternative_personalization?.configuration_registry} />
         <div className="wizard-actions"><button className="ghost-button" data-testid="recommendation-back-advanced" type="button" onClick={() => goTo(previousWizardStep(stepIndex))}>Voltar</button><button data-testid="recommendation-next-advanced" type="button" onClick={advance}>{profile.multifactor_enabled ? "Revisar cenário" : "Continuar sem ajustes"}</button></div>
       </section>
 
       <section className="wizard-step wizard-review" data-step-panel="review" hidden={stepIndex !== 4} aria-labelledby="wizard-review-title">
-        <p className="eyebrow">Revise antes de calcular</p><h2 id="wizard-review-title" tabIndex="-1">Seu perfil está pronto</h2><p className="wizard-intro">O SIGRA não salva estas preferências. O cenário será enviado ao backend somente quando você calcular.</p>
-        <dl className="review-grid">{review.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+        <p className="eyebrow">Revise antes de calcular</p><h2 id="wizard-review-title" tabIndex="-1">Seu perfil está pronto</h2><p className="wizard-intro">{user ? "Os parâmetros e o resultado serão registrados no seu histórico privado quando você calcular." : "O SIGRA não salva estas preferências no modo visitante. O cenário será enviado ao backend somente quando você calcular."}</p>
+        <dl className="review-grid">{visibleReview.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
         <div className="privacy-note"><span aria-hidden="true">✓</span><p><strong>Comparação consistente</strong><br />Todas as alternativas recebem os mesmos parâmetros; os dados publicados permanecem somente leitura.</p></div>
         <div className="wizard-actions"><button className="ghost-button" data-testid="recommendation-back-review" type="button" onClick={() => goTo(previousWizardStep(stepIndex))}>Voltar e ajustar</button><button data-testid="recommendation-submit" type="submit" disabled={disabled}>{loading ? "Calculando..." : "Calcular recomendação"}</button></div>
       </section>
