@@ -1,0 +1,18 @@
+{
+  "schema": "sigra-deploy-target-v1",
+  "confirmed": false,
+  "profile": "research",
+  "project_ref": "tqlufobzzaabakflyxha",
+  "organization_id": "tzsztlsmvmxwaypzslzr",
+  "project_name": "sigra-tcc-homologacao",
+  "endpoint_mode": null,
+  "host": null,
+  "port": 5432,
+  "database": "sigra_tcc_research",
+  "runtime_role": "sigra_research_runtime",
+  "database_oid": null,
+  "ca_sha256": "",
+  "alembic_revision": "20261007_0015",
+  "protocol_version": "tcc-appendices-cd-v1",
+  "research_release_authorized": false
+}

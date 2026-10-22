@@ -1,4 +1,5 @@
 import { API_URL } from "../config/runtime.js";
+import { COMPACT_TRANSPORT, expandTransport, csvRowText, sha256Hex } from "./compactTransport.js";
 
 export function sessionFetch(url, options = {}) {
   if (!String(url).startsWith(`${API_URL}/`)) return fetch(url, options);
@@ -48,7 +49,7 @@ export async function requestRecommendations(profile, { signal, fetchImpl = fetc
   const response = await fetchImpl(`${API_URL}${path}`, {
     method: "POST",
     credentials: "include",
-    headers: { "Content-Type": "application/json", "X-SIGRA-CSRF": "1" },
+    headers: { "Content-Type": "application/json", "X-SIGRA-CSRF": "1", "X-SIGRA-Transport": COMPACT_TRANSPORT },
     body: JSON.stringify(profile),
     signal,
   });
@@ -73,7 +74,7 @@ export async function requestRecommendations(profile, { signal, fetchImpl = fetc
     throw error;
   }
 
-  const data = await response.json();
+  const data = expandTransport(await response.json());
   if (Array.isArray(data)) {
     return { recommendations: data, has_viable_options: data.some((item) => item?.is_best_choice) };
   }
@@ -120,7 +121,7 @@ async function requestJson(path, { method = "GET", payload, signal, fetchImpl = 
   const response = await fetchImpl(`${API_URL}${path}`, {
     method,
     credentials: "include",
-    headers: payload === undefined ? undefined : { "Content-Type": "application/json", "X-SIGRA-CSRF": "1" },
+    headers: { "X-SIGRA-Transport": COMPACT_TRANSPORT, ...(payload === undefined ? {} : { "Content-Type": "application/json", "X-SIGRA-CSRF": "1" }) },
     body: payload === undefined ? undefined : JSON.stringify(payload),
     signal,
   });
@@ -144,7 +145,7 @@ async function requestJson(path, { method = "GET", payload, signal, fetchImpl = 
     error.code = code;
     throw error;
   }
-  return response.status === 204 ? null : response.json();
+  return response.status === 204 ? null : expandTransport(await response.json());
 }
 
 export async function requestIntegratedGoldCatalog({ signal, fetchImpl = fetch } = {}) {
@@ -209,9 +210,21 @@ export const requestStudyCurrent = (options = {}) => requestJson("/api/v1/study-
 export const requestStudySession = (payload, options = {}) => requestJson("/api/v1/study-sessions", { ...options, method: "POST", payload });
 
 export async function downloadTestRecords({ fetchImpl = fetch } = {}) {
-  const response = await fetchImpl(`${API_URL}/api/v1/admin/test-runs.csv`, { credentials: "include" });
-  if (!response.ok) throw new Error(`Não foi possível exportar os testes (HTTP ${response.status}).`);
-  const url = URL.createObjectURL(await response.blob());
+  const manifest = await requestJson("/api/v1/admin/test-runs-export/manifest", { fetchImpl });
+  if (manifest?.schema !== "sigra-csv-dictionary-v1" || !Array.isArray(manifest.records)
+      || manifest.execution_count !== manifest.records.length || typeof manifest.header !== "string"
+      || new Set(manifest.records.map((row) => row.id)).size !== manifest.records.length) throw new Error("Manifesto da exportação inválido.");
+  const encoder = new TextEncoder();
+  const parts = [encoder.encode(manifest.header)];
+  for (const record of manifest.records) {
+    const row = await requestJson(`/api/v1/admin/test-runs-export/rows/${encodeURIComponent(record.id)}?expected_sha256=${encodeURIComponent(record.sha256)}`, { fetchImpl });
+    const bytes = encoder.encode(csvRowText(row));
+    if (bytes.length !== record.bytes || await sha256Hex(bytes) !== record.sha256) throw new Error("A linha exportada diverge do manifesto. Nenhum CSV foi baixado.");
+    parts.push(bytes);
+  }
+  const blob = new Blob(parts, { type: "text/csv;charset=utf-8" });
+  if (blob.size !== manifest.bytes || await sha256Hex(await blob.arrayBuffer()) !== manifest.sha256) throw new Error("A exportação diverge do manifesto. Nenhum CSV foi baixado.");
+  const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
   link.download = "sigra-testes-tcc.csv";

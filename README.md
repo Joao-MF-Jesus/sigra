@@ -1,5 +1,15 @@
 # SIGRA - Sistema Inteligente de Gestao e Recomendacao Automotiva
 
+## Estado consolidado em 22/10/2026
+
+O [Preview protegido](https://sigra-neon-preview-ficticio-4k3n5kawz.vercel.app)
+da release `sigra-be98bd5b78ce6ddd81592d08` está validado no fluxo básico
+por HTTP/API, com dados fictícios e coleta real desligada. Não é produção.
+Consulte [instalação, build, proveniência e limites](docs/PREVIEW_VALIDATED_20261022.md).
+Essa referência atual prevalece sobre os exemplos demonstrativos históricos de
+34 veículos abaixo; o catálogo acadêmico do Preview tem 60 veículos.
+Não execute seed, migrations ou bootstrap dos exemplos contra o Preview existente.
+
 O SIGRA e um MVP academico para apoiar usuarios leigos na escolha e gestao de veiculos. O sistema recomenda modelos com base em perfil financeiro, objetivo de uso, orcamento, custo mensal estimado, consumo, manutencao, confiabilidade, disponibilidade de pecas e depreciacao. A plataforma pode ser usada em modo visitante para simulacao livre, sem login obrigatorio.
 
 O recomendador consolidado atende automoveis. O modulo de motocicletas esta em fundacao tecnica, com cadastro, persistencia e interface separados, mas ainda sem algoritmo, pesos ou Nota SIGRA. Um modulo transversal e stateless permite simular e comparar financiamentos informados pelo usuario para carros e motos, sem participar dos rankings.

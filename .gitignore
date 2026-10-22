@@ -65,3 +65,14 @@ videos/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Local operational evidence and private deployment state are never source.
+.sigra-demo-agent-temp/
+.sigra-setpoint-validation-temp/
+.vercel/
+*.dpapi
+cli-private/
+deploy-preview-private/
+release/functional-acceptance.json
+release/neon-transport-acceptance.json
+release/plan.json.gz

@@ -87,21 +87,8 @@ class Settings:
     plan_sha256: str
 
 
-def settings(values=None):
-    """Offline guards. No imports of app.database and no network connection."""
-    values = os.environ if values is None else values
-    if not enabled(values):
-        raise DeploymentBlocked("DEPLOY_ENTRYPOINT_DISABLED")
-    for name, required in {"DATABASE_ENV": "homologation", "DATABASE_SSL_REQUIRED": "true",
-                           "DATABASE_ECHO": "false", "FIPE_AUTO_REFRESH": "false",
-                           "PUBLIC_DEMO_MODE": "false", "ACADEMIC_COHORT_ENABLED": "true",
-                           "SIGRA_COOKIE_SECURE": "true", "SIGRA_COOKIE_SAMESITE": "lax",
-                           "API_DOCS_ENABLED": "false", "SIGRA_REVISION6_HOMOLOGATION_ENABLED": "false"}.items():
-        if values.get(name) != required:
-            raise DeploymentBlocked("UNSAFE_RUNTIME_FLAGS")
-    if any(values.get(name) for name in ("MIGRATION_DATABASE_URL", "SIGRA_REVISION6_MIGRATION_URL", "SIGRA_RESEARCH_MIGRATION_URL")):
-        raise DeploymentBlocked("MIGRATION_CREDENTIAL_FORBIDDEN_IN_WEB")
-    target = pinned_json(values.get("SIGRA_DEPLOY_TARGET_FILE"), values.get("SIGRA_DEPLOY_TARGET_SHA256"))
+def _supabase_target_url(values, target):
+    """Unchanged legacy identity/URL gates, isolated from the opt-in Neon path."""
     if (target.get("schema") != "sigra-deploy-target-v1" or target.get("confirmed") is not True
             or target.get("project_ref") != PROJECT_REF or target.get("organization_id") != ORGANIZATION
             or target.get("project_name") != PROJECT_NAME or target.get("port") != 5432
@@ -138,6 +125,33 @@ def settings(values=None):
             or url.database != target["database"] or url.username != username or not url.password
             or set(url.query) != {"sslmode", "sslrootcert"} or url.query["sslmode"] != "verify-full"):
         raise DeploymentBlocked("RUNTIME_IDENTITY_OR_VERIFY_FULL_DIFFERS")
+    return profile, url
+
+
+def settings(values=None):
+    """Offline guards. No imports of app.database and no network connection."""
+    values = os.environ if values is None else values
+    if not enabled(values):
+        raise DeploymentBlocked("DEPLOY_ENTRYPOINT_DISABLED")
+    for name, required in {"DATABASE_ENV": "homologation", "DATABASE_SSL_REQUIRED": "true",
+                           "DATABASE_ECHO": "false", "FIPE_AUTO_REFRESH": "false",
+                           "PUBLIC_DEMO_MODE": "false", "ACADEMIC_COHORT_ENABLED": "true",
+                           "SIGRA_COOKIE_SECURE": "true", "SIGRA_COOKIE_SAMESITE": "lax",
+                           "API_DOCS_ENABLED": "false", "SIGRA_REVISION6_HOMOLOGATION_ENABLED": "false"}.items():
+        if values.get(name) != required:
+            raise DeploymentBlocked("UNSAFE_RUNTIME_FLAGS")
+    if any(values.get(name) for name in ("MIGRATION_DATABASE_URL", "SIGRA_REVISION6_MIGRATION_URL", "SIGRA_RESEARCH_MIGRATION_URL")):
+        raise DeploymentBlocked("MIGRATION_CREDENTIAL_FORBIDDEN_IN_WEB")
+    target = pinned_json(values.get("SIGRA_DEPLOY_TARGET_FILE"), values.get("SIGRA_DEPLOY_TARGET_SHA256"))
+    provider=values.get('SIGRA_DEPLOY_PROVIDER','supabase')
+    if provider=='neon':
+        from app.neon_target import runtime_url
+        url=runtime_url(values,target)
+        profile=target['profile']
+    elif provider=='supabase' and target.get('provider','supabase')=='supabase':
+        profile,url=_supabase_target_url(values,target)
+    else:
+        raise DeploymentBlocked('EXPLICIT_DATABASE_PROVIDER_DIFFERS')
     from app.academic_cohort.revision6_supabase_target import certificate_sha256
     try:
         if certificate_sha256(url.query["sslrootcert"]) != target.get("ca_sha256"):
@@ -213,6 +227,15 @@ def decode_evaluation(row):
             "monthly_tco_brl": Decimal(row["monthly_tco_brl"])}
 
 
+def validate_connection_transport(connection, target, backend_tls):
+    if target.get('provider')=='neon':
+        from app.neon_target import validate_tls
+        return validate_tls(connection,target,backend_tls)
+    from app.academic_cohort.revision6_supabase_target import ConfirmedTarget, validate_connection_tls
+    return validate_connection_tls(ConfirmedTarget(PROJECT_REF,target['host'],target['ca_sha256'],'',target['endpoint_mode']),
+                                   connection.connection.driver_connection.pgconn.ssl_in_use, backend_tls)
+
+
 def database_preflight(connection, configured):
     """Only SELECTs, caller's READ ONLY transaction; never grants/DDL/repair."""
     if connection.engine.url != configured.url:
@@ -226,10 +249,10 @@ def database_preflight(connection, configured):
         raise DeploymentBlocked("DATABASE_ROLE_OR_OID_DIFFERS")
     if observed[4] is None or observed[3] != observed[4]:
         raise DeploymentBlocked("BACKEND_TLS_OBSERVATION_MISSING")
-    from app.academic_cohort.revision6_supabase_target import ConfirmedTarget, validate_connection_tls
-    confirmed = ConfirmedTarget(PROJECT_REF, t["host"], t["ca_sha256"], "", t["endpoint_mode"])
-    driver = connection.connection.driver_connection.pgconn
-    validate_connection_tls(confirmed, driver.ssl_in_use, observed[5:8])
+    transport = validate_connection_transport(connection, t, tuple(observed[5:8]))
+    if t.get('provider')=='neon':
+        from app.neon_target import validate_marker
+        validate_marker(connection,t)
     parameters = connection.connection.driver_connection.info.get_parameters()
     if any(parameters.get(key) != expected for key, expected in {
             "host": configured.url.host, "sslmode": "verify-full",
@@ -265,8 +288,11 @@ def database_preflight(connection, configured):
             "JOIN pg_roles r ON r.rolname=current_user WHERE p.polrelid=to_regclass(:r)"), {"r": f"public.{name}"}).all()
         if row is None or tuple(row) != (True, True) or [tuple(p) for p in policies] != [(True, "*")]:
             raise DeploymentBlocked("PRIVATE_RLS_NOT_SERVICE_ROLE_ONLY")
-    return {"identity": "matched", "tls": "all_observed_links_verified", "alembic": ALEMBIC_HEAD,
-            "runtime": "least_privilege", "database_modified": False}
+    label = ("client_verified_internal_provider_assurance"
+             if t.get('provider') == 'neon' and transport.get('model') == 'neon-managed-preview-v1'
+             else "all_observed_links_verified")
+    return {"identity": "matched", "tls": label, "transport_evidence": transport,
+            "alembic": ALEMBIC_HEAD, "runtime": "least_privilege", "database_modified": False}
 
 
 def service_for_session(session):

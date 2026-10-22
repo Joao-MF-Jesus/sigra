@@ -175,6 +175,11 @@ app = FastAPI(
     openapi_url="/openapi.json" if RUNTIME_SETTINGS.api_docs_enabled else None,
 )
 
+# Opt-in transport after the existing routes/auth; persistence and algorithms
+# still receive/store the complete original objects.
+from app.compact_transport import CompactJSONMiddleware
+app.add_middleware(CompactJSONMiddleware)
+
 ALGORITHM_VERSION = "2.1.2"
 WEIGHTS_VERSION = "cars-v1"
 MOTORCYCLE_MODULE_VERSION = "0.3.1"

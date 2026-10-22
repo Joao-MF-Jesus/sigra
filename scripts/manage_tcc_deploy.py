@@ -49,7 +49,6 @@ def migrate_new(configured, owner_url, confirm):
     """Future explicit operator action; validates BOTH roles and emptiness before DDL."""
     if confirm != "sigra_tcc_research" or configured.target["database"] != confirm:
         raise d.DeploymentBlocked("EXACT_NEW_RESEARCH_DATABASE_CONFIRMATION_REQUIRED")
-    from app.academic_cohort.revision6_supabase_target import ConfirmedTarget, validate_connection_tls
     t = configured.target
     for url, role in ((configured.url, "sigra_research_runtime"), (owner_url, "sigra_research_owner")):
         engine = create_engine(url, echo=False)
@@ -60,8 +59,10 @@ def migrate_new(configured, owner_url, confirm):
                     "b.pid,s.pid,s.ssl,s.version,s.cipher FROM (SELECT pg_backend_pid() AS pid)b LEFT JOIN pg_stat_ssl s ON s.pid=b.pid")).one()
                 if tuple(identity[:3]) != (confirm, role, t["database_oid"]) or identity[3] != identity[4]:
                     raise d.DeploymentBlocked("NEW_RESEARCH_PREFLIGHT_IDENTITY_OR_TLS_ROW_DIFFERS")
-                validate_connection_tls(ConfirmedTarget(d.PROJECT_REF,t["host"],t["ca_sha256"],"",t["endpoint_mode"]),
-                    connection.connection.driver_connection.pgconn.ssl_in_use, identity[5:8])
+                d.validate_connection_transport(connection,t,tuple(identity[5:8]))
+                if t.get('provider')=='neon':
+                    from app.neon_target import validate_marker
+                    validate_marker(connection,t)
                 flags = connection.execute(text("SELECT rolsuper,rolbypassrls,rolcreatedb,rolcreaterole,rolreplication FROM pg_roles WHERE rolname=current_user")).one()
                 if any(flags) or connection.execute(text("SELECT count(*) FROM pg_auth_members WHERE member=(SELECT oid FROM pg_roles WHERE rolname=current_user)")).scalar_one():
                     raise d.DeploymentBlocked("NEW_RESEARCH_ROLES_NOT_MINIMAL")
@@ -113,11 +114,12 @@ def materialize_new(configured, owner_url, confirm):
             if tuple(identity) != (confirm, "sigra_research_owner", configured.target["database_oid"]):
                 raise d.DeploymentBlocked("RESEARCH_OWNER_DATABASE_ROLE_OID_DIFFERS")
             # Owner uses the same verified CA/hostname URL; recheck both TLS observations.
-            from app.academic_cohort.revision6_supabase_target import ConfirmedTarget, validate_connection_tls
-            driver = session.connection().connection.driver_connection.pgconn
             tls = session.execute(text("SELECT ssl,version,cipher FROM pg_stat_ssl WHERE pid=pg_backend_pid()")).one()
             t = configured.target
-            validate_connection_tls(ConfirmedTarget(d.PROJECT_REF, t["host"], t["ca_sha256"], "", t["endpoint_mode"]), driver.ssl_in_use, tls)
+            d.validate_connection_transport(session.connection(),t,tuple(tls))
+            if t.get('provider')=='neon':
+                from app.neon_target import validate_marker
+                validate_marker(session.connection(),t)
             session.execute(text("SELECT pg_advisory_xact_lock(610070015)"))
             if session.execute(text("SELECT count(*) FROM academic.cohort_snapshot")).scalar_one():
                 raise d.DeploymentBlocked("CONCURRENT_OR_EXISTING_MATERIALIZATION")

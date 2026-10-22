@@ -122,6 +122,12 @@ const RECOMMENDATION_ERROR_PRESENTATIONS = Object.freeze({
 });
 
 export function getRecommendationErrorPresentation(error) {
+  if (error?.code === "response_transport_limit") return {
+    kind: "unavailable",
+    title: "Resposta acima do limite de transporte",
+    message: "Consulte Meus testes antes de repetir: a execução pode já ter sido salva. Nenhum resultado foi truncado.",
+    retryable: false,
+  };
   if (error?.status === 422) return RECOMMENDATION_ERROR_PRESENTATIONS.validation;
   if (error?.status === 409 || error?.code === "multifactor_gold_identity_conflict") {
     return RECOMMENDATION_ERROR_PRESENTATIONS.conflict;

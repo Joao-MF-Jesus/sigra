@@ -1,9 +1,10 @@
 from collections.abc import Generator
+import os
 
 from sqlalchemy import create_engine, event, inspect, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
-from sqlalchemy.pool import StaticPool
+from sqlalchemy.pool import NullPool, StaticPool
 
 from app.config import (
     DEFAULT_DATABASE_PATH,
@@ -40,6 +41,10 @@ def create_database_engine(settings: DatabaseSettings) -> Engine:
         options["connect_args"] = database_connect_args(settings)
         if settings.url.endswith(":memory:"):
             options["poolclass"] = StaticPool
+    elif os.environ.get("SIGRA_VERCEL_ENABLED") == "true":
+        # Functions may freeze without shutdown. Do not retain idle DB sockets
+        # in a frozen instance; get_db already closes/rolls back every session.
+        options.update(connect_args=database_connect_args(settings), poolclass=NullPool)
     else:
         options.update(
             {

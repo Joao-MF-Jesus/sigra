@@ -275,9 +275,13 @@ def participant_code(user_id: int, key: bytes) -> str:
 
 @admin_router.get("/test-runs.csv")
 def export_trials(_admin: models.User = Depends(require_admin), db: Session = Depends(get_db)):
+    return _export_response(db.get_bind(), research_export_key())
+
+
+def _export_response(bind, key, *, run_id=None, batch_size=100):
+    # Same formatter/columns as the approved endpoint. New transport readers
+    # request one DB row per batch; no new storage or recalculated results.
     from app.academic_cohort.derived_configurations import recorded_configuration
-    bind = db.get_bind()
-    key = research_export_key()  # Fail before streaming any response if unconfigured.
 
     def rows():
         buffer = io.StringIO()
@@ -296,7 +300,9 @@ def export_trials(_admin: models.User = Depends(require_admin), db: Session = De
         with Session(bind=bind) as export_db:
             query = export_db.query(models.ParticipantTestRun).order_by(
                 models.ParticipantTestRun.created_at, models.ParticipantTestRun.id)
-            for run in query.yield_per(100):
+            if run_id is not None:
+                query = query.filter(models.ParticipantTestRun.id == run_id)
+            for run in query.yield_per(batch_size):
                 context = export_db.get(models.ParticipantStudySession, run.study_session_id) if run.study_session_id else None
                 answers = export_db.get(models.ParticipantQuestionnaire, run.id)
                 values = [run.id, participant_code(run.user_id, key), run.kind, utc_iso(run.created_at),
@@ -323,3 +329,49 @@ def export_trials(_admin: models.User = Depends(require_admin), db: Session = De
         "Content-Disposition": 'attachment; filename="sigra-testes-tcc.csv"',
         "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff",
     })
+
+
+@admin_router.get('/test-runs-export/manifest')
+async def export_manifest(response: Response, _admin: models.User = Depends(require_admin), db: Session = Depends(get_db)):
+    """Read-only manifest of the exact legacy CSV; never an authorization token."""
+    from app.csv_transport import encode_csv_row  # initializes the bounded large-cell reader
+    stream=_export_response(db.get_bind(),research_export_key(),batch_size=1)
+    digest=hashlib.sha256(); header=None; records=[]; questionnaires=0; total_bytes=0
+    async for text in stream.body_iterator:
+        data=text.encode('utf-8')
+        digest.update(data); total_bytes+=len(data)
+        if header is None:
+            header=text
+        else:
+            fields=next(csv.reader(io.StringIO(text,newline='')))
+            if len(fields)!=36:
+                raise HTTPException(503,'Contrato da exportação incompatível')
+            answered=bool(fields[26]); questionnaires+=answered
+            records.append({'id':fields[0],'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),
+                            'questionnaire':answered})
+    response.headers['Cache-Control']='no-store'
+    return {'schema':'sigra-csv-dictionary-v1','header':header,'records':records,
+            'execution_count':len(records),'questionnaire_count':questionnaires,
+            'without_questionnaire_count':len(records)-questionnaires,'bytes':total_bytes,'sha256':digest.hexdigest()}
+
+
+@admin_router.get('/test-runs-export/rows/{run_id}')
+async def export_row(run_id: str, response: Response, expected_sha256: str = Query(pattern=r'^[0-9a-f]{64}$'),
+                     _admin: models.User = Depends(require_admin), db: Session = Depends(get_db)):
+    # require_admin runs on EVERY request. A manifest or guessed row ID never
+    # bypasses authentication. This endpoint cannot mutate the execution.
+    from app.csv_transport import encode_csv_row
+    stream=_export_response(db.get_bind(),research_export_key(),run_id=run_id,batch_size=1)
+    body=None
+    async for text in stream.body_iterator:
+        if text.startswith('\ufeff'):
+            continue
+        if body is not None:
+            raise HTTPException(503,'Identidade da exportação ambígua')
+        body=text
+    if body is None:
+        raise HTTPException(404,'Execução não encontrada na exportação')
+    if hashlib.sha256(body.encode('utf-8')).hexdigest()!=expected_sha256:
+        raise HTTPException(409,'O registro mudou durante a exportação; solicite um novo manifesto, sem alterar os dados')
+    response.headers['Cache-Control']='no-store'
+    return encode_csv_row(body)
