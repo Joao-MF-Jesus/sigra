@@ -1,0 +1,12 @@
+{
+  "schema": "sigra-public-pinned-plan-input-v1",
+  "file": "plan.json.gz",
+  "compressed_sha256": "77bde60efdb96e4bfd540055555824319d668991e9020425a9295340e91b620f",
+  "uncompressed_sha256": "cb70ff5298ffc4c52fc74e44588b2e34a39584b4cacfa6146981670737f3be97",
+  "uncompressed_bytes": 192101420,
+  "decision_sha256": "8b5266c06bee83fb6e96422092c62f988defe9b6c3854aff465fd918aa5a4f55",
+  "candidate_fingerprint": "55ab70a71119e31d0f2654f14d207daa1ab2481a0b33b568ca7066fd8f1b6a34",
+  "approved_fingerprint": "d974f86d2deef3903ac052263c7edc406c5b2c21d794721e5220ed5d99acc05d",
+  "original_bundle_inventory_sha256": "37dd44c9ef46f3009c843549bcae64e2ef145fa87195b4df575c654874bbdbf7",
+  "scope": "Offline fictitious records and original provenance; not a replacement audit of source documents or authorization for writes."
+}

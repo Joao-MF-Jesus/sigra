@@ -35,7 +35,8 @@ def configuration():
 
 @pytest.fixture(scope="module")
 def plan():
-    return h.build_plan(os.environ["SIGRA_REVISION6_BUNDLE"], os.environ["SIGRA_REVISION6_DECISION"])
+    from tests.revision6_fixture import fixture_plan
+    return fixture_plan()
 
 
 class MemorySession:

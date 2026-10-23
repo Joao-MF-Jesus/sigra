@@ -18,10 +18,12 @@ class InactiveRevision6IntegrationTests(unittest.TestCase):
         cls.bundle = Path(os.environ["SIGRA_REVISION6_BUNDLE"]).resolve(strict=True)
         cls.decision_file = Path(os.environ["SIGRA_REVISION6_DECISION"]).resolve(strict=True)
         cls.policy = s._read(s.CONTRACT)
-        cls.approved = s._read(cls.bundle / s.APPROVED_PATH)
-        cls.candidate = s._read(cls.bundle / "experimental/replay.json")
+        from tests.revision6_fixture import fixture_plan
+        checked = fixture_plan()
+        cls.approved = checked.approved_replay
+        cls.candidate = checked.replay
         cls.decision = s._read(cls.decision_file)
-        cls.plan = s.prepare_revision6(cls.bundle, cls.decision_file)
+        cls.plan = checked.proposal
 
     def test_01_approved_contract_unchanged(self):
         self.assertEqual(validate_replay(self.approved).cohort_fingerprint, APPROVED_FINGERPRINT)

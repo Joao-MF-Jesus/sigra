@@ -1,4 +1,7 @@
 # Published source bytes are pinned; do not normalize line endings.
+# Newly admitted public inputs keep the original approved bytes too.
+build_inputs/revision6/plan.json.gz -text
+build_inputs/revision6/coverage-decision.json -text
 backend/alembic.ini -text
 backend/alembic/README.md -text
 backend/alembic/env.py -text
