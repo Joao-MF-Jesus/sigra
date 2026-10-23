@@ -3,6 +3,11 @@
   "historical_correspondence_lf_sha256": "ea779aa51a5f0f98436a83779dd598992e5e1fdae32f254bd154eb43a41e2cd5",
   "historical_release": "sigra-be98bd5b78ce6ddd81592d08",
   "changes": {
+    "frontend/src/styles.css": {
+      "before": "08739008ff79d56dc0b456569ab5b305a6925835aa9b1445bb07f61ad53d0754",
+      "after": "5afdb2bfc4e65dce4a53faddca6fd7a03d830ff935a3008117668fb6b7c5ab2c",
+      "reason": "Narrow native selects wrap and size to their complete content, including long vehicle names in the modal; font sizes and overflow assertions are preserved."
+    },
     "backend/app/neon_transport.py": {
       "before": "66dc805e24cf2a268a51b5db0425227827cb2fb2d7fd704f8102c3d5cb82894d",
       "after": "22a043c95e9d594728242521898bfa8e98a1510cc0e633e65c9ac6fb084e19dc",

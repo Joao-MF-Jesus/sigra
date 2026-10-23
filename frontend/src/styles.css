@@ -2919,6 +2919,17 @@ h4 {
 }
 
 @container (max-width: 299px) {
+  /* Native selects otherwise keep a single-line intrinsic width. Preserve the
+     complete option and font size by letting narrow controls grow vertically. */
+  @supports (field-sizing: content) {
+    .multifactor-field select {
+      field-sizing: content;
+      white-space: normal;
+      height: auto;
+      padding-block: 8px;
+    }
+  }
+
   .selected-option {
     display: block;
     color: var(--muted);
@@ -3378,6 +3389,17 @@ h4 {
   width: 100%;
   max-width: 100%;
   min-height: 48px;
+}
+
+/* Vehicle/version names can span several lines on a narrow modal. Size the
+   native control from that content instead of clipping it to one fixed row. */
+@supports (field-sizing: content) {
+  .modal-body .vehicle-simulation-form select {
+    field-sizing: content;
+    white-space: normal;
+    height: auto;
+    padding-block: 8px;
+  }
 }
 
 .modal-body .segmented-control {
