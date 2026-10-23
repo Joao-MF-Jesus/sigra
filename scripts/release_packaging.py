@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import hashlib
+import gzip
 import json
 import os
 import re
 import stat
 import subprocess
 import zipfile
+import zlib
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -72,6 +74,27 @@ TEXT_EXTENSIONS = {
     ".yml",
 }
 MAX_INCLUDED_FILE_BYTES = 10 * 1024 * 1024
+# Reviewed offline test doubles, not a directory-wide or marker-only waiver.
+# Only the credentialed-URL finding is admissible for these exact file bytes.
+# See docs/PACKAGE_REVIEW_20261022.md; any edit requires a new explicit review.
+REVIEWED_SYNTHETIC_URL_FIXTURES = {
+    "backend/tests/test_deployment_preparation.py":
+        "88934f4d655fe1eb4326524ec92807c53cfc138215caccda35b084acf9f6efc5",
+    "backend/tests/test_revision6_homologation.py":
+        "1478c0825c9eef7a4be09dfa78cda2d7068d5a5c8e6a9b760d5b399779ec7205",
+    "frontend/tests/academic-cohort.test.mjs":
+        "d1dedf26ad8b13d79156ee00e2c6b8df95c9cea101917a0e0e8083234da3ab6f",
+}
+# Lossless gzip level 9 is already in use. This one public, immutable build
+# input exceeds 10 MiB by 13,737 bytes; the global size limit is unchanged.
+PINNED_LARGE_BUILD_INPUTS = {
+    "build_inputs/revision6/plan.json.gz": {
+        "max_bytes": 10_499_497,
+        "sha256": "77bde60efdb96e4bfd540055555824319d668991e9020425a9295340e91b620f",
+        "restored_bytes": 192_101_420,
+        "restored_sha256": "cb70ff5298ffc4c52fc74e44588b2e34a39584b4cacfa6146981670737f3be97",
+    },
+}
 STABILIZATION_BUILD = "2026.07.1"
 SECRET_PATTERNS = {
     "private_key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
@@ -187,12 +210,36 @@ def _scan_text_for_secrets(path: Path, root: Path) -> list[str]:
     except (OSError, UnicodeDecodeError):
         return []
     findings = [name for name, pattern in SECRET_PATTERNS.items() if pattern.search(content)]
+    reviewed_hash = REVIEWED_SYNTHETIC_URL_FIXTURES.get(path.relative_to(root).as_posix())
     if (
         findings == ["credentialed_database_url"]
-        and _is_safe_local_test_database_fixture(path, root, content)
+        and (
+            _sha256(path) == reviewed_hash if reviewed_hash is not None
+            else _is_safe_local_test_database_fixture(path, root, content)
+        )
     ):
         return []
     return findings
+
+
+def _pinned_build_input_valid(path: Path, identity: dict) -> bool:
+    if not 0 < path.stat().st_size <= identity["max_bytes"]:
+        return False
+    if _sha256(path) != identity["sha256"]:
+        return False
+    digest = hashlib.sha256()
+    restored_bytes = 0
+    try:
+        with gzip.open(path, "rb") as stream:
+            while block := stream.read(1024 * 1024):
+                restored_bytes += len(block)
+                if restored_bytes > identity["restored_bytes"]:
+                    return False
+                digest.update(block)
+    except (OSError, EOFError, zlib.error):
+        return False
+    return (restored_bytes == identity["restored_bytes"]
+            and digest.hexdigest() == identity["restored_sha256"])
 
 
 def _git_tracked_files(root: Path) -> list[Path] | None:
@@ -317,7 +364,12 @@ def collect_release_files(root: Path) -> tuple[list[Path], int, list[dict]]:
                     {"path": path.relative_to(root).as_posix(), "reason": reason}
                 )
             continue
-        if path.stat().st_size > MAX_INCLUDED_FILE_BYTES:
+        relative = path.relative_to(root).as_posix()
+        identity = PINNED_LARGE_BUILD_INPUTS.get(relative)
+        if identity is not None and not _pinned_build_input_valid(path, identity):
+            violations.append({"path": relative, "reason": "pinned_build_input_integrity"})
+            continue
+        if identity is None and path.stat().st_size > MAX_INCLUDED_FILE_BYTES:
             violations.append(
                 {
                     "path": path.relative_to(root).as_posix(),

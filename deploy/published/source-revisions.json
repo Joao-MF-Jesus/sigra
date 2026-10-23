@@ -3,6 +3,11 @@
   "historical_correspondence_lf_sha256": "ea779aa51a5f0f98436a83779dd598992e5e1fdae32f254bd154eb43a41e2cd5",
   "historical_release": "sigra-be98bd5b78ce6ddd81592d08",
   "changes": {
+    "scripts/release_packaging.py": {
+      "before": "9d7d43ed2b74df65c734175f08e3fd8b34ed818cf767b9eb055c3da4fe737740",
+      "after": "88af7731587a8e9e21b837d0067b2c850afa7128a0a51edb380b4c5567f1519c",
+      "reason": "Admit only exact reviewed synthetic test bytes and the unchanged pinned gzip plan with bounded size and full restored hash; global secret/size guards and historical artifacts remain intact."
+    },
     "frontend/e2e/recommendation-v2.spec.js": {
       "before": "3ee5750fa89f94832cdb27a4a36cadf3de66eadccdd80e8365e09d5664c6cd6c",
       "after": "615e57315a035a0b25bfdb9fdc05c3be9f1d1d1fb92024468fd4f351066229bd",
