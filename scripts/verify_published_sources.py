@@ -20,8 +20,29 @@ def checked_path(name):
     return path
 
 
+def current_mapping():
+    baseline = ROOT / 'deploy/published/correspondence.json'
+    mapping = json.loads(baseline.read_text(encoding='utf-8'))
+    revisions = json.loads((ROOT / 'deploy/published/source-revisions.json').read_text(encoding='utf-8'))
+    # Git's existing text policy checks this metadata out as CRLF on Windows.
+    # Pin the original Git LF bytes, not one operator's checkout conversion.
+    baseline_lf = baseline.read_bytes().replace(b'\r\n', b'\n')
+    if hashlib.sha256(baseline_lf).hexdigest() != revisions['historical_correspondence_lf_sha256']:
+        raise ValueError('HISTORICAL_CORRESPONDENCE_CHANGED')
+    if revisions['schema'] != 'sigra-explicit-source-revisions-v1' or revisions['historical_release'] != mapping['release']:
+        raise ValueError('SOURCE_REVISION_SCHEMA_OR_RELEASE_DIFFERS')
+    entries = {entry['repository_path']: entry for entry in mapping['application_files']}
+    for name, change in revisions['changes'].items():
+        checked_path(name)
+        if (name not in entries or entries[name]['repository_sha256'] != change['before']
+                or len(change['after']) != 64 or any(c not in '0123456789abcdef' for c in change['after'])):
+            raise ValueError('SOURCE_REVISION_REFERENCE_DIFFERS')
+        entries[name]['repository_sha256'] = change['after']
+    return mapping
+
+
 def verify():
-    mapping = json.loads((ROOT / 'deploy/published/correspondence.json').read_text(encoding='utf-8'))
+    mapping = current_mapping()
     mismatches = []
     for entry in mapping['application_files']:
         path = checked_path(entry['repository_path'])

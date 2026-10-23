@@ -29,6 +29,8 @@ jobs:
           cache-dependency-path: backend/requirements.txt
       - name: Install backend dependencies
         run: python -m pip install -r backend/requirements.txt
+      - name: Restore pinned offline Revision6 inputs
+        run: python scripts/prepare_build_inputs.py --output dist/ci-revision6 --github-env "$GITHUB_ENV"
       - name: Build reproducible SQLite migration fixture
         run: python scripts/bootstrap_ci_sqlite.py
       - name: Run complete backend suite
@@ -72,6 +74,45 @@ jobs:
       - name: Audit critical vulnerabilities
         working-directory: frontend
         run: npm audit --audit-level=critical
+
+  reproducible-preview-function:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: tools/preview-builder/package-lock.json
+      - name: Install public build dependencies
+        run: |
+          python -m pip install -r backend/requirements.txt uv==0.10.11
+          npm ci --prefix tools/preview-builder --ignore-scripts
+      - name: Validate original provenance and deterministic assembly
+        run: |
+          python scripts/verify_published_sources.py
+          python -m unittest discover -s backend/tests -t backend -p test_reproducible_preview_build.py -v
+          python -m unittest discover -s backend/tests -t backend -p test_private_build_configuration.py -v
+          python scripts/build_preview_project.py --output dist/preview-project
+      - name: Build effective frontend and official Linux Python Function
+        run: |
+          npm ci --prefix dist/preview-project/application/frontend --ignore-scripts
+          node dist/preview-project/application/deploy/build_vercel.mjs
+          node tools/preview-builder/build.mjs dist/preview-project dist/preview-function
+          python scripts/validate_preview_function.py dist/preview-function
+      - name: Upload public build receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-preview-build-receipts
+          path: |
+            dist/preview-project/build-receipt.json
+            dist/preview-function/builder-receipt.json
+            dist/preview-function/validation.json
+          if-no-files-found: error
 
   e2e:
     runs-on: ubuntu-latest
@@ -159,6 +200,8 @@ jobs:
         run: python -m pip install -r backend/requirements.txt
       - name: Wait for PostgreSQL
         run: python scripts/wait_for_database.py --require-postgresql
+      - name: Restore pinned offline Revision6 inputs
+        run: python scripts/prepare_build_inputs.py --output dist/ci-revision6 --github-env "$GITHUB_ENV"
       - name: Create isolated PostgreSQL databases
         run: |
           for database in sigra_dev sigra_migration_test; do

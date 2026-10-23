@@ -5,6 +5,7 @@ internal-transport assurance. The strict PostgreSQL TLS model is unchanged.
 """
 import hashlib
 import json
+import os
 from pathlib import Path
 
 STRICT = 'strict-postgresql-tls-v1'
@@ -28,8 +29,12 @@ def require(condition, code):
 
 
 def acceptance():
-    path = Path(__file__).resolve().parents[2] / 'release/neon-transport-acceptance.json'
-    data = path.read_bytes()
+    configured = os.environ.get('SIGRA_NEON_TRANSPORT_ACCEPTANCE_FILE')
+    path = Path(configured) if configured else Path(__file__).resolve().parents[2] / 'release/neon-transport-acceptance.json'
+    try:
+        data = path.read_bytes()
+    except OSError:
+        require(False, 'NEON_TRANSPORT_ACCEPTANCE_UNREADABLE')
     require(hashlib.sha256(data).hexdigest() == ACCEPTANCE_SHA256, 'NEON_TRANSPORT_ACCEPTANCE_CHANGED')
     value = json.loads(data)
     require(value.get('decision') == 'accepted_by_user_explicitly'

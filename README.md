@@ -6,6 +6,8 @@ O [Preview protegido](https://sigra-neon-preview-ficticio-4k3n5kawz.vercel.app)
 da release `sigra-be98bd5b78ce6ddd81592d08` está validado no fluxo básico
 por HTTP/API, com dados fictícios e coleta real desligada. Não é produção.
 Consulte [instalação, build, proveniência e limites](docs/PREVIEW_VALIDATED_20261022.md).
+O [procedimento reproduzível do PR #3](docs/REPRODUCIBLE_PREVIEW_BUILD.md)
+restaura os insumos públicos fixados e monta uma nova candidata sem configuração privada.
 Essa referência atual prevalece sobre os exemplos demonstrativos históricos de
 34 veículos abaixo; o catálogo acadêmico do Preview tem 60 veículos.
 Não execute seed, migrations ou bootstrap dos exemplos contra o Preview existente.

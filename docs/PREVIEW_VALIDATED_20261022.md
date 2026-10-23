@@ -1,5 +1,10 @@
 # Preview fictício validado — consolidação de fontes
 
+> Registro histórico da consolidação inicial. Para os insumos públicos de CI,
+> a montagem reproduzível e as duas mudanças runtime posteriores do PR #3,
+> consulte [Reprodução do build](REPRODUCIBLE_PREVIEW_BUILD.md).
+> O mapa e as evidências abaixo não foram reescritos para essa nova candidata.
+
 STATUS=PREVIEW_DEPLOYED_AND_BASIC_FLOW_VERIFIED
 
 Release: `sigra-be98bd5b78ce6ddd81592d08`.

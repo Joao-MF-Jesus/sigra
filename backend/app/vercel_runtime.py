@@ -40,6 +40,38 @@ def private_bytes(values, name, maximum):
     return raw
 
 
+def prepare_acceptances(values, directory, manifest):
+    """Keep public build identity separate from byte-pinned private decisions.
+
+    Explicit manifest mode only; a failed external pin never falls back to the
+    historical embedded files. Existing sealed deployments keep their old mode.
+    """
+    mode = manifest.get('private_runtime_configuration', 'embedded-acceptances-v1')
+    require(mode in {'embedded-acceptances-v1', 'external-acceptances-v1'},
+            'EXPLICIT_PRIVATE_CONFIGURATION_MODE_REQUIRED')
+    if mode == 'embedded-acceptances-v1':
+        values['SIGRA_FUNCTIONAL_ACCEPTANCE_FILE'] = str(ROOT / 'release/functional-acceptance.json')
+        return
+    from app.deployment import ACCEPTANCE_SHA256 as functional_pin
+    from app.neon_transport import ACCEPTANCE_SHA256 as transport_pin
+    require(manifest.get('functional_acceptance_sha256') == functional_pin
+            and manifest.get('transport_acceptance_sha256') == transport_pin,
+            'PRIVATE_ACCEPTANCE_MANIFEST_PINS_DIFFER')
+    for variable, filename, pin, key in (
+        ('SIGRA_FUNCTIONAL_ACCEPTANCE_B64', 'functional-acceptance.json', functional_pin,
+         'SIGRA_FUNCTIONAL_ACCEPTANCE_FILE'),
+        ('SIGRA_NEON_TRANSPORT_ACCEPTANCE_B64', 'neon-transport-acceptance.json', transport_pin,
+         'SIGRA_NEON_TRANSPORT_ACCEPTANCE_FILE'),
+    ):
+        raw = private_bytes(values, variable, 20000)
+        require(hashlib.sha256(raw).hexdigest() == pin, 'PRIVATE_ACCEPTANCE_CONTENT_CHANGED')
+        path = Path(directory) / filename
+        with path.open('xb') as stream:
+            stream.write(raw)
+        os.chmod(path, 0o600)
+        values[key] = str(path)
+
+
 def resolve_origin(values, target):
     """Explicit platform mode resolves ONLY this deployment's system hostname.
 
@@ -121,9 +153,9 @@ def prepare_environment(values, directory):
     require(set(url.query) == keys and url.query["sslmode"] == "verify-full", "VERIFY_FULL_REQUIRED")
     values["DATABASE_URL"] = url.update_query_dict({"sslrootcert": str(directory / "ca.crt")}).render_as_string(hide_password=False)
     values["SIGRA_DEPLOY_TARGET_FILE"] = str(directory / "target.json")
-    values["SIGRA_FUNCTIONAL_ACCEPTANCE_FILE"] = str(ROOT / "release/functional-acceptance.json")
     values["SIGRA_RELEASE_MANIFEST_FILE"] = str(ROOT / "release/manifest.json")
     manifest = json.loads((ROOT / "release/manifest.json").read_text(encoding="utf-8"))
+    prepare_acceptances(values, directory, manifest)
     require(values.get("SIGRA_SYSTEM_VERSION") == manifest["release_id"], "RELEASE_VERSION_DIFFERS")
     from app.release_manifest import verify_release
     verify_release(ROOT, values["SIGRA_RELEASE_MANIFEST_FILE"], values["SIGRA_SYSTEM_VERSION"])

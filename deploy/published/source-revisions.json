@@ -1,0 +1,19 @@
+{
+  "schema": "sigra-explicit-source-revisions-v1",
+  "historical_correspondence_lf_sha256": "ea779aa51a5f0f98436a83779dd598992e5e1fdae32f254bd154eb43a41e2cd5",
+  "historical_release": "sigra-be98bd5b78ce6ddd81592d08",
+  "changes": {
+    "backend/app/neon_transport.py": {
+      "before": "66dc805e24cf2a268a51b5db0425227827cb2fb2d7fd704f8102c3d5cb82894d",
+      "after": "22a043c95e9d594728242521898bfa8e98a1510cc0e633e65c9ac6fb084e19dc",
+      "reason": "Explicit private acceptance path; original content pin and managed/strict guards unchanged."
+    },
+    "backend/app/vercel_runtime.py": {
+      "before": "49448d68fc4e4292871a68abf15a328b9403b5407c2aed236fa0924b3e6f284d",
+      "after": "3e1ff39208dcbd3d0c2b36b7b13efe81258243398773dd73c12f4bf0304cd3b8",
+      "reason": "Explicit manifest mode separates two byte-pinned private decisions from public build inputs, with no failed-guard fallback."
+    }
+  },
+  "remote_validation_of_these_changes": false,
+  "updates_historical_evidence": false
+}

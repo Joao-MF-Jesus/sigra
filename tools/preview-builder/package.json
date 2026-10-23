@@ -1,0 +1,9 @@
+{
+  "name": "sigra-offline-function-builder",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@vercel/build-utils": "14.21.3",
+    "@vercel/python": "25.1.3"
+  }
+}
