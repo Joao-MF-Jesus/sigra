@@ -3,6 +3,11 @@
   "historical_correspondence_lf_sha256": "ea779aa51a5f0f98436a83779dd598992e5e1fdae32f254bd154eb43a41e2cd5",
   "historical_release": "sigra-be98bd5b78ce6ddd81592d08",
   "changes": {
+    "frontend/e2e/recommendation-v2.spec.js": {
+      "before": "3ee5750fa89f94832cdb27a4a36cadf3de66eadccdd80e8365e09d5664c6cd6c",
+      "after": "615e57315a035a0b25bfdb9fdc05c3be9f1d1d1fb92024468fd4f351066229bd",
+      "reason": "Decode the real compact transport in the modal interceptor and strengthen select keyboard, accessibility and vertical-clipping checks; no assertions removed."
+    },
     "frontend/src/styles.css": {
       "before": "08739008ff79d56dc0b456569ab5b305a6925835aa9b1445bb07f61ad53d0754",
       "after": "5afdb2bfc4e65dce4a53faddca6fd7a03d830ff935a3008117668fb6b7c5ab2c",

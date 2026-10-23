@@ -1,4 +1,5 @@
 import { expect, test } from "playwright/test";
+import { expandTransport } from "../src/api/compactTransport.js";
 
 const RESPONSIVE_VIEWPORTS = [
   { width: 320, height: 568 },
@@ -67,6 +68,7 @@ async function responsiveAudit(page) {
         scrollWidth: control.scrollWidth,
         offsetWidth: control.offsetWidth,
         fits: control.scrollWidth <= control.clientWidth + 1,
+        fitsHeight: !(control instanceof HTMLSelectElement) || control.scrollHeight <= control.clientHeight + 1,
         css: horizontalCss(control),
         containerCss: {
           width: getComputedStyle(container).width,
@@ -145,6 +147,7 @@ async function responsiveAudit(page) {
       }),
       buttonPresentationValid: buttons.every((button) => button.getBoundingClientRect().height >= 48 && parseFloat(getComputedStyle(button).fontSize) >= 14),
       controlsFit: controlMetrics.every((control) => control.fits),
+      selectTextFitsHeight: controlMetrics.every((control) => control.fitsHeight),
       controlsAssociated: formControls.every((control) => control.closest("label") || (control.id && document.querySelector(`label[for="${CSS.escape(control.id)}"]`))),
       checkboxTargetValid: !checkboxBox || (checkboxBox.width >= 44 && checkboxBox.height >= 44),
       fieldColumns: columns(".wizard-field-grid"),
@@ -249,6 +252,7 @@ for (const viewport of RESPONSIVE_VIEWPORTS) {
       expect(audit.buttonTargetsValid, `${viewport.width}px/${stage}: alvo menor que 44px`).toBe(true);
       expect(audit.buttonPresentationValid, `${viewport.width}px/${stage}: altura/fonte insuficiente`).toBe(true);
       expect(audit.controlsFit, `${viewport.width}px/${stage}: controle truncado; ${JSON.stringify(audit.controlMetrics.filter((control) => !control.fits))}`).toBe(true);
+      expect(audit.selectTextFitsHeight, `${viewport.width}px/${stage}: opção cortada verticalmente`).toBe(true);
       expect(audit.controlsAssociated, `${viewport.width}px/${stage}: controle sem label`).toBe(true);
       expect(audit.checkboxTargetValid, `${viewport.width}px/${stage}: área do checkbox menor que 44px`).toBe(true);
       expect(audit.currentStep).not.toMatch(/\.\.\.$/);
@@ -298,6 +302,13 @@ for (const viewport of RESPONSIVE_VIEWPORTS) {
     await inspect("multifator");
     await expect(page.locator("#multifactor_price_mode")).toHaveAccessibleName("Origem do preço");
     await expect(page.locator("#multifactor_price_mode")).toHaveValue("anp");
+    // The narrow layout must keep a native, labelled and keyboard-operable
+    // control, not merely make the overflow metric pass.
+    await page.locator("#multifactor_price_mode").selectOption("manual");
+    await expect(page.locator("#multifactor_manual_fuel_price_brl")).toBeVisible();
+    await page.locator("#multifactor_price_mode").press("ArrowUp");
+    await expect(page.locator("#multifactor_price_mode")).toHaveValue("anp");
+    await expect(page.locator("#multifactor_manual_fuel_price_brl")).toHaveCount(0);
     await page.getByTestId("recommendation-next-advanced").click();
     await inspect("revisao");
     await page.getByTestId("recommendation-back-review").click();
@@ -451,12 +462,24 @@ test("modal sem cobertura não repete aviso e mantém fechar acessível em todas
   await page.route('**/recommendations?envelope=true', async (route) => {
     const response = await route.fetch();
     expect(response.status()).toBe(200);
-    const data = await response.json();
+    const wire = await response.json();
+    const data = expandTransport(wire);
+    expect(Array.isArray(data.recommendations), "expanded response must contain the real recommendation array").toBe(true);
+    expect(data.recommendations.length).toBeGreaterThan(0);
+    await testInfo.attach("recommendation-wire-contract", {
+      body: JSON.stringify({ wireKeys: Object.keys(wire), transport: wire.transport,
+        expandedRecommendationCount: data.recommendations.length }),
+      contentType: "application/json",
+    });
     data.recommendations = data.recommendations.map((item) => ({ ...item, multifactor: {
       enabled: true, status: 'unavailable', final_score: null,
       reason_code: 'GOLD_IDENTITY_NOT_FOUND', identity_diagnostic: { rejection_reason: 'coverage_absent' },
     } }));
-    await route.fulfill({ response, json: data });
+    const headers = { ...response.headers() };
+    // The expanded, modified JSON has a different byte length from the wire
+    // dictionary. Let Playwright compute Content-Length for the new body.
+    delete headers["content-length"];
+    await route.fulfill({ response, headers, json: data });
   });
   await page.route('**/api/v1/integrated-vehicle-cost/vehicles?*', (route) => route.fulfill({ json: {
     items: [{ vehicle_sk: 42, brand_name: 'Toyota', model_name: 'ETIOS XLS 1.5 Flex 5p Aut.', model_year: 2018 }], total: 1,
@@ -474,10 +497,15 @@ test("modal sem cobertura não repete aviso e mantém fechar acessível em todas
     await expect(dialog.getByText('Comparação personalizada indisponível', { exact: true })).toHaveCount(0);
     await expect(dialog.getByText(/veículo correspondente/)).toHaveCount(0);
     const selector = dialog.getByTestId('simulation-vehicle-sk');
+    await expect(selector).toHaveAccessibleName('Veículo para simulação');
     await expect(selector).toBeEnabled();
     await expect(selector).toHaveValue('');
     await page.screenshot({ path: testInfo.outputPath(`modal-top-${viewport.width}.png`), fullPage: true });
     await selector.selectOption('42');
+    await expect(selector).toHaveValue('42');
+    await selector.press('ArrowUp');
+    await expect(selector).toHaveValue('');
+    await selector.press('ArrowDown');
     await expect(selector).toHaveValue('42');
     await dialog.getByTestId('simulation-selection-scope').scrollIntoViewIfNeeded();
     await expect(dialog.getByTestId('simulation-selection-scope')).toBeVisible();
@@ -491,6 +519,14 @@ test("modal sem cobertura não repete aviso e mantém fechar acessível em todas
       return { width: innerWidth, clientWidth: document.documentElement.clientWidth, visualWidth: visualViewport.width, scale: visualViewport.scale, devicePixelRatio,
         box: { left: box.left, right: box.right, height: box.height }, close: { top: close.top, bottom: close.bottom, width: close.width, height: close.height },
         scrollers: scrollers.map((node) => node.className), overflow: overflow.map((node) => node.className || node.tagName),
+        overflowMetrics: overflow.map((node) => ({ tag: node.tagName, testId: node.dataset.testid,
+          clientWidth: node.clientWidth, scrollWidth: node.scrollWidth,
+          boxWidth: node.getBoundingClientRect().width, parentWidth: node.parentElement.clientWidth,
+          minWidth: getComputedStyle(node).minWidth,
+          selected: node instanceof HTMLSelectElement ? node.selectedOptions[0]?.textContent : null })),
+        clippedSelects: [...element.querySelectorAll('select')].filter((node) => (
+          node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1
+        )).map((node) => node.dataset.testid),
         bodyOverflowY: getComputedStyle(document.body).overflowY,
         fieldColumns: getComputedStyle(element.querySelector('.vehicle-simulation-grid')).gridTemplateColumns.split(' ').length,
       };
@@ -498,7 +534,8 @@ test("modal sem cobertura não repete aviso e mantém fechar acessível em todas
     await testInfo.attach(`modal-layout-${viewport.width}`, { body: JSON.stringify(audit, null, 2), contentType: 'application/json' });
     await page.screenshot({ path: testInfo.outputPath(`modal-simulation-${viewport.width}.png`), fullPage: true });
     expect(audit.scrollers).toEqual(['modal-body']);
-    expect(audit.overflow).toEqual([]);
+    expect(audit.overflow, JSON.stringify(audit.overflowMetrics)).toEqual([]);
+    expect(audit.clippedSelects).toEqual([]);
     expect(audit.box.left).toBeGreaterThanOrEqual(0);
     expect(audit.box.right).toBeLessThanOrEqual(audit.clientWidth);
     expect(audit.box.height).toBeLessThanOrEqual(viewport.height);
