@@ -12,6 +12,21 @@ from scripts import release_packaging as packaging
 
 ROOT = Path(__file__).resolve().parents[2]
 PLAN = "build_inputs/revision6/plan.json.gz"
+# Independently reviewed LF blobs from 6b25709, not replacement historical pins.
+REVIEWED_LF_BLOBS = {
+    "backend/tests/test_deployment_preparation.py":
+        "b5cb11b983465df8e598749aee0f1f4fd8177f3e86ccb16f93d9e1a3b2a4f1df",
+    "backend/tests/test_revision6_homologation.py":
+        "4434f91b238529debf29dad4a649d1fc2088933caf3bb7864ed0f25f72000982",
+    "frontend/tests/academic-cohort.test.mjs":
+        "80c8221fb73c84f7346cde8f537448dcf011058ab1a3b4e80cac85bec01f47b2",
+}
+
+
+def reviewed_representations(name):
+    original = (ROOT / name).read_bytes()
+    lf = original.replace(b"\r\n", b"\n")
+    return lf, lf.replace(b"\n", b"\r\n")
 
 
 class ReviewedPackageInputsTest(unittest.TestCase):
@@ -19,17 +34,63 @@ class ReviewedPackageInputsTest(unittest.TestCase):
         return TemporaryDirectory(dir=ROOT / "backend/tests")
 
     def test_reviewed_test_bytes_are_included_and_still_scanned(self):
-        with self.temporary() as temporary:
-            root = Path(temporary)
-            for name, expected in packaging.REVIEWED_SYNTHETIC_URL_FIXTURES.items():
-                destination = root / name
-                destination.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(ROOT / name, destination)
-                self.assertEqual(packaging._sha256(destination), expected)
-            included, _, violations = packaging.collect_release_files(root)
-            self.assertEqual(violations, [])
-            self.assertEqual({p.relative_to(root).as_posix() for p in included},
-                             set(packaging.REVIEWED_SYNTHETIC_URL_FIXTURES))
+        for representation in (0, 1):
+            with self.subTest(representation=representation), self.temporary() as temporary:
+                root = Path(temporary)
+                for name in packaging.REVIEWED_SYNTHETIC_URL_FIXTURES:
+                    destination = root / name
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    destination.write_bytes(reviewed_representations(name)[representation])
+                    self.assertEqual(packaging._scan_text_for_secrets(destination, root), [])
+                included, _, violations = packaging.collect_release_files(root)
+                self.assertEqual(violations, [])
+                self.assertEqual({p.relative_to(root).as_posix() for p in included},
+                                 set(packaging.REVIEWED_SYNTHETIC_URL_FIXTURES))
+
+    def test_lf_and_crlf_differ_only_in_line_endings_and_keep_historical_hashes(self):
+        self.assertEqual(set(REVIEWED_LF_BLOBS), set(packaging.REVIEWED_SYNTHETIC_URL_FIXTURES))
+        for name, historical in packaging.REVIEWED_SYNTHETIC_URL_FIXTURES.items():
+            with self.subTest(name=name):
+                lf, crlf = reviewed_representations(name)
+                self.assertNotIn(b"\r", lf)
+                self.assertIn((ROOT / name).read_bytes(), (lf, crlf))
+                self.assertEqual(crlf.replace(b"\r\n", b"\n"), lf)
+                self.assertEqual(len(crlf) - len(lf), lf.count(b"\n"))
+                self.assertEqual(hashlib.sha256(lf).hexdigest(), REVIEWED_LF_BLOBS[name])
+                self.assertEqual(hashlib.sha256(crlf).hexdigest(), historical)
+
+    def test_spaces_tabs_bom_fields_and_final_newline_changes_remain_blocked(self):
+        for name in packaging.REVIEWED_SYNTHETIC_URL_FIXTURES:
+            lf, crlf = reviewed_representations(name)
+            for original in (lf, crlf):
+                mutations = {
+                    "added_space": original + b" ",
+                    "space_to_tab": original.replace(b" ", b"\t", 1),
+                    "added_bom": b"\xef\xbb\xbf" + original,
+                    "content_changed": original.replace(b"import", b"IMPORT", 1),
+                    "final_newline_removed": original.rstrip(b"\r\n"),
+                }
+                for mutation, content in mutations.items():
+                    with self.subTest(name=name, mutation=mutation, crlf=original is crlf), self.temporary() as temporary:
+                        self.assertNotEqual(content, original)
+                        root = Path(temporary)
+                        destination = root / name
+                        destination.parent.mkdir(parents=True)
+                        destination.write_bytes(content)
+                        _, _, violations = packaging.collect_release_files(root)
+                        self.assertEqual(violations[0]["types"], ["credentialed_database_url"])
+
+    def test_mixed_and_lone_cr_line_endings_are_not_admitted(self):
+        for name in packaging.REVIEWED_SYNTHETIC_URL_FIXTURES:
+            lf, _ = reviewed_representations(name)
+            for replacement in (b"\r\n", b"\r"):
+                with self.subTest(name=name, replacement=replacement), self.temporary() as temporary:
+                    root = Path(temporary)
+                    destination = root / name
+                    destination.parent.mkdir(parents=True)
+                    destination.write_bytes(lf.replace(b"\n", replacement, 1))
+                    _, _, violations = packaging.collect_release_files(root)
+                    self.assertEqual(violations[0]["types"], ["credentialed_database_url"])
 
     def test_edited_reviewed_fixture_remains_blocked(self):
         for name in packaging.REVIEWED_SYNTHETIC_URL_FIXTURES:
@@ -54,13 +115,14 @@ class ReviewedPackageInputsTest(unittest.TestCase):
 
     def test_same_fixture_bytes_at_other_paths_are_not_admitted(self):
         for name in packaging.REVIEWED_SYNTHETIC_URL_FIXTURES:
-            with self.subTest(name=name), self.temporary() as temporary:
-                root = Path(temporary)
-                destination = root / "unreviewed" / Path(name).name
-                destination.parent.mkdir()
-                shutil.copyfile(ROOT / name, destination)
-                _, _, violations = packaging.collect_release_files(root)
-                self.assertEqual(violations[0]["types"], ["credentialed_database_url"])
+            for representation, content in enumerate(reviewed_representations(name)):
+                with self.subTest(name=name, representation=representation), self.temporary() as temporary:
+                    root = Path(temporary)
+                    destination = root / "unreviewed" / Path(name).name
+                    destination.parent.mkdir()
+                    destination.write_bytes(content)
+                    _, _, violations = packaging.collect_release_files(root)
+                    self.assertEqual(violations[0]["types"], ["credentialed_database_url"])
 
     def test_another_secret_in_a_reviewed_fixture_still_blocks(self):
         with self.temporary() as temporary:

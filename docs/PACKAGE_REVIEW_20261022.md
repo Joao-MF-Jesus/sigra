@@ -32,6 +32,28 @@ três caminhos **e os SHA-256 dos arquivos completos**:
 | backend/tests/test_revision6_homologation.py | 1478c0825c9eef7a4be09dfa78cda2d7068d5a5c8e6a9b760d5b399779ec7205 |
 | frontend/tests/academic-cohort.test.mjs | d1dedf26ad8b13d79156ee00e2c6b8df95c9cea101917a0e0e8083234da3ab6f |
 
+Esses hashes históricos correspondem aos bytes CRLF revisados no Windows e
+permanecem inalterados. O Git armazenou os três testes em LF; a primeira
+regressão do commit `6b25709` admitia apenas CRLF, o que bloqueou o CI Linux.
+A admissão agora aceita também a representação **inteiramente LF**, somente
+se trocar cada LF por CRLF reconstruir exatamente o hash histórico acima.
+Nenhum arquivo é regravado. Não se normalizam espaços, tabs, BOM, campos,
+linhas finais ou outros bytes; CR isolado e mistura LF/CRLF continuam bloqueados.
+Essa verificação alternativa só é chamada para os três caminhos enumerados.
+
+Prova independente dos blobs Git LF revisados:
+
+| Arquivo | SHA-256 LF | Quantidade de LF / acréscimo de bytes em CRLF |
+|---|---|---:|
+| backend/tests/test_deployment_preparation.py | b5cb11b983465df8e598749aee0f1f4fd8177f3e86ccb16f93d9e1a3b2a4f1df | 353 |
+| backend/tests/test_revision6_homologation.py | 4434f91b238529debf29dad4a649d1fc2088933caf3bb7864ed0f25f72000982 | 437 |
+| frontend/tests/academic-cohort.test.mjs | 80c8221fb73c84f7346cde8f537448dcf011058ab1a3b4e80cac85bec01f47b2 | 182 |
+
+As regressões verificam os hashes LF e CRLF completos, a igualdade byte a byte
+após trocar exclusivamente CRLF por LF e a preservação dos hashes históricos.
+Ambas as representações são coletadas pelo empacotador. Edições em cada uma
+(espaço, tab, BOM, conteúdo e newline final), EOL misto e CR isolado bloqueiam.
+
 Todos ainda são examinados por todos os padrões. Só a classificação
 `credentialed_database_url`, sozinha, é admitida para esses bytes exatos.
 Qualquer edição que mantenha esse finding bloqueia, inclusive se a URL passar

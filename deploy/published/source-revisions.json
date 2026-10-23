@@ -5,8 +5,8 @@
   "changes": {
     "scripts/release_packaging.py": {
       "before": "9d7d43ed2b74df65c734175f08e3fd8b34ed818cf767b9eb055c3da4fe737740",
-      "after": "88af7731587a8e9e21b837d0067b2c850afa7128a0a51edb380b4c5567f1519c",
-      "reason": "Admit only exact reviewed synthetic test bytes and the unchanged pinned gzip plan with bounded size and full restored hash; global secret/size guards and historical artifacts remain intact."
+      "after": "39cc7a9bb39770db4996527458c9034378605539a91070507a783b7bb846a974",
+      "reason": "Admit only the three exact reviewed CRLF fixtures or their byte-equivalent pure LF representation, preserving historical hashes and rejecting all other edits; the unchanged bounded gzip plan and global secret/size guards remain intact."
     },
     "frontend/e2e/recommendation-v2.spec.js": {
       "before": "3ee5750fa89f94832cdb27a4a36cadf3de66eadccdd80e8365e09d5664c6cd6c",

@@ -75,7 +75,9 @@ TEXT_EXTENSIONS = {
 }
 MAX_INCLUDED_FILE_BYTES = 10 * 1024 * 1024
 # Reviewed offline test doubles, not a directory-wide or marker-only waiver.
-# Only the credentialed-URL finding is admissible for these exact file bytes.
+# Historical hashes are the reviewed CRLF bytes; exact LF equivalents may also
+# match, without changing any other byte or admitting mixed/lone-CR newlines.
+# Only the credentialed-URL finding is admissible for these reviewed bytes.
 # See docs/PACKAGE_REVIEW_20261022.md; any edit requires a new explicit review.
 REVIEWED_SYNTHETIC_URL_FIXTURES = {
     "backend/tests/test_deployment_preparation.py":
@@ -202,6 +204,17 @@ def _is_safe_local_test_database_fixture(path: Path, root: Path, content: str) -
     return True
 
 
+def _matches_reviewed_fixture_bytes(path: Path, historical_crlf_hash: str) -> bool:
+    content = path.read_bytes()
+    if hashlib.sha256(content).hexdigest() == historical_crlf_hash:
+        return True
+    # This alternate representation is considered only for the three exact
+    # reviewed paths below. Preserve spaces, tabs, BOMs, fields and final lines.
+    if b"\r" in content:
+        return False
+    return hashlib.sha256(content.replace(b"\n", b"\r\n")).hexdigest() == historical_crlf_hash
+
+
 def _scan_text_for_secrets(path: Path, root: Path) -> list[str]:
     if path.suffix.lower() not in TEXT_EXTENSIONS and path.name != ".env.example":
         return []
@@ -214,7 +227,7 @@ def _scan_text_for_secrets(path: Path, root: Path) -> list[str]:
     if (
         findings == ["credentialed_database_url"]
         and (
-            _sha256(path) == reviewed_hash if reviewed_hash is not None
+            _matches_reviewed_fixture_bytes(path, reviewed_hash) if reviewed_hash is not None
             else _is_safe_local_test_database_fixture(path, root, content)
         )
     ):
