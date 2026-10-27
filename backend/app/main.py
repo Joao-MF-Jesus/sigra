@@ -12,6 +12,7 @@ from fastapi.exception_handlers import request_validation_exception_handler
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from sqlalchemy.orm import Session
 from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette._utils import get_route_path
 
 from app import models
 from app.auth import router as auth_router, current_user, require_admin, assert_owner
@@ -569,7 +570,7 @@ app.include_router(study_router)
 
 @app.exception_handler(RequestValidationError)
 async def safe_validation_error(request, error):
-    if request.url.path.startswith("/auth"):
+    if get_route_path(request.scope).startswith("/auth/"):
         # Pydantic's default error includes the rejected password input.
         return JSONResponse(status_code=422, content={"detail": [
             {"type": item["type"], "loc": item["loc"], "msg": item["msg"]}

@@ -17,7 +17,7 @@ from app.academic_cohort.seven_criteria import criterion_calculations
 def personalized_fuel(vehicle, scenario):
     """Reuse the existing mixed-route Decimal formula without forging Gold IDs."""
     if scenario.manual_fuel_price_brl is None:
-        return None, "Não há preço ANP publicado para a UF, município e semana solicitados nesta coorte. Informe o preço por litro."
+        return None, "Esta integração da coorte não consulta preços ANP. Informe explicitamente o preço por litro para a personalização; o preço geral de referência não é usado como preço manual."
     if scenario.fuel_strategy.value == "lowest_projected_cost":
         return None, "Falta evidência de preços e consumos para comparar os combustíveis."
     fuel = vehicle.fields["fuel"].value

@@ -79,7 +79,10 @@ export function recommendationReview(profile = {}) {
     ["Orçamento", profile.budget ? `R$ ${profile.budget}` : "Não informado"],
     ["Limite mensal", profile.monthly_limit ? `R$ ${profile.monthly_limit}` : "Não informado"],
     ["Prioridade", strategyLabels[profile.recommendation_strategy] || "Não informada"],
-    ["Rotina", `${profile.monthly_mileage || "0"} km/mês · combustível a R$ ${profile.fuel_price || "0"}`],
-    ["Perfil multifator", profile.multifactor_enabled ? (profile.multifactor_policy_version === "academic-derived-seven-v1" ? `Solicitado — alternativa acadêmica derivada v1; ${DERIVED_CONFIGURATION_LABELS[profile.multifactor_configuration_id] || "configuração não selecionada"}; depende das evidências` : "Solicitado — depende das evidências dos critérios") : "Desativado — ranking histórico"],
+    ["Rotina", `${profile.monthly_mileage || "0"} km/mês · combustível de referência a R$ ${profile.fuel_price || "0"}`],
+    ...(profile.multifactor_enabled ? [["Preço da personalização", profile.multifactor_price_mode === "manual"
+      ? `Informado explicitamente: R$ ${profile.multifactor_manual_fuel_price_brl || "não informado"}/L`
+      : "Recorte ANP solicitado; sem preço manual. O preço de referência acima não o substitui."]] : []),
+    ["Perfil multifator", profile.multifactor_enabled ? (profile.multifactor_policy_version === "academic-derived-seven-v1" ? `Solicitado — alternativa acadêmica derivada v1; ${DERIVED_CONFIGURATION_LABELS[profile.multifactor_configuration_id] || "configuração não selecionada"}; depende das evidências` : "Solicitado — método original, sete critérios; depende das evidências. Cenário de custos Base não seleciona a alternativa Base cinco dimensões.") : "Desativado — ranking histórico"],
   ];
 }

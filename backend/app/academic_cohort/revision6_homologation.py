@@ -185,7 +185,7 @@ def validate_plan(plan):
             raise ValueError("Evaluation transport differs from pinned replay")
 
 
-def audit_snapshot(session, snapshot, plan):
+def audit_snapshot_metadata(snapshot, plan):
     validate_plan(plan)
     if (snapshot.cohort_version != plan.proposal.candidate_version
             or snapshot.cohort_fingerprint != plan.proposal.candidate_fingerprint
@@ -195,6 +195,10 @@ def audit_snapshot(session, snapshot, plan):
             or snapshot.inventory_summary != plan.summary
             or snapshot.operationally_active or snapshot.recommended):
         raise ValueError("Revision6 snapshot differs from the pinned plan")
+
+
+def audit_snapshot(session, snapshot, plan):
+    audit_snapshot_metadata(snapshot, plan)
     for model, expected, key in (
         (CohortVehicle, plan.proposal.transport_vehicles, lambda row: row.catalog_id),
         (CohortEvaluation, plan.proposal.transport_evaluations, lambda row: (row.catalog_id, row.profile, row.scenario)),

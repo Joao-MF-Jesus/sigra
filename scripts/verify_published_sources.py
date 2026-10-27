@@ -29,7 +29,7 @@ def current_mapping():
     baseline_lf = baseline.read_bytes().replace(b'\r\n', b'\n')
     if hashlib.sha256(baseline_lf).hexdigest() != revisions['historical_correspondence_lf_sha256']:
         raise ValueError('HISTORICAL_CORRESPONDENCE_CHANGED')
-    if revisions['schema'] != 'sigra-explicit-source-revisions-v1' or revisions['historical_release'] != mapping['release']:
+    if revisions['schema'] not in {'sigra-explicit-source-revisions-v1', 'sigra-explicit-source-revisions-v2'} or revisions['historical_release'] != mapping['release']:
         raise ValueError('SOURCE_REVISION_SCHEMA_OR_RELEASE_DIFFERS')
     entries = {entry['repository_path']: entry for entry in mapping['application_files']}
     for name, change in revisions['changes'].items():
@@ -38,6 +38,33 @@ def current_mapping():
                 or len(change['after']) != 64 or any(c not in '0123456789abcdef' for c in change['after'])):
             raise ValueError('SOURCE_REVISION_REFERENCE_DIFFERS')
         entries[name]['repository_sha256'] = change['after']
+    additions = revisions.get('additions', [])
+    if not isinstance(additions, list) or (additions and revisions['schema'] != 'sigra-explicit-source-revisions-v2'):
+        raise ValueError('SOURCE_ADDITION_SCHEMA_DIFFERS')
+    destinations = {entry['application_path'] for entry in mapping['application_files']}
+    for entry in additions:
+        if not isinstance(entry, dict) or set(entry) != {'repository_path', 'application_path', 'repository_sha256'}:
+            raise ValueError('SOURCE_ADDITION_FIELDS_DIFFER')
+        source, destination, expected = entry['repository_path'], entry['application_path'], entry['repository_sha256']
+        if not all(isinstance(value, str) for value in (source, destination, expected)):
+            raise ValueError('SOURCE_ADDITION_FIELDS_DIFFER')
+        checked_path(source)
+        rel = PurePosixPath(destination)
+        if (not destination or not rel.parts or destination != rel.as_posix() or rel.is_absolute() or '..' in rel.parts or '\\' in destination or ':' in destination
+                or source in entries or destination in destinations or len(expected) != 64
+                or any(c not in '0123456789abcdef' for c in expected)):
+            raise ValueError('SOURCE_ADDITION_PATH_HASH_OR_DUPLICATE_DIFFERS')
+        mapping['application_files'].append(dict(entry))
+        entries[source] = entry
+        destinations.add(destination)
+    if revisions['schema'] == 'sigra-explicit-source-revisions-v2':
+        reviewed = revisions.get('reviewed_candidate', {})
+        identity = reviewed.get('release_id', '')
+        if (not isinstance(identity, str) or not identity.startswith('sigra-') or len(identity) != 30
+                or any(c not in '0123456789abcdef' for c in identity[6:])
+                or type(reviewed.get('application_files')) is not int or reviewed['application_files'] < 1):
+            raise ValueError('REVIEWED_CANDIDATE_IDENTITY_REQUIRED')
+        mapping['reviewed_candidate'] = reviewed
     return mapping
 
 

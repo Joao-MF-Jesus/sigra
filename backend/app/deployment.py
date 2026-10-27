@@ -297,9 +297,17 @@ def database_preflight(connection, configured):
 
 def service_for_session(session):
     from app.academic_cohort.revision6_homologation import Revision6Repository, Revision6Service
+    from app.academic_cohort.catalog_cache import CachedPublishedRevision6Service
     configured = settings()
     database_preflight(session.connection(), configured)
-    result = Revision6Service(Revision6Repository(session), load_plan(configured.plan_path, configured.plan_sha256))
+    plan = load_plan(configured.plan_path, configured.plan_sha256)
+    if configured.target.get('provider') == 'neon':
+        # Public catalogue only; transport/identity/permissions above are never cached.
+        scope = (configured.url.host, configured.url.port, configured.target['database_oid'],
+                 configured.target['runtime_role'], configured.target['project_id'], configured.plan_sha256)
+        result = CachedPublishedRevision6Service(Revision6Repository(session), plan, scope=scope)
+    else:
+        result = Revision6Service(Revision6Repository(session), plan)
     if configured.real_collection:
         result.limitations[0] = "Pesquisa acadêmica delimitada; não é ativação operacional da Gold."
         result.recommendation_context = {**result.recommendation_context, "real_collection_enabled": True,

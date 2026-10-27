@@ -454,3 +454,15 @@ scripts/validate_database_export.py -text
 scripts/validate_motorcycle_pilot_data.py -text
 scripts/validate_postgresql_schema.py -text
 scripts/wait_for_database.py -text
+
+# Exact public bytes admitted by the Linux/PG17-reviewed candidate.
+backend/app/academic_cohort/catalog_cache.py -text
+backend/app/academic_cohort/compact_audit.py -text
+backend/tests/test_academic_derived_configurations.py -text
+backend/tests/test_catalog_cache.py -text
+backend/tests/test_compact_catalog_audit.py -text
+backend/tests/test_personalization_price_message.py -text
+backend/tests/test_registration_mounted_contract.py -text
+backend/tests/test_trial_receipt_projection.py -text
+docs/NEON_TRANSFER_REDUCTION_REVIEW.md -text
+frontend/tests/personalization-method-review.test.mjs -text

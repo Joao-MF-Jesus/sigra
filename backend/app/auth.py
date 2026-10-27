@@ -45,6 +45,8 @@ def verify_password(password: str, encoded: str | None) -> bool:
 
 
 def normalize_email(value: str) -> str:
+    if any(0xD800 <= ord(char) <= 0xDFFF for char in value):
+        raise ValueError("Informe um e-mail válido")
     value = value.strip().casefold()
     if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", value) or len(value) > 160:
         raise ValueError("Informe um e-mail válido")
@@ -77,6 +79,15 @@ class Credentials(BaseModel):
     def email_normalization(cls, value):
         return normalize_email(value)
 
+    @field_validator("password")
+    @classmethod
+    def password_text(cls, value):
+        # JSON can carry isolated UTF-16 surrogates, which cannot be encoded by
+        # the existing UTF-8 KDF. Reject before hashing; do not alter a password.
+        if any(0xD800 <= ord(char) <= 0xDFFF for char in value.get_secret_value()):
+            raise ValueError("A senha contém texto Unicode inválido")
+        return value
+
 
 class Registration(Credentials):
     password: SecretStr = Field(min_length=12, max_length=256)
@@ -86,7 +97,7 @@ class Registration(Credentials):
     @classmethod
     def clean_name(cls, value):
         value = value.strip()
-        if len(value) < 2 or any(ord(char) < 32 for char in value):
+        if len(value) < 2 or any(ord(char) < 32 or 0xD800 <= ord(char) <= 0xDFFF for char in value):
             raise ValueError("Informe seu nome")
         return value
 

@@ -1,5 +1,5 @@
 {
-  "schema": "sigra-explicit-source-revisions-v1",
+  "schema": "sigra-explicit-source-revisions-v2",
   "historical_correspondence_lf_sha256": "ea779aa51a5f0f98436a83779dd598992e5e1fdae32f254bd154eb43a41e2cd5",
   "historical_release": "sigra-be98bd5b78ce6ddd81592d08",
   "changes": {
@@ -15,8 +15,13 @@
     },
     "frontend/src/styles.css": {
       "before": "08739008ff79d56dc0b456569ab5b305a6925835aa9b1445bb07f61ad53d0754",
-      "after": "5afdb2bfc4e65dce4a53faddca6fd7a03d830ff935a3008117668fb6b7c5ab2c",
-      "reason": "Narrow native selects wrap and size to their complete content, including long vehicle names in the modal; font sizes and overflow assertions are preserved."
+      "after": "db8c498058bfb4556112c5d47f6926a6bbca40e2a9b2d65360025b9cb4106b66",
+      "reason": "Preserve explicit method/price selection, label reference/stale results correctly, and restore intrinsic weight-input height while keeping previous select/E2E fixes.",
+      "prior_reviewed_state": {
+        "before": "08739008ff79d56dc0b456569ab5b305a6925835aa9b1445bb07f61ad53d0754",
+        "after": "5afdb2bfc4e65dce4a53faddca6fd7a03d830ff935a3008117668fb6b7c5ab2c",
+        "reason": "Narrow native selects wrap and size to their complete content, including long vehicle names in the modal; font sizes and overflow assertions are preserved."
+      }
     },
     "backend/app/neon_transport.py": {
       "before": "66dc805e24cf2a268a51b5db0425227827cb2fb2d7fd704f8102c3d5cb82894d",
@@ -27,7 +32,104 @@
       "before": "49448d68fc4e4292871a68abf15a328b9403b5407c2aed236fa0924b3e6f284d",
       "after": "3e1ff39208dcbd3d0c2b36b7b13efe81258243398773dd73c12f4bf0304cd3b8",
       "reason": "Explicit manifest mode separates two byte-pinned private decisions from public build inputs, with no failed-guard fallback."
+    },
+    "backend/app/academic_cohort/personalization.py": {
+      "before": "8bf32063ad3f84ea9d2869132fd5e71544d969bc90756134705c0e41e19886bc",
+      "after": "8a2440fc65fedce8f66743b56afd7b7831a122a64b18b18f21c1991654fbf23e",
+      "reason": "Explain absence of manual personalization price without claiming an ANP lookup; no score, weight or methodology change."
+    },
+    "backend/app/academic_cohort/revision6_homologation.py": {
+      "before": "c09906420c4f225e1533ae0ce92a4c4001c7a638d148e361ffbe7a44b405f0ca",
+      "after": "3f479df9c4d02dd0e72c09ff08da6c6a5dda8d49a477b142bdfac82f12f83256",
+      "reason": "Reviewed catalog-only bounded cache/full miss audit or selective post-commit receipt refresh; preserve protected-field comparison, identity, permissions and owner isolation."
+    },
+    "backend/app/auth.py": {
+      "before": "2a7a7f81ae40941b27dc4f9e111d3bb1626e542a2b61f2edc8b3a6a48da79fec",
+      "after": "d770d1dafda70ef7a31372549afcd2d9c92b42c79264e6d2200490b986c4711a",
+      "reason": "Reject isolated UTF-16 surrogates before the unchanged UTF-8 KDF or database access; valid Unicode, password policy and roles remain unchanged. Historical HTTP500 cause is unknown."
+    },
+    "backend/app/deployment.py": {
+      "before": "756c2f694f8c34cdc307f0583a8f54b47e61513dd61e4be0dfc0ba6d363b53d4",
+      "after": "59f54a2d97ed798a58c88681aa24c183df1caa90ba0afbcd6d74e540af7c4220",
+      "reason": "Reviewed catalog-only bounded cache/full miss audit or selective post-commit receipt refresh; preserve protected-field comparison, identity, permissions and owner isolation."
+    },
+    "backend/app/main.py": {
+      "before": "971638c7108c8d92eeaa86e738201fc98cbf543488a8e269f9089ca9387685e5",
+      "after": "6192a7079d3ce58dd58d76d9cdb8f7001b7b09d91b17d4cdabcbc0d3740fffc0",
+      "reason": "Redact expected validation errors on mount-relative auth routes, including /sigra-api; preserve status and authentication guards."
+    },
+    "backend/app/participant_trials.py": {
+      "before": "aad6c3f8a51f58838cab60e9d9765948b1f45566dfa3238ebfb69bd77bd0be08",
+      "after": "7a2623df80e8f2311516e8a257bcdc092621295e7d3998fee87f55ef7dc0db6f",
+      "reason": "Reviewed catalog-only bounded cache/full miss audit or selective post-commit receipt refresh; preserve protected-field comparison, identity, permissions and owner isolation."
+    },
+    "frontend/src/features/recommendations/RecommendationResults.jsx": {
+      "before": "e905a2aae5f69b3fe3d6640a70ea029aef5e91874d671fd9ff8ce5c48533ded7",
+      "after": "a89bc8f5fa59c7626f7c3f9f4ccc5eb15ef249125be69281bac0679dc4463e77",
+      "reason": "Preserve explicit method/price selection, label reference/stale results correctly, and restore intrinsic weight-input height while keeping previous select/E2E fixes."
+    },
+    "frontend/src/features/recommendations/recommendationWizardModel.js": {
+      "before": "1fa9744352da0c8a40de707f306132298c9d61d5efb353f204cc0ecef006266f",
+      "after": "24f0fa64442440c9ff42eba842c6507e9c09aaaa4f104a62888a453ac67cc044",
+      "reason": "Preserve explicit method/price selection, label reference/stale results correctly, and restore intrinsic weight-input height while keeping previous select/E2E fixes."
     }
+  },
+  "additions": [
+    {
+      "repository_path": "backend/app/academic_cohort/catalog_cache.py",
+      "application_path": "backend/app/academic_cohort/catalog_cache.py",
+      "repository_sha256": "b53e284d246b50bd8bf0508fc7129bb3252ab5af32cbda6feadb4019edfef2f3"
+    },
+    {
+      "repository_path": "backend/app/academic_cohort/compact_audit.py",
+      "application_path": "backend/app/academic_cohort/compact_audit.py",
+      "repository_sha256": "c91693670272564c287f71cdda60459a0569ad92331f33137045b467bbe7b967"
+    },
+    {
+      "repository_path": "backend/tests/test_catalog_cache.py",
+      "application_path": "backend/tests/test_catalog_cache.py",
+      "repository_sha256": "2a60f3c20c2cd06b5dce334161febb0dc5b55bf73b3a6e4d0373776c390f49f9"
+    },
+    {
+      "repository_path": "backend/tests/test_compact_catalog_audit.py",
+      "application_path": "backend/tests/test_compact_catalog_audit.py",
+      "repository_sha256": "e837ef37d0d1e1bfdbfaf3e8e5520c044a192f7f9a6e740a77571df3c465f827"
+    },
+    {
+      "repository_path": "backend/tests/test_personalization_price_message.py",
+      "application_path": "backend/tests/test_personalization_price_message.py",
+      "repository_sha256": "0d9f3f77d20d04f3e766ea83bf261d90f0bee2b02eeff53b4cd9eece7b2c4064"
+    },
+    {
+      "repository_path": "backend/tests/test_registration_mounted_contract.py",
+      "application_path": "backend/tests/test_registration_mounted_contract.py",
+      "repository_sha256": "4b84f1281b3e5554114c0452d20628842e2dca993bf27990cd5f6592cbbe8555"
+    },
+    {
+      "repository_path": "backend/tests/test_trial_receipt_projection.py",
+      "application_path": "backend/tests/test_trial_receipt_projection.py",
+      "repository_sha256": "699a3c221685c7ee64a296b9a20be959a787602d8a97d4fedb295408f2b2f410"
+    },
+    {
+      "repository_path": "docs/NEON_TRANSFER_REDUCTION_REVIEW.md",
+      "application_path": "docs/NEON_TRANSFER_REDUCTION_REVIEW.md",
+      "repository_sha256": "ea30de9258c22d77a5abe15a81f3f4d1ae5ff3e8c726ddcdcbb9c74ae62d6cd3"
+    },
+    {
+      "repository_path": "frontend/tests/personalization-method-review.test.mjs",
+      "application_path": "frontend/tests/personalization-method-review.test.mjs",
+      "repository_sha256": "8d5bbbe370cdc522f02b25382943a14d2c5b163dd6aa461e3dde8a29e0549eb8"
+    }
+  ],
+  "reviewed_candidate": {
+    "release_id": "sigra-710d5e8c13a8b665a00fe658",
+    "application_files": 462,
+    "approved_application_manifest_sha256": "ee5e60648ac732d66173b3c58f59ae26a7f4a1b14b447defecdb044293a18286",
+    "approved_linux_function_zip_sha256": "1f56b4370e340436080c535d0c35b10d650ebd40be0bff99c05889038c5283a7",
+    "integration_base": "08caf44a197a1aaa21400abb8c180487776bd712",
+    "validation": "Local Linux/amd64 PostgreSQL17 fixture only; not remote validation",
+    "historical_row_changed": 1,
+    "real_collection_enabled": false
   },
   "remote_validation_of_these_changes": false,
   "updates_historical_evidence": false

@@ -160,7 +160,8 @@ def test_record_history_instrument_feedback_and_csv_keep_server_configuration(se
             if isinstance(value, models.ParticipantTestRun): self.runs.append(value)
             else: self.answers[value.run_id] = value
         def commit(self): pass
-        def refresh(self, _): pass
+        def refresh(self, _, *, attribute_names):
+            assert attribute_names == ["id", "created_at"]
         def get_bind(self): return object()
         def query(self, _): return QueryDouble(self)
         def get(self, model, identifier):

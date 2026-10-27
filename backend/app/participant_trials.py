@@ -96,7 +96,10 @@ def record_result(db: Session, user: models.User, kind: str, parameters, result,
     try:
         db.add(run)
         db.commit()
-        db.refresh(run)
+        # The receipt needs only these database-observed columns. Refreshing
+        # the whole row downloads the just-written result/technical JSON again.
+        # Full immutable detail/history/export reads remain unchanged.
+        db.refresh(run, attribute_names=["id", "created_at"])
     except SQLAlchemyError:
         db.rollback()
         raise HTTPException(503, "Não foi possível salvar o teste. O resultado não foi registrado.") from None

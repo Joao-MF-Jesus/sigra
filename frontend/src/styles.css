@@ -2914,6 +2914,13 @@ h4 {
   word-break: normal;
 }
 
+/* Weight inputs do not contain selects or need a size-query container.
+   Preserve their intrinsic height when changing method/configuration. */
+.form-field.weight-field {
+  container-type: normal;
+}
+
+
 .selected-option {
   display: none;
 }

@@ -59,8 +59,12 @@ def assemble(output):
     shutil.copyfile(packed, application / STORAGE_FILE)
     files = {p.relative_to(application).as_posix(): digest(p)
              for p in sorted(application.rglob('*')) if p.is_file()}
+    identity = release_id(files)
+    reviewed = mapping.get('reviewed_candidate')
+    if reviewed is not None and (identity != reviewed['release_id'] or len(files) != reviewed['application_files']):
+        raise ValueError('ASSEMBLED_APPLICATION_DIFFERS_FROM_REVIEWED_CANDIDATE')
     manifest = {
-        'schema': 'sigra-source-release-v1', 'files': files, 'release_id': release_id(files),
+        'schema': 'sigra-source-release-v1', 'files': files, 'release_id': identity,
         'based_on_historical_release': mapping['release'],
         'private_runtime_configuration': 'external-acceptances-v1',
         'functional_acceptance_sha256': FUNCTIONAL_PIN, 'transport_acceptance_sha256': TRANSPORT_PIN,
