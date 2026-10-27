@@ -35,6 +35,21 @@ jobs:
         run: python scripts/bootstrap_ci_sqlite.py
       - name: Run complete backend suite
         run: python -m unittest discover -s backend/tests -t backend -v
+      - name: Run candidate cache, receipt and mounted registration regressions
+        env:
+          PYTHONPATH: "${{ github.workspace }}/backend:${{ github.workspace }}"
+          DATABASE_ENV: test
+          DATABASE_URL: "sqlite:///:memory:"
+          DATABASE_BOOTSTRAP_SCHEMA: "false"
+          FIPE_AUTO_REFRESH: "false"
+          PYTHON_DOTENV_DISABLED: "1"
+        run: >-
+          python -m pytest -q
+          backend/tests/test_catalog_cache.py
+          backend/tests/test_compact_catalog_audit.py
+          backend/tests/test_trial_receipt_projection.py
+          backend/tests/test_personalization_price_message.py
+          backend/tests/test_registration_mounted_contract.py
       - name: Validate immutable regression fixtures
         run: python -m unittest discover -s backend/tests -t backend -p "test_*regression_fixture.py" -v
       - name: Confirm motorcycle recommender remains unavailable
