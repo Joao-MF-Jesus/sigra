@@ -87,9 +87,13 @@ Os recibos públicos são artefatos do CI; o bundle não é publicado em registr
 ## Identidade e privacidade
 
 `correspondence.json` e a tag `tcc-preview-http-20261022` continuam referências
-históricas intactas. `source-revisions.json` registra separadamente duas mudanças
-runtime deliberadas, com hashes antes/depois. O verificador exige ambos os mapas,
-não aprende novos hashes e continua detectando mudanças reais.
+históricas intactas. `source-revisions.json` v2 registra separadamente as revisões
+deliberadas e nove adições públicas da candidata Linux/PG17, com hashes explícitos.
+O verificador mantém os dois mapas, rejeita caminhos/duplicidades e não aprende
+novos hashes. O montador exige a identidade `sigra-710d5e8c13a8b665a00fe658` e seus
+462 arquivos de aplicação; divergência bloqueia antes de aprovar a montagem.
+Consulte [a revisão PG17](LOCAL_VALIDATION_PG17_20261027.md) para escopo, medições
+e limites dessa evidência, sem confundi-la com validação do Preview remoto novo.
 
 A montagem produz **nova identidade**, manifesto exato e recibo determinístico.
 Ela não afirma equivalência binária com a release remota
