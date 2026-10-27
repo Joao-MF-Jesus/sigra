@@ -14,7 +14,7 @@ function Metric({ label, value, emphasis = false, testId }) {
   return <div className={emphasis ? "financing-metric emphasis" : "financing-metric"} data-testid={testId}><span>{label}</span><strong>{value}</strong></div>;
 }
 
-export default function FinancingResult({ mode, result, isStale = false, canAddComparison = true, comparisonLimitReached = false, onAddComparison }) {
+export default function FinancingResult({ mode, result, isStale = false, canAddComparison = true, comparisonLimitReached = false, onAddComparison, showComparisonAction = true }) {
   if (!result) return <section className="financing-empty"><strong>Preencha os dados da proposta para simular.</strong><p>A parcela, os encargos e o desembolso mensal serão apresentados separadamente.</p></section>;
   const reverse = mode === "reverse";
   const overallStatus = result.overall_status;
@@ -24,7 +24,7 @@ export default function FinancingResult({ mode, result, isStale = false, canAddC
   const insufficientCosts = financingStatus === "insufficient_for_financed_costs";
   const hasFinancedAdditionalCosts = result.has_financed_additional_costs ?? Number(result.financed_additional_costs || 0) > 0;
   const cetIncludesCosts = result.rate?.input_mode === "informed_effective_cost_rate" && result.rate?.effective_rate_includes_additional_costs === true;
-  const visibleWarnings = (result.warnings || []).filter((warning) => !(insufficientCosts && warning.includes("parcela maxima informada")));
+  const visibleWarnings = (result.warnings || []).filter((warning) => !(insufficientCosts && warning.includes("parcela máxima informada")));
 
   return <section className={`financing-result ${isStale ? "stale" : ""}`} aria-live="polite" data-testid="financing-result">
     {isStale && <div className="stale-warning" data-testid="financing-stale-warning"><strong>Resultado desatualizado</strong><span>Os dados foram alterados. Recalcule a simulação.</span></div>}
@@ -69,7 +69,7 @@ export default function FinancingResult({ mode, result, isStale = false, canAddC
     {!cetIncludesCosts && hasFinancedAdditionalCosts && result.additional_costs_considered_separately && <p className="section-note">Custos adicionais financiados foram considerados separadamente.</p>}
     {result.is_demonstration_data && <p className="financing-warning">O preço de referência vem de dados demonstrativos ou ainda não sincronizados.</p>}
     {visibleWarnings.length > 0 && <ul className="financing-warnings">{visibleWarnings.map((warning) => <li key={warning}>{warning}</li>)}</ul>}
-    {!reverse && <button type="button" className="ghost-button" data-testid="add-financing-comparison" disabled={!canAddComparison} onClick={onAddComparison}>{comparisonLimitReached ? "Limite de 10 cenários atingido" : isStale ? "Recalcule para adicionar" : "Adicionar este cenário à comparação"}</button>}
+    {!reverse && showComparisonAction && <button type="button" className="ghost-button" data-testid="add-financing-comparison" disabled={!canAddComparison} onClick={onAddComparison}>{comparisonLimitReached ? "Limite de 10 cenários atingido" : isStale ? "Recalcule para adicionar" : "Adicionar este cenário à comparação"}</button>}
     <p className="financing-disclaimer" data-testid="financing-credit-disclaimer">{FINANCING_DISCLAIMER}</p>
   </section>;
 }

@@ -1,11 +1,28 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { requestRecommendations } from "./api/sigraApi.js";
+import {
+  createEmptyFinancialSummary,
+  requestOperationalData,
+  requestRecommendations,
+  requestRecommendationMetadata,
+  resolveOperationalUserId,
+  requestSession,
+  requestLogout,
+  sessionFetch as fetch,
+} from "./api/sigraApi.js";
+import AuthPanel from "./features/session/AuthPanel.jsx";
+import StudyBeforeRanking from "./features/session/StudyBeforeRanking.jsx";
+import TestHistory, { TestFeedback } from "./features/session/TestHistory.jsx";
+import { SessionContext } from "./features/session/SessionContext.jsx";
+import "./features/session/participants.css";
+import AppHeader from "./AppHeader.jsx";
 import RecommendationDetails from "./features/recommendations/RecommendationDetails.jsx";
 import RecommendationForm from "./features/recommendations/RecommendationForm.jsx";
 import RecommendationPage from "./features/recommendations/RecommendationPage.jsx";
 import FinancingPage from "./features/financing/FinancingPage.jsx";
+import CohortRecommendationResults from "./features/recommendations/CohortRecommendationResults.jsx";
+import { validateCohortRecommendation } from "./features/recommendations/cohortRecommendationModel.js";
 import { isLatestRequest, shouldMarkResultsStale, validateRecommendationProfile } from "./features/recommendations/recommendationValidation.js";
-import { MULTIFACTOR_DEFAULT_WEIGHTS, resetMultifactorWeightFields } from "./features/recommendations/multifactorRecommendationModel.js";
+import { MULTIFACTOR_DEFAULT_WEIGHTS, resetMultifactorWeightFields, updatePersonalizationProfile } from "./features/recommendations/multifactorRecommendationModel.js";
 import { getRecommendationErrorPresentation } from "./features/recommendations/recommendationModel.js";
 import { API_URL, PUBLIC_DEMO_MODE } from "./config/runtime.js";
 
@@ -35,7 +52,7 @@ function purchaseSourceButtons(sources = [], bestSource = null) {
     <>
     {bestSource?.url && (
       <a className="best-source-link" href={bestSource.url} target="_blank" rel="noreferrer">
-        Melhor opcao: {bestSource.name}
+        Melhor opção: {bestSource.name}
       </a>
     )}
     <div className="source-links">
@@ -51,14 +68,11 @@ function purchaseSourceButtons(sources = [], bestSource = null) {
 
 function App() {
   const [activeTab, setActiveTab] = useState("recommendations");
-  const [theme, setTheme] = useState(() => localStorage.getItem("sigra-theme") || "light");
+  const [operationalVisited, setOperationalVisited] = useState(false);
+  const [candidateMetadata, setCandidateMetadata] = useState(null);
+  const [candidateError, setCandidateError] = useState("");
+  const [candidateRetry, setCandidateRetry] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
-  const [loginRole, setLoginRole] = useState("user");
-  const [loginForm, setLoginForm] = useState({
-    email: "",
-    password: "",
-  });
-  const [loginError, setLoginError] = useState("");
   const [profile, setProfile] = useState({
     vehicle_type: "car",
     budget: "70000",
@@ -68,7 +82,6 @@ function App() {
     monthly_mileage: "1000",
     fuel_price: "6",
     multifactor_enabled: false,
-    allow_budget_above_200k: false,
     multifactor_monthly_distance_km: "1000",
     multifactor_city_percentage: "50",
     multifactor_highway_percentage: "50",
@@ -88,11 +101,14 @@ function App() {
   const [recommendationErrors, setRecommendationErrors] = useState({});
   const [recommendationError, setRecommendationError] = useState(null);
   const [recommendationLoading, setRecommendationLoading] = useState(false);
+  const [studyReady, setStudyReady] = useState(false);
   const [recommendationStale, setRecommendationStale] = useState(false);
   const [recommendationHasCalculated, setRecommendationHasCalculated] = useState(false);
   const recommendationRequestId = useRef(0);
   const recommendationAbortController = useRef(null);
+  const operationalDataAbortController = useRef(null);
   const recommendationProfileVersion = useRef(0);
+  const recommendationFormSectionRef = useRef(null);
   const [vehicles, setVehicles] = useState([]);
   const [selectedIds, setSelectedIds] = useState([2, 4]);
   const [expenses, setExpenses] = useState([]);
@@ -102,13 +118,7 @@ function App() {
   const [partsVehicleId, setPartsVehicleId] = useState("");
   const [selectedRecommendationDetails, setSelectedRecommendationDetails] = useState(null);
   const [showAllRecommendations, setShowAllRecommendations] = useState(false);
-  const [summary, setSummary] = useState({
-    total_expenses: 0,
-    total_maintenance: 0,
-    total_cost: 0,
-    expenses_by_category: {},
-    pending_maintenances: 0,
-  });
+  const [summary, setSummary] = useState(createEmptyFinancialSummary);
   const [expenseForm, setExpenseForm] = useState({
     user_id: 1,
     vehicle_id: 1,
@@ -158,7 +168,7 @@ function App() {
     try {
       const response = await fetch(`${API_URL}/vehicles`);
       if (!response.ok) {
-        throw new Error("Falha ao carregar veiculos");
+        throw new Error("Falha ao carregar veículos");
       }
       const data = await response.json();
       setVehicles(data);
@@ -167,7 +177,7 @@ function App() {
         setMyCarForm((current) => ({ ...current, vehicle_id: data[0].id, year_model: data[0].year }));
         setPartsVehicleId(data[0].id);
       }
-      setStatus("Dados carregados da base demonstrativa.");
+      setStatus("Cadastro operacional carregado. A fonte da recomendação é identificada nos resultados.");
     } catch {
       setStatus("API indisponível. Não foi possível carregar a base de veículos.");
     }
@@ -176,7 +186,10 @@ function App() {
   async function runRecommendation(event) {
     event?.preventDefault?.();
     if (recommendationLoading) return;
-    const validation = validateRecommendationProfile(profile);
+    if (!candidateMetadata) return;
+    if (currentUser && !studyReady) { setStatus("Conclua a apresentação e as respostas anteriores ao ranking."); return; }
+    const validation = candidateMetadata.candidate_source === "academic_v6"
+      ? validateCohortRecommendation(profile, candidateMetadata) : validateRecommendationProfile(profile);
     setRecommendationErrors(validation.errors);
     if (!validation.isValid) return;
 
@@ -189,7 +202,7 @@ function App() {
     setRecommendationLoading(true);
     setRecommendationError(null);
     try {
-      const data = await requestRecommendations(validation.payload, { signal: controller.signal });
+      const data = await requestRecommendations(validation.payload, { signal: controller.signal, recordTest: Boolean(currentUser) });
       if (!isLatestRequest(requestId, recommendationRequestId.current)) return;
       setRecommendations(data.recommendations);
       setRecommendationMetadata(data);
@@ -208,19 +221,16 @@ function App() {
     }
   }
 
-  async function loadOperationalData() {
+  async function loadOperationalData(user, { signal } = {}) {
     try {
-      const [expensesResponse, summaryResponse] = await Promise.all([
-        fetch(`${API_URL}/expenses`),
-        fetch(`${API_URL}/reports/financial-summary`),
-      ]);
-      if (!expensesResponse.ok || !summaryResponse.ok) {
-        throw new Error("Falha ao carregar dados operacionais");
-      }
-      setExpenses(await expensesResponse.json());
-      setSummary(await summaryResponse.json());
-    } catch {
+      const data = await requestOperationalData(user, { signal });
+      if (signal?.aborted) return;
+      setExpenses(data.expenses);
+      setSummary(data.summary);
+    } catch (error) {
+      if (error?.name === "AbortError") return;
       setExpenses([]);
+      setSummary(createEmptyFinancialSummary());
     }
   }
 
@@ -255,7 +265,7 @@ function App() {
     try {
       const response = await fetch(`${API_URL}/user-vehicles/${userVehicleId}/history`);
       if (!response.ok) {
-        throw new Error("Falha ao carregar historico");
+        throw new Error("Falha ao carregar histórico");
       }
       setVehicleHistory(await response.json());
     } catch {
@@ -283,7 +293,7 @@ function App() {
     try {
       const response = await fetch(`${API_URL}/vehicles/${vehicleId}/parts-analysis`);
       if (!response.ok) {
-        throw new Error("Falha ao carregar analise de pecas");
+        throw new Error("Falha ao carregar análise de peças");
       }
       const data = await response.json();
       setPartsAnalyses((current) => ({ ...current, [vehicleId]: data }));
@@ -305,7 +315,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...expenseForm,
-          user_id: currentUser?.role === "admin" ? 1 : currentUser?.id || expenseForm.user_id,
+          user_id: currentUser?.id,
           amount: Number(expenseForm.amount),
           vehicle_id: Number(expenseForm.vehicle_id),
         }),
@@ -314,7 +324,7 @@ function App() {
         throw new Error("Falha ao salvar despesa");
       }
       setExpenseForm((current) => ({ ...current, amount: 0, description: "" }));
-      await loadOperationalData();
+      await loadOperationalData(currentUser);
       setStatus("Despesa registrada com sucesso.");
     } catch {
       setStatus("Não foi possível registrar a despesa.");
@@ -333,7 +343,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...myCarForm,
-          user_id: currentUser.role === "admin" ? 1 : currentUser.id,
+          user_id: currentUser.id,
           vehicle_id: Number(myCarForm.vehicle_id),
           year_model: Number(myCarForm.year_model),
           current_km: Number(myCarForm.current_km),
@@ -341,10 +351,10 @@ function App() {
         }),
       });
       if (!response.ok) {
-        throw new Error("Falha ao cadastrar veiculo");
+        throw new Error("Falha ao cadastrar veículo");
       }
       setStatus("Veículo do usuário cadastrado com sucesso.");
-      await loadMyCarData(currentUser.role === "admin" ? 1 : currentUser.id);
+      await loadMyCarData(currentUser.id);
       setRecommendationStale(shouldMarkResultsStale(recommendationHasCalculated));
     } catch {
       setStatus("Não foi possível cadastrar o veículo do usuário.");
@@ -406,65 +416,101 @@ function App() {
     }
   }
 
-  async function submitLogin(event) {
-    event.preventDefault();
-    if (PUBLIC_DEMO_MODE) {
-      setLoginError("Login desabilitado no ambiente demonstrativo público.");
-      return;
-    }
-    setLoginError("");
-    try {
-      const response = await fetch(`${API_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...loginForm, role: loginRole }),
-      });
-      if (!response.ok) {
-        throw new Error("Credenciais invalidas");
-      }
-      const user = await response.json();
-      setCurrentUser(user);
-      localStorage.setItem("sigra-session", JSON.stringify(user));
-      setExpenseForm((current) => ({ ...current, user_id: user.id }));
-      setMyCarForm((current) => ({ ...current, user_id: user.id }));
-      setActiveTab(user.role === "admin" ? "admin" : "recommendations");
-      setStatus(`Sessão iniciada como ${user.role === "admin" ? "administrador" : "usuário"}.`);
-      await loadMyCarData(user.role === "admin" ? 1 : user.id);
-    } catch {
-      setLoginError("Email, senha ou perfil incorretos.");
-    }
-  }
-
-  function chooseLoginRole(role) {
-    setLoginRole(role);
-    setLoginError("");
-    setLoginForm({ email: "", password: "" });
-  }
-
-  function logout() {
-    setCurrentUser(null);
-    localStorage.removeItem("sigra-session");
+  function authenticated(user) {
+    setStudyReady(false);
+    recommendationAbortController.current?.abort();
+    recommendationRequestId.current += 1;
+    setRecommendationLoading(false);
+    setRecommendationMetadata(null);
+    setCurrentUser(user);
+    setExpenseForm((current) => ({ ...current, user_id: user.id }));
+    setMyCarForm((current) => ({ ...current, user_id: user.id }));
     setActiveTab("recommendations");
-    setStatus("Você está navegando como visitante.");
+    setStatus("Sessão iniciada. Seus próximos testes serão registrados na sua conta.");
+  }
+
+  async function logout() {
+    try {
+      await requestLogout();
+      recommendationAbortController.current?.abort();
+      recommendationRequestId.current += 1;
+      setRecommendationLoading(false);
+      setCurrentUser(null);
+      setStudyReady(false);
+      setMyCars([]); setVehicleHistory(null); setExpenses([]); setSummary(createEmptyFinancialSummary());
+      setRecommendationMetadata(null);
+      localStorage.removeItem("sigra-session");
+      setActiveTab("recommendations");
+      setStatus("Sessão encerrada. Você está navegando como visitante.");
+    } catch { setStatus("Não foi possível encerrar a sessão no servidor. Tente novamente."); }
   }
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    localStorage.setItem("sigra-theme", theme);
-  }, [theme]);
-
-  useEffect(() => {
-    loadVehicles();
-    if (!PUBLIC_DEMO_MODE) loadOperationalData();
-    searchOnlineCars({ preventDefault() {} });
-    if (PUBLIC_DEMO_MODE) localStorage.removeItem("sigra-session");
-    return () => recommendationAbortController.current?.abort();
+    localStorage.removeItem("sigra-session"); // Discard the old, non-authenticating demo identity.
+    if (PUBLIC_DEMO_MODE) return;
+    const controller = new AbortController();
+    requestSession({ signal: controller.signal }).then(({ user }) => {
+      if (!controller.signal.aborted && user) authenticated(user);
+    }).catch((failure) => {
+      if (failure.name !== "AbortError") setStatus("Sessão pessoal indisponível. O modo visitante continua disponível.");
+    });
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
-    if (currentUser) {
-      loadMyCarData(currentUser.role === "admin" ? 1 : currentUser.id);
+    document.documentElement.dataset.theme = "graphite";
+    if (PUBLIC_DEMO_MODE) localStorage.removeItem("sigra-session");
+    return () => {
+      recommendationAbortController.current?.abort();
+      operationalDataAbortController.current?.abort();
+    };
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setCandidateMetadata(null);
+    setCandidateError("");
+    requestRecommendationMetadata({ signal: controller.signal }).then((data) => {
+      if (controller.signal.aborted) return;
+      if (!["academic_v6", "operational"].includes(data.candidate_source)) throw new Error("Fonte de candidatos inválida");
+      setCandidateMetadata(data);
+      if (data.candidate_source === "operational") setOperationalVisited(true);
+    }).catch((error) => {
+      if (error.name !== "AbortError" && !controller.signal.aborted) setCandidateError(error.status === 404
+        ? "A API ativa ainda não oferece o contrato de candidatos. Reinicie o backend com a versão atual, sem reaplicar migrations."
+        : "Não foi possível validar a fonte de candidatos. Nenhuma base alternativa foi inventada.");
+    });
+    return () => controller.abort();
+  }, [candidateRetry]);
+
+  // Operational IDs are loaded only for operational screens, never for v6 recommendations.
+  useEffect(() => {
+    if (operationalVisited) {
+      loadVehicles();
+      searchOnlineCars({ preventDefault() {} });
     }
+  }, [operationalVisited]);
+
+  useEffect(() => {
+    if (activeTab !== "recommendations") setOperationalVisited(true);
+  }, [activeTab]);
+
+  useEffect(() => {
+    operationalDataAbortController.current?.abort();
+    const operationalUserId = resolveOperationalUserId(currentUser);
+    if (!currentUser || PUBLIC_DEMO_MODE || operationalUserId === null) {
+      setExpenses([]);
+      setSummary(createEmptyFinancialSummary());
+      setMyCars([]);
+      setVehicleHistory(null);
+      return undefined;
+    }
+
+    const controller = new AbortController();
+    operationalDataAbortController.current = controller;
+    loadOperationalData(currentUser, { signal: controller.signal });
+    loadMyCarData(operationalUserId);
+    return () => controller.abort();
   }, [currentUser]);
 
   const comparedVehicles = useMemo(
@@ -477,15 +523,18 @@ function App() {
   const safeExpenses = Array.isArray(expenses) ? expenses : [];
 
   function updateProfile(field, value) {
+    recommendationAbortController.current?.abort();
+    recommendationRequestId.current += 1;
+    setRecommendationLoading(false);
     recommendationProfileVersion.current += 1;
-    setProfile((current) => ({ ...current, [field]: value }));
+    setProfile((current) => updatePersonalizationProfile(current, field, value, candidateMetadata?.alternative_personalization?.configuration_registry));
     setRecommendationErrors((current) => ({ ...current, [field]: undefined }));
     setRecommendationStale(shouldMarkResultsStale(recommendationHasCalculated));
   }
 
   function resetMultifactorWeights() {
     recommendationProfileVersion.current += 1;
-    setProfile((current) => ({ ...current, ...resetMultifactorWeightFields(current) }));
+    setProfile((current) => ({ ...current, ...resetMultifactorWeightFields(current, candidateMetadata?.alternative_personalization?.configuration_registry) }));
     setRecommendationErrors((current) => ({ ...current, multifactor_weights: undefined }));
     setRecommendationStale(shouldMarkResultsStale(recommendationHasCalculated));
   }
@@ -558,7 +607,7 @@ function App() {
       cautions.push("Compare preços de peças antes da compra.");
     }
     if (item?.recommendation_status === "attention") {
-      cautions.push("Requer conferencia dos limites informados.");
+      cautions.push("Requer conferência dos limites informados.");
     }
     return Array.from(new Set(cautions)).slice(0, 1);
   }
@@ -573,11 +622,11 @@ function App() {
       Ano: vehicle.year,
       "Preço de referência": formatCurrency(vehicle.price),
       Consumo: `${vehicle.fuel_efficiency_km_l} km/l`,
-      "Manutencao anual": formatCurrency(vehicle.annual_maintenance_cost),
+      "Manutenção anual": formatCurrency(vehicle.annual_maintenance_cost),
       "Custo mensal estimado": formatCurrency(monthlyCost),
       Confiabilidade: `${vehicle.reliability_score}/100`,
-      "Disponibilidade de pecas": `${vehicle.parts_availability_score}/100`,
-      "Desvalorizacao": `${vehicle.depreciation_rate}%`,
+      "Disponibilidade de peças": `${vehicle.parts_availability_score}/100`,
+      "Desvalorização": `${vehicle.depreciation_rate}%`,
     };
   }
 
@@ -641,7 +690,7 @@ function App() {
 
   function partsCatalogButton(catalog) {
     if (!catalog?.url) return null;
-    const label = catalog.target_level === "model" ? "Abrir catalogo do modelo" : "Consultar pecas";
+    const label = catalog.target_level === "model" ? "Abrir catálogo do modelo" : "Consultar peças";
     return (
       <a className="parts-link" href={catalog.url} target="_blank" rel="noreferrer">
         {label}
@@ -649,8 +698,24 @@ function App() {
     );
   }
 
+  function navigateToSection(tab) {
+    setActiveTab(tab);
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function startRecommendation() {
+    recommendationFormSectionRef.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start",
+    });
+    window.setTimeout(() => {
+      recommendationFormSectionRef.current?.querySelector("input:not([tabindex='-1']), select:not([tabindex='-1']), button")?.focus();
+    }, 0);
+  }
+
   return (
-    <main className="app-shell">
+    <SessionContext.Provider value={{ user: currentUser }}><div className="app-shell">
       {PUBLIC_DEMO_MODE && (
         <div
           className="demo-mode-banner"
@@ -663,140 +728,59 @@ function App() {
           </span>
         </div>
       )}
-      <section className="workspace">
-        <aside className="control-panel">
-          <div>
-            <p className="eyebrow">SIGRA</p>
-            <h1>Recomendacao automotiva inteligente</h1>
-            <p className="status">{status}</p>
-          </div>
+      <AppHeader
+        activeTab={activeTab}
+        candidateSource={candidateMetadata?.candidate_source}
+        currentUser={currentUser}
+        publicDemo={PUBLIC_DEMO_MODE}
+        status={status}
+        onNavigate={navigateToSection}
+        onLogout={logout}
+      />
 
-          <div className="session-panel">
-            <div>
-              <span>{PUBLIC_DEMO_MODE ? "Homologação" : (currentUser ? (currentUser.role === "admin" ? "Administrador" : "Usuario") : "Visitante")}</span>
-              <strong>{PUBLIC_DEMO_MODE ? "Demonstração pública" : (currentUser ? currentUser.name : "Simulacao livre")}</strong>
-              {!PUBLIC_DEMO_MODE && !currentUser && <small>Faça login para salvar dados e acompanhar seu histórico.</small>}
-              {PUBLIC_DEMO_MODE && <small>Nenhum dado pessoal pode ser gravado neste ambiente.</small>}
-            </div>
-            {!PUBLIC_DEMO_MODE && currentUser && (
-              <button className="ghost-button" type="button" onClick={logout}>
-                Sair
-              </button>
-            )}
-          </div>
+      {!PUBLIC_DEMO_MODE && !currentUser && (
+        <AuthPanel onAuthenticated={authenticated} />
+      )}
 
-          {!PUBLIC_DEMO_MODE && !currentUser && (
-            <section className="login-panel">
-              <p>O modo visitante permite simular recomendacoes sem cadastro.</p>
-              <div className="theme-toggle" aria-label="Selecionar perfil">
-                <button className={loginRole === "user" ? "active" : ""} type="button" onClick={() => chooseLoginRole("user")}>
-                  Usuario
-                </button>
-                <button className={loginRole === "admin" ? "active" : ""} type="button" onClick={() => chooseLoginRole("admin")}>
-                  Admin
-                </button>
-              </div>
-              <form className="login-form" onSubmit={submitLogin}>
-                <label>
-                  Email
-                  <input
-                    type="email"
-                    value={loginForm.email}
-                    onChange={(event) => setLoginForm((current) => ({ ...current, email: event.target.value }))}
-                  />
-                </label>
-                <label>
-                  Senha
-                  <input
-                    type="password"
-                    value={loginForm.password}
-                    onChange={(event) => setLoginForm((current) => ({ ...current, password: event.target.value }))}
-                  />
-                </label>
-                {loginError && <p className="login-error">{loginError}</p>}
-                <button type="submit">Entrar</button>
-              </form>
-            </section>
-          )}
-
-          <div className="theme-toggle" aria-label="Selecionar tema">
-            <button className={theme === "light" ? "active" : ""} type="button" onClick={() => setTheme("light")}>
-              Claro
-            </button>
-            <button className={theme === "dark" ? "active" : ""} type="button" onClick={() => setTheme("dark")}>
-              Escuro
-            </button>
-          </div>
-
-          {activeTab === "recommendations" && <RecommendationForm
-            profile={profile}
-            errors={recommendationErrors}
-            loading={recommendationLoading}
-            onChange={updateProfile}
-            onResetMultifactorWeights={resetMultifactorWeights}
-            onSubmit={runRecommendation}
-          />}
-        </aside>
-
+      <main className="workspace-v2">
+        {currentUser && <StudyBeforeRanking key={currentUser.id} onReady={setStudyReady} />}
         <section className="content">
-          <nav className="tabs" aria-label="Navegacao principal">
-            <button data-testid="nav-recommendations" className={activeTab === "recommendations" ? "active" : ""} onClick={() => setActiveTab("recommendations")}>
-              Recomendacao
-            </button>
-            <button className={activeTab === "comparison" ? "active" : ""} onClick={() => setActiveTab("comparison")}>
-              Comparacao
-            </button>
-            {!PUBLIC_DEMO_MODE && (
-              <button className={activeTab === "expenses" ? "active" : ""} onClick={() => setActiveTab("expenses")}>
-                Despesas
-              </button>
-            )}
-            <button data-testid="nav-financing" className={activeTab === "financing" ? "active" : ""} onClick={() => setActiveTab("financing")}>
-              Financiamento
-            </button>
-            {!PUBLIC_DEMO_MODE && (
-              <button className={activeTab === "my-car" ? "active" : ""} onClick={() => setActiveTab("my-car")}>
-                Meu carro
-              </button>
-            )}
-            <button className={activeTab === "parts" ? "active" : ""} onClick={() => setActiveTab("parts")}>
-              Peças
-            </button>
-            <button className={activeTab === "online" ? "active" : ""} onClick={() => setActiveTab("online")}>
-              Busca online
-            </button>
-            {!PUBLIC_DEMO_MODE && currentUser?.role === "admin" && (
-              <button className={activeTab === "admin" ? "active" : ""} onClick={() => setActiveTab("admin")}>
-                Admin
-              </button>
-            )}
-          </nav>
-
-          {activeTab === "recommendations" && (
-            <RecommendationPage
-              vehicleType={profile.vehicle_type}
-              state={{
-                recommendations: safeRecommendations,
-                metadata: recommendationMetadata,
-                loading: recommendationLoading,
-                error: recommendationError,
-                stale: recommendationStale,
-                hasCalculated: recommendationHasCalculated,
-              }}
-              showAll={showAllRecommendations}
-              onToggleShowAll={() => setShowAllRecommendations((current) => !current)}
-              onRetry={runRecommendation}
-              onDetails={setSelectedRecommendationDetails}
-              onParts={(item) => { setActiveTab("parts"); setPartsVehicleId(item.vehicle.id); loadPartsAnalysis(item.vehicle.id); }}
-              onCompare={(item) => { if (!selectedIds.includes(item.vehicle.id)) toggleVehicle(item.vehicle.id); setActiveTab("comparison"); }}
-            />
-          )}
+          {activeTab === "recommendations" && <>
+            <section className="experience-hero" aria-labelledby="experience-title">
+              <div><p className="eyebrow">Recomendação orientada à sua realidade</p><h1 id="experience-title">Encontre o veículo certo para você.</h1><p>Informe seu orçamento, sua rotina e suas prioridades. O SIGRA compara as opções e explica cada recomendação.</p><div className="hero-actions"><button type="button" onClick={startRecommendation}>Encontrar meu veículo</button><button className="ghost-button" type="button" onClick={() => navigateToSection("comparison")}>Entender a comparação</button></div></div>
+              <dl className="hero-proof" aria-label="Compromissos da análise"><div><dt>01</dt><dd><strong>Mesmo perfil</strong><span>para todas as alternativas</span></dd></div><div><dt>02</dt><dd><strong>Custos explicáveis</strong><span>calculados no backend</span></dd></div><div><dt>03</dt><dd><strong>Dados rastreáveis</strong><span>{candidateMetadata?.candidate_source === "academic_v6" ? "FIPE, PBEV e cenário versionado" : "FIPE, PBEV e ANP"}</span></dd></div></dl>
+            </section>
+            <div className="recommendation-workbench">
+              <section ref={recommendationFormSectionRef} className="recommendation-builder" aria-label="Construção do perfil">
+                {!candidateMetadata && !candidateError && <p role="status">Validando fonte de candidatos…</p>}
+                {candidateError && <div role="alert"><p>{candidateError}</p><button type="button" onClick={() => setCandidateRetry((v) => v + 1)}>Tentar carregar candidatos novamente</button></div>}
+                {candidateMetadata?.candidate_source === "academic_v6" && <details className="data-provenance"><summary>Sobre a base de veículos</summary><p>60 veículos selecionados. Cobertura documental: Cidade {candidateMetadata.profile_counts?.cidade ?? "não confirmada"} · Aplicativo {candidateMetadata.profile_counts?.app ?? "não confirmada"} · Trabalho {candidateMetadata.profile_counts?.trabalho ?? "não confirmada"} · Espaço {candidateMetadata.profile_counts?.suv ?? "não confirmada"} · Família {candidateMetadata.profile_counts?.familia ?? "não confirmada"} · Estrada {candidateMetadata.profile_counts?.estrada ?? "não confirmada"}. Custos estimados; nenhuma evidência ausente é preenchida.</p></details>}
+                <RecommendationForm profile={profile} candidateMetadata={candidateMetadata} errors={recommendationErrors} loading={recommendationLoading || !candidateMetadata || Boolean(currentUser && !studyReady)} onChange={updateProfile} onResetMultifactorWeights={resetMultifactorWeights} onSubmit={runRecommendation} />
+                {currentUser && <p className="section-note">Seu próximo resultado será registrado no histórico privado para avaliação do teste.</p>}
+              </section>
+              <section className="recommendation-output" aria-label="Resultado da análise">
+                {candidateMetadata?.candidate_source === "academic_v6" && profile.vehicle_type === "car" ? <CohortRecommendationResults
+                  state={{ recommendations: safeRecommendations, metadata: recommendationMetadata, loading: recommendationLoading, error: recommendationError, stale: recommendationStale, hasCalculated: recommendationHasCalculated }}
+                  onRetry={runRecommendation} showAll={showAllRecommendations} onToggleShowAll={() => setShowAllRecommendations((v) => !v)} profile={profile} /> : <RecommendationPage
+                  vehicleType={profile.vehicle_type}
+                  state={{ recommendations: safeRecommendations, metadata: recommendationMetadata, loading: recommendationLoading, error: recommendationError, stale: recommendationStale, hasCalculated: recommendationHasCalculated }}
+                  showAll={showAllRecommendations}
+                  onToggleShowAll={() => setShowAllRecommendations((current) => !current)}
+                  onRetry={runRecommendation}
+                  onDetails={setSelectedRecommendationDetails}
+                  onParts={(item) => { setActiveTab("parts"); setPartsVehicleId(item.vehicle.id); loadPartsAnalysis(item.vehicle.id); }}
+                  onCompare={(item) => { if (!selectedIds.includes(item.vehicle.id)) toggleVehicle(item.vehicle.id); setActiveTab("comparison"); }}
+                />}
+                {currentUser && recommendationMetadata?.test_run && !recommendationStale && <TestFeedback key={recommendationMetadata.test_run.id} run={recommendationMetadata.test_run} />}
+              </section>
+            </div>
+          </>}
 
           {activeTab === "comparison" && (
           <>
           <div className="section-heading">
-            <p className="eyebrow">Comparacao</p>
-            <h2>Indicadores tecnicos</h2>
+            <p className="eyebrow">Comparação</p>
+            <h2>Indicadores técnicos</h2>
           </div>
 
           <div className="vehicle-selector">
@@ -815,9 +799,9 @@ function App() {
           <div className="comparison-table" role="table">
             <div className="table-row table-head" role="row">
               <span>Veículo</span>
-              <span>Preco</span>
+              <span>Preço</span>
               <span>Consumo</span>
-              <span>Manutencao anual</span>
+              <span>Manutenção anual</span>
               <span>Confiabilidade</span>
             </div>
             {comparedVehicles.map((vehicle) => (
@@ -835,12 +819,13 @@ function App() {
           </>
           )}
 
-          {activeTab === "financing" && <FinancingPage cars={safeVehicles} />}
+          {activeTab === "financing" && <FinancingPage cars={safeVehicles} key={currentUser?.id || "visitor"} />}
+          {activeTab === "test-history" && currentUser && <TestHistory key={currentUser.id} user={currentUser} />}
 
           {activeTab === "expenses" && (
           <>
           <div className="section-heading">
-            <p className="eyebrow">Gestao financeira</p>
+            <p className="eyebrow">Gestão financeira</p>
             <h2>Despesas e custos do usuário</h2>
           </div>
 
@@ -862,9 +847,9 @@ function App() {
               <label>
                 Categoria
                 <select value={expenseForm.category} onChange={(event) => updateExpense("category", event.target.value)}>
-                  <option value="combustivel">Combustivel</option>
+                  <option value="combustivel">Combustível</option>
                   <option value="seguro">Seguro</option>
-                  <option value="documentacao">Documentacao</option>
+                  <option value="documentacao">Documentação</option>
                   <option value="manutencao">Manutenção</option>
                   <option value="outros">Outros</option>
                 </select>
@@ -888,7 +873,7 @@ function App() {
                 />
               </label>
               <label>
-                Descricao
+                Descrição
                 <input
                   type="text"
                   value={expenseForm.description}
@@ -983,7 +968,7 @@ function App() {
                     <option value="estrada">Estrada</option>
                     <option value="misto">Misto</option>
                     <option value="app">Aplicativo</option>
-                    <option value="familia">Familia</option>
+                    <option value="familia">Família</option>
                     <option value="trabalho">Trabalho</option>
                   </select>
                 </label>
@@ -1030,7 +1015,7 @@ function App() {
                         <dd>{vehicleHistory.model_statistics.report_count}</dd>
                       </div>
                       <div>
-                        <dt>Indice de risco</dt>
+                        <dt>Índice de risco</dt>
                         <dd>{vehicleHistory.model_statistics.risk_index}/100</dd>
                       </div>
                       <div>
@@ -1069,10 +1054,10 @@ function App() {
                     Categoria
                     <select value={problemForm.problem_category} onChange={(event) => updateProblem("problem_category", event.target.value)}>
                       <option value="motor">Motor</option>
-                      <option value="cambio">Cambio</option>
-                      <option value="suspensao">Suspensao</option>
+                      <option value="cambio">Câmbio</option>
+                      <option value="suspensao">Suspensão</option>
                       <option value="freio">Freio</option>
-                      <option value="eletrica">Eletrica</option>
+                      <option value="eletrica">Elétrica</option>
                       <option value="arrefecimento">Arrefecimento</option>
                       <option value="acabamento">Acabamento</option>
                       <option value="consumo">Consumo</option>
@@ -1085,7 +1070,7 @@ function App() {
                     Gravidade
                     <select value={problemForm.severity} onChange={(event) => updateProblem("severity", event.target.value)}>
                       <option value="baixa">Baixa</option>
-                      <option value="media">Media</option>
+                      <option value="media">Média</option>
                       <option value="alta">Alta</option>
                     </select>
                   </label>
@@ -1099,7 +1084,7 @@ function App() {
                   </label>
                 </div>
                 <label>
-                  Descricao
+                  Descrição
                   <input type="text" value={problemForm.description} onChange={(event) => updateProblem("description", event.target.value)} />
                 </label>
                 <label>
@@ -1129,7 +1114,7 @@ function App() {
                     </select>
                   </label>
                   <label>
-                    Combustivel
+                    Combustível
                     <select value={consumptionForm.fuel_type} onChange={(event) => updateConsumption("fuel_type", event.target.value)}>
                       <option value="flex">Flex</option>
                       <option value="gasolina">Gasolina</option>
@@ -1139,7 +1124,7 @@ function App() {
                   </label>
                 </div>
                 <label>
-                  Observacao
+                  Observação
                   <input type="text" value={consumptionForm.notes} onChange={(event) => updateConsumption("notes", event.target.value)} />
                 </label>
                 <button type="submit">Registrar consumo</button>
@@ -1166,7 +1151,7 @@ function App() {
                 </option>
               ))}
             </select>
-            <button type="submit">Analisar pecas</button>
+            <button type="submit">Analisar peças</button>
           </form>
 
           {partsAnalyses[partsVehicleId] ? (
@@ -1230,7 +1215,7 @@ function App() {
                         <dd>{formatCurrency(part.max_price)}</dd>
                       </div>
                       <div>
-                        <dt>Media</dt>
+                        <dt>Média</dt>
                         <dd>{formatCurrency(part.average_price)}</dd>
                       </div>
                       <div>
@@ -1247,11 +1232,11 @@ function App() {
 
               <div className="comparison-table" role="table">
                 <div className="table-row table-head" role="row">
-                  <span>Peca</span>
+                  <span>Peça</span>
                   <span>Veículo compatível</span>
                   <span>Tipo</span>
-                  <span>Confianca</span>
-                  <span>Observacao</span>
+                  <span>Confiança</span>
+                  <span>Observação</span>
                 </div>
                 {(partsAnalyses[partsVehicleId].compatibilities || []).map((item) => (
                   <div className="table-row" role="row" key={`${item.part}-${item.compatible_vehicle}`}>
@@ -1349,7 +1334,7 @@ function App() {
           <div className="comparison-table" role="table">
             <div className="table-row table-head" role="row">
               <span>Veículo</span>
-              <span>Preco</span>
+              <span>Preço</span>
               <span>Uso</span>
               <span>Peças</span>
               <span>Confiabilidade</span>
@@ -1367,7 +1352,7 @@ function App() {
           </>
           )}
         </section>
-      </section>
+      </main>
 
       <RecommendationDetails
         item={selectedRecommendationDetails}
@@ -1377,7 +1362,7 @@ function App() {
         onParts={(item) => { setActiveTab("parts"); setPartsVehicleId(item.vehicle.id); loadPartsAnalysis(item.vehicle.id); setSelectedRecommendationDetails(null); }}
         onCompare={(item) => { if (!selectedIds.includes(item.vehicle.id)) toggleVehicle(item.vehicle.id); setActiveTab("comparison"); setSelectedRecommendationDetails(null); }}
       />
-    </main>
+    </div></SessionContext.Provider>
   );
 }
 

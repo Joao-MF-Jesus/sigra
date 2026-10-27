@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "setpoint": "SIGRA TCC presentation",
+  "date": "2026-09-02",
+  "version_reference": "tcc-apresentacao-v1.0.0",
+  "branch": "feature/data-platform-postgresql-demo-gold",
+  "historical_base_head": "5402bf90ad7cfe42dc3a40065865749aac293876",
+  "alembic": {
+    "single_head": true,
+    "head": "20260811_0012",
+    "previous_head": "20260811_0011",
+    "sqlite_noop": true,
+    "previous_migrations_rewritten": false
+  },
+  "scope": {
+    "legacy_ranking_preserved_without_multifactor_profile": true,
+    "multifactor_profile_opt_in": true,
+    "financial_calculations_backend_decimal_only": true,
+    "simulation_stateless": true,
+    "gold_read_only": true,
+    "user_preferences_persisted": false,
+    "frontend_financial_formulas": false,
+    "frontend_v2_included": false
+  },
+  "sources": {
+    "fipe": "price_and_commercial_identity",
+    "pbev": "official_efficiency_contract_demo_fixture_in_local_bootstrap",
+    "anp": "fuel_price_by_product_geography_and_week_demo_fixture_in_local_bootstrap",
+    "carpedia": "optional_technical_shadow_enrichment"
+  },
+  "carpedia": {
+    "external_api_required_for_tcc": false,
+    "external_api_key_variable": "CARPEDIA_API_KEY",
+    "secret_available_to_frontend": false,
+    "lineage_migration": "20260811_0012"
+  },
+  "gold": {
+    "dataset_version": "integrated-cost-v1-5f90dc69df1da4bf8b0b-b8bad176",
+    "fingerprint": "5f90dc69df1da4bf8b0bc5f790d36512fddc49c26b360b486e873dac5ae6598a",
+    "active_valid_sources": {
+      "fipe": 1,
+      "pbev": 1,
+      "anp": 1,
+      "integrated": 1
+    },
+    "catalog_vehicles": 34,
+    "published_vehicles": 18,
+    "excluded_vehicles": 16,
+    "published_scenarios": 54,
+    "hard_gates_passed": 29,
+    "statistical_controls_not_calibrated": 7,
+    "consumption_view": "gold.integrated_vehicle_cost_consumption_v1"
+  },
+  "validation": {
+    "focused": {"passed": 49, "failed": 0, "skipped": 0},
+    "data_platform": {"passed": 335, "failed": 0, "skipped_conditional": 17},
+    "backend": {"passed": 278, "failed": 0, "skipped_conditional": 8},
+    "frontend": {"passed": 95, "failed": 0, "skipped": 0},
+    "vite_modules": 48,
+    "vite_build": "passed",
+    "compileall": "passed",
+    "git_diff_check": "passed",
+    "carpedia_postgresql": {"passed": 20, "failed": 0, "errors": 0, "skipped": 0}
+  },
+  "database_gate": {
+    "status": "DATABASE_GATE_SUCCEEDED",
+    "report": "tcc-database-gate-20260902T145750557Z.json",
+    "sha256": "FCA5FFB92173BCF1D8C1EF8D861C023E7F25FAC7AB17BB7CCFD2B7FD9DB42EF1",
+    "demo_resources_preserved": true,
+    "credentials_exposed": false
+  },
+  "database_dumps": {
+    "before_0012": {
+      "file": "sigra-postgresql-demo-before-0012.dump",
+      "sha256": "50A52442EC0306A625F5328CAED2440743873E89C670282B19D5E48535822338",
+      "pg_restore_list_validated": true
+    },
+    "final": {
+      "file": "sigra-postgresql-demo-tcc-v1.0.0.dump",
+      "sha256": "D345614B5C7C32DAA5A5DEFF079D4EA270E7A65D1EB492C8C59F56ADBDD86E58",
+      "pg_restore_list_validated": true
+    }
+  },
+  "security": {
+    "credentials_in_setpoint": false,
+    "authenticated_operational_urls_in_setpoint": false,
+    "database_files_in_repository": false,
+    "generated_archives_in_repository": false
+  },
+  "limitations": [
+    "PBEV and ANP demo fixtures are synthetic and are not official evidence",
+    "seven statistical controls are not calibrated",
+    "external Carpedia access requires backend-only CARPEDIA_API_KEY",
+    "Frontend V2 is outside this setpoint"
+  ]
+}

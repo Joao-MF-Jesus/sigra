@@ -1,0 +1,59 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "installCommand": "npm --prefix application/frontend ci --ignore-scripts",
+  "buildCommand": "node application/deploy/build_vercel.mjs",
+  "outputDirectory": "application/frontend/dist",
+  "regions": [
+    "gru1"
+  ],
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 300,
+      "includeFiles": "{application/{.python-version,pyproject.toml,requirements.txt,vercel.json},application/{api,backend,data_platform,deploy,docs,release,scripts}/**,application/frontend/{e2e,public,src,test-results,dist}/**,application/frontend/*}",
+      "excludeFiles": "{application/frontend/node_modules/**,application/**/__pycache__/**}"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/sigra-api/:path*",
+      "destination": "/api"
+    },
+    {
+      "source": "/((?!api(?:/|$)|assets(?:/|$)|sigra-api(?:/|$)).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "same-origin"
+        }
+      ]
+    },
+    {
+      "source": "/sigra-api/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ]
+}

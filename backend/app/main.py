@@ -1,17 +1,27 @@
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 import logging
+import os
 from typing import Literal
 
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from fastapi.exception_handlers import request_validation_exception_handler
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from sqlalchemy.orm import Session
 from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette._utils import get_route_path
 
 from app import models
-from app.config import cors_allowed_origins, load_runtime_settings
+from app.auth import router as auth_router, current_user, require_admin, assert_owner
+from app.participant_trials import router as trials_router, admin_router as trial_admin_router, execute_recorded
+from app.study_protocol import router as study_router
+from app.academic_cohort.routes import router as academic_cohort_router
+from app.academic_cohort.routes import academic_mode_enabled, get_academic_service, invoke as invoke_academic
+from app.academic_cohort.recommendation import AcademicRecommendationOptions, recommend_academic, validated_weights
+from app.config import cors_allowed_origins, load_runtime_settings, _boolean
 from app.database import (
     DATABASE_SETTINGS,
     SessionLocal,
@@ -30,6 +40,8 @@ from app.fipe import (
 )
 from app.financing.routes import router as financing_router
 from app.integrated_gold.routes import router as integrated_gold_router
+from app.integrated_gold.repository import IntegratedGoldStorageError
+from app.recommendation_identity_repository import GoldRecommendationIdentityReader
 from app.http_middleware import (
     PublicDemoReadOnlyMiddleware,
     RequestLoggingMiddleware,
@@ -123,27 +135,20 @@ from app.integrated_gold.simulation_service import (
 LOGGER = logging.getLogger(__name__)
 
 
-DEMO_ACCOUNTS = {
-    ("usuario@sigra.local", "user"): {
-        "id": 1,
-        "name": "Usuario Demonstracao",
-        "email": "usuario@sigra.local",
-        "password": "usuario123",
-        "role": "user",
-    },
-    ("admin@sigra.local", "admin"): {
-        "id": 99,
-        "name": "Administrador SIGRA",
-        "email": "admin@sigra.local",
-        "password": "admin123",
-        "role": "admin",
-    },
-}
-
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    from app import deployment
+    if deployment.enabled():
+        deployment.validate_startup()
+    from app.academic_cohort.revision6_homologation import enabled, require_runtime
+    if enabled():
+        # Refuse a stale/demo/default connection before startup touches any DB.
+        from app.database import engine
+        target = require_runtime()
+        target.check_bind(engine)
+        with SessionLocal() as db:
+            get_academic_service(db)._snapshot()
     if DATABASE_SETTINGS.bootstrap_schema:
         create_database()
         with SessionLocal() as db:
@@ -171,6 +176,11 @@ app = FastAPI(
     openapi_url="/openapi.json" if RUNTIME_SETTINGS.api_docs_enabled else None,
 )
 
+# Opt-in transport after the existing routes/auth; persistence and algorithms
+# still receive/store the complete original objects.
+from app.compact_transport import CompactJSONMiddleware
+app.add_middleware(CompactJSONMiddleware)
+
 ALGORITHM_VERSION = "2.1.2"
 WEIGHTS_VERSION = "cars-v1"
 MOTORCYCLE_MODULE_VERSION = "0.3.1"
@@ -194,6 +204,7 @@ app.add_middleware(
 
 app.include_router(financing_router)
 app.include_router(integrated_gold_router)
+app.include_router(academic_cohort_router)
 
 
 class RecommendationRequest(BaseModel):
@@ -210,18 +221,33 @@ class RecommendationRequest(BaseModel):
         examples=["cost_benefit"],
     )
     multifactor_profile: MultifactorRecommendationProfile | None = None
+    candidate_source: Literal["operational", "academic_v6"] | None = None
+    academic_options: AcademicRecommendationOptions | None = None
 
     @model_validator(mode="after")
-    def validate_multifactor_budget_authorization(self):
-        if (
-            self.multifactor_profile is not None
-            and self.budget > 200_000
-            and not self.multifactor_profile.allow_budget_above_200k
-        ):
-            raise ValueError(
-                "budget above BRL 200000 requires explicit multifactor authorization"
-            )
+    def validate_candidate_preferences(self):
+        if self.multifactor_profile is not None:
+            from app.academic_cohort.derived_personalization import validate_selection
+            validate_selection(self.multifactor_profile.policy_version, self.candidate_source)
+        if self.candidate_source == "academic_v6":
+            if self.academic_options is None or self.monthly_mileage <= 0:
+                raise ValueError("Coorte exige snapshot explícito e quilometragem mensal positiva")
+            if self.recommendation_strategy.value not in {"cost_benefit", "lowest_cost"}:
+                raise ValueError("Coorte suporta método ponderado v4 ou menor TCO; outras estratégias exigem dados operacionais")
+            validated_weights(self.use_case.value, self.academic_options.criterion_weights)
+        elif self.academic_options is not None:
+            raise ValueError("Opções acadêmicas não podem ser ignoradas pelo fluxo operacional")
         return self
+
+
+@app.get("/recommendations/metadata")
+def recommendation_candidates_metadata(db: Session = Depends(get_db)):
+    if not _boolean(os.getenv("ACADEMIC_COHORT_ENABLED"), default=False, variable_name="ACADEMIC_COHORT_ENABLED"):
+        return {"candidate_source": "operational"}
+    from app.academic_cohort.recommendation import recommendation_method
+    service = get_academic_service(db)
+    metadata = invoke_academic(lambda: service.metadata())
+    return {**metadata, **recommendation_method()}
 
 
 @app.get("/health")
@@ -361,7 +387,7 @@ def list_motorcycles(
     }
 
 
-@app.post("/motorcycles", response_model=MotorcycleRead, response_model_exclude_none=True, status_code=201)
+@app.post("/motorcycles", response_model=MotorcycleRead, response_model_exclude_none=True, status_code=201, dependencies=[Depends(require_admin)])
 def add_motorcycle(
     payload: MotorcycleCreate,
     include_legacy: bool = Query(default=False),
@@ -390,7 +416,7 @@ def get_motorcycle(
     return motorcycle_to_response(motorcycle, include_legacy=include_legacy)
 
 
-@app.patch("/motorcycles/{motorcycle_id}", response_model=MotorcycleRead, response_model_exclude_none=True)
+@app.patch("/motorcycles/{motorcycle_id}", response_model=MotorcycleRead, response_model_exclude_none=True, dependencies=[Depends(require_admin)])
 def edit_motorcycle(
     motorcycle_id: int,
     payload: MotorcycleUpdate,
@@ -409,7 +435,7 @@ def edit_motorcycle(
     return motorcycle_to_response(updated, include_legacy=include_legacy)
 
 
-@app.delete("/motorcycles/{motorcycle_id}", status_code=204)
+@app.delete("/motorcycles/{motorcycle_id}", status_code=204, dependencies=[Depends(require_admin)])
 def delete_motorcycle(motorcycle_id: int, db: Session = Depends(get_db)):
     if not delete_motorcycle_record(db, motorcycle_id):
         raise HTTPException(status_code=404, detail="Motocicleta não encontrada")
@@ -423,7 +449,7 @@ def get_motorcycle_sources(motorcycle_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail=str(error)) from error
 
 
-@app.post("/motorcycles/{motorcycle_id}/sources", response_model=MotorcycleDataSourceRead, status_code=201)
+@app.post("/motorcycles/{motorcycle_id}/sources", response_model=MotorcycleDataSourceRead, status_code=201, dependencies=[Depends(require_admin)])
 def add_motorcycle_source(
     motorcycle_id: int,
     payload: MotorcycleDataSourceCreate,
@@ -437,7 +463,7 @@ def add_motorcycle_source(
         raise HTTPException(status_code=409, detail=str(error)) from error
 
 
-@app.patch("/motorcycles/{motorcycle_id}/sources/{source_id}", response_model=MotorcycleDataSourceRead)
+@app.patch("/motorcycles/{motorcycle_id}/sources/{source_id}", response_model=MotorcycleDataSourceRead, dependencies=[Depends(require_admin)])
 def edit_motorcycle_source(
     motorcycle_id: int,
     source_id: int,
@@ -453,7 +479,7 @@ def edit_motorcycle_source(
     return source
 
 
-@app.delete("/motorcycles/{motorcycle_id}/sources/{source_id}", status_code=204)
+@app.delete("/motorcycles/{motorcycle_id}/sources/{source_id}", status_code=204, dependencies=[Depends(require_admin)])
 def remove_motorcycle_source(motorcycle_id: int, source_id: int, db: Session = Depends(get_db)):
     if not delete_motorcycle_source(db, motorcycle_id, source_id):
         raise HTTPException(status_code=404, detail="Fonte da motocicleta não encontrada")
@@ -462,6 +488,7 @@ def remove_motorcycle_source(motorcycle_id: int, source_id: int, db: Session = D
 @app.post(
     "/motorcycles/{motorcycle_id}/sources/{source_id}/set-primary",
     response_model=MotorcycleDataSourceRead,
+    dependencies=[Depends(require_admin)],
 )
 def make_motorcycle_source_primary(motorcycle_id: int, source_id: int, db: Session = Depends(get_db)):
     source = set_motorcycle_primary_source(db, motorcycle_id, source_id)
@@ -482,6 +509,7 @@ def get_motorcycle_metrics(motorcycle_id: int, db: Session = Depends(get_db)):
     "/motorcycles/{motorcycle_id}/derived-metrics",
     response_model=MotorcycleDerivedMetricRead,
     status_code=201,
+    dependencies=[Depends(require_admin)],
 )
 def add_motorcycle_metric(
     motorcycle_id: int,
@@ -511,6 +539,7 @@ def get_motorcycle_estimates(motorcycle_id: int, db: Session = Depends(get_db)):
     "/motorcycles/{motorcycle_id}/economic-estimates",
     response_model=MotorcycleEconomicEstimateRead,
     status_code=201,
+    dependencies=[Depends(require_admin)],
 )
 def add_motorcycle_estimate(
     motorcycle_id: int,
@@ -533,17 +562,20 @@ def _invalid_motorcycle_detail(audit: dict) -> dict:
     }
 
 
-@app.post("/auth/login", response_model=LoginResponse)
-def login(payload: LoginRequest):
-    account = DEMO_ACCOUNTS.get((payload.email.lower(), payload.role))
-    if account is None or payload.password != account["password"]:
-        raise HTTPException(status_code=401, detail="Credenciais invalidas")
-    return {
-        "id": account["id"],
-        "name": account["name"],
-        "email": account["email"],
-        "role": account["role"],
-    }
+app.include_router(auth_router)
+app.include_router(trials_router)
+app.include_router(trial_admin_router)
+app.include_router(study_router)
+
+
+@app.exception_handler(RequestValidationError)
+async def safe_validation_error(request, error):
+    if get_route_path(request.scope).startswith("/auth/"):
+        # Pydantic's default error includes the rejected password input.
+        return JSONResponse(status_code=422, content={"detail": [
+            {"type": item["type"], "loc": item["loc"], "msg": item["msg"]}
+            for item in error.errors()]})
+    return await request_validation_exception_handler(request, error)
 
 
 @app.get("/vehicles")
@@ -553,7 +585,7 @@ def list_vehicles(db: Session = Depends(get_db)):
     return [vehicle_to_response(vehicle) for vehicle in vehicles]
 
 
-@app.post("/vehicles", status_code=201)
+@app.post("/vehicles", status_code=201, dependencies=[Depends(require_admin)])
 def add_vehicle(payload: VehicleCreate, db: Session = Depends(get_db)):
     return vehicle_to_response(create_vehicle(db, payload))
 
@@ -574,7 +606,7 @@ def vehicle_price_reference(vehicle_id: int, db: Session = Depends(get_db)):
     ensure_fipe_prices_current()
     vehicle = get_car(db, vehicle_id)
     if vehicle is None:
-        raise HTTPException(status_code=404, detail="Veiculo nao encontrado")
+        raise HTTPException(status_code=404, detail="Veículo não encontrado")
     return {
         "vehicle_id": vehicle.id,
         "brand": vehicle.brand,
@@ -590,7 +622,7 @@ def fipe_price_status():
     return fipe_sync_status()
 
 
-@app.post("/prices/fipe/refresh")
+@app.post("/prices/fipe/refresh", dependencies=[Depends(require_admin)])
 def force_fipe_price_refresh():
     return refresh_fipe_prices(force=True)
 
@@ -601,6 +633,11 @@ def create_recommendations(
     envelope: bool = Query(default=False),
     db: Session = Depends(get_db),
 ):
+    if request.candidate_source == "academic_v6":
+        academic_mode_enabled()
+        service = get_academic_service(db)
+        result = invoke_academic(lambda: recommend_academic(service, request))
+        return result if envelope else result["recommendations"]
     ensure_fipe_prices_current()
     profile = RecommendationProfile(
         budget=request.budget,
@@ -674,6 +711,9 @@ def create_recommendations(
                 payload,
                 simulation,
                 request.multifactor_profile.weights.as_mapping(),
+                gold_identities=GoldRecommendationIdentityReader(db).recommendation_identities(),
+                catalog_references={item["vehicle"]["id"]: price_metadata(item["vehicle"]["id"])
+                                    for item in payload},
             )
         except VehicleCostSimulationConflictError as exc:
             raise HTTPException(
@@ -683,7 +723,7 @@ def create_recommendations(
                     "message": "multifactor recommendation found conflicting Gold evidence",
                 },
             ) from exc
-        except VehicleCostSimulationUnavailableError as exc:
+        except (VehicleCostSimulationUnavailableError, IntegratedGoldStorageError) as exc:
             raise HTTPException(
                 status_code=503,
                 detail={
@@ -744,10 +784,10 @@ def list_suppliers(db: Session = Depends(get_db)):
 @app.get("/parts/{part_id}/prices")
 def part_prices(part_id: int, vehicle_id: int | None = None, db: Session = Depends(get_db)):
     if db.get(models.Part, part_id) is None:
-        raise HTTPException(status_code=404, detail="Peca nao encontrada")
+        raise HTTPException(status_code=404, detail="Peça não encontrada")
     if vehicle_id is not None:
         if get_car(db, vehicle_id) is None:
-            raise HTTPException(status_code=404, detail="Veiculo nao encontrado")
+            raise HTTPException(status_code=404, detail="Veículo não encontrado")
         return calculate_part_price_stats(db, vehicle_id, part_id)
     return db.query(models.PartPrice).filter(models.PartPrice.part_id == part_id).order_by(models.PartPrice.price).all()
 
@@ -755,7 +795,7 @@ def part_prices(part_id: int, vehicle_id: int | None = None, db: Session = Depen
 @app.get("/vehicles/{vehicle_id}/parts")
 def vehicle_parts(vehicle_id: int, db: Session = Depends(get_db)):
     if get_car(db, vehicle_id) is None:
-        raise HTTPException(status_code=404, detail="Veiculo nao encontrado")
+        raise HTTPException(status_code=404, detail="Veículo não encontrado")
     part_ids = [item[0] for item in db.query(models.PartPrice.part_id).filter(models.PartPrice.vehicle_id == vehicle_id).distinct()]
     return [db.get(models.Part, part_id) for part_id in part_ids]
 
@@ -763,14 +803,14 @@ def vehicle_parts(vehicle_id: int, db: Session = Depends(get_db)):
 @app.get("/vehicles/{vehicle_id}/maintenance-index")
 def vehicle_maintenance_index(vehicle_id: int, db: Session = Depends(get_db)):
     if get_car(db, vehicle_id) is None:
-        raise HTTPException(status_code=404, detail="Veiculo nao encontrado")
+        raise HTTPException(status_code=404, detail="Veículo não encontrado")
     return {"vehicle_id": vehicle_id, "maintenance_index": calculate_maintenance_index(db, vehicle_id)}
 
 
 @app.get("/vehicles/{vehicle_id}/parts-analysis")
 def vehicle_parts_analysis(vehicle_id: int, db: Session = Depends(get_db)):
     if get_car(db, vehicle_id) is None:
-        raise HTTPException(status_code=404, detail="Veiculo nao encontrado")
+        raise HTTPException(status_code=404, detail="Veículo não encontrado")
     return calculate_vehicle_parts_summary(db, vehicle_id)
 
 
@@ -779,49 +819,53 @@ def online_car_search(query: str = ""):
     return search_online_cars(query)
 
 
-@app.post("/users", response_model=UserRead, status_code=201)
+@app.post("/users", response_model=UserRead, status_code=201, dependencies=[Depends(require_admin)])
 def add_user(payload: UserCreate, db: Session = Depends(get_db)):
     return create_user(db, payload)
 
 
 @app.get("/expenses", response_model=list[ExpenseRead])
-def list_expenses(db: Session = Depends(get_db)):
+def list_expenses(db: Session = Depends(get_db), user: models.User = Depends(current_user)):
     return (
         db.query(models.Expense)
         .join(models.Vehicle, models.Expense.vehicle_id == models.Vehicle.id)
-        .filter(models.Vehicle.vehicle_type == VehicleType.CAR.value)
+        .filter(models.Vehicle.vehicle_type == VehicleType.CAR.value, models.Expense.user_id == user.id)
         .order_by(models.Expense.expense_date.desc())
         .all()
     )
 
 
 @app.post("/expenses", response_model=ExpenseRead, status_code=201)
-def add_expense(payload: ExpenseCreate, db: Session = Depends(get_db)):
+def add_expense(payload: ExpenseCreate, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    assert_owner(user, payload.user_id)
     ensure_related_records(db, payload.user_id, payload.vehicle_id)
     return create_expense(db, payload)
 
 
 @app.get("/maintenances", response_model=list[MaintenanceRead])
-def list_maintenances(db: Session = Depends(get_db)):
+def list_maintenances(db: Session = Depends(get_db), user: models.User = Depends(current_user)):
     return (
         db.query(models.Maintenance)
         .join(models.Vehicle, models.Maintenance.vehicle_id == models.Vehicle.id)
-        .filter(models.Vehicle.vehicle_type == VehicleType.CAR.value)
+        .filter(models.Vehicle.vehicle_type == VehicleType.CAR.value, models.Maintenance.user_id == user.id)
         .order_by(models.Maintenance.scheduled_date.desc())
         .all()
     )
 
 
 @app.post("/maintenances", response_model=MaintenanceRead, status_code=201)
-def add_maintenance(payload: MaintenanceCreate, db: Session = Depends(get_db)):
+def add_maintenance(payload: MaintenanceCreate, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    assert_owner(user, payload.user_id)
     ensure_related_records(db, payload.user_id, payload.vehicle_id)
     return create_maintenance(db, payload)
 
 
 @app.get("/user-vehicles")
-def list_user_vehicles(user_id: int = 1, db: Session = Depends(get_db)):
+def list_user_vehicles(user_id: int | None = None, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    user_id = user.id if user_id is None else user_id
+    assert_owner(user, user_id)
     if db.get(models.User, user_id) is None:
-        raise HTTPException(status_code=404, detail="Usuario nao encontrado")
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
     items = (
         db.query(models.UserVehicle)
         .join(models.Vehicle, models.UserVehicle.vehicle_id == models.Vehicle.id)
@@ -836,43 +880,44 @@ def list_user_vehicles(user_id: int = 1, db: Session = Depends(get_db)):
 
 
 @app.post("/user-vehicles", status_code=201)
-def add_user_vehicle(payload: UserVehicleCreate, db: Session = Depends(get_db)):
+def add_user_vehicle(payload: UserVehicleCreate, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    assert_owner(user, payload.user_id)
     ensure_related_records(db, payload.user_id, payload.vehicle_id)
     if payload.purchase_km > payload.current_km:
-        raise HTTPException(status_code=422, detail="Km de compra nao pode ser maior que o km atual")
+        raise HTTPException(status_code=422, detail="Km de compra não pode ser maior que o km atual")
     return user_vehicle_to_response(create_user_vehicle(db, payload))
 
 
 @app.patch("/user-vehicles/{user_vehicle_id}")
-def edit_user_vehicle(user_vehicle_id: int, payload: UserVehicleUpdate, db: Session = Depends(get_db)):
-    item = db.get(models.UserVehicle, user_vehicle_id)
+def edit_user_vehicle(user_vehicle_id: int, payload: UserVehicleUpdate, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    item = db.query(models.UserVehicle).filter_by(id=user_vehicle_id, user_id=user.id).first()
     if item is None or item.vehicle is None or item.vehicle.vehicle_type != VehicleType.CAR.value:
-        raise HTTPException(status_code=404, detail="Veiculo do usuario nao encontrado")
+        raise HTTPException(status_code=404, detail="Veículo do usuário não encontrado")
     next_values = {
         "purchase_km": payload.purchase_km if payload.purchase_km is not None else item.purchase_km,
         "current_km": payload.current_km if payload.current_km is not None else item.current_km,
     }
     if next_values["purchase_km"] > next_values["current_km"]:
-        raise HTTPException(status_code=422, detail="Km de compra nao pode ser maior que o km atual")
+        raise HTTPException(status_code=422, detail="Km de compra não pode ser maior que o km atual")
     updated = update_user_vehicle(db, item, payload)
     return user_vehicle_to_response(updated)
 
 
 @app.delete("/user-vehicles/{user_vehicle_id}", status_code=204)
-def delete_user_vehicle(user_vehicle_id: int, db: Session = Depends(get_db)):
-    item = db.get(models.UserVehicle, user_vehicle_id)
+def delete_user_vehicle(user_vehicle_id: int, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    item = db.query(models.UserVehicle).filter_by(id=user_vehicle_id, user_id=user.id).first()
     if item is None or item.vehicle is None or item.vehicle.vehicle_type != VehicleType.CAR.value:
-        raise HTTPException(status_code=404, detail="Veiculo do usuario nao encontrado")
+        raise HTTPException(status_code=404, detail="Veículo do usuário não encontrado")
     db.delete(item)
     db.commit()
     return None
 
 
 @app.get("/user-vehicles/{user_vehicle_id}/history")
-def user_vehicle_history(user_vehicle_id: int, db: Session = Depends(get_db)):
-    item = db.get(models.UserVehicle, user_vehicle_id)
+def user_vehicle_history(user_vehicle_id: int, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    item = db.query(models.UserVehicle).filter_by(id=user_vehicle_id, user_id=user.id).first()
     if item is None or item.vehicle is None or item.vehicle.vehicle_type != VehicleType.CAR.value:
-        raise HTTPException(status_code=404, detail="Veiculo do usuario nao encontrado")
+        raise HTTPException(status_code=404, detail="Veículo do usuário não encontrado")
     reports = (
         db.query(models.VehicleReport)
         .filter(models.VehicleReport.user_vehicle_id == user_vehicle_id)
@@ -895,17 +940,18 @@ def user_vehicle_history(user_vehicle_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/vehicle-reports", response_model=VehicleReportRead, status_code=201)
-def add_vehicle_report(payload: VehicleReportCreate, db: Session = Depends(get_db)):
-    ensure_user_vehicle_exists(db, payload.user_vehicle_id)
+def add_vehicle_report(payload: VehicleReportCreate, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    ensure_user_vehicle_exists(db, payload.user_vehicle_id, user.id)
     return create_vehicle_report(db, payload)
 
 
 @app.get("/vehicle-reports", response_model=list[VehicleReportRead])
-def list_vehicle_reports(vehicle_id: int | None = None, db: Session = Depends(get_db)):
+def list_vehicle_reports(vehicle_id: int | None = None, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
     query = (
         db.query(models.VehicleReport)
         .join(models.Vehicle, models.VehicleReport.vehicle_id == models.Vehicle.id)
-        .filter(models.Vehicle.vehicle_type == VehicleType.CAR.value)
+        .join(models.UserVehicle, models.VehicleReport.user_vehicle_id == models.UserVehicle.id)
+        .filter(models.Vehicle.vehicle_type == VehicleType.CAR.value, models.UserVehicle.user_id == user.id)
     )
     if vehicle_id is not None:
         query = query.filter(models.VehicleReport.vehicle_id == vehicle_id)
@@ -913,51 +959,55 @@ def list_vehicle_reports(vehicle_id: int | None = None, db: Session = Depends(ge
 
 
 @app.delete("/vehicle-reports/{report_id}", status_code=204)
-def delete_vehicle_report(report_id: int, db: Session = Depends(get_db)):
+def delete_vehicle_report(report_id: int, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
     report = db.get(models.VehicleReport, report_id)
     if report is None or get_car(db, report.vehicle_id) is None:
-        raise HTTPException(status_code=404, detail="Relato nao encontrado")
+        raise HTTPException(status_code=404, detail="Relato não encontrado")
+    ensure_user_vehicle_exists(db, report.user_vehicle_id, user.id)
     db.delete(report)
     db.commit()
     return None
 
 
 @app.post("/fuel-consumption-reports", response_model=FuelConsumptionReportRead, status_code=201)
-def add_consumption_report(payload: FuelConsumptionReportCreate, db: Session = Depends(get_db)):
-    ensure_user_vehicle_exists(db, payload.user_vehicle_id)
+def add_consumption_report(payload: FuelConsumptionReportCreate, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    ensure_user_vehicle_exists(db, payload.user_vehicle_id, user.id)
     return create_consumption_report(db, payload)
 
 
 @app.get("/fuel-consumption-reports", response_model=list[FuelConsumptionReportRead])
-def list_consumption_reports(vehicle_id: int | None = None, db: Session = Depends(get_db)):
+def list_consumption_reports(vehicle_id: int | None = None, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
     query = (
         db.query(models.FuelConsumptionReport)
         .join(models.Vehicle, models.FuelConsumptionReport.vehicle_id == models.Vehicle.id)
-        .filter(models.Vehicle.vehicle_type == VehicleType.CAR.value)
+        .join(models.UserVehicle, models.FuelConsumptionReport.user_vehicle_id == models.UserVehicle.id)
+        .filter(models.Vehicle.vehicle_type == VehicleType.CAR.value, models.UserVehicle.user_id == user.id)
     )
     if vehicle_id is not None:
         query = query.filter(models.FuelConsumptionReport.vehicle_id == vehicle_id)
     return query.order_by(models.FuelConsumptionReport.created_at.desc()).all()
 
 
-@app.get("/vehicle-statistics")
+@app.get("/vehicle-statistics", dependencies=[Depends(require_admin)])
 def vehicle_statistics(vehicle_id: int | None = None, db: Session = Depends(get_db)):
     stats = calculate_model_statistics(db, vehicle_id)
     return list(stats.values()) if vehicle_id is None else stats.get(vehicle_id, {})
 
 
 @app.get("/user-vehicles/{user_vehicle_id}/alerts")
-def preventive_alerts(user_vehicle_id: int, db: Session = Depends(get_db)):
-    item = db.get(models.UserVehicle, user_vehicle_id)
+def preventive_alerts(user_vehicle_id: int, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    item = db.query(models.UserVehicle).filter_by(id=user_vehicle_id, user_id=user.id).first()
     if item is None or item.vehicle is None or item.vehicle.vehicle_type != VehicleType.CAR.value:
-        raise HTTPException(status_code=404, detail="Veiculo do usuario nao encontrado")
+        raise HTTPException(status_code=404, detail="Veículo do usuário não encontrado")
     return build_preventive_alerts(db, item)
 
 
 @app.get("/reports/financial-summary")
-def financial_summary(user_id: int = 1, db: Session = Depends(get_db)):
+def financial_summary(user_id: int | None = None, db: Session = Depends(get_db), user: models.User = Depends(current_user)):
+    user_id = user.id if user_id is None else user_id
+    assert_owner(user, user_id)
     if db.get(models.User, user_id) is None:
-        raise HTTPException(status_code=404, detail="Usuario nao encontrado")
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
     expenses = (
         db.query(models.Expense)
         .join(models.Vehicle, models.Expense.vehicle_id == models.Vehicle.id)
@@ -989,15 +1039,15 @@ def financial_summary(user_id: int = 1, db: Session = Depends(get_db)):
 
 def ensure_related_records(db: Session, user_id: int, vehicle_id: int) -> None:
     if db.get(models.User, user_id) is None:
-        raise HTTPException(status_code=404, detail="Usuario informado nao existe")
+        raise HTTPException(status_code=404, detail="Usuário informado não existe")
     if get_car(db, vehicle_id) is None:
-        raise HTTPException(status_code=404, detail="Veiculo informado nao existe")
+        raise HTTPException(status_code=404, detail="Veículo informado não existe")
 
 
-def ensure_user_vehicle_exists(db: Session, user_vehicle_id: int) -> None:
+def ensure_user_vehicle_exists(db: Session, user_vehicle_id: int, owner_id: int) -> None:
     item = db.get(models.UserVehicle, user_vehicle_id)
-    if item is None or item.vehicle is None or item.vehicle.vehicle_type != VehicleType.CAR.value:
-        raise HTTPException(status_code=404, detail="Veiculo do usuario nao existe")
+    if item is None or item.user_id != owner_id or item.vehicle is None or item.vehicle.vehicle_type != VehicleType.CAR.value:
+        raise HTTPException(status_code=404, detail="Veículo do usuário não existe")
 
 
 def vehicle_report_to_response(report: models.VehicleReport) -> dict:
@@ -1026,3 +1076,10 @@ def consumption_report_to_response(report: models.FuelConsumptionReport) -> dict
         "fuel_type": report.fuel_type,
         "notes": report.notes,
     }
+
+
+@app.post("/api/v1/test-runs/recommendation")
+def recorded_recommendation(request: RecommendationRequest, http_request: Request,
+                            user: models.User = Depends(current_user), db: Session = Depends(get_db)):
+    return execute_recorded(db, user, http_request, "recommendation", request.model_dump(mode="json"),
+                            lambda: create_recommendations(request, envelope=True, db=db))

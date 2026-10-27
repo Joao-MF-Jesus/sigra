@@ -80,7 +80,13 @@ def build_snapshots(
         raise ValueError("Carpedia Gold shadow contains duplicate vehicle grains")
     snapshots: list[CarpediaSnapshot] = []
     for item in matched:
-        if item.specification_id is None or item.mapping.vehicle_sk is None:
+        if (
+            item.specification_id is None
+            or item.mapping.mapping_decision_id is None
+            or item.mapping.vehicle_sk is None
+            or item.mapping.confidence != Decimal("100")
+            or item.mapping.review_required
+        ):
             raise ValueError("Carpedia Gold shadow requires persisted matched Silver lineage")
         payload = {
             "vehicle_sk": item.mapping.vehicle_sk,
@@ -109,6 +115,8 @@ def evaluate_quality(
     specifications: Sequence[CarpediaSpecification],
     snapshots: Sequence[CarpediaSnapshot],
     issues: Iterable[CarpediaQualityIssue] = (),
+    *,
+    lineage_evidence: Mapping[str, object] | None = None,
 ) -> tuple[CarpediaQualityResult, ...]:
     all_issues = tuple(issues) + _range_issues(specifications)
     critical = sum(item.severity == "critical" for item in all_issues)
@@ -133,6 +141,7 @@ def evaluate_quality(
         and item.specification_id is not None
         for item in specifications
     )
+    lineage_coherent = bool(lineage_evidence and lineage_evidence.get("coherent"))
     sensitive = any(
         _contains_sensitive(item.parsed.raw.payload)
         or _contains_sensitive(item.attributes)
@@ -179,6 +188,21 @@ def evaluate_quality(
             "CARPEDIA_LINEAGE_COMPLETE", "critical", "passed" if lineage_complete else "failed",
             {"complete": lineage_complete},
             "every candidate has Bronze asset/raw, mapping and Silver specification lineage",
+        ),
+        CarpediaQualityResult(
+            "CARPEDIA_LINEAGE_IDENTITY_COHERENT",
+            "critical",
+            "passed" if lineage_coherent else "failed",
+            {
+                "coherent": lineage_coherent,
+                "specifications": int((lineage_evidence or {}).get("specifications", 0)),
+                "snapshots": int((lineage_evidence or {}).get("snapshots", 0)),
+                "publishable_snapshots": int(
+                    (lineage_evidence or {}).get("publishable_snapshots", 0)
+                ),
+                "issue_codes": tuple((lineage_evidence or {}).get("issue_codes", ())),
+            },
+            "snapshot, Silver specification and current mapping decision agree on identity and publishable status",
         ),
         CarpediaQualityResult(
             "CARPEDIA_EXTERNAL_IDENTIFIERS_UNIQUE", "critical", "passed" if unique_external else "failed",

@@ -37,6 +37,7 @@ def run_anp_pipeline(
     client: AnpCsvClient | None = None,
     parser: AnpCsvParser | None = None,
     heartbeat: Callable[[str], None] | None = None,
+    source_resolver: Callable[[str], tuple[str, str, str]] | None = None,
 ) -> AnpPipelineResult:
     options = options or AnpExecutionOptions()
     notify = heartbeat or (lambda _stage: None)
@@ -45,7 +46,9 @@ def run_anp_pipeline(
         return AnpPipelineResult("succeeded", None, (), None, None, 0, 0, 0, 0)
     if loader is None:
         raise ValueError("ANP loader is required outside dry-run")
-    official_page, download_url, filename = resolve_source(options.source_reference)
+    official_page, download_url, filename = (source_resolver or resolve_source)(
+        options.source_reference
+    )
     client = client or AnpCsvClient()
     parser = parser or AnpCsvParser()
     run_ids: list[str] = []

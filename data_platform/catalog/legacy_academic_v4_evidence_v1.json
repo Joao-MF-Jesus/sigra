@@ -1,0 +1,1739 @@
+{
+  "version": "legacy-academic-v4-evidence-v1",
+  "methodology": "academic-profile-pilot-v4",
+  "scope": "Read-only additive legacy evidence; no operational activation or changes to v3.",
+  "legacy_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34
+  ],
+  "sources": {
+    "fipe_1": {
+      "cache_file": "4b9616be0e921278fd333d1799d110d98d0f51c7860894d9e2cf792db66f18b5.json",
+      "sha256": "336f60c4ba106c874a60e7632cd2a540174f3e44e397f07892cb310700b1f5fb",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/004517-9/years/2021-5",
+      "collected_at": "2026-09-11T22:54:11.074492+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_2": {
+      "cache_file": "89d4d3cd93bc5f189419a6b03e34c8550fa7157f633be1ce95f72409f2a88c0e.json",
+      "sha256": "56ec8dc765413da7dceefe61877c5d4ffe202a025746cc13704b558a6ebf19e9",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/004436-9/years/2018-5",
+      "collected_at": "2026-09-11T22:54:11.206271+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "pbev_2018": {
+      "cache_file": "veiculos_leves_2018.pdf",
+      "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4",
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+      "collected_at": "2026-09-07T01:02:37.462160+00:00",
+      "document": "Tabelas de Consumo/Eficiencia Energetica - Veiculos Automotores Leves - Ano 2018"
+    },
+    "parsed_2018": {
+      "cache_file": "pbev-2018-parsed.json",
+      "sha256": "a5d41bda1c51a87be9b7ee936a9e691583709472a03d15d1ac5d45ce5565ca1c",
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+      "collected_at": "2026-09-07T01:02:37.462160+00:00",
+      "document": "Existing versioned PBEV parser snapshot, verified against rendered official table"
+    },
+    "fipe_3": {
+      "cache_file": "ab8a712f798e9729318a24d8d44bd2da08f44459765b1404282e07dd7425694c.json",
+      "sha256": "e46f2ce269111be3ab227f020ab7f60ff693d3d61d16249f2b14a9317ef447a6",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/004421-0/years/2018-5",
+      "collected_at": "2026-09-11T22:54:11.357576+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_4": {
+      "cache_file": "c98ca78cfcb29e3040006ab0884ef86c169fbee0eee9a97454bed81b90f02fcf.json",
+      "sha256": "8655c04f794039c8e93d8ae9df2bf9b7c996e947cb0c6428f2c36f87d7e87aa7",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/004415-6/years/2019-5",
+      "collected_at": "2026-09-11T22:54:11.456206+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "pbev_2019": {
+      "cache_file": "veiculos_leves_2019.pdf",
+      "sha256": "d2168ac4bdd266a483468390d501565186e36949eff0c37f61fbc419be5d8804",
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file",
+      "collected_at": "2026-09-07T01:02:54.889224+00:00",
+      "document": "Tabelas de Consumo/Eficiencia Energetica - Veiculos Automotores Leves - Ano 2019"
+    },
+    "parsed_2019": {
+      "cache_file": "pbev-2019-parsed.json",
+      "sha256": "acee52912c45b7c4e08df60495cf55b221d234424475a6541761a6969071c951",
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file",
+      "collected_at": "2026-09-07T01:02:54.889224+00:00",
+      "document": "Existing versioned PBEV parser snapshot, verified against rendered official table"
+    },
+    "fipe_5": {
+      "cache_file": "8cb23a149f0170a8d8c2954881f3b01df07ba011c3c845fb1675d4e5e1ee9c18.json",
+      "sha256": "49f08e2c0d53f84898dcb5920722833aa0a0fc4e7cee05547a25768e4d26afc9",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/004522-5/years/2021-5",
+      "collected_at": "2026-09-11T22:54:11.567429+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "pbev_2021": {
+      "cache_file": "pbe-veicular-2021.pdf",
+      "sha256": "3c2350a98cb5182f6d4c165be310f4edf4eb9b3162a92bf089be2a8005e2b6b7",
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2021/@@download/file",
+      "collected_at": "2026-09-07T01:03:43.689460+00:00",
+      "document": "PBE Veicular 2021"
+    },
+    "parsed_2021": {
+      "cache_file": "pbev-2021-parsed.json",
+      "sha256": "30a0a1a2fc4db9f8c282d0054e02ed6bdff729c052dedef83f058aa99ae98ebd",
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2021/@@download/file",
+      "collected_at": "2026-09-07T01:03:43.689460+00:00",
+      "document": "Existing versioned PBEV parser snapshot, verified against rendered official table"
+    },
+    "fipe_8": {
+      "cache_file": "3ce4076136ee4e39446444a34de38dcdeca7834c4e5807b9db504727c99c5606.json",
+      "sha256": "ad9ef0f49eff415d6c7b75a9d088c131b1103b304e606c4c0c856d1ab7b413db",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/015157-2/years/2019-5",
+      "collected_at": "2026-09-11T22:54:11.689092+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_9": {
+      "cache_file": "f43ee00bc763cf266947279fa52de9349325f51591308f17fde144fd04130801.json",
+      "sha256": "ac99fb16c3a8d6dd6b265a2f894c90bfd43bf359e3b0f1c42b208bafe8b5d94c",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/002109-1/years/2018-5",
+      "collected_at": "2026-09-11T22:54:11.857027+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_10": {
+      "cache_file": "6aa002788918677146a1f5f9a75105f8c33e5596a2853fa799ea198eb52eab8c.json",
+      "sha256": "cd8733362fa9bda834266e8b51f19e21fc5ce7af837e1fde007bd0e332711fd5",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/002150-4/years/2018-5",
+      "collected_at": "2026-09-11T22:54:11.975476+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_11": {
+      "cache_file": "3a37dbc09966112548f88e1f92aa9512707da9549683871c2bb86a6a536cc8ea.json",
+      "sha256": "f8b12a89564aab838baae89a6ec5f2c04a7626b63570d19dee9c2b2b47e23b92",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/002172-5/years/2020-5",
+      "collected_at": "2026-09-11T22:54:12.094112+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_12": {
+      "cache_file": "4eef8cc0010d658af2bde9b957b18ce2fe53d9a09d2638f4e0072c563c73b53d.json",
+      "sha256": "c8c2feb1b63a5bb4bc535c06db30427c3c417e937f351bca100e93d03df523b6",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/002201-2/years/2022-5",
+      "collected_at": "2026-09-11T22:54:12.206909+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_14": {
+      "cache_file": "2296ca1c594f351d1ce20d970557de079daf710c0568094392e78fd8c7eb894a.json",
+      "sha256": "4ea149c7fa37b33b1c103add0c4c937ccca6ee56ced2de076a01a781a42f951f",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/014059-7/years/2018-5",
+      "collected_at": "2026-09-11T22:54:12.317423+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_15": {
+      "cache_file": "52b2a2a26b5eb170ff124410a1162417db423a10e67e2076b128677d389cab30.json",
+      "sha256": "7b39a4a4be7a25d0082df0c574d4f5c3500a7cef5bed1f69fef73b911ec70fa9",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/014091-0/years/2017-5",
+      "collected_at": "2026-09-11T22:54:12.487808+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "pbev_2017": {
+      "cache_file": "veiculos_leves_2017.pdf",
+      "sha256": "951c6b7fd4d6bb11c660816ae391f7129ed47e5aba558236d20398ece8b09f74",
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2017/@@download/file",
+      "collected_at": "2026-09-07T01:02:21.208868+00:00",
+      "document": "Tabelas de Consumo/Eficiencia Energetica - Veiculos Automotores Leves - Ano 2017"
+    },
+    "parsed_2017": {
+      "cache_file": "pbev-2017-parsed.json",
+      "sha256": "228d2434bbc08ddd510743376d10e06e63660d48da86e6cc6ebfa1b67b01e3aa",
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2017/@@download/file",
+      "collected_at": "2026-09-07T01:02:21.208868+00:00",
+      "document": "Existing versioned PBEV parser snapshot, verified against rendered official table"
+    },
+    "fipe_16": {
+      "cache_file": "ad93c5ca5f5654137eae0a4f6c6c22a5f87feb8cfe23d7433c9f3d55ce7a3e14.json",
+      "sha256": "611dbbc032770552fd10621c770a3c89a9601d463c273231bdabf01b51f6916c",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/014086-4/years/2018-5",
+      "collected_at": "2026-09-11T22:54:12.657343+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_18": {
+      "cache_file": "b8bc3ab1e68aaee88164571dff4bdfe8c09cf3e407116897330d10e91fa38cec.json",
+      "sha256": "19120a6353e1faf1639a548d787c121283292aaeed77c267c43774a68e6b0603",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/005478-0/years/2019-5",
+      "collected_at": "2026-09-11T22:54:12.769083+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_19": {
+      "cache_file": "bfe3b240eb5c65308791d4f4a1bd87859b6b3b7b3e6fe7a80a666a8021927a67.json",
+      "sha256": "cf449f4ef9c1050373bbe7fd953e57c44898fa4cb80ce91d0f0d4a9a01a4caa5",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/005486-0/years/2019-5",
+      "collected_at": "2026-09-11T22:54:12.870796+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_20": {
+      "cache_file": "6e2800d43d2f6cde040a7995bb454d125f64438d480fda3742e99587148155c4.json",
+      "sha256": "9b2a5c3dcd0b5f6b4ac1d7349f38095f8fe61a31490ba4c52a0bc94f7400a544",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/005458-5/years/2018-5",
+      "collected_at": "2026-09-11T22:54:13.005593+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_22": {
+      "cache_file": "b744fe075e151e0e833ee3bd61d37222503f68a1e2122632b2000a76f24f2f0e.json",
+      "sha256": "a6e9f50462c276243c52ad8e2ae30a2a079ab5b5d4fc9103a4e336133219b694",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/001461-3/years/2021-5",
+      "collected_at": "2026-09-11T22:54:13.105743+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_24": {
+      "cache_file": "1bbaf17182e3c2a8c75ddc121c95f307e32683ea7a9c6438dcdc08abd82dc2d6.json",
+      "sha256": "eda34f6aa2dfb253432296a949c16b10c048643172d72a2c30ba98fc99d166c7",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/001494-0/years/2020-5",
+      "collected_at": "2026-09-11T22:54:13.218998+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_25": {
+      "cache_file": "f52f43cdae2c4b53ad6fde4327ccab0e2b4f0ad57149176d99a570b85fbdf189.json",
+      "sha256": "6271ec9c7a9aae194a16db9bafb1843c1ce6e56c92386acec5a18156d2b4713f",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/001505-9/years/2020-5",
+      "collected_at": "2026-09-11T22:54:13.470246+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_26": {
+      "cache_file": "6cdf3f7d21fe9bd4fe43b5d3af36c6f905a2a60e580c4201b4582646359e6249.json",
+      "sha256": "e72a5180fd937d8439ac7d06994c08c9ad4ad66a60007d16708da6ad0fab6fcd",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/025288-3/years/2020-5",
+      "collected_at": "2026-09-11T22:54:13.583474+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_27": {
+      "cache_file": "72562f9acd10146574e5048d960bee434012bae08cc6df73e4b5ef1b21e0c78a.json",
+      "sha256": "4a37a24b95319d2bbcece7be40e310d8631cc477970d7d71554cf04471713ab7",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/025290-5/years/2020-5",
+      "collected_at": "2026-09-11T22:54:13.665457+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_28": {
+      "cache_file": "8bdc7d344f610c08659b4b4f2490b4ed75661ac93d59fe481cad1fb19c1a4244.json",
+      "sha256": "0d6c988f343bfb31c2225e02fa9b23f7515bb3942b71181b6ac25b945d76993e",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/025302-2/years/2020-5",
+      "collected_at": "2026-09-11T22:54:13.722303+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_29": {
+      "cache_file": "fd1a565eae374d6e60f7ba8cdffcae9550072e91b978a34b921cb124d3c1cbb9.json",
+      "sha256": "fde1b318b9b75ef5fd0ec7bc97f0a2cc7072fde71f4ecf5f75d8c55d8e3915de",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/023143-6/years/2018-5",
+      "collected_at": "2026-09-11T22:54:13.825931+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_30": {
+      "cache_file": "86d9208a85d7a0df0c7c9b887f16f4c81639fad236311f1fd833c2c2d1af0f1a.json",
+      "sha256": "dc173cf2210852ae6e8f409e32db6105e26c30c5d7641240ef33c4bea665ba15",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/023144-4/years/2019-5",
+      "collected_at": "2026-09-11T22:54:13.940311+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "fipe_31": {
+      "cache_file": "e627a63293b7c4c3a6fdc6ec24b2c78fdb2c6556e9e76348afae7a95650bd2f3.json",
+      "sha256": "81f7ebfff73a73bd20e9507b0486eaaf17ceaac02f0b00b61ed2a7a39d8b8c7d",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/023156-8/years/2020-5",
+      "collected_at": "2026-09-11T22:54:14.084878+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "pbev_2020": {
+      "cache_file": "veiculos_leves_2020.pdf",
+      "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+      "collected_at": "2026-09-07T01:03:10.213253+00:00",
+      "document": "Tabelas de Consumo/Eficiencia Energetica - Veiculos Automotores Leves - Ano 2020"
+    },
+    "parsed_2020": {
+      "cache_file": "pbev-2020-parsed.json",
+      "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "provider": "pbev",
+      "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+      "collected_at": "2026-09-07T01:03:10.213253+00:00",
+      "document": "Existing versioned PBEV parser snapshot, verified against rendered official table"
+    },
+    "fipe_32": {
+      "cache_file": "ba5a0499f3c171ec518ee5102bfe0f18ef6c084f6d5ed20aaab2cdef7a461841.json",
+      "sha256": "3faae309bf6c9dc2dc1dfef8194db30f13b1f7d61b27ab62ed1853ba551f6225",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/017034-8/years/2019-5",
+      "collected_at": "2026-09-11T22:54:14.182310+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    },
+    "legacy_july": {
+      "cache_file": "fipe_cache.json",
+      "sha256": "fd79106a84df740e56f4709ce83e0a4443ea4c4b575ddf0c2380834fd00503f4",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/",
+      "collected_at": "2026-07-20T20:01:36.530229+00:00",
+      "document": "Preserved July FIPE cache; not September alignment"
+    },
+    "fipe_34": {
+      "cache_file": "b86ce025ff1998d8af72f600a9b08fac9e45c6d791f8293f0cd78257e708b934.json",
+      "sha256": "13e3a2999e23ef87816f9cd5c3703d0dd8a17e2653aa9a2f44c823e37c62fc74",
+      "provider": "fipe",
+      "url": "https://fipe.parallelum.com.br/api/v2/cars/003440-1/years/2018-5",
+      "collected_at": "2026-09-11T22:54:14.285134+00:00",
+      "document": "FIPE September 2026 preserved HTTP 200 response"
+    }
+  },
+  "reviews": [
+    {
+      "id": 1,
+      "catalog": {
+        "id": 1,
+        "brand": "Chevrolet",
+        "model": "Onix LT",
+        "year": 2021
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_1",
+        "year_code": "2021-5",
+        "expected_identity": {
+          "brand": "GM - Chevrolet",
+          "model": "ONIX HATCH LT 1.0 12V Flex 5p Mec.",
+          "modelYear": 2021,
+          "fuel": "Flex",
+          "codeFipe": "004517-9"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": null,
+      "blocker": "PBEV has 1LT/2LT/5LT/8LT option designations; exact commercial LT-to-option scope not documented locally."
+    },
+    {
+      "id": 2,
+      "catalog": {
+        "id": 2,
+        "brand": "Chevrolet",
+        "model": "Prisma LT",
+        "year": 2018
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_2",
+        "year_code": "2018-5",
+        "expected_identity": {
+          "brand": "GM - Chevrolet",
+          "model": "PRISMA Sed. LT 1.4 8V FlexPower 4p Aut.",
+          "modelYear": 2018,
+          "fuel": "Flex",
+          "codeFipe": "004436-9"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2018",
+        "parsed_source": "parsed_2018",
+        "row_hash": "2c1d7cdb8db4b71a2cb66267c57d4c1ccffe63877484abca94490b13b2038fa4",
+        "page": 9,
+        "row_number": 24,
+        "identity": {
+          "brand_name": "CHEVROLET",
+          "model_name": "PRISMA (MY18)",
+          "version_name": "1.4AT LT / 1.4AT LTZ",
+          "motor_description": "1.4L - 8V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.4",
+          8,
+          false,
+          "automatic",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "11.9",
+          "fossil_highway_km_l": "14.7"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Prisma LT 2018; existing FIPE 004436-9 specifies PRISMA Sed. LT 1.4 8V FlexPower 4p Aut.. PBEV explicitly lists 1.4AT LT / 1.4AT LTZ with 1.4L - 8V, A-6 and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 3,
+      "catalog": {
+        "id": 3,
+        "brand": "Chevrolet",
+        "model": "Cobalt LTZ",
+        "year": 2018
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_3",
+        "year_code": "2018-5",
+        "expected_identity": {
+          "brand": "GM - Chevrolet",
+          "model": "COBALT LTZ 1.8 8V Econo.Flex 4p Aut.",
+          "modelYear": 2018,
+          "fuel": "Flex",
+          "codeFipe": "004421-0"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2018",
+        "parsed_source": "parsed_2018",
+        "row_hash": "e318ac378176f7e7d9980c18ff96c940e740834af111192d3cd320312408b741",
+        "page": 9,
+        "row_number": 17,
+        "identity": {
+          "brand_name": "CHEVROLET",
+          "model_name": "COBALT (MY18)",
+          "version_name": "18A LTZ/18 A ELI / 1.8 A LT",
+          "motor_description": "1.8L-8V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.8",
+          8,
+          false,
+          "automatic",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "11.1",
+          "fossil_highway_km_l": "14.4"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Cobalt LTZ 2018; existing FIPE 004421-0 specifies COBALT LTZ 1.8 8V Econo.Flex 4p Aut.. PBEV explicitly lists 18A LTZ/18 A ELI / 1.8 A LT with 1.8L-8V, A-6 and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 4,
+      "catalog": {
+        "id": 4,
+        "brand": "Chevrolet",
+        "model": "Spin LT",
+        "year": 2019
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_4",
+        "year_code": "2019-5",
+        "expected_identity": {
+          "brand": "GM - Chevrolet",
+          "model": "SPIN LT 1.8 8V Econo.Flex 5p Aut.",
+          "modelYear": 2019,
+          "fuel": "Flex",
+          "codeFipe": "004415-6"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2019",
+        "parsed_source": "parsed_2019",
+        "row_hash": "b3075ab9337a39e8a87d16e0ac56d69e961bdd63c97b5bbdfefcc61e2d88eae1",
+        "page": 6,
+        "row_number": 21,
+        "identity": {
+          "brand_name": "CHEVROLET",
+          "model_name": "Spin (MY19)",
+          "version_name": "AT LT (5L)",
+          "motor_description": "1.8L-8V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.8",
+          8,
+          false,
+          "automatic",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "10.7",
+          "fossil_highway_km_l": "13.1"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Spin LT 2019; existing FIPE 004415-6 specifies SPIN LT 1.8 8V Econo.Flex 5p Aut.. PBEV explicitly lists AT LT (5L) with 1.8L-8V, A-6 and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 5,
+      "catalog": {
+        "id": 5,
+        "brand": "Chevrolet",
+        "model": "Tracker LT",
+        "year": 2021
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_5",
+        "year_code": "2021-5",
+        "expected_identity": {
+          "brand": "GM - Chevrolet",
+          "model": "TRACKER LT 1.0 Turbo 12V Flex Aut.",
+          "modelYear": 2021,
+          "fuel": "Flex",
+          "codeFipe": "004522-5"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2021",
+        "parsed_source": "parsed_2021",
+        "row_hash": "ba74f6bf949fdb0fbfba4f26713a63d184ff3aef4141f78f641ea49dee6271d9",
+        "page": 8,
+        "row_number": 26,
+        "identity": {
+          "brand_name": "CHEVROLET",
+          "model_name": "TRACKER",
+          "version_name": "T A LT",
+          "motor_description": "1.0T - 12 V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.0",
+          12,
+          true,
+          "automatic",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "11.9",
+          "fossil_highway_km_l": "13.7"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Tracker LT 2021; existing FIPE 004522-5 specifies TRACKER LT 1.0 Turbo 12V Flex Aut.. PBEV explicitly lists T A LT with 1.0T - 12 V, A-6 and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 6,
+      "catalog": {
+        "id": 6,
+        "brand": "Hyundai",
+        "model": "HB20 Comfort",
+        "year": 2020
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": null,
+      "pbev": null,
+      "blocker": "Catalog Comfort versus FIPE/PBEV Vision; no approved substitution. Need exact Comfort 2020 code/year and powertrain."
+    },
+    {
+      "id": 7,
+      "catalog": {
+        "id": 7,
+        "brand": "Hyundai",
+        "model": "HB20S Comfort",
+        "year": 2020
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": null,
+      "pbev": null,
+      "blocker": "Catalog Comfort versus FIPE/PBEV Vision; no approved substitution. Need exact HB20S Comfort 2020 identity."
+    },
+    {
+      "id": 8,
+      "catalog": {
+        "id": 8,
+        "brand": "Hyundai",
+        "model": "Creta Attitude",
+        "year": 2019
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_8",
+        "year_code": "2019-5",
+        "expected_identity": {
+          "brand": "Hyundai",
+          "model": "Creta Attitude 1.6 16V Flex Aut.",
+          "modelYear": 2019,
+          "fuel": "Flex",
+          "codeFipe": "015157-2"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2019",
+        "parsed_source": "parsed_2019",
+        "row_hash": "d218568416e7940ba9671e15939c46ee07a5491f012ec8e11c712622b2ef1671",
+        "page": 19,
+        "row_number": 8,
+        "identity": {
+          "brand_name": "Hyundai",
+          "model_name": "CRETA",
+          "version_name": "Attitude / Pulse / Smart",
+          "motor_description": "1.6-16V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.6",
+          16,
+          false,
+          "automatic",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "10.1",
+          "fossil_highway_km_l": "11.3"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Creta Attitude 2019; existing FIPE 015157-2 specifies Creta Attitude 1.6 16V Flex Aut.. PBEV explicitly lists Attitude / Pulse / Smart with 1.6-16V, A-6 and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 9,
+      "catalog": {
+        "id": 9,
+        "brand": "Toyota",
+        "model": "Corolla GLi",
+        "year": 2018
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_9",
+        "year_code": "2018-5",
+        "expected_identity": {
+          "brand": "Toyota",
+          "model": "Corolla GLi 1.8 Flex 16V  Aut.",
+          "modelYear": 2018,
+          "fuel": "Flex",
+          "codeFipe": "002109-1"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2018",
+        "parsed_source": "parsed_2018",
+        "row_hash": "7e234ff280478eb190d6f33aec1b3a45c1a2b75112b79eb6fcb62ae8dba5e8dc",
+        "page": 12,
+        "row_number": 8,
+        "identity": {
+          "brand_name": "TOYOTA",
+          "model_name": "COROLLA",
+          "version_name": "GLI",
+          "motor_description": "1.8-16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.8",
+          16,
+          false,
+          "cvt",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "11.4",
+          "fossil_highway_km_l": "13.2"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Corolla GLi 2018; existing FIPE 002109-1 specifies Corolla GLi 1.8 Flex 16V Aut.. PBEV explicitly lists GLI with 1.8-16V, CVT and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 10,
+      "catalog": {
+        "id": 10,
+        "brand": "Toyota",
+        "model": "Etios XLS",
+        "year": 2018
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_10",
+        "year_code": "2018-5",
+        "expected_identity": {
+          "brand": "Toyota",
+          "model": "ETIOS XLS 1.5 Flex 5p Aut.",
+          "modelYear": 2018,
+          "fuel": "Flex",
+          "codeFipe": "002150-4"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2018",
+        "parsed_source": "parsed_2018",
+        "row_hash": "2ab21f15224f83ac4fe2ea7abe981b85a43c27a39d7ae2766adb78fa104d4acb",
+        "page": 2,
+        "row_number": 11,
+        "identity": {
+          "brand_name": "TOYOTA",
+          "model_name": "ETIOS HATCHBACK",
+          "version_name": "XS / XLS / XPLUS / PLATINUM / CROSS / READY",
+          "motor_description": "1.5-16V",
+          "transmission_code": "A-4",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.5",
+          16,
+          false,
+          "automatic",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "11.9",
+          "fossil_highway_km_l": "13.2"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Etios XLS 2018; existing FIPE 002150-4 specifies ETIOS XLS 1.5 Flex 5p Aut.. PBEV explicitly lists XS / XLS / XPLUS / PLATINUM / CROSS / READY with 1.5-16V, A-4 and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 11,
+      "catalog": {
+        "id": 11,
+        "brand": "Toyota",
+        "model": "Yaris XL",
+        "year": 2020
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_11",
+        "year_code": "2020-5",
+        "expected_identity": {
+          "brand": "Toyota",
+          "model": "YARIS XL 1.3 Flex 16V 5p Aut.",
+          "modelYear": 2020,
+          "fuel": "Flex",
+          "codeFipe": "002172-5"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": null,
+      "blocker": "PBEV identifies XL Live; cached FIPE/catalog XL does not prove Live scope in 2020."
+    },
+    {
+      "id": 12,
+      "catalog": {
+        "id": 12,
+        "brand": "Toyota",
+        "model": "Corolla Cross XR",
+        "year": 2022
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_12",
+        "year_code": "2022-5",
+        "expected_identity": {
+          "brand": "Toyota",
+          "model": "Corolla Cross XR 2.0 16V Flex Aut.",
+          "modelYear": 2022,
+          "fuel": "Flex",
+          "codeFipe": "002201-2"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": null,
+      "blocker": "Local audited PBEV PDFs stop at 2021; target Corolla Cross XR is 2022."
+    },
+    {
+      "id": 13,
+      "catalog": {
+        "id": 13,
+        "brand": "Honda",
+        "model": "Fit EX",
+        "year": 2017
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": null,
+      "pbev": null,
+      "blocker": "FIPE combined EX/S and July year-code 2017-1 conflict with Flex wording; exact 2017 Fit row not found in local parsed cycle."
+    },
+    {
+      "id": 14,
+      "catalog": {
+        "id": 14,
+        "brand": "Honda",
+        "model": "City LX",
+        "year": 2018
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_14",
+        "year_code": "2018-5",
+        "expected_identity": {
+          "brand": "Honda",
+          "model": "CITY Sedan LX 1.5 Flex 16V 4p Aut.",
+          "modelYear": 2018,
+          "fuel": "Flex",
+          "codeFipe": "014059-7"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2018",
+        "parsed_source": "parsed_2018",
+        "row_hash": "5456a58f3c009cfd76c75697d69bf5a13a570cbe67c7df7a1fe5a398e95b79cf",
+        "page": 6,
+        "row_number": 25,
+        "identity": {
+          "brand_name": "HONDA",
+          "model_name": "City",
+          "version_name": "DX / LX / EX / EXL / PERSONAL",
+          "motor_description": "1.5-16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.5",
+          16,
+          false,
+          "cvt",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "12.3",
+          "fossil_highway_km_l": "14.5"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog City LX 2018; existing FIPE 014059-7 specifies CITY Sedan LX 1.5 Flex 16V 4p Aut.. PBEV explicitly lists DX / LX / EX / EXL / PERSONAL with 1.5-16V, CVT and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 15,
+      "catalog": {
+        "id": 15,
+        "brand": "Honda",
+        "model": "Civic EX",
+        "year": 2017
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_15",
+        "year_code": "2017-5",
+        "expected_identity": {
+          "brand": "Honda",
+          "model": "Civic Sedan EX 2.0 Flex 16V Aut.4p",
+          "modelYear": 2017,
+          "fuel": "Flex",
+          "codeFipe": "014091-0"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2017",
+        "parsed_source": "parsed_2017",
+        "row_hash": "c85a60d5474e975aeabd6f205a8bb458f27ce351e186de14abdc7b104bb16b39",
+        "page": 12,
+        "row_number": 18,
+        "identity": {
+          "brand_name": "HONDA",
+          "model_name": "Civic",
+          "version_name": "EX / EX-L / SPORT",
+          "motor_description": "2.0-16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "2.0",
+          16,
+          false,
+          "cvt",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "10.5",
+          "fossil_highway_km_l": "12.9"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Civic EX 2017; existing FIPE 014091-0 specifies Civic Sedan EX 2.0 Flex 16V Aut. 4p. PBEV explicitly lists EX / EX-L / SPORT with 2.0-16V, CVT and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 16,
+      "catalog": {
+        "id": 16,
+        "brand": "Honda",
+        "model": "HR-V LX",
+        "year": 2018
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_16",
+        "year_code": "2018-5",
+        "expected_identity": {
+          "brand": "Honda",
+          "model": "HR-V LX 1.8 Flexone 16V 5p Aut.",
+          "modelYear": 2018,
+          "fuel": "Flex",
+          "codeFipe": "014086-4"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2018",
+        "parsed_source": "parsed_2018",
+        "row_hash": "fd38b269515be55435893c364e4be93d54bf238ec2a230a164df329eb15f3feb",
+        "page": 22,
+        "row_number": 6,
+        "identity": {
+          "brand_name": "HONDA",
+          "model_name": "HR-V",
+          "version_name": "LX / EX / EXL/TOURING",
+          "motor_description": "1.8-16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.8",
+          16,
+          false,
+          "cvt",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "11.0",
+          "fossil_highway_km_l": "12.3"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog HR-V LX 2018; existing FIPE 014086-4 specifies HR-V LX 1.8 Flexone 16V 5p Aut.. PBEV explicitly lists LX / EX / EXL/TOURING with 1.8-16V, CVT and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 17,
+      "catalog": {
+        "id": 17,
+        "brand": "Volkswagen",
+        "model": "Gol Trendline",
+        "year": 2019
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": null,
+      "pbev": null,
+      "blocker": "PBEV 2019 distinguishes wheel sizes but does not name Trendline; generic FIPE description cannot resolve catalog trim."
+    },
+    {
+      "id": 18,
+      "catalog": {
+        "id": 18,
+        "brand": "Volkswagen",
+        "model": "Polo MSI",
+        "year": 2019
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_18",
+        "year_code": "2019-5",
+        "expected_identity": {
+          "brand": "VW - VolksWagen",
+          "model": "Polo 1.6 MSI Flex 16V 5p",
+          "modelYear": 2019,
+          "fuel": "Flex",
+          "codeFipe": "005478-0"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": null,
+      "blocker": "PBEV Polo 1.6 versions are blank; catalog MSI-to-version scope is not explicit."
+    },
+    {
+      "id": 19,
+      "catalog": {
+        "id": 19,
+        "brand": "Volkswagen",
+        "model": "Virtus MSI",
+        "year": 2019
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_19",
+        "year_code": "2019-5",
+        "expected_identity": {
+          "brand": "VW - VolksWagen",
+          "model": "VIRTUS 1.6 MSI Flex 16V 5p Mec.",
+          "modelYear": 2019,
+          "fuel": "Flex",
+          "codeFipe": "005486-0"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": null,
+      "blocker": "PBEV Virtus 1.6 version is blank; MSI scope unproved; FIPE also says 5p while commercial sedan context needs review."
+    },
+    {
+      "id": 20,
+      "catalog": {
+        "id": 20,
+        "brand": "Volkswagen",
+        "model": "Voyage Comfortline",
+        "year": 2018
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_20",
+        "year_code": "2018-5",
+        "expected_identity": {
+          "brand": "VW - VolksWagen",
+          "model": "VOYAGE Comfortline 1.0 T.Flex 12V 4p",
+          "modelYear": 2018,
+          "fuel": "Flex",
+          "codeFipe": "005458-5"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2018",
+        "parsed_source": "parsed_2018",
+        "row_hash": "943cc969ed350712b56d04a73e5f60851a5dd065fafc90c0fe8af9d2f889f63d",
+        "page": 7,
+        "row_number": 6,
+        "identity": {
+          "brand_name": "VW",
+          "model_name": "Voyage",
+          "version_name": "Comfortline",
+          "motor_description": "1.0-12V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.0",
+          12,
+          false,
+          "manual",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "12.7",
+          "fossil_highway_km_l": "14.8"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Voyage Comfortline 2018; existing FIPE 005458-5 specifies VOYAGE Comfortline 1.0 T.Flex 12V 4p. PBEV explicitly lists Comfortline with 1.0-12V, M-5 and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 21,
+      "catalog": {
+        "id": 21,
+        "brand": "Volkswagen",
+        "model": "T-Cross 200 TSI",
+        "year": 2020
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": null,
+      "pbev": null,
+      "blocker": "PBEV separately lists 200TSI and Comfortline 200TSI; catalog 200TSI cannot silently become FIPE Comfortline."
+    },
+    {
+      "id": 22,
+      "catalog": {
+        "id": 22,
+        "brand": "Fiat",
+        "model": "Mobi Like",
+        "year": 2021
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_22",
+        "year_code": "2021-5",
+        "expected_identity": {
+          "brand": "Fiat",
+          "model": "MOBI LIKE 1.0 Fire Flex 5p.",
+          "modelYear": 2021,
+          "fuel": "Flex",
+          "codeFipe": "001461-3"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2021",
+        "parsed_source": "parsed_2021",
+        "row_hash": "2f41b1e7969388bd1b5b810d3f207e0be19f086e9ab9b0ce2e732a4e674b0acd",
+        "page": 1,
+        "row_number": 6,
+        "identity": {
+          "brand_name": "FIAT",
+          "model_name": "MOBI",
+          "version_name": "LIKE",
+          "motor_description": "1.0-8V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.0",
+          8,
+          false,
+          "manual",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "13.0",
+          "fossil_highway_km_l": "14.1"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Mobi Like 2021; existing FIPE 001461-3 specifies MOBI LIKE 1.0 Fire Flex 5p.. PBEV explicitly lists LIKE with 1.0-8V, M-5 and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 23,
+      "catalog": {
+        "id": 23,
+        "brand": "Fiat",
+        "model": "Uno Attractive",
+        "year": 2018
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": null,
+      "pbev": null,
+      "blocker": "Local PBEV Attractive 1.0-8V differs from cached FIPE Drive 1.0-6V. Need correct Attractive FIPE key."
+    },
+    {
+      "id": 24,
+      "catalog": {
+        "id": 24,
+        "brand": "Fiat",
+        "model": "Argo Drive",
+        "year": 2020
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_24",
+        "year_code": "2020-5",
+        "expected_identity": {
+          "brand": "Fiat",
+          "model": "ARGO DRIVE 1.0 6V Flex",
+          "modelYear": 2020,
+          "fuel": "Flex",
+          "codeFipe": "001494-0"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": null,
+      "blocker": "Drive and Drive Stop & Start coexist; cached FIPE does not resolve configuration. No row cherry-picking."
+    },
+    {
+      "id": 25,
+      "catalog": {
+        "id": 25,
+        "brand": "Fiat",
+        "model": "Cronos Drive",
+        "year": 2020
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_25",
+        "year_code": "2020-5",
+        "expected_identity": {
+          "brand": "Fiat",
+          "model": "CRONOS DRIVE 1.3 8V Flex",
+          "modelYear": 2020,
+          "fuel": "Flex",
+          "codeFipe": "001505-9"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": null,
+      "blocker": "Drive manual, automated and Stop & Start alternatives coexist; cached FIPE omits enough configuration to resolve uniquely."
+    },
+    {
+      "id": 26,
+      "catalog": {
+        "id": 26,
+        "brand": "Renault",
+        "model": "Sandero Zen",
+        "year": 2020
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_26",
+        "year_code": "2020-5",
+        "expected_identity": {
+          "brand": "Renault",
+          "model": "SANDERO Zen Flex 1.0 12V 5p Mec.",
+          "modelYear": 2020,
+          "fuel": "Flex",
+          "codeFipe": "025288-3"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": null,
+      "blocker": "PBEV 2020 local Sandero rows name Authentique/Expression, not Zen; no local reviewed trim rename."
+    },
+    {
+      "id": 27,
+      "catalog": {
+        "id": 27,
+        "brand": "Renault",
+        "model": "Logan Zen",
+        "year": 2020
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_27",
+        "year_code": "2020-5",
+        "expected_identity": {
+          "brand": "Renault",
+          "model": "LOGAN Zen Flex 1.0 12V 4p Mec.",
+          "modelYear": 2020,
+          "fuel": "Flex",
+          "codeFipe": "025290-5"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": null,
+      "blocker": "Logan Zen 1.0 appears as Logan and Logan-P2; exact generation scope unresolved."
+    },
+    {
+      "id": 28,
+      "catalog": {
+        "id": 28,
+        "brand": "Renault",
+        "model": "Duster Zen",
+        "year": 2020
+      },
+      "status": "blocked",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_28",
+        "year_code": "2020-5",
+        "expected_identity": {
+          "brand": "Renault",
+          "model": "DUSTER Zen 1.6 16V Flex Aut.",
+          "modelYear": 2020,
+          "fuel": "Flex",
+          "codeFipe": "025302-2"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": null,
+      "blocker": "PBEV 2020 Duster names Dynamique/Expression or leaves version blank; none explicitly proves Zen."
+    },
+    {
+      "id": 29,
+      "catalog": {
+        "id": 29,
+        "brand": "Nissan",
+        "model": "March SV",
+        "year": 2018
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_29",
+        "year_code": "2018-5",
+        "expected_identity": {
+          "brand": "Nissan",
+          "model": "MARCH SV 1.6 16V FlexStart 5p Aut.",
+          "modelYear": 2018,
+          "fuel": "Flex",
+          "codeFipe": "023143-6"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2018",
+        "parsed_source": "parsed_2018",
+        "row_hash": "75f3d01cf5c8d943ac09e16efc9bf5d029e133f6e0f25ca73b1e815d4775e9b3",
+        "page": 2,
+        "row_number": 7,
+        "identity": {
+          "brand_name": "NISSAN",
+          "model_name": "NEW MARCH",
+          "version_name": "16 SV / 16 SL",
+          "motor_description": "1.6 - 16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.6",
+          16,
+          false,
+          "cvt",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "11.7",
+          "fossil_highway_km_l": "14.5"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog March SV 2018; existing FIPE 023143-6 specifies MARCH SV 1.6 16V FlexStart 5p Aut.. PBEV explicitly lists 16 SV / 16 SL with 1.6 - 16V, CVT and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 30,
+      "catalog": {
+        "id": 30,
+        "brand": "Nissan",
+        "model": "Versa SV",
+        "year": 2019
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_30",
+        "year_code": "2019-5",
+        "expected_identity": {
+          "brand": "Nissan",
+          "model": "VERSA SV 1.6 16V FlexStart 4p Aut.",
+          "modelYear": 2019,
+          "fuel": "Flex",
+          "codeFipe": "023144-4"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2019",
+        "parsed_source": "parsed_2019",
+        "row_hash": "7340d685549c474e016842312e591c7ddc551df02aa21c3e308051c34e2983a9",
+        "page": 5,
+        "row_number": 7,
+        "identity": {
+          "brand_name": "NISSAN",
+          "model_name": "NEW VERSA",
+          "version_name": "16 SV / 16 SL / 16 UNIQUE",
+          "motor_description": "1.6 - 16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.6",
+          16,
+          false,
+          "cvt",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "11.6",
+          "fossil_highway_km_l": "14.1"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Versa SV 2019; existing FIPE 023144-4 specifies VERSA SV 1.6 16V FlexStart 4p Aut.. PBEV explicitly lists 16 SV / 16 SL / 16 UNIQUE with 1.6 - 16V, CVT and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 31,
+      "catalog": {
+        "id": 31,
+        "brand": "Nissan",
+        "model": "Kicks S",
+        "year": 2020
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_31",
+        "year_code": "2020-5",
+        "expected_identity": {
+          "brand": "Nissan",
+          "model": "KICKS S 1.6 16V Flex 5p Aut.",
+          "modelYear": 2020,
+          "fuel": "Flex",
+          "codeFipe": "023156-8"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2020",
+        "parsed_source": "parsed_2020",
+        "row_hash": "99287a4814860b40fb16d8fd1f9b1c1ec49ff8fd9a5a501c266fac812bc44468",
+        "page": 15,
+        "row_number": 15,
+        "identity": {
+          "brand_name": "NISSAN",
+          "model_name": "Kicks",
+          "version_name": "S",
+          "motor_description": "1.6-16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.6",
+          16,
+          false,
+          "cvt",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "11.4",
+          "fossil_highway_km_l": "13.7"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Kicks S 2020; existing FIPE 023156-8 specifies KICKS S 1.6 16V Flex 5p Aut.. PBEV explicitly lists S with 1.6-16V, CVT and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 32,
+      "catalog": {
+        "id": 32,
+        "brand": "Jeep",
+        "model": "Renegade Sport",
+        "year": 2019
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_32",
+        "year_code": "2019-5",
+        "expected_identity": {
+          "brand": "Jeep",
+          "model": "Renegade Sport 1.8 4x2 Flex 16V Aut.",
+          "modelYear": 2019,
+          "fuel": "Flex",
+          "codeFipe": "017034-8"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2019",
+        "parsed_source": "parsed_2019",
+        "row_hash": "3e31286ce98aabf25d9dc362163dc5784baf10fee311578311f3f168c4cde9d5",
+        "page": 19,
+        "row_number": 14,
+        "identity": {
+          "brand_name": "JEEP",
+          "model_name": "RENEGADE",
+          "version_name": "SPORT",
+          "motor_description": "1.8-16V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.8",
+          16,
+          false,
+          "automatic",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "10.0",
+          "fossil_highway_km_l": "12.0"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Renegade Sport 2019; existing FIPE 017034-8 specifies Renegade Sport 1.8 4x2 Flex 16V Aut.. PBEV explicitly lists SPORT with 1.8-16V, A-6 and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    },
+    {
+      "id": 33,
+      "catalog": {
+        "id": 33,
+        "brand": "Ford",
+        "model": "Ka SE",
+        "year": 2019
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "legacy_july",
+        "year_code": "2019-5",
+        "expected_identity": {
+          "brand": "Ford",
+          "model": "Ka 1.0 SE/SE Plus TiVCT Flex 5p",
+          "modelYear": 2019,
+          "fuel": "Flex",
+          "codeFipe": "003408-8"
+        },
+        "reference_month": "2026-07",
+        "legacy_price_cache": true
+      },
+      "pbev": {
+        "source": "pbev_2019",
+        "parsed_source": "parsed_2019",
+        "row_hash": "98e29c544be3fdcad88e73f33aa6c91ccce19961c4e2a6845a54e44d1b8cb7a8",
+        "page": 3,
+        "row_number": 5,
+        "identity": {
+          "brand_name": "FORD",
+          "model_name": "Ka Hatch",
+          "version_name": "S / SE",
+          "motor_description": "1.0-12V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.0",
+          12,
+          false,
+          "manual",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "13.4",
+          "fossil_highway_km_l": "15.5"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog Ka SE 2019; existing FIPE 003408-8 specifies Ka 1.0 SE/SE Plus TiVCT Flex 5p. PBEV explicitly lists S / SE with 1.0-12V, M-5 and flex. Only the named catalog trim is bound, never the other trims in the same published row. Catalog SE is explicitly present both in FIPE SE/SE Plus and PBEV S/SE at 1.0-12V/manual/flex. This intersection resolves SE only; it does not approve SE Plus or refresh July price."
+      },
+      "blocker": null
+    },
+    {
+      "id": 34,
+      "catalog": {
+        "id": 34,
+        "brand": "Ford",
+        "model": "EcoSport SE",
+        "year": 2018
+      },
+      "status": "identity_approved",
+      "reviewed_on": "2026-09-21",
+      "review_method": "Individual exact source review; rendered PBEV page and explicit version inclusion, not fuzzy matching.",
+      "technical_evidence_status": "No exact legacy OEM/CarPedia dimensional or safety dossier admitted from local registered sources.",
+      "fipe": {
+        "source": "fipe_34",
+        "year_code": "2018-5",
+        "expected_identity": {
+          "brand": "Ford",
+          "model": "EcoSport SE 1.5 12V Flex 5p Aut.",
+          "modelYear": 2018,
+          "fuel": "Flex",
+          "codeFipe": "003440-1"
+        },
+        "reference_month": "2026-09",
+        "legacy_price_cache": false
+      },
+      "pbev": {
+        "source": "pbev_2018",
+        "parsed_source": "parsed_2018",
+        "row_hash": "5ed8c92c965a3d9e91178f4fd8719d4705a7ea3823fca9c8adcce99a6cd193aa",
+        "page": 25,
+        "row_number": 13,
+        "identity": {
+          "brand_name": "FORD",
+          "model_name": "EcoSport",
+          "version_name": "SE / FREESTYLE",
+          "motor_description": "1.5-12V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex"
+        },
+        "powertrain": [
+          "1.5",
+          12,
+          false,
+          "automatic",
+          "flex"
+        ],
+        "consumption": {
+          "fossil_city_km_l": "10.4",
+          "fossil_highway_km_l": "12.8"
+        },
+        "unit": "km/l",
+        "scope": "exact listed trim or explicit membership in the published combined row; consumption only",
+        "rationale": "Catalog EcoSport SE 2018; existing FIPE 003440-1 specifies EcoSport SE 1.5 12V Flex 5p Aut.. PBEV explicitly lists SE / FREESTYLE with 1.5-12V, A-6 and flex. Only the named catalog trim is bound, never the other trims in the same published row."
+      },
+      "blocker": null
+    }
+  ],
+  "limitations": [
+    "No technical evidence transferred across versions or vehicle IDs.",
+    "PBEV lab consumption is observed laboratory evidence, not individual road consumption.",
+    "Academic costs remain scenario estimates.",
+    "The 2019 Ka SE retains its July price and is not temporally eligible for September."
+  ]
+}

@@ -8,7 +8,7 @@ CALCULATION_METHOD_VERSION = "price-v1.2"
 CURRENCY = "BRL"
 MAX_TERM_MONTHS = 120
 DISCLAIMER = (
-    "Simulacao estimada. Nao representa proposta ou aprovacao de credito."
+    "Simulação estimada. Não representa proposta ou aprovação de crédito."
 )
 
 

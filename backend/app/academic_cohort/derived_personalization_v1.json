@@ -1,0 +1,26 @@
+{
+  "version": "academic-derived-seven-v1",
+  "enabled_by_default": false,
+  "enable_variable": "SIGRA_DERIVED_PERSONALIZATION_ENABLED",
+  "reference_policy": "user-profile-multifactor-v1",
+  "precision": "0.0001",
+  "normalization_scope": "available measurements within each existing, financially eligible comparison group; never across incompatible evidence groups",
+  "missing_rule": "unknown positive-weight input blocks the final score; no imputation or redistribution; explicit zero excludes only that dimension",
+  "equal_range_rule": "relative min/max: 100 for all equal values, non-discriminating; absolute scales: identical values receive identical utility",
+  "tie_rule": "reference position, then canonical academic ID; no invented distinction",
+  "coefficient_status": "Declared project methodological choices, not empirically validated preferences or efficacy",
+  "dimensions": {
+    "total_cost": {"label": "Combustível estimado no cenário", "unit": "BRL", "nature": "scenario_estimate", "formula": "monthly_km * (city_share/city_km_l + highway_share/highway_km_l) * price_brl_l * horizon_months", "normalization": "group_minmax_lower", "direction": "lower", "source_method": "existing integrated_vehicle_cost.simulation._calculate", "limitation": "Fuel only, not total ownership cost; PBEV or explicit user consumption and explicit compatible fuel price."},
+    "usage_fit": {"label": "Compatibilidade documental com o perfil", "unit": "preference_match", "nature": "derived_academic", "formula": "100 only after the existing published and live profile gates pass", "normalization": "identity", "direction": "gate", "source_method": "existing V6/Revision6 profile eligibility", "limitation": "Entry condition, not a measured suitability score. All equally compatible vehicles receive 100; no ranking distinction."},
+    "comfort": {"label": "Capacidade do porta-malas", "unit": "l", "nature": "derived_academic", "formula": "documented cargo_l", "normalization": "absolute_higher", "lower": "150", "upper": "600", "direction": "higher", "source_method": "catalog-profile-evidence-v3 cargo scale", "limitation": "Nominal documented luggage capacity, not comfort or measured passenger space. Source loading/configuration caveats remain attached."},
+    "safety": {"label": "Inventário de equipamentos de segurança", "unit": "equipment_index", "nature": "derived_academic", "formula": "100 * (min(airbags,6)/6 + int(ABS) + int(ESC)) / 3", "airbag_cap": "6", "divisor": "3", "normalization": "identity", "direction": "higher", "source_method": "catalog-profile-evidence-v3 equipment index", "limitation": "All three exact observations required; explicit absence is valid and scores less; unknown blocks. Not crash performance or equally safe vehicles."},
+    "performance": {"label": "Relação massa/potência com gasolina", "unit": "kg/cv", "nature": "derived_academic", "formula": "exact_variant.weight_kg / exact_variant.power_gasoline_cv", "normalization": "absolute_lower", "lower": "5", "upper": "25", "direction": "lower", "source_method": "catalog-profile-evidence-v3 mass_power scale", "limitation": "Compatible exact-variant mass and nominal gasoline power only; not road handling, acceleration, or an ethanol-power estimate."},
+    "efficiency": {"label": "Consumo combinado no cenário", "unit": "km/l", "nature": "derived_academic", "formula": "1 / (city_share/city_km_l + highway_share/highway_km_l)", "normalization": "group_minmax_higher", "direction": "higher", "source_method": "existing integrated_vehicle_cost.simulation._calculate", "limitation": "PBEV or explicitly supplied consumption, not measured individual real-world economy."},
+    "legacy_quality": {"label": "Manutenção e desvalorização estimadas", "unit": "BRL/month", "nature": "scenario_estimate", "formula": "(unrounded_scenario_maintenance_annual_brl + unrounded_scenario_depreciation_annual_brl) / 12", "normalization": "group_minmax_lower", "direction": "lower", "source_method": "academic_cost_scenario_v1 inputs, validated by legacy_calculations._inputs", "limitation": "Sum of two scenario expenses, not historical reliability, parts availability or observed workshop/resale data. Rates unchanged; much of the differentiation may follow FIPE price."}
+  },
+  "dependencies": [
+    "Fuel cost and efficiency share the same consumption evidence and route shares; they are not independent evidence.",
+    "Scenario maintenance/depreciation may depend on FIPE price; low price is not proof of reliability."
+  ],
+  "activation": "Never changes methodology_ready, observed_tco_complete, operationally_active, recommended, snapshots, eligibility or Gold"
+}

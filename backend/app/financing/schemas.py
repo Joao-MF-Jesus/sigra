@@ -47,7 +47,7 @@ class FinancingRequestBase(BaseModel):
         if value is None:
             return None
         if isinstance(value, bool):
-            raise ValueError("valores booleanos nao sao aceitos em campos numericos")
+            raise ValueError("valores booleanos não são aceitos em campos numéricos")
         try:
             decimal_value = Decimal(str(value))
         except (InvalidOperation, ValueError, TypeError) as error:
@@ -79,13 +79,13 @@ class FinancingRequestBase(BaseModel):
                     "effective_rate_includes_additional_costs e obrigatorio no modo CET"
                 )
         elif self.effective_cost_rate_period is not None or self.effective_rate_includes_additional_costs is not None:
-            raise ValueError("campos de CET nao podem ser enviados junto com a taxa mensal")
+            raise ValueError("campos de CET não podem ser enviados junto com a taxa mensal")
         if has_effective_rate and self.effective_rate_includes_additional_costs is True:
             financed_costs = self.financed_fees + self.financed_insurance + self.financed_services
             if financed_costs > 0:
                 raise ValueError(
                     "os custos adicionais ja estao representados pelo CET informado; "
-                    "nao envie tarifas, seguro ou servicos financiados separadamente"
+                    "não envie tarifas, seguro ou serviços financiados separadamente"
                 )
         return self
 
@@ -116,11 +116,11 @@ class DirectFinancingRequest(FinancingRequestBase):
                 )
         elif self.vehicle_price is not None:
             raise ValueError(
-                "vehicle_price e exclusivo do modo manual; use negotiated_price para substituir o catalogo"
+                "vehicle_price é exclusivo do modo manual; use negotiated_price para substituir o catálogo"
             )
         known_price = self.negotiated_price or self.vehicle_price
         if known_price is not None and self.down_payment > known_price:
-            raise ValueError("a entrada nao pode ser maior que o preco utilizado")
+            raise ValueError("a entrada não pode ser maior que o preço utilizado")
         return self
 
 

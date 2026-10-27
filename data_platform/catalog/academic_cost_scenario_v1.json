@@ -1,0 +1,111 @@
+{
+  "version": "academic_cost_scenario_v1",
+  "mode": "offline_academic_sensitivity_preview",
+  "target_month": "2026-09",
+  "common_inputs": {
+    "monthly_km": {
+      "value": "1000",
+      "unit": "km/month",
+      "nature": "scenario_parameter",
+      "justification": "Common user-declared distance for the academic comparison; not observed odometer use."
+    },
+    "fuel_price_brl_per_l": {
+      "value": "6",
+      "unit": "BRL/l",
+      "nature": "scenario_parameter",
+      "justification": "Common user-declared gasoline price for sensitivity; not an ANP observation."
+    }
+  },
+  "methods": {
+    "fuel": {
+      "unit": "BRL/month",
+      "nature": "scenario_estimate",
+      "formula": "monthly_km / PBEV_consumption_city_km_l * scenario_fuel_price_brl_per_l",
+      "required_vehicle_fields": ["consumption_city", "fuel"],
+      "methodological_origin": "Existing catalog-profile-evidence-v3 urban fuel formula with explicit scenario price."
+    },
+    "ipva": {
+      "unit": "BRL/month",
+      "nature": "scenario_estimate",
+      "formula": "FIPE_price_brl * scenario_annual_rate / 12",
+      "required_vehicle_fields": ["price_brl"],
+      "methodological_origin": "Declared academic annual-rate sensitivity; not a legal or observed tax assessment."
+    },
+    "maintenance": {
+      "unit": "BRL/month",
+      "nature": "scenario_estimate",
+      "formula_rate": "FIPE_price_brl * scenario_annual_rate / 12",
+      "formula_fixed": "scenario_fixed_annual_brl / 12",
+      "required_vehicle_fields": ["price_brl"],
+      "methodological_origin": "Declared academic sensitivity parameter; not observed workshop expenditure."
+    },
+    "insurance": {
+      "unit": "BRL/month",
+      "nature": "scenario_estimate",
+      "formula_rate": "FIPE_price_brl * scenario_annual_rate / 12",
+      "formula_fixed": "scenario_fixed_annual_brl / 12",
+      "required_vehicle_fields": ["price_brl"],
+      "methodological_origin": "Declared academic sensitivity parameter; not an insurer quotation."
+    },
+    "depreciation": {
+      "unit": "BRL/month",
+      "nature": "scenario_estimate",
+      "formula": "FIPE_price_brl * scenario_annual_rate / 12",
+      "required_vehicle_fields": ["price_brl"],
+      "methodological_origin": "Declared academic annual-rate sensitivity; not an observed resale loss."
+    }
+  },
+  "diagnostic_derivations": {
+    "body_footprint_m2": {
+      "unit": "m2",
+      "nature": "derived",
+      "formula": "length_mm * body_width_mm / 1000000",
+      "required_vehicle_fields": ["length_mm", "width_mm"],
+      "accepted_for_profile_criteria": [],
+      "methodological_origin": "Deterministic body-envelope diagnostic from exact-variant CarPedia or manufacturer body dimensions; it is not width with mirrors."
+    }
+  },
+  "academic_profile_criterion_overrides": {
+    "trabalho": {
+      "operating_cost": {
+        "source": "scenario_monthly_tco_brl",
+        "unit": "BRL/month",
+        "nature": "scenario_estimate",
+        "allowed_gate": "academic_test_ready",
+        "operational_gate_allowed": false,
+        "methodological_origin": "The explicit academic monthly TCO may complete only the academic Work operating-cost criterion; operational evidence and activation remain unchanged."
+      }
+    }
+  },
+  "scenarios": {
+    "low": {
+      "ipva": {"mode": "rate_of_fipe_price", "value": "0.02", "unit": "fraction/year"},
+      "maintenance": {"mode": "rate_of_fipe_price", "value": "0.04", "unit": "fraction/year"},
+      "insurance": {"mode": "rate_of_fipe_price", "value": "0.02", "unit": "fraction/year"},
+      "depreciation": {"mode": "rate_of_fipe_price", "value": "0.08", "unit": "fraction/year"}
+    },
+    "base": {
+      "ipva": {"mode": "rate_of_fipe_price", "value": "0.04", "unit": "fraction/year"},
+      "maintenance": {"mode": "rate_of_fipe_price", "value": "0.06", "unit": "fraction/year"},
+      "insurance": {"mode": "rate_of_fipe_price", "value": "0.03", "unit": "fraction/year"},
+      "depreciation": {"mode": "rate_of_fipe_price", "value": "0.10", "unit": "fraction/year"}
+    },
+    "high": {
+      "ipva": {"mode": "rate_of_fipe_price", "value": "0.04", "unit": "fraction/year"},
+      "maintenance": {"mode": "rate_of_fipe_price", "value": "0.08", "unit": "fraction/year"},
+      "insurance": {"mode": "rate_of_fipe_price", "value": "0.05", "unit": "fraction/year"},
+      "depreciation": {"mode": "rate_of_fipe_price", "value": "0.15", "unit": "fraction/year"}
+    }
+  },
+  "critical_criteria_source": "profile_method_v3.json profiles.<profile>.required and required_any",
+  "coverage_sensitivity_thresholds": ["0.60", "0.70", "0.80", "0.90", "1.00"],
+  "guardrails": {
+    "operational_activation_allowed": false,
+    "publication_allowed": false,
+    "recommendation_ranking_executed": false,
+    "safety_estimation_allowed": false,
+    "missing_is_zero": false,
+    "parameters_calibrated_to_desired_order": false,
+    "legacy_vehicle_values_modified": false
+  }
+}

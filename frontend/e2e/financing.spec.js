@@ -38,7 +38,7 @@ async function saveCurrentScenario(page) {
 test("navega entre financiamento, automoveis e motocicletas sem recomendar motos", async ({ page }) => {
   await openFinancing(page);
   await page.getByTestId("nav-recommendations").click();
-  await page.getByTestId("recommendation-vehicle-type").selectOption("motorcycle");
+  await page.getByTestId("recommendation-vehicle-type-motorcycle").click();
   await expect(page.getByTestId("motorcycle-recommender-unavailable")).toBeVisible();
   await expect(page.getByTestId("motorcycle-development-page")).toBeVisible();
 });

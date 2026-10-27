@@ -14,7 +14,7 @@ if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 
 from app import models  # noqa: E402,F401
-from app.config import load_database_settings  # noqa: E402
+from app.config import database_connect_args, load_database_settings  # noqa: E402
 from app.database import Base  # noqa: E402
 
 
@@ -53,6 +53,7 @@ def run_migrations_online() -> None:
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
         pool_pre_ping=True,
+        connect_args=database_connect_args(settings),
     )
     with connectable.connect() as connection:
         context.configure(

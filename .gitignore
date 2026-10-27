@@ -65,3 +65,17 @@ videos/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Local operational evidence and private deployment state are never source.
+.sigra-demo-agent-temp/
+.sigra-setpoint-validation-temp/
+.vercel/
+*.dpapi
+cli-private/
+deploy-preview-private/
+release/functional-acceptance.json
+release/neon-transport-acceptance.json
+release/plan.json.gz
+
+# Lossless, non-sensitive catalog input pinned to the validated artifact.
+!build_inputs/revision6/plan.json.gz

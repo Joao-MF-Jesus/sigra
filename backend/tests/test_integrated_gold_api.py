@@ -2,10 +2,13 @@ from datetime import UTC, date, datetime
 from decimal import Decimal
 import inspect
 
+import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from pydantic import ValidationError
 
 from app.integrated_gold.repository import IntegratedGoldFilters, IntegratedGoldRepository
+from app.integrated_gold.schemas import IntegratedCostItem
 from app.integrated_gold.service import IntegratedGoldService
 
 
@@ -78,6 +81,46 @@ class FakeRepository:
         return rows, len(rows)
 
 
+class FakeSqlResult:
+    def __init__(self, *, rows=(), scalar=None):
+        self.rows = list(rows)
+        self.scalar = scalar
+
+    def mappings(self):
+        return self
+
+    def __iter__(self):
+        return iter(self.rows)
+
+    def one_or_none(self):
+        return self.rows[0] if self.rows else None
+
+    def scalar_one(self):
+        return self.scalar
+
+
+class FakeIntegratedGoldSession:
+    def __init__(self, *, page_rows, total):
+        self.page_rows = list(page_rows)
+        self.total = total
+        self.calls = []
+
+    def execute(self, statement, parameters=None):
+        sql = str(statement)
+        parameters = dict(parameters or {})
+        self.calls.append((sql, parameters))
+        if "SELECT DISTINCT" in sql:
+            dataset = _dataset()
+            dataset["published_vehicle_count"] = 18
+            dataset["published_scenario_count"] = 54
+            return FakeSqlResult(rows=[dataset])
+        if "COUNT(*) OVER()" in sql:
+            return FakeSqlResult(rows=self.page_rows)
+        if "SELECT COUNT(*)" in sql:
+            return FakeSqlResult(scalar=self.total)
+        raise AssertionError(f"unexpected SQL: {sql}")
+
+
 def _client(repository):
     from app.integrated_gold.routes import get_integrated_gold_service, router
 
@@ -107,6 +150,76 @@ def test_versioned_read_api_preserves_decimal_and_analytical_baseline_semantics(
     assert metadata.json()["personalization_requires_explicit_inputs"] is True
     assert detail.status_code == 200
     assert len(detail.json()["scenarios"]) == 2
+
+
+def test_repository_separates_window_total_from_strict_item_payload():
+    raw_row = {**_row(), "total_count": 54}
+    session = FakeIntegratedGoldSession(page_rows=[raw_row], total=54)
+    repository = IntegratedGoldRepository(session)
+
+    rows, total = repository.list_costs(
+        "integrated-test-v1",
+        IntegratedGoldFilters(),
+        limit=1,
+        offset=0,
+        sort_by="brand_name",
+        sort_direction="asc",
+    )
+
+    assert total == 54
+    assert len(session.calls) == 1
+    assert rows == [_row()]
+    assert "total_count" not in rows[0]
+    assert IntegratedCostItem.model_validate(rows[0]).vehicle_sk == 42
+
+
+def test_empty_page_uses_filtered_count_and_preserves_top_level_total():
+    session = FakeIntegratedGoldSession(page_rows=[], total=54)
+    repository = IntegratedGoldRepository(session)
+
+    with _client(repository) as client:
+        response = client.get(
+            "/api/v1/integrated-vehicle-cost/vehicles",
+            params={"limit": 1, "offset": 54},
+        )
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "items": [],
+        "total": 54,
+        "limit": 1,
+        "offset": 54,
+        "dataset_version": "integrated-test-v1",
+        "analytical_baseline_only": True,
+    }
+    assert len(session.calls) == 3
+    count_sql, count_parameters = session.calls[-1]
+    assert "SELECT COUNT(*)" in count_sql
+    assert count_parameters == {"dataset_version": "integrated-test-v1"}
+
+
+def test_real_repository_boundary_returns_200_without_item_pagination_metadata():
+    session = FakeIntegratedGoldSession(
+        page_rows=[{**_row(), "total_count": 54}],
+        total=54,
+    )
+
+    with _client(IntegratedGoldRepository(session)) as client:
+        response = client.get(
+            "/api/v1/integrated-vehicle-cost/vehicles",
+            params={"limit": 1},
+        )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["total"] == 54
+    assert len(body["items"]) == 1
+    assert "total_count" not in body["items"][0]
+
+
+def test_integrated_cost_item_remains_strict_about_pagination_metadata():
+    with pytest.raises(ValidationError, match="extra_forbidden"):
+        IntegratedCostItem.model_validate({**_row(), "total_count": 54})
 
 
 def test_absent_eligible_dataset_returns_stable_sanitized_error():

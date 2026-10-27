@@ -312,7 +312,7 @@ class FinancingServiceTest(unittest.TestCase):
         )
         self.assertEqual(result["rate"]["input_mode"], "informed_effective_cost_rate")
         self.assertGreater(result["rate"]["effective_monthly_rate_percent"], 1.6)
-        self.assertIn("nao foi decomposto", result["rate"]["note"])
+        self.assertIn("não foi decomposto", result["rate"]["note"])
         self.assertFalse(result["additional_costs_considered_separately"])
         self.assertIsNone(result["interest_estimate"])
 

@@ -1,0 +1,661 @@
+{
+  "schema_version": "academic-derived-mass-power-evidence-v1",
+  "policy_version": "academic-derived-seven-v1",
+  "scope": "Only supplementary inputs to explicitly selected, disabled-by-default derived alternative; no approved replay or profile gate change",
+  "authorized_ids": [
+    31,
+    34,
+    44,
+    55,
+    62,
+    76,
+    80,
+    108,
+    124
+  ],
+  "authorized_fields": [
+    "weight_kg",
+    "power_gasoline_cv"
+  ],
+  "records": [
+    {
+      "catalog_id": 31,
+      "identity": {
+        "fipe_code": "023156-8",
+        "year_code": "2020-5",
+        "commercial_identity": "KICKS S 1.6 16V Flex 5p Aut.",
+        "fuel": "flex",
+        "transmission": "cvt"
+      },
+      "target": {
+        "manufacturer": "Nissan",
+        "variant": "Kicks S",
+        "model_year": 2020,
+        "engine": "1.6",
+        "transmission": "cvt",
+        "body": "SUV",
+        "market": "BR"
+      },
+      "evidence": {
+        "weight_kg": {
+          "status": "ADMISSIBLE",
+          "value": "1129",
+          "unit": "kg",
+          "definition": "curb_order_of_march",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.nissan-cdn.net/content/dam/Nissan/br/PDF/2020/Kicks%202020_baixa.pdf",
+            "sha256": "6c30775590c4538f2071fb09ad2e7297a9c157d31b2dd5a1045452aae0516fe8",
+            "document": "kicks2020.pdf",
+            "locator": "Nissan Kicks MY2020; column S CVT; mass row 1129; power 114 cv gasoline/ethanol",
+            "page": 13,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "original_manufacturer_document",
+          "original_document_sha256": "6c30775590c4538f2071fb09ad2e7297a9c157d31b2dd5a1045452aae0516fe8",
+          "transform": "identity; kg used directly",
+          "justification": "Nissan Kicks MY2020; column S CVT; mass row 1129; power 114 cv gasoline/ethanol",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred."
+          ],
+          "reason": null
+        },
+        "power_gasoline_cv": {
+          "status": "ADMISSIBLE",
+          "value": "114",
+          "unit": "cv",
+          "definition": "gasoline_nominal_power",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.nissan-cdn.net/content/dam/Nissan/br/PDF/2020/Kicks%202020_baixa.pdf",
+            "sha256": "6c30775590c4538f2071fb09ad2e7297a9c157d31b2dd5a1045452aae0516fe8",
+            "document": "kicks2020.pdf",
+            "locator": "Nissan Kicks MY2020; column S CVT; mass row 1129; power 114 cv gasoline/ethanol",
+            "page": 13,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "original_manufacturer_document",
+          "original_document_sha256": "6c30775590c4538f2071fb09ad2e7297a9c157d31b2dd5a1045452aae0516fe8",
+          "transform": "identity; manufacturer cv used directly",
+          "justification": "Nissan Kicks MY2020; column S CVT; mass row 1129; power 114 cv gasoline/ethanol",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred."
+          ],
+          "reason": null
+        }
+      }
+    },
+    {
+      "catalog_id": 34,
+      "identity": {
+        "fipe_code": "003440-1",
+        "year_code": "2018-5",
+        "commercial_identity": "EcoSport SE 1.5 12V Flex 5p Aut.",
+        "fuel": "flex",
+        "transmission": "automatic"
+      },
+      "target": {
+        "manufacturer": "Ford",
+        "variant": "EcoSport SE",
+        "model_year": 2018,
+        "engine": "1.5 TiVCT",
+        "transmission": "automatic",
+        "body": "SUV",
+        "market": "BR"
+      },
+      "evidence": {
+        "weight_kg": {
+          "status": "ADMISSIBLE",
+          "value": "1255",
+          "unit": "kg",
+          "definition": "curb_order_of_march",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.ford.com.br/content/dam/Ford/website-assets/latam/br/nameplate/ecosport/novo-ecosport/brochure/fbr-ecosport2018-ficha-tecnica.pdf",
+            "sha256": "ee576afa09458f090fb4c34c472e949319b2212f2b8461d2afb4be78eaf0a034",
+            "document": "ecosport2018-reviewed-capture.json",
+            "locator": "Ford EcoSport MY2018; SE AT 1.5 column; mass 1255 kg; 130 cv gasoline",
+            "page": 2,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "normalized_public_document_reader_capture",
+          "original_document_sha256": null,
+          "transform": "identity; kg used directly",
+          "justification": "Ford EcoSport MY2018; SE AT 1.5 column; mass 1255 kg; 130 cv gasoline",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Original PDF direct retrieval HTTP403; cited hash is the retained normalized capture, not original PDF bytes."
+          ],
+          "reason": null
+        },
+        "power_gasoline_cv": {
+          "status": "ADMISSIBLE",
+          "value": "130",
+          "unit": "cv",
+          "definition": "gasoline_nominal_power",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.ford.com.br/content/dam/Ford/website-assets/latam/br/nameplate/ecosport/novo-ecosport/brochure/fbr-ecosport2018-ficha-tecnica.pdf",
+            "sha256": "ee576afa09458f090fb4c34c472e949319b2212f2b8461d2afb4be78eaf0a034",
+            "document": "ecosport2018-reviewed-capture.json",
+            "locator": "Ford EcoSport MY2018; SE AT 1.5 column; mass 1255 kg; 130 cv gasoline",
+            "page": 2,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "normalized_public_document_reader_capture",
+          "original_document_sha256": null,
+          "transform": "identity; manufacturer cv used directly",
+          "justification": "Ford EcoSport MY2018; SE AT 1.5 column; mass 1255 kg; 130 cv gasoline",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Original PDF direct retrieval HTTP403; cited hash is the retained normalized capture, not original PDF bytes."
+          ],
+          "reason": null
+        }
+      }
+    },
+    {
+      "catalog_id": 44,
+      "identity": {
+        "fipe_code": "003351-0",
+        "year_code": "2018-5",
+        "commercial_identity": "Fiesta SE 1.6 16V Flex 5p",
+        "fuel": "flex",
+        "transmission": "manual"
+      },
+      "target": {
+        "manufacturer": "Ford",
+        "variant": "Fiesta SE",
+        "model_year": 2018,
+        "engine": "1.6 Sigma",
+        "transmission": "manual",
+        "body": "hatch",
+        "market": "BR"
+      },
+      "evidence": {
+        "weight_kg": {
+          "status": "ADMISSIBLE",
+          "value": "1127",
+          "unit": "kg",
+          "definition": "curb_order_of_march",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.ford.com.br/content/dam/Ford/website-assets/latam/br/nameplate/fiesta-hatch/overview/NewFiesta-FichaTecnica-MY18.pdf",
+            "sha256": "669cbcbf156ecd69507ffda30039eeddf5f1ba0057e8d354200ba6c944b7a165",
+            "document": "fiesta2018-reviewed-capture.json",
+            "locator": "Ford Fiesta MY18; SE 1.6 manual; mass 1127 kg; 125 cv gasoline",
+            "page": 2,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "normalized_public_document_reader_capture",
+          "original_document_sha256": null,
+          "transform": "identity; kg used directly",
+          "justification": "Ford Fiesta MY18; SE 1.6 manual; mass 1127 kg; 125 cv gasoline",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Original PDF direct retrieval HTTP403; cited hash is the retained normalized capture, not original PDF bytes."
+          ],
+          "reason": null
+        },
+        "power_gasoline_cv": {
+          "status": "ADMISSIBLE",
+          "value": "125",
+          "unit": "cv",
+          "definition": "gasoline_nominal_power",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.ford.com.br/content/dam/Ford/website-assets/latam/br/nameplate/fiesta-hatch/overview/NewFiesta-FichaTecnica-MY18.pdf",
+            "sha256": "669cbcbf156ecd69507ffda30039eeddf5f1ba0057e8d354200ba6c944b7a165",
+            "document": "fiesta2018-reviewed-capture.json",
+            "locator": "Ford Fiesta MY18; SE 1.6 manual; mass 1127 kg; 125 cv gasoline",
+            "page": 2,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "normalized_public_document_reader_capture",
+          "original_document_sha256": null,
+          "transform": "identity; manufacturer cv used directly",
+          "justification": "Ford Fiesta MY18; SE 1.6 manual; mass 1127 kg; 125 cv gasoline",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Original PDF direct retrieval HTTP403; cited hash is the retained normalized capture, not original PDF bytes."
+          ],
+          "reason": null
+        }
+      }
+    },
+    {
+      "catalog_id": 55,
+      "identity": {
+        "fipe_code": "023123-1",
+        "year_code": "2020-5",
+        "commercial_identity": "Sentra SV 2.0 FlexStart 16V Aut.",
+        "fuel": "flex",
+        "transmission": "cvt"
+      },
+      "target": {
+        "manufacturer": "Nissan",
+        "variant": "Sentra SV",
+        "model_year": 2020,
+        "engine": "2.0",
+        "transmission": "cvt",
+        "body": "sedan",
+        "market": "BR"
+      },
+      "evidence": {
+        "weight_kg": {
+          "status": "PRESERVED_EXISTING",
+          "value": "1337",
+          "unit": "kg",
+          "definition": "curb_order_of_march",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.nissan-cdn.net/content/dam/Nissan/br/brochures/2021/Brochura%20Sentra%202020.pdf",
+            "sha256": "6e58d5973c6ee793a2d0dcf16ca410eb254992815015f4dbea7e96471415c86e",
+            "document": "sentra2020.pdf",
+            "locator": "Nissan Sentra MY2020; SV column; mass 1337 kg; power 140 cv gasoline/ethanol; existing observation retained",
+            "page": 11,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "original_manufacturer_document",
+          "original_document_sha256": "6e58d5973c6ee793a2d0dcf16ca410eb254992815015f4dbea7e96471415c86e",
+          "transform": "identity; kg used directly",
+          "justification": "Nissan Sentra MY2020; SV column; mass 1337 kg; power 140 cv gasoline/ethanol; existing observation retained",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred."
+          ],
+          "reason": null
+        },
+        "power_gasoline_cv": {
+          "status": "PRESERVED_EXISTING",
+          "value": "140",
+          "unit": "cv",
+          "definition": "gasoline_nominal_power",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.nissan-cdn.net/content/dam/Nissan/br/brochures/2021/Brochura%20Sentra%202020.pdf",
+            "sha256": "6e58d5973c6ee793a2d0dcf16ca410eb254992815015f4dbea7e96471415c86e",
+            "document": "sentra2020.pdf",
+            "locator": "Nissan Sentra MY2020; SV column; mass 1337 kg; power 140 cv gasoline/ethanol; existing observation retained",
+            "page": 11,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "original_manufacturer_document",
+          "original_document_sha256": "6e58d5973c6ee793a2d0dcf16ca410eb254992815015f4dbea7e96471415c86e",
+          "transform": "identity; manufacturer cv used directly",
+          "justification": "Nissan Sentra MY2020; SV column; mass 1337 kg; power 140 cv gasoline/ethanol; existing observation retained",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred."
+          ],
+          "reason": null
+        }
+      }
+    },
+    {
+      "catalog_id": 62,
+      "identity": {
+        "fipe_code": "005494-1",
+        "year_code": "2018-5",
+        "commercial_identity": "Golf Comfort. 200 TSI 1.0 Flex 12V Aut.",
+        "fuel": "flex",
+        "transmission": "automatic"
+      },
+      "target": {
+        "manufacturer": "Volkswagen",
+        "variant": "Golf Comfortline 200 TSI",
+        "model_year": 2018,
+        "engine": "1.0 TSI",
+        "transmission": "automatic",
+        "body": "hatch",
+        "market": "BR"
+      },
+      "evidence": {
+        "weight_kg": {
+          "status": "ADMISSIBLE",
+          "value": "1259",
+          "unit": "kg",
+          "definition": "curb_order_of_march",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://vw-digital-cdn-br.itd.vw.com.br/assets/newsroom-cdn-br-ps/Ficha%20T%C3%A9cnica%20Golf%20Comfortline.pdf",
+            "sha256": "6e0ff614e5a4b25e99ce1342d6f73415bd4c3394c7c9f862b9e1be31031f9691",
+            "document": "golf2018.pdf",
+            "locator": "Golf Comfortline automatic, June2018 sheet; order-of-march mass 1259; gasoline 85 kW (116 cv), ethanol 94 kW (128 cv); cv used directly",
+            "page": 1,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "original_manufacturer_document",
+          "original_document_sha256": "6e0ff614e5a4b25e99ce1342d6f73415bd4c3394c7c9f862b9e1be31031f9691",
+          "transform": "identity; kg used directly",
+          "justification": "Golf Comfortline automatic, June2018 sheet; order-of-march mass 1259; gasoline 85 kW (116 cv), ethanol 94 kW (128 cv); cv used directly",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Technical sheet printed June2018; MY2018 200 TSI Comfortline binding also preserved in Revision6 official Volkswagen release."
+          ],
+          "reason": null
+        },
+        "power_gasoline_cv": {
+          "status": "ADMISSIBLE",
+          "value": "116",
+          "unit": "cv",
+          "definition": "gasoline_nominal_power",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://vw-digital-cdn-br.itd.vw.com.br/assets/newsroom-cdn-br-ps/Ficha%20T%C3%A9cnica%20Golf%20Comfortline.pdf",
+            "sha256": "6e0ff614e5a4b25e99ce1342d6f73415bd4c3394c7c9f862b9e1be31031f9691",
+            "document": "golf2018.pdf",
+            "locator": "Golf Comfortline automatic, June2018 sheet; order-of-march mass 1259; gasoline 85 kW (116 cv), ethanol 94 kW (128 cv); cv used directly",
+            "page": 1,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "original_manufacturer_document",
+          "original_document_sha256": "6e0ff614e5a4b25e99ce1342d6f73415bd4c3394c7c9f862b9e1be31031f9691",
+          "transform": "identity; manufacturer cv used directly",
+          "justification": "Golf Comfortline automatic, June2018 sheet; order-of-march mass 1259; gasoline 85 kW (116 cv), ethanol 94 kW (128 cv); cv used directly",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Technical sheet printed June2018; MY2018 200 TSI Comfortline binding also preserved in Revision6 official Volkswagen release."
+          ],
+          "reason": null
+        }
+      }
+    },
+    {
+      "catalog_id": 76,
+      "identity": {
+        "fipe_code": "024235-7",
+        "year_code": "2019-1",
+        "commercial_identity": "5008 Griffe 1.6 Turbo 16V 5p Aut.",
+        "fuel": "gasoline",
+        "transmission": "automatic"
+      },
+      "target": {
+        "manufacturer": "Peugeot",
+        "variant": "5008 Griffe THP",
+        "model_year": 2019,
+        "engine": "1.6 THP",
+        "transmission": "automatic",
+        "body": "SUV",
+        "market": "BR"
+      },
+      "evidence": {
+        "weight_kg": {
+          "status": "ADMISSIBLE",
+          "value": "1632",
+          "unit": "kg",
+          "definition": "curb_order_of_march",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.media.stellantis.com/br-pt/download-model-document/427",
+            "sha256": "5da7e7ce71df4f83b0e1ded9be9bd7df103fd4d28b287a72672958226b32119a",
+            "document": "peugeot5008-original-technical-sheet.png",
+            "locator": "Original manufacturer technical chart ANO MODELO 18/19; 5008 Griffe THP; order-of-march empty mass 1632; gasoline 165 cv",
+            "page": null,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "original_manufacturer_document",
+          "original_document_sha256": "5da7e7ce71df4f83b0e1ded9be9bd7df103fd4d28b287a72672958226b32119a",
+          "transform": "identity; kg used directly",
+          "justification": "Original manufacturer technical chart ANO MODELO 18/19; 5008 Griffe THP; order-of-march empty mass 1632; gasoline 165 cv",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Source is original PNG technical chart, not PDF; common cell explicitly applies to Griffe and Griffe Pack; only Griffe targeted."
+          ],
+          "reason": null
+        },
+        "power_gasoline_cv": {
+          "status": "ADMISSIBLE",
+          "value": "165",
+          "unit": "cv",
+          "definition": "gasoline_nominal_power",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.media.stellantis.com/br-pt/download-model-document/427",
+            "sha256": "5da7e7ce71df4f83b0e1ded9be9bd7df103fd4d28b287a72672958226b32119a",
+            "document": "peugeot5008-original-technical-sheet.png",
+            "locator": "Original manufacturer technical chart ANO MODELO 18/19; 5008 Griffe THP; order-of-march empty mass 1632; gasoline 165 cv",
+            "page": null,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "original_manufacturer_document",
+          "original_document_sha256": "5da7e7ce71df4f83b0e1ded9be9bd7df103fd4d28b287a72672958226b32119a",
+          "transform": "identity; manufacturer cv used directly",
+          "justification": "Original manufacturer technical chart ANO MODELO 18/19; 5008 Griffe THP; order-of-march empty mass 1632; gasoline 165 cv",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Source is original PNG technical chart, not PDF; common cell explicitly applies to Griffe and Griffe Pack; only Griffe targeted."
+          ],
+          "reason": null
+        }
+      }
+    },
+    {
+      "catalog_id": 80,
+      "identity": {
+        "fipe_code": "003417-7",
+        "year_code": "2018-5",
+        "commercial_identity": "Focus Fastback SE/SE PLUS 2.0 Flex Aut.",
+        "fuel": "flex",
+        "transmission": "automatic"
+      },
+      "target": {
+        "manufacturer": "Ford",
+        "variant": "Focus Fastback SE Plus",
+        "model_year": 2018,
+        "engine": "2.0 Direct Flex",
+        "transmission": "automatic",
+        "body": "sedan",
+        "market": "BR"
+      },
+      "evidence": {
+        "weight_kg": {
+          "status": "BLOCKED",
+          "value": null,
+          "unit": "kg",
+          "definition": "curb_order_of_march",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.ford.com.br/content/dam/Ford/website-assets/latam/br/nameplate/focus-fastback/brochures/Focus_Fastback-Ficha_Tecnica-My18.pdf",
+            "sha256": "8edc9f9d075c2fa2c598811e80e444b9abd8dfb713831ed10f2a3be2dec7d338",
+            "document": "focus2018-reviewed-capture.json",
+            "locator": "Ford Focus Fastback MY18; SE Plus 2.0 automatic; gasoline nominal power 175 cv; no mass row",
+            "page": 2,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "normalized_public_document_reader_capture",
+          "original_document_sha256": null,
+          "transform": "identity; kg used directly",
+          "justification": "Ford Focus Fastback MY18; SE Plus 2.0 automatic; gasoline nominal power 175 cv; no mass row",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Original PDF direct retrieval HTTP403; cited hash is the retained normalized capture, not original PDF bytes."
+          ],
+          "reason": "Exact MY2018 SE Plus curb/order-of-march mass not documented; 2016-edition manual columns SE/SEL/Titanium cannot bind SE Plus."
+        },
+        "power_gasoline_cv": {
+          "status": "ADMISSIBLE",
+          "value": "175",
+          "unit": "cv",
+          "definition": "gasoline_nominal_power",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.ford.com.br/content/dam/Ford/website-assets/latam/br/nameplate/focus-fastback/brochures/Focus_Fastback-Ficha_Tecnica-My18.pdf",
+            "sha256": "8edc9f9d075c2fa2c598811e80e444b9abd8dfb713831ed10f2a3be2dec7d338",
+            "document": "focus2018-reviewed-capture.json",
+            "locator": "Ford Focus Fastback MY18; SE Plus 2.0 automatic; gasoline nominal power 175 cv; no mass row",
+            "page": 2,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "normalized_public_document_reader_capture",
+          "original_document_sha256": null,
+          "transform": "identity; manufacturer cv used directly",
+          "justification": "Ford Focus Fastback MY18; SE Plus 2.0 automatic; gasoline nominal power 175 cv; no mass row",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Original PDF direct retrieval HTTP403; cited hash is the retained normalized capture, not original PDF bytes."
+          ],
+          "reason": null
+        }
+      }
+    },
+    {
+      "catalog_id": 108,
+      "identity": {
+        "fipe_code": "014081-3",
+        "year_code": "2020-5",
+        "commercial_identity": "Fit LX 1.5 Flexone 16V 5p Aut.",
+        "fuel": "flex",
+        "transmission": "cvt"
+      },
+      "target": {
+        "manufacturer": "Honda",
+        "variant": "Fit LX",
+        "model_year": 2020,
+        "engine": "1.5 FlexOne",
+        "transmission": "cvt",
+        "body": "hatch",
+        "market": "BR"
+      },
+      "evidence": {
+        "weight_kg": {
+          "status": "ADMISSIBLE",
+          "value": "1082",
+          "unit": "kg",
+          "definition": "curb_order_of_march",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.honda.com.br/automoveis/sites/hab/files/2019-06/%5BHONDA%5DCAMPANHA%20FIT2020_Folheto%20Simples_863x306MM_R6.pdf",
+            "sha256": "c7b91f18ef01d7e97e8dcb2d52a3f4b20793b665fad4c68b36e79f5d3aac32b5",
+            "document": "fit2020-reviewed-capture.json",
+            "locator": "Honda FIT2020; LX CVT column; order-of-march mass 1082 kg; gasoline 115 cv",
+            "page": 3,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "normalized_public_document_reader_capture",
+          "original_document_sha256": null,
+          "transform": "identity; kg used directly",
+          "justification": "Honda FIT2020; LX CVT column; order-of-march mass 1082 kg; gasoline 115 cv",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Original PDF direct retrieval HTTP403; cited hash is the retained normalized capture, not original PDF bytes."
+          ],
+          "reason": null
+        },
+        "power_gasoline_cv": {
+          "status": "ADMISSIBLE",
+          "value": "115",
+          "unit": "cv",
+          "definition": "gasoline_nominal_power",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.honda.com.br/automoveis/sites/hab/files/2019-06/%5BHONDA%5DCAMPANHA%20FIT2020_Folheto%20Simples_863x306MM_R6.pdf",
+            "sha256": "c7b91f18ef01d7e97e8dcb2d52a3f4b20793b665fad4c68b36e79f5d3aac32b5",
+            "document": "fit2020-reviewed-capture.json",
+            "locator": "Honda FIT2020; LX CVT column; order-of-march mass 1082 kg; gasoline 115 cv",
+            "page": 3,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "normalized_public_document_reader_capture",
+          "original_document_sha256": null,
+          "transform": "identity; manufacturer cv used directly",
+          "justification": "Honda FIT2020; LX CVT column; order-of-march mass 1082 kg; gasoline 115 cv",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred.",
+            "Original PDF direct retrieval HTTP403; cited hash is the retained normalized capture, not original PDF bytes."
+          ],
+          "reason": null
+        }
+      }
+    },
+    {
+      "catalog_id": 124,
+      "identity": {
+        "fipe_code": "023149-5",
+        "year_code": "2020-5",
+        "commercial_identity": "KICKS SL 1.6 16V FlexStar 5p Aut.",
+        "fuel": "flex",
+        "transmission": "cvt"
+      },
+      "target": {
+        "manufacturer": "Nissan",
+        "variant": "Kicks SL",
+        "model_year": 2020,
+        "engine": "1.6",
+        "transmission": "cvt",
+        "body": "SUV",
+        "market": "BR"
+      },
+      "evidence": {
+        "weight_kg": {
+          "status": "ADMISSIBLE",
+          "value": "1136",
+          "unit": "kg",
+          "definition": "curb_order_of_march",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.nissan-cdn.net/content/dam/Nissan/br/PDF/2020/Kicks%202020_baixa.pdf",
+            "sha256": "6c30775590c4538f2071fb09ad2e7297a9c157d31b2dd5a1045452aae0516fe8",
+            "document": "kicks2020.pdf",
+            "locator": "Nissan Kicks MY2020; SL CVT column; mass 1136 kg; power 114 cv gasoline/ethanol",
+            "page": 13,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "original_manufacturer_document",
+          "original_document_sha256": "6c30775590c4538f2071fb09ad2e7297a9c157d31b2dd5a1045452aae0516fe8",
+          "transform": "identity; kg used directly",
+          "justification": "Nissan Kicks MY2020; SL CVT column; mass 1136 kg; power 114 cv gasoline/ethanol",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred."
+          ],
+          "reason": null
+        },
+        "power_gasoline_cv": {
+          "status": "ADMISSIBLE",
+          "value": "114",
+          "unit": "cv",
+          "definition": "gasoline_nominal_power",
+          "fuel_reference": "gasoline",
+          "source": {
+            "provider": "manufacturer",
+            "url": "https://www.nissan-cdn.net/content/dam/Nissan/br/PDF/2020/Kicks%202020_baixa.pdf",
+            "sha256": "6c30775590c4538f2071fb09ad2e7297a9c157d31b2dd5a1045452aae0516fe8",
+            "document": "kicks2020.pdf",
+            "locator": "Nissan Kicks MY2020; SL CVT column; mass 1136 kg; power 114 cv gasoline/ethanol",
+            "page": 13,
+            "collected_at": "2026-10-09T02:14:18.890929+00:00"
+          },
+          "representation": "original_manufacturer_document",
+          "original_document_sha256": "6c30775590c4538f2071fb09ad2e7297a9c157d31b2dd5a1045452aae0516fe8",
+          "transform": "identity; manufacturer cv used directly",
+          "justification": "Nissan Kicks MY2020; SL CVT column; mass 1136 kg; power 114 cv gasoline/ethanol",
+          "limitations": [
+            "Manufacturer order-of-march definitions retained; fuel fill/driver measurement protocol not standardized across manufacturers; no mass adjustment inferred."
+          ],
+          "reason": null
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "kg/cv is a nominal gasoline power-loading proxy, not measured acceleration or road performance.",
+    "Order-of-march definitions are accepted as reported; no claim of identical driver/fuel test conditions.",
+    "Raw manufacturer documents and normalized captures retained outside repository.",
+    "Existing Sentra observations are preserved byte-for-byte; Focus mass remains unknown."
+  ]
+}

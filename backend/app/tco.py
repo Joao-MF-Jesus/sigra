@@ -17,7 +17,7 @@ def _required_number(name: str, value: float, *, positive: bool = False) -> floa
     if positive and number <= 0:
         raise TCOValidationError(f"{name} deve ser maior que zero")
     if not positive and number < 0:
-        raise TCOValidationError(f"{name} nao pode ser negativo")
+        raise TCOValidationError(f"{name} não pode ser negativo")
     return number
 
 

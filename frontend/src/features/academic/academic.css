@@ -1,0 +1,43 @@
+.academic-page { width: 100%; min-width: 0; container: academic-page / inline-size; display: grid; gap: 24px; }
+.academic-page *, .academic-dialog * { box-sizing: border-box; min-width: 0; }
+.academic-intro { max-width: 900px; }
+.academic-intro h1 { font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.12; margin: 0 0 20px; }
+.academic-page p, .academic-dialog p { line-height: 1.6; overflow-wrap: anywhere; }
+.academic-coverage { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 12px; }
+.academic-coverage > div { display: grid; gap: 6px; padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.academic-workbench { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: start; }
+@container academic-page (min-width: 1060px) { .academic-workbench { grid-template-columns: minmax(300px, 340px) minmax(0, 1fr); } }
+.academic-form { display: grid; gap: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+.academic-form label { display: grid; gap: 8px; line-height: 1.5; }
+.academic-form input, .academic-form select { width: 100%; min-height: 48px; padding: 10px; font-size: 1rem; }
+.academic-page button, .academic-dialog button { min-height: 48px; min-width: 44px; font-size: 1rem; white-space: normal; overflow-wrap: anywhere; padding: 12px 16px; line-height: 1.4; }
+.academic-page button:disabled { opacity: .6; cursor: not-allowed; }
+.academic-page summary, .academic-dialog summary { min-height: 44px; padding-block: 12px; cursor: pointer; line-height: 1.5; }
+.academic-results { min-width: 0; }
+.academic-group { margin-top: 24px; }
+.academic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px; margin-top: 16px; }
+.academic-card { display: flex; flex-direction: column; padding: 20px; gap: 12px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); overflow-wrap: anywhere; }
+.academic-card h3 { font-size: 1.25rem; line-height: 1.45; margin: 0; }
+.academic-card dl { display: grid; gap: 14px; }
+.academic-card dl > div { display: grid; gap: 4px; }
+.academic-card dt { color: var(--muted); font-size: 1rem; }
+.academic-card dd { margin: 0; font-weight: 650; }
+.academic-card button { margin-top: auto; width: 100%; }
+.academic-pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; }
+.academic-limitations, .academic-notice, .academic-snapshot { border: 1px solid var(--border); padding: 16px; border-radius: 12px; }
+.academic-limitations ul { padding-left: 20px; line-height: 1.65; }
+.academic-hash { display: block; overflow-wrap: anywhere; font-size: .9rem; }
+.academic-dialog { width: min(960px, calc(100vw - 24px)); max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px); padding: 0; border: 1px solid var(--border); border-radius: 16px; color: var(--text); background: var(--surface); overflow: hidden; }
+.academic-dialog[open] { display: flex; flex-direction: column; }
+.academic-dialog::backdrop { background: rgb(0 0 0 / .75); }
+.academic-dialog > header { display: flex; flex-shrink: 0; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 16px; border-bottom: 1px solid var(--border); }
+.academic-dialog > header h2 { font-size: 1.25rem; line-height: 1.4; margin: 4px 0 0; }
+.academic-dialog > header button { flex-shrink: 0; }
+.academic-dialog-body { overflow-y: auto; padding: 20px; overscroll-behavior: contain; }
+.academic-dialog-body h3 { margin-top: 24px; }
+.academic-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.academic-evidence { padding-block: 12px; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+.academic-evidence dt { font-weight: 700; margin-bottom: 8px; }
+.academic-evidence dd { margin: 0; }
+.academic-evidence small { display: block; margin-top: 8px; font-size: .9rem; line-height: 1.5; color: var(--muted); }
+@media (max-width: 480px) { .academic-form, .academic-card { padding: 16px; } .academic-dialog > header { gap: 8px; } .academic-dialog > header button { padding: 10px; max-width: 110px; } .academic-dialog-body { padding: 16px; } }

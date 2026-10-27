@@ -55,7 +55,7 @@ export function validateRecommendationProfile(profile) {
     payload.recommendation_strategy = profile.recommendation_strategy;
   }
 
-  const multifactor = buildMultifactorProfile(profile, payload.budget);
+  const multifactor = buildMultifactorProfile(profile);
   Object.assign(errors, multifactor.errors);
   if (multifactor.payload) payload.multifactor_profile = multifactor.payload;
 

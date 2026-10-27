@@ -1,0 +1,12 @@
+{
+  "method_version": "catalog-identity-crosswalk-v1",
+  "aliases": {
+    "palio-novo-palio-v1": {"candidate_id":42,"commercial_family":"Palio","pbev_family":"Novo Palio","year":2017},
+    "fiesta-new-fiesta-v1": {"candidate_id":44,"commercial_family":"Fiesta (New Fiesta)","pbev_family":"New Fiesta Hatch","year":2018},
+    "sentra-novo-sentra-v1": {"candidate_id":55,"commercial_family":"Sentra","pbev_family":"Novo Sentra","year":2020},
+    "qq-new-qq-v1": {"candidate_id":41,"commercial_family":"QQ","pbev_family":"NEW QQ","year":2017}
+  },
+  "transmissions": {"M-5":"manual","M5":"manual","M-6":"manual","A-4":"automatic","A-6":"automatic","A6":"automatic","DCT-6":"automatic","CVT":"cvt"},
+  "fuels": {"Flex":"flex","Gasolina":"gasoline","Etanol":"ethanol","Diesel":"diesel"},
+  "authority": "Explicit alias inventory. Every use still requires source hashes, year, engine, transmission and structured fuel agreement. No fuzzy matching."
+}

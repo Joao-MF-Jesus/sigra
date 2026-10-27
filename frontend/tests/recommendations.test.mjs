@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { requestMotorcycleCatalog, requestMotorcycles, requestRecommendations } from "../src/api/sigraApi.js";
+import { requestMotorcycleCatalog, requestMotorcycles, requestOperationalData, requestRecommendations, resolveOperationalUserId } from "../src/api/sigraApi.js";
 import { getConfidence, getMaintenanceMetric, getRankingLabel, getRecommendationErrorPresentation, getRecommendationStatusLabel } from "../src/features/recommendations/recommendationModel.js";
 import { isLatestRequest, isRecommendationSubmitDisabled, shouldMarkResultsStale, validateRecommendationProfile } from "../src/features/recommendations/recommendationValidation.js";
 import { formatMotorcycleValue, formatReferenceDate, getDataSourceLabel, getMotorcycleCategoryLabel, getMotorcycleDataGroupLabel, getMotorcycleEconomicStatusLabel, getMotorcycleEligibilityLabel, getMotorcycleMetricStatusLabel, getMotorcycleReadinessLabel, getRiderExperienceLabel, getVisibleEconomicEstimates, getVisibleMotorcycleMetrics, groupMotorcycleSources, isDemonstrationMotorcycle, isIncompleteMotorcycle } from "../src/features/motorcycles/motorcycleModel.js";
@@ -12,13 +12,63 @@ const validProfile = { vehicle_type: "car", budget: "70000", monthly_limit: "120
 
 test("modo público oculta login e áreas persistentes sem credenciais pré-preenchidas", () => {
   const source = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
+  const header = readFileSync(new URL("../src/AppHeader.jsx", import.meta.url), "utf8");
   assert.match(source, /Ambiente demonstrativo em modo somente leitura/);
   assert.match(source, /!PUBLIC_DEMO_MODE && !currentUser/);
-  assert.match(source, /!PUBLIC_DEMO_MODE && currentUser\?\.role === "admin"/);
-  assert.match(source, /if \(!PUBLIC_DEMO_MODE\) loadOperationalData/);
+  assert.match(header, /!publicDemo && currentUser\?\.role === "admin"/);
+  assert.doesNotMatch(source, /if \(!PUBLIC_DEMO_MODE\) loadOperationalData/);
+  assert.match(source, /if \(!currentUser \|\| PUBLIC_DEMO_MODE \|\| operationalUserId === null\)/);
+  assert.match(source, /loadOperationalData\(currentUser, \{ signal: controller\.signal \}\)/);
   assert.doesNotMatch(source, /admin123|usuario123/);
   assert.equal(isEnabled("true"), true);
   assert.equal(isEnabled("false"), false);
+});
+
+test("visitante não solicita relatório pessoal mesmo sob montagem dupla do StrictMode", async () => {
+  let requestCount = 0;
+  const fetchImpl = async () => {
+    requestCount += 1;
+    throw new Error("visitante não pode iniciar requisições operacionais");
+  };
+
+  const firstMount = await requestOperationalData(null, { fetchImpl });
+  const strictModeRemount = await requestOperationalData(null, { fetchImpl });
+
+  assert.equal(requestCount, 0);
+  assert.equal(firstMount.requested, false);
+  assert.deepEqual(strictModeRemount, firstMount);
+  assert.equal(resolveOperationalUserId(null), null);
+});
+
+test("sessão válida usa a rota oficial do relatório com user_id explícito", async () => {
+  const requestedUrls = [];
+  const fetchImpl = async (url) => {
+    requestedUrls.push(url);
+    if (url.endsWith("/expenses")) {
+      return { ok: true, json: async () => [{ id: 10, user_id: 7 }] };
+    }
+    return {
+      ok: true,
+      json: async () => ({
+        user_id: 7,
+        total_expenses: 10,
+        total_maintenance: 0,
+        total_cost: 10,
+        expenses_by_category: {},
+        pending_maintenances: 0,
+      }),
+    };
+  };
+
+  const data = await requestOperationalData({ id: 7, role: "user" }, { fetchImpl });
+
+  assert.equal(data.requested, true);
+  assert.equal(data.summary.user_id, 7);
+  assert.deepEqual(requestedUrls, [
+    "http://127.0.0.1:8000/expenses",
+    "http://127.0.0.1:8000/reports/financial-summary?user_id=7",
+  ]);
+  assert.equal(resolveOperationalUserId({ id: 99, role: "admin" }), 99);
 });
 
 test("seed visual de motocicletas possui quatro modelos demonstrativos distintos", () => {
@@ -95,7 +145,8 @@ test("experiência cobre jornada, estados explícitos, acessibilidade e integra�
   assert.match(form, /aria-invalid/);
   assert.match(form, /aria-describedby/);
   assert.match(details, /VehicleCostSimulationPanel/);
-  assert.match(details, /Simule este veículo no seu cenário/);
+  assert.match(details, /Simulação com dados publicados/);
+  assert.doesNotMatch(details, /Simule este veículo no seu cenário/);
   assert.match(styles, /\.recommendation-form input:focus-visible/);
   assert.match(styles, /@media \(max-width: 760px\)/);
 });

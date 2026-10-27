@@ -11,6 +11,8 @@ import {
   validateFinancingForm,
 } from "./financingModel.js";
 import FinancingResult from "./FinancingResult.jsx";
+import { useSession } from "../session/SessionContext.jsx";
+import { TestFeedback } from "../session/TestHistory.jsx";
 
 const INITIAL_FORM = {
   vehicle_type: "car", price_mode: "catalog", vehicle_id: "", vehicle_price: "", negotiated_price: "", down_payment: "10000", term_months: "36",
@@ -20,6 +22,7 @@ const INITIAL_FORM = {
 };
 
 export default function FinancingPage({ cars = [] }) {
+  const { user } = useSession();
   const [mode, setMode] = useState("direct");
   const [form, setForm] = useState(INITIAL_FORM);
   const [motorcycles, setMotorcycles] = useState([]);
@@ -69,8 +72,8 @@ export default function FinancingPage({ cars = [] }) {
     setLoading(true); setRequestError("");
     try {
       const data = mode === "direct"
-        ? await requestFinancingSimulation(validation.payload, { signal: controller.signal })
-        : await requestReverseFinancingSimulation(validation.payload, { signal: controller.signal });
+        ? await requestFinancingSimulation(validation.payload, { signal: controller.signal, recordTest: Boolean(user) })
+        : await requestReverseFinancingSimulation(validation.payload, { signal: controller.signal, recordTest: Boolean(user) });
       if (requestId !== requestIdRef.current) return;
       setResult(data); setLastPayload(validation.payload); setIsResultStale(false);
     } catch (error) {
@@ -96,7 +99,7 @@ export default function FinancingPage({ cars = [] }) {
   async function compare() {
     if (savedScenarios.length < 2 || comparisonLoading) return;
     setComparisonLoading(true); setComparisonError("");
-    try { setComparison(await requestFinancingComparison(savedScenarios.map((item) => item.payload))); }
+    try { setComparison(await requestFinancingComparison(savedScenarios.map((item) => item.payload), { recordTest: Boolean(user) })); }
     catch (error) { setComparisonError(error.message || "Não foi possível comparar os cenários."); }
     finally { setComparisonLoading(false); }
   }
@@ -105,6 +108,8 @@ export default function FinancingPage({ cars = [] }) {
     <div className="section-heading"><p className="eyebrow">Planejamento de aquisição</p><h2>Simulação de financiamento veicular</h2><p className="section-note">Compare o valor financiado, a parcela, o custo total e o desembolso mensal. Financiamento e custo de propriedade permanecem separados.</p></div>
     <div className="financing-layout"><FinancingForm mode={mode} form={form} errors={errors} vehicles={availableVehicles} loading={loading} onChange={updateForm} onModeChange={changeMode} onSubmit={submit} /><div className="financing-output">{requestError && <div className="api-error"><strong>Não foi possível calcular.</strong><p>{requestError}</p><small>Revise os dados da proposta e tente novamente.</small></div>}<FinancingResult mode={mode} result={result} isStale={isResultStale} canAddComparison={canAddFinancingScenario(savedScenarios, result, isResultStale)} comparisonLimitReached={savedScenarios.length >= MAX_COMPARISON_SCENARIOS} onAddComparison={addToComparison} /></div></div>
     <FinancingComparison savedScenarios={savedScenarios} result={comparison} loading={comparisonLoading} error={comparisonError} notice={comparisonNotice} onCompare={compare} onRemove={removeScenario} onClear={() => { setSavedScenarios([]); setComparison(null); setComparisonError(""); setComparisonNotice(""); }} />
+    {user && result?.test_run && !isResultStale && <TestFeedback key={result.test_run.id} run={result.test_run} />}
+    {user && comparison?.test_run && <TestFeedback key={comparison.test_run.id} run={comparison.test_run} />}
     <p className="financing-disclaimer page-disclaimer">{FINANCING_DISCLAIMER} O SIGRA não consulta bancos, não recomenda instituições e não garante aprovação.</p>
   </section>;
 }

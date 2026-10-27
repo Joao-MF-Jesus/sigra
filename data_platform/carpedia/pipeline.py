@@ -126,7 +126,12 @@ def run_carpedia_pipeline(
 
             specifications = tuple(persisted)
             snapshots = build_snapshots(specifications)
-            quality_results = evaluate_quality(specifications, snapshots)
+            lineage_evidence = loader.audit_lineage(specifications, snapshots)
+            quality_results = evaluate_quality(
+                specifications,
+                snapshots,
+                lineage_evidence=lineage_evidence,
+            )
             require_hard_gates(quality_results)
             dataset_version, was_deduplicated = loader.publish_shadow(
                 run_id,

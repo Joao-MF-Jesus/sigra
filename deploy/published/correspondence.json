@@ -1,0 +1,3211 @@
+{
+  "schema": "sigra-published-source-correspondence-v1",
+  "release": "sigra-be98bd5b78ce6ddd81592d08",
+  "source_head": "ba2fb4d6ee9e0cf4e50ee8b2538b862b89fd7648",
+  "candidate_zip_sha256": "1e3e7688e4bf0309ca32a8257e165dd7b169f5c81f169f5d1469ed59da24c016",
+  "original_manifest_sha256": "1656d28afe6d986ad9b742e073dec73f7e2a094afb1e69f3c788025d0dd4126e",
+  "deployment_id": "dpl_2DDsiQ61tuB8WNB2qpZ7nQQFQdus",
+  "preview_url": "https://sigra-neon-preview-ficticio-4k3n5kawz.vercel.app",
+  "status": "PREVIEW_DEPLOYED_AND_BASIC_FLOW_VERIFIED",
+  "application_files": [
+    {
+      "application_path": ".python-version",
+      "repository_path": "deploy/published/project/.python-version",
+      "approved_sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+      "repository_sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "api/index.py",
+      "repository_path": "deploy/published/project/api/index.py",
+      "approved_sha256": "24395d3767b6fca76baf5bed84d7c3b3e0488cc72daec314bc2f2b2c8e42f7d7",
+      "repository_sha256": "24395d3767b6fca76baf5bed84d7c3b3e0488cc72daec314bc2f2b2c8e42f7d7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/env.py",
+      "repository_path": "backend/alembic/env.py",
+      "approved_sha256": "c57059afdcef9ff79c24c9c73888d32c2ce18b412415e2578bd0b40e2aa4dfcb",
+      "repository_sha256": "c57059afdcef9ff79c24c9c73888d32c2ce18b412415e2578bd0b40e2aa4dfcb",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/README.md",
+      "repository_path": "backend/alembic/README.md",
+      "approved_sha256": "16266e5362703ebae5e81f4ab7a31fffce0bd4737606b0ddd3ebc78d3be3d5d3",
+      "repository_sha256": "16266e5362703ebae5e81f4ab7a31fffce0bd4737606b0ddd3ebc78d3be3d5d3",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260723_0001_initial_schema.py",
+      "repository_path": "backend/alembic/versions/20260723_0001_initial_schema.py",
+      "approved_sha256": "f8ff93171a24d5d91577e709b2321df3a0a0c3c6a26ef83d7bc7457f17a29ffa",
+      "repository_sha256": "f8ff93171a24d5d91577e709b2321df3a0a0c3c6a26ef83d7bc7457f17a29ffa",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260803_0002_data_platform_bronze.py",
+      "repository_path": "backend/alembic/versions/20260803_0002_data_platform_bronze.py",
+      "approved_sha256": "68a949d0c6f28eb18885ad26760e7773f996d9811605674e3a3496b234835bd0",
+      "repository_sha256": "68a949d0c6f28eb18885ad26760e7773f996d9811605674e3a3496b234835bd0",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260803_0003_data_platform_silver_fipe.py",
+      "repository_path": "backend/alembic/versions/20260803_0003_data_platform_silver_fipe.py",
+      "approved_sha256": "334243e2c86a700edb6eaec7c2e3705d97363b9197d796b49b1689cec2296316",
+      "repository_sha256": "334243e2c86a700edb6eaec7c2e3705d97363b9197d796b49b1689cec2296316",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260803_0004_data_platform_gold_vehicle_features.py",
+      "repository_path": "backend/alembic/versions/20260803_0004_data_platform_gold_vehicle_features.py",
+      "approved_sha256": "659580f6ea653a8fe3ef4275782690a1f0dae5204bb7e95f1dd0515c83b07ae9",
+      "repository_sha256": "659580f6ea653a8fe3ef4275782690a1f0dae5204bb7e95f1dd0515c83b07ae9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260810_0005_data_platform_orchestration.py",
+      "repository_path": "backend/alembic/versions/20260810_0005_data_platform_orchestration.py",
+      "approved_sha256": "a73ffe33fb6997bb6e3b7941a66add76306d3e1574f40f6af72a3047db3aa0f4",
+      "repository_sha256": "a73ffe33fb6997bb6e3b7941a66add76306d3e1574f40f6af72a3047db3aa0f4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260810_0006_data_platform_pbev_efficiency.py",
+      "repository_path": "backend/alembic/versions/20260810_0006_data_platform_pbev_efficiency.py",
+      "approved_sha256": "41e14c1142bd723864db2c1ee6bdb903c0d41467af89ae602b54260a3c583999",
+      "repository_sha256": "41e14c1142bd723864db2c1ee6bdb903c0d41467af89ae602b54260a3c583999",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260811_0007_data_platform_anp_fuel_prices.py",
+      "repository_path": "backend/alembic/versions/20260811_0007_data_platform_anp_fuel_prices.py",
+      "approved_sha256": "30522cce58a9681b7c98076fc18e6325703e0275f9d46f5e01fc4f34e697c63e",
+      "repository_sha256": "30522cce58a9681b7c98076fc18e6325703e0275f9d46f5e01fc4f34e697c63e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260811_0008_data_platform_orchestration_scopes.py",
+      "repository_path": "backend/alembic/versions/20260811_0008_data_platform_orchestration_scopes.py",
+      "approved_sha256": "c9e4b8d28f6a847de1308dbf8299cbda0ed289aa97f5456fbf9deaa41e81258d",
+      "repository_sha256": "c9e4b8d28f6a847de1308dbf8299cbda0ed289aa97f5456fbf9deaa41e81258d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260811_0009_data_platform_integrated_vehicle_cost.py",
+      "repository_path": "backend/alembic/versions/20260811_0009_data_platform_integrated_vehicle_cost.py",
+      "approved_sha256": "95e51d92c1a59b4eef8394b4bd45030ac41ba1269e28044329cc831dfc6230f6",
+      "repository_sha256": "95e51d92c1a59b4eef8394b4bd45030ac41ba1269e28044329cc831dfc6230f6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260811_0010_data_platform_integrated_vehicle_cost_orchestration.py",
+      "repository_path": "backend/alembic/versions/20260811_0010_data_platform_integrated_vehicle_cost_orchestration.py",
+      "approved_sha256": "aeed0f8ecbde33820bee33252cd2dadab6b9a0223224ca38de32a94ca1379518",
+      "repository_sha256": "aeed0f8ecbde33820bee33252cd2dadab6b9a0223224ca38de32a94ca1379518",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260811_0011_data_platform_carpedia_vehicle_specs.py",
+      "repository_path": "backend/alembic/versions/20260811_0011_data_platform_carpedia_vehicle_specs.py",
+      "approved_sha256": "484319d9a02a2f91877b21d6721234729cf9a6afe2217b72d8c35bd55980af78",
+      "repository_sha256": "484319d9a02a2f91877b21d6721234729cf9a6afe2217b72d8c35bd55980af78",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20260811_0012_data_platform_carpedia_lineage.py",
+      "repository_path": "backend/alembic/versions/20260811_0012_data_platform_carpedia_lineage.py",
+      "approved_sha256": "c06b58ded08c0785c75939cb43ffe18f43237f00b6e9042980d7acfa2d2380d8",
+      "repository_sha256": "c06b58ded08c0785c75939cb43ffe18f43237f00b6e9042980d7acfa2d2380d8",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20261005_0013_academic_cohort_v6.py",
+      "repository_path": "backend/alembic/versions/20261005_0013_academic_cohort_v6.py",
+      "approved_sha256": "f1e3a6fc9f5bf1469fb4e092d92b626c55974fcd2929898042e3404301b15425",
+      "repository_sha256": "f1e3a6fc9f5bf1469fb4e092d92b626c55974fcd2929898042e3404301b15425",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20261007_0014_tcc_participant_trials.py",
+      "repository_path": "backend/alembic/versions/20261007_0014_tcc_participant_trials.py",
+      "approved_sha256": "c776fd5cea8f98956fcee0a6f359b715d8393dfd89a081ebcd70c7923f948cb2",
+      "repository_sha256": "c776fd5cea8f98956fcee0a6f359b715d8393dfd89a081ebcd70c7923f948cb2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/20261007_0015_tcc_study_instrument.py",
+      "repository_path": "backend/alembic/versions/20261007_0015_tcc_study_instrument.py",
+      "approved_sha256": "31790093b5716d9122481833d7ea9551438f295edcb252267d8c2a9f3650340f",
+      "repository_sha256": "31790093b5716d9122481833d7ea9551438f295edcb252267d8c2a9f3650340f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic/versions/__init__.py",
+      "repository_path": "backend/alembic/versions/__init__.py",
+      "approved_sha256": "d7f79fad4bea1b9e847b40cb571dd2ac0fdbc7a3c38ad68521988df90a41efea",
+      "repository_sha256": "d7f79fad4bea1b9e847b40cb571dd2ac0fdbc7a3c38ad68521988df90a41efea",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/alembic.ini",
+      "repository_path": "backend/alembic.ini",
+      "approved_sha256": "b884c0c40fcd8d4601b805d2d91e970f03aa2b45c3b8adb4b574fad5c5fd8a8e",
+      "repository_sha256": "b884c0c40fcd8d4601b805d2d91e970f03aa2b45c3b8adb4b574fad5c5fd8a8e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/__init__.py",
+      "repository_path": "backend/app/__init__.py",
+      "approved_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "repository_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/__init__.py",
+      "repository_path": "backend/app/academic_cohort/__init__.py",
+      "approved_sha256": "c843bc77eca962c781c6beb24a2e8f54aa206c466b838d2b3dc758a5e29da4ae",
+      "repository_sha256": "c843bc77eca962c781c6beb24a2e8f54aa206c466b838d2b3dc758a5e29da4ae",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/contracts.py",
+      "repository_path": "backend/app/academic_cohort/contracts.py",
+      "approved_sha256": "8811ed9d9c159e2b1b28b8dbb8978608b106649a7bf71af15cc73eecec96c4cf",
+      "repository_sha256": "8811ed9d9c159e2b1b28b8dbb8978608b106649a7bf71af15cc73eecec96c4cf",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/derived_configurations.py",
+      "repository_path": "backend/app/academic_cohort/derived_configurations.py",
+      "approved_sha256": "1bf05c8b4f90be0124ed5037f6de1e67c56f4b784912affeac2e8106b16bc755",
+      "repository_sha256": "1bf05c8b4f90be0124ed5037f6de1e67c56f4b784912affeac2e8106b16bc755",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/derived_configurations_v1.json",
+      "repository_path": "backend/app/academic_cohort/derived_configurations_v1.json",
+      "approved_sha256": "79404b7fd20cc0aad555e4a1b78470bdd2a926240a2c5ed3b66993adc97535d5",
+      "repository_sha256": "79404b7fd20cc0aad555e4a1b78470bdd2a926240a2c5ed3b66993adc97535d5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/derived_mass_power.py",
+      "repository_path": "backend/app/academic_cohort/derived_mass_power.py",
+      "approved_sha256": "8bf6b1fce2af5c69bbb9b41f8fa2bab4696b962a94b02f847800381cf295c2d1",
+      "repository_sha256": "8bf6b1fce2af5c69bbb9b41f8fa2bab4696b962a94b02f847800381cf295c2d1",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/derived_mass_power_v1.json",
+      "repository_path": "backend/app/academic_cohort/derived_mass_power_v1.json",
+      "approved_sha256": "1ca7b982237d2c7a95cec3ca86cf85f1f18e9e6bcabba11c4893629ff30a91a2",
+      "repository_sha256": "1ca7b982237d2c7a95cec3ca86cf85f1f18e9e6bcabba11c4893629ff30a91a2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/derived_personalization.py",
+      "repository_path": "backend/app/academic_cohort/derived_personalization.py",
+      "approved_sha256": "d273d6a6d489c446db9e86f81aa4613d4dc0b05d50d868fb6ecb8cc6e0fbe7b8",
+      "repository_sha256": "d273d6a6d489c446db9e86f81aa4613d4dc0b05d50d868fb6ecb8cc6e0fbe7b8",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/derived_personalization_v1.json",
+      "repository_path": "backend/app/academic_cohort/derived_personalization_v1.json",
+      "approved_sha256": "b364a3ad894d1db7e0769729e3af2f2bd210b64e394559e25344a38e20d8b56e",
+      "repository_sha256": "b364a3ad894d1db7e0769729e3af2f2bd210b64e394559e25344a38e20d8b56e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/evidence_diagnostics.py",
+      "repository_path": "backend/app/academic_cohort/evidence_diagnostics.py",
+      "approved_sha256": "69d1c29e37191db628fdcf60fde16c328e72e0c281cb6af0447eb2045273bc1a",
+      "repository_sha256": "69d1c29e37191db628fdcf60fde16c328e72e0c281cb6af0447eb2045273bc1a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/legacy_calculations.py",
+      "repository_path": "backend/app/academic_cohort/legacy_calculations.py",
+      "approved_sha256": "e23862f49498f0ced52e7393c508a2d92171433e2eb1e4b1932cbf0bc4558d57",
+      "repository_sha256": "e23862f49498f0ced52e7393c508a2d92171433e2eb1e4b1932cbf0bc4558d57",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/materialization.py",
+      "repository_path": "backend/app/academic_cohort/materialization.py",
+      "approved_sha256": "d4cd473a048de968eec22dceb27e5f00bada16d90d2807dcf35dd78478f7bd84",
+      "repository_sha256": "d4cd473a048de968eec22dceb27e5f00bada16d90d2807dcf35dd78478f7bd84",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/models.py",
+      "repository_path": "backend/app/academic_cohort/models.py",
+      "approved_sha256": "37f404e49a22d2ea6fd99df2fa32afaa1093abd43a5433ed3f0533bf9fc8bf1a",
+      "repository_sha256": "37f404e49a22d2ea6fd99df2fa32afaa1093abd43a5433ed3f0533bf9fc8bf1a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/personalization.py",
+      "repository_path": "backend/app/academic_cohort/personalization.py",
+      "approved_sha256": "8bf32063ad3f84ea9d2869132fd5e71544d969bc90756134705c0e41e19886bc",
+      "repository_sha256": "8bf32063ad3f84ea9d2869132fd5e71544d969bc90756134705c0e41e19886bc",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/recommendation.py",
+      "repository_path": "backend/app/academic_cohort/recommendation.py",
+      "approved_sha256": "7cc5b6355eed9d7ebd925c80e35510321fe0cbb24ff30df468d68cb0e1331147",
+      "repository_sha256": "7cc5b6355eed9d7ebd925c80e35510321fe0cbb24ff30df468d68cb0e1331147",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/repository.py",
+      "repository_path": "backend/app/academic_cohort/repository.py",
+      "approved_sha256": "ec1f17693c5fae17bdebbb3c35748e8034a44e0622bac5f9b00acce4cbb547e6",
+      "repository_sha256": "ec1f17693c5fae17bdebbb3c35748e8034a44e0622bac5f9b00acce4cbb547e6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/revision6_homologation.py",
+      "repository_path": "backend/app/academic_cohort/revision6_homologation.py",
+      "approved_sha256": "c09906420c4f225e1533ae0ce92a4c4001c7a638d148e361ffbe7a44b405f0ca",
+      "repository_sha256": "c09906420c4f225e1533ae0ce92a4c4001c7a638d148e361ffbe7a44b405f0ca",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/revision6_supabase_target.py",
+      "repository_path": "backend/app/academic_cohort/revision6_supabase_target.py",
+      "approved_sha256": "88f26344cb41195d6dbebff284151cc80505eb8562dc9938df5aed790e600e4b",
+      "repository_sha256": "88f26344cb41195d6dbebff284151cc80505eb8562dc9938df5aed790e600e4b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/routes.py",
+      "repository_path": "backend/app/academic_cohort/routes.py",
+      "approved_sha256": "4ccc9d4647142e7f6030e630625d523273fb0e1f642f9af70ce8a1372660db84",
+      "repository_sha256": "4ccc9d4647142e7f6030e630625d523273fb0e1f642f9af70ce8a1372660db84",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/safety_revision6.py",
+      "repository_path": "backend/app/academic_cohort/safety_revision6.py",
+      "approved_sha256": "e6c3ad3b9788db19b946bca80d5910a6fd4f6800dde1fe0f119149ac65800e06",
+      "repository_sha256": "e6c3ad3b9788db19b946bca80d5910a6fd4f6800dde1fe0f119149ac65800e06",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/safety_revision6_contract.json",
+      "repository_path": "backend/app/academic_cohort/safety_revision6_contract.json",
+      "approved_sha256": "5818c0db59ccf3bf46a706d39edcb3e50ce247fd1c6099e231bf4641a2f68bd5",
+      "repository_sha256": "5818c0db59ccf3bf46a706d39edcb3e50ce247fd1c6099e231bf4641a2f68bd5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/schemas.py",
+      "repository_path": "backend/app/academic_cohort/schemas.py",
+      "approved_sha256": "501b63d6bc5189e6755d4583cd7b2f0df981c3475b591e20105d1568132ebdf9",
+      "repository_sha256": "501b63d6bc5189e6755d4583cd7b2f0df981c3475b591e20105d1568132ebdf9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/service.py",
+      "repository_path": "backend/app/academic_cohort/service.py",
+      "approved_sha256": "aba9e0ff05f0b0b160a7dc15218b90b84fb9fd55ec685aa9cc297aed1731b002",
+      "repository_sha256": "aba9e0ff05f0b0b160a7dc15218b90b84fb9fd55ec685aa9cc297aed1731b002",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/academic_cohort/seven_criteria.py",
+      "repository_path": "backend/app/academic_cohort/seven_criteria.py",
+      "approved_sha256": "41ca3413370755b481ded3262556ffe9cecb684f501d44d182f6f98c21014764",
+      "repository_sha256": "41ca3413370755b481ded3262556ffe9cecb684f501d44d182f6f98c21014764",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/auth.py",
+      "repository_path": "backend/app/auth.py",
+      "approved_sha256": "2a7a7f81ae40941b27dc4f9e111d3bb1626e542a2b61f2edc8b3a6a48da79fec",
+      "repository_sha256": "2a7a7f81ae40941b27dc4f9e111d3bb1626e542a2b61f2edc8b3a6a48da79fec",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/compact_transport.py",
+      "repository_path": "backend/app/compact_transport.py",
+      "approved_sha256": "fbaf123809b128f3831469f7c994746cf7b67251f9c1c0892f158d64a91c226f",
+      "repository_sha256": "fbaf123809b128f3831469f7c994746cf7b67251f9c1c0892f158d64a91c226f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/config.py",
+      "repository_path": "backend/app/config.py",
+      "approved_sha256": "83a01315288c14230a22bac62914e3fdf1952c4db2f53c4ffd6a11238458f866",
+      "repository_sha256": "83a01315288c14230a22bac62914e3fdf1952c4db2f53c4ffd6a11238458f866",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/csv_transport.py",
+      "repository_path": "backend/app/csv_transport.py",
+      "approved_sha256": "b7fba36ad1ce6871318987ab4db101de59ba2850e563bfdb2552b6440a290b13",
+      "repository_sha256": "b7fba36ad1ce6871318987ab4db101de59ba2850e563bfdb2552b6440a290b13",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/database.py",
+      "repository_path": "backend/app/database.py",
+      "approved_sha256": "6149c09c0e32b341953b072843838a9c53af8140f0d094d18c92bb3b78534d3a",
+      "repository_sha256": "6149c09c0e32b341953b072843838a9c53af8140f0d094d18c92bb3b78534d3a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/deployment.py",
+      "repository_path": "backend/app/deployment.py",
+      "approved_sha256": "756c2f694f8c34cdc307f0583a8f54b47e61513dd61e4be0dfc0ba6d363b53d4",
+      "repository_sha256": "756c2f694f8c34cdc307f0583a8f54b47e61513dd61e4be0dfc0ba6d363b53d4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/financing/__init__.py",
+      "repository_path": "backend/app/financing/__init__.py",
+      "approved_sha256": "bd282dadde4a8acdab3075a2f8625900218e2b04e1b7bfbe197db292e10fae46",
+      "repository_sha256": "bd282dadde4a8acdab3075a2f8625900218e2b04e1b7bfbe197db292e10fae46",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/financing/calculator.py",
+      "repository_path": "backend/app/financing/calculator.py",
+      "approved_sha256": "044ea3d016e4b4dc9ddefacead78b7f3d915260b036c751fe24ddb510583bddb",
+      "repository_sha256": "044ea3d016e4b4dc9ddefacead78b7f3d915260b036c751fe24ddb510583bddb",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/financing/comparison.py",
+      "repository_path": "backend/app/financing/comparison.py",
+      "approved_sha256": "a0e15cd640afb774a37f7c3711e503362f21ec6ca0450f97d790dd77719894a2",
+      "repository_sha256": "a0e15cd640afb774a37f7c3711e503362f21ec6ca0450f97d790dd77719894a2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/financing/domain.py",
+      "repository_path": "backend/app/financing/domain.py",
+      "approved_sha256": "e3b1b1693530c3425a74f907cfcda78a187b56834e4d97e35fd2c4304f77a29d",
+      "repository_sha256": "e3b1b1693530c3425a74f907cfcda78a187b56834e4d97e35fd2c4304f77a29d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/financing/routes.py",
+      "repository_path": "backend/app/financing/routes.py",
+      "approved_sha256": "32cb2ae93bcddaeb0e385ea9c253c681833c06582a63b6d33b94c56fb7d54ba1",
+      "repository_sha256": "32cb2ae93bcddaeb0e385ea9c253c681833c06582a63b6d33b94c56fb7d54ba1",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/financing/schemas.py",
+      "repository_path": "backend/app/financing/schemas.py",
+      "approved_sha256": "de005e88b54a1d826ec3d84afdd71d29ba2f367b22d18aa026c1cb7d6625ad5b",
+      "repository_sha256": "de005e88b54a1d826ec3d84afdd71d29ba2f367b22d18aa026c1cb7d6625ad5b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/financing/service.py",
+      "repository_path": "backend/app/financing/service.py",
+      "approved_sha256": "ce891b1a5d883aff9d7d8eeeb9d6988c51e3e0b2d85ba9c53da2a08b2658cdfc",
+      "repository_sha256": "ce891b1a5d883aff9d7d8eeeb9d6988c51e3e0b2d85ba9c53da2a08b2658cdfc",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/fipe.py",
+      "repository_path": "backend/app/fipe.py",
+      "approved_sha256": "3516fabcb672be1f0ee2424f4da89ccde549a1fa2cfd2d7f83e0d4afd67d2731",
+      "repository_sha256": "3516fabcb672be1f0ee2424f4da89ccde549a1fa2cfd2d7f83e0d4afd67d2731",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/http_middleware.py",
+      "repository_path": "backend/app/http_middleware.py",
+      "approved_sha256": "c726c679613ef0e3c93bdbe5f6adbe0a6aaa1d80c558c6f58deee77b57a01dd8",
+      "repository_sha256": "c726c679613ef0e3c93bdbe5f6adbe0a6aaa1d80c558c6f58deee77b57a01dd8",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/integrated_gold/__init__.py",
+      "repository_path": "backend/app/integrated_gold/__init__.py",
+      "approved_sha256": "86acbc12352f0cd31ca66589497420eef525880c4a27f4000f0b2422bda95ae6",
+      "repository_sha256": "86acbc12352f0cd31ca66589497420eef525880c4a27f4000f0b2422bda95ae6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/integrated_gold/repository.py",
+      "repository_path": "backend/app/integrated_gold/repository.py",
+      "approved_sha256": "6832180a56d1b95c3bbd6524b3160aeb1eb1e7f63c8b9a001afdb974ac744b86",
+      "repository_sha256": "6832180a56d1b95c3bbd6524b3160aeb1eb1e7f63c8b9a001afdb974ac744b86",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/integrated_gold/routes.py",
+      "repository_path": "backend/app/integrated_gold/routes.py",
+      "approved_sha256": "8483e6008aff9e819b0411e76a5c133851409ccb7dd453f70f621b01da602ae7",
+      "repository_sha256": "8483e6008aff9e819b0411e76a5c133851409ccb7dd453f70f621b01da602ae7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/integrated_gold/schemas.py",
+      "repository_path": "backend/app/integrated_gold/schemas.py",
+      "approved_sha256": "e952aef249a587cea96a5ec61de76234c3a65ac6bace38d4580b8e307519c91d",
+      "repository_sha256": "e952aef249a587cea96a5ec61de76234c3a65ac6bace38d4580b8e307519c91d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/integrated_gold/service.py",
+      "repository_path": "backend/app/integrated_gold/service.py",
+      "approved_sha256": "64deee71da5490a16a8df59942a81fa432d1d2a593ad99b0c6c3f23b8a8c8471",
+      "repository_sha256": "64deee71da5490a16a8df59942a81fa432d1d2a593ad99b0c6c3f23b8a8c8471",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/integrated_gold/simulation_repository.py",
+      "repository_path": "backend/app/integrated_gold/simulation_repository.py",
+      "approved_sha256": "781ec9aa0cd4620d355a88c71db5b526982bb0008b0c3df4cc37e1932a749e31",
+      "repository_sha256": "781ec9aa0cd4620d355a88c71db5b526982bb0008b0c3df4cc37e1932a749e31",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/integrated_gold/simulation_schemas.py",
+      "repository_path": "backend/app/integrated_gold/simulation_schemas.py",
+      "approved_sha256": "be7e500c4319861ba61e5858fdb4871fd937e523aa8c9140e65234b2f398a880",
+      "repository_sha256": "be7e500c4319861ba61e5858fdb4871fd937e523aa8c9140e65234b2f398a880",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/integrated_gold/simulation_service.py",
+      "repository_path": "backend/app/integrated_gold/simulation_service.py",
+      "approved_sha256": "f5058af74611561d1c5ee61a1c64241d90569530e45bdd4682e59152393156c9",
+      "repository_sha256": "f5058af74611561d1c5ee61a1c64241d90569530e45bdd4682e59152393156c9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/main.py",
+      "repository_path": "backend/app/main.py",
+      "approved_sha256": "971638c7108c8d92eeaa86e738201fc98cbf543488a8e269f9089ca9387685e5",
+      "repository_sha256": "971638c7108c8d92eeaa86e738201fc98cbf543488a8e269f9089ca9387685e5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/migrations.py",
+      "repository_path": "backend/app/migrations.py",
+      "approved_sha256": "e3da01b994d78ec6034251a0014434c726037109cc4e90174f2438f0a084f58f",
+      "repository_sha256": "e3da01b994d78ec6034251a0014434c726037109cc4e90174f2438f0a084f58f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/models.py",
+      "repository_path": "backend/app/models.py",
+      "approved_sha256": "3ae0ff57411373eb094d5027e0a7e460d0ce27f154c797a30b92ad51104b778e",
+      "repository_sha256": "3ae0ff57411373eb094d5027e0a7e460d0ce27f154c797a30b92ad51104b778e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/motorcycle_audit.py",
+      "repository_path": "backend/app/motorcycle_audit.py",
+      "approved_sha256": "9b62c30174561c55b4576f729d28f1690ce26e8d8bfd1603c53123ded9a9cd52",
+      "repository_sha256": "9b62c30174561c55b4576f729d28f1690ce26e8d8bfd1603c53123ded9a9cd52",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/motorcycle_domain.py",
+      "repository_path": "backend/app/motorcycle_domain.py",
+      "approved_sha256": "a92f5fb19ea9ac46f32848e46ff00a1ee06441123de60c495d1f9efb0662fff4",
+      "repository_sha256": "a92f5fb19ea9ac46f32848e46ff00a1ee06441123de60c495d1f9efb0662fff4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/motorcycle_eligibility.py",
+      "repository_path": "backend/app/motorcycle_eligibility.py",
+      "approved_sha256": "7d685674ca3af217b2cda4b0e03bc0bfcb846da456cbdc7d6bca1090cca6c71b",
+      "repository_sha256": "7d685674ca3af217b2cda4b0e03bc0bfcb846da456cbdc7d6bca1090cca6c71b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/multifactor_recommendation.py",
+      "repository_path": "backend/app/multifactor_recommendation.py",
+      "approved_sha256": "b7e389c0009f7ee27f568982bad5dbdd5f581d759dc874e290e9649d2794b672",
+      "repository_sha256": "b7e389c0009f7ee27f568982bad5dbdd5f581d759dc874e290e9649d2794b672",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/multifactor_schemas.py",
+      "repository_path": "backend/app/multifactor_schemas.py",
+      "approved_sha256": "e3a9551f29f5ad2c12c81ba5d704eca9ce848dd476d95fcf1137b31930234c65",
+      "repository_sha256": "e3a9551f29f5ad2c12c81ba5d704eca9ce848dd476d95fcf1137b31930234c65",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/neon_target.py",
+      "repository_path": "backend/app/neon_target.py",
+      "approved_sha256": "cc2cb07b7d7d6fce43bd2049a84ca0001d009141e5f133ecbee6f3e5e134d70b",
+      "repository_sha256": "cc2cb07b7d7d6fce43bd2049a84ca0001d009141e5f133ecbee6f3e5e134d70b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/neon_transport.py",
+      "repository_path": "backend/app/neon_transport.py",
+      "approved_sha256": "66dc805e24cf2a268a51b5db0425227827cb2fb2d7fd704f8102c3d5cb82894d",
+      "repository_sha256": "66dc805e24cf2a268a51b5db0425227827cb2fb2d7fd704f8102c3d5cb82894d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/online_search.py",
+      "repository_path": "backend/app/online_search.py",
+      "approved_sha256": "669d970081c91dd21f2bdb7c4452a4c6bed0da633b53ace751d585e479114f3d",
+      "repository_sha256": "669d970081c91dd21f2bdb7c4452a4c6bed0da633b53ace751d585e479114f3d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/packed_plan.py",
+      "repository_path": "backend/app/packed_plan.py",
+      "approved_sha256": "af7b73564adcde68e2cad77682a62206a8ca0abf639c2a68f79d7176acb5d2d7",
+      "repository_sha256": "af7b73564adcde68e2cad77682a62206a8ca0abf639c2a68f79d7176acb5d2d7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/participant_trials.py",
+      "repository_path": "backend/app/participant_trials.py",
+      "approved_sha256": "aad6c3f8a51f58838cab60e9d9765948b1f45566dfa3238ebfb69bd77bd0be08",
+      "repository_sha256": "aad6c3f8a51f58838cab60e9d9765948b1f45566dfa3238ebfb69bd77bd0be08",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/parts_analysis.py",
+      "repository_path": "backend/app/parts_analysis.py",
+      "approved_sha256": "77a927b138299f3757b2636deefc4bd9bfba1deaff37f5647dbe1136e1a7968d",
+      "repository_sha256": "77a927b138299f3757b2636deefc4bd9bfba1deaff37f5647dbe1136e1a7968d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/parts_catalog.py",
+      "repository_path": "backend/app/parts_catalog.py",
+      "approved_sha256": "ce31d14d2739d4cea1b28b7caa4db21501451029aada23be05675aa7fd3946ac",
+      "repository_sha256": "ce31d14d2739d4cea1b28b7caa4db21501451029aada23be05675aa7fd3946ac",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/preview_metrics.py",
+      "repository_path": "backend/app/preview_metrics.py",
+      "approved_sha256": "f033226cdfffe6fdd000adab8e9c0bf1302d42e9c04da9b20fab040c007d528a",
+      "repository_sha256": "f033226cdfffe6fdd000adab8e9c0bf1302d42e9c04da9b20fab040c007d528a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/provision_admin.py",
+      "repository_path": "backend/app/provision_admin.py",
+      "approved_sha256": "36b92d73a6e9c906a96a3c7528682687a6eea154f3d6fe7958f0b3601c7a22aa",
+      "repository_sha256": "36b92d73a6e9c906a96a3c7528682687a6eea154f3d6fe7958f0b3601c7a22aa",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/recommendation_identity.py",
+      "repository_path": "backend/app/recommendation_identity.py",
+      "approved_sha256": "2cf22993459ccb3c5dfb11ff22e4b2dd577c137740d58fd1d0982be35dda1082",
+      "repository_sha256": "2cf22993459ccb3c5dfb11ff22e4b2dd577c137740d58fd1d0982be35dda1082",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/recommendation_identity_repository.py",
+      "repository_path": "backend/app/recommendation_identity_repository.py",
+      "approved_sha256": "6332fa5c240cd0a4a4836dd657bbbf7cc1cbd7808931a6536d80b06d964f47f9",
+      "repository_sha256": "6332fa5c240cd0a4a4836dd657bbbf7cc1cbd7808931a6536d80b06d964f47f9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/recommender.py",
+      "repository_path": "backend/app/recommender.py",
+      "approved_sha256": "1702f185643d92df24c9017d98d0afbc654e8f9ee70c2747e5e53b35a37c2381",
+      "repository_sha256": "1702f185643d92df24c9017d98d0afbc654e8f9ee70c2747e5e53b35a37c2381",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/release_manifest.py",
+      "repository_path": "backend/app/release_manifest.py",
+      "approved_sha256": "89dd999b86b6fc481d6e53b903b35e5d14364369f14550a7e1d423773bba13be",
+      "repository_sha256": "89dd999b86b6fc481d6e53b903b35e5d14364369f14550a7e1d423773bba13be",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/repository.py",
+      "repository_path": "backend/app/repository.py",
+      "approved_sha256": "f117f8b948d97d235d1887cdf1c7bf89bcfb30de8b03b10b567284f4336a8ebe",
+      "repository_sha256": "f117f8b948d97d235d1887cdf1c7bf89bcfb30de8b03b10b567284f4336a8ebe",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/sample_data.py",
+      "repository_path": "backend/app/sample_data.py",
+      "approved_sha256": "15d6eccfe8986cddd6858b4684e91aa09fe9d8b5060e53ea7a86989c7f4f2185",
+      "repository_sha256": "15d6eccfe8986cddd6858b4684e91aa09fe9d8b5060e53ea7a86989c7f4f2185",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/schemas.py",
+      "repository_path": "backend/app/schemas.py",
+      "approved_sha256": "e1530ad149218cc4d84b6abd1dc2e78f7496a7ce8a9dd555c3a58aafd4356e2f",
+      "repository_sha256": "e1530ad149218cc4d84b6abd1dc2e78f7496a7ce8a9dd555c3a58aafd4356e2f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/study_protocol.py",
+      "repository_path": "backend/app/study_protocol.py",
+      "approved_sha256": "854953d91c3857e72d9c9345a704802d4dc1865f37de49e269a4bf84202d62b0",
+      "repository_sha256": "854953d91c3857e72d9c9345a704802d4dc1865f37de49e269a4bf84202d62b0",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/tcc_supabase.py",
+      "repository_path": "backend/app/tcc_supabase.py",
+      "approved_sha256": "a694bf1b95c0acfe418e30f527034c04e32707bdab8812793b92c85e64b03e25",
+      "repository_sha256": "a694bf1b95c0acfe418e30f527034c04e32707bdab8812793b92c85e64b03e25",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/tco.py",
+      "repository_path": "backend/app/tco.py",
+      "approved_sha256": "568b21bb1a805a5d744ee34730e3eac2960c248a35a9779621707c818bc0f58d",
+      "repository_sha256": "568b21bb1a805a5d744ee34730e3eac2960c248a35a9779621707c818bc0f58d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/vehicle_domain.py",
+      "repository_path": "backend/app/vehicle_domain.py",
+      "approved_sha256": "0d82be2aaa33486340aa5064286d0e512436a81f12eb0f137199c796f878ffac",
+      "repository_sha256": "0d82be2aaa33486340aa5064286d0e512436a81f12eb0f137199c796f878ffac",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/vehicle_history.py",
+      "repository_path": "backend/app/vehicle_history.py",
+      "approved_sha256": "cfba5c7c79325650e68e2bc75e16fedb9f64615469bfa2bfa306fd098ff886bd",
+      "repository_sha256": "cfba5c7c79325650e68e2bc75e16fedb9f64615469bfa2bfa306fd098ff886bd",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/vehicle_queries.py",
+      "repository_path": "backend/app/vehicle_queries.py",
+      "approved_sha256": "e76fbaf16fef84282290ebe939336f5c159f226a2fefcbca150f1adc0dd87ce7",
+      "repository_sha256": "e76fbaf16fef84282290ebe939336f5c159f226a2fefcbca150f1adc0dd87ce7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/app/vercel_runtime.py",
+      "repository_path": "backend/app/vercel_runtime.py",
+      "approved_sha256": "49448d68fc4e4292871a68abf15a328b9403b5407c2aed236fa0924b3e6f284d",
+      "repository_sha256": "49448d68fc4e4292871a68abf15a328b9403b5407c2aed236fa0924b3e6f284d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/data/motorcycles.demo.json",
+      "repository_path": "backend/data/motorcycles.demo.json",
+      "approved_sha256": "cba2529f018deae3b0649f610c98da02dae2a9a10c88974ab74581728d612b9d",
+      "repository_sha256": "cba2529f018deae3b0649f610c98da02dae2a9a10c88974ab74581728d612b9d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/requirements.txt",
+      "repository_path": "backend/requirements.txt",
+      "approved_sha256": "229286e4f0ceb47032b00978ae5c9055f0e20cdc015d42b8e201f6e0181a76f4",
+      "repository_sha256": "229286e4f0ceb47032b00978ae5c9055f0e20cdc015d42b8e201f6e0181a76f4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/revision6.homologation.env.example",
+      "repository_path": "backend/revision6.homologation.env.example",
+      "approved_sha256": "d5ab1e57e17baacefad13807dae812bfe834442773c0e4e7f85dd5cc8777d6a1",
+      "repository_sha256": "d5ab1e57e17baacefad13807dae812bfe834442773c0e4e7f85dd5cc8777d6a1",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/tcc.env.example",
+      "repository_path": "backend/tcc.env.example",
+      "approved_sha256": "80accd2cdece9bcaa8183465eebd5a1536fd69fa740861c39bf3a7c9dad8669f",
+      "repository_sha256": "80accd2cdece9bcaa8183465eebd5a1536fd69fa740861c39bf3a7c9dad8669f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "backend/tcc.supabase.env.example",
+      "repository_path": "backend/tcc.supabase.env.example",
+      "approved_sha256": "5d8a50355505da514aa5eeabd120696e31a927ae6d27eebb5154829a00dbcc6e",
+      "repository_sha256": "5d8a50355505da514aa5eeabd120696e31a927ae6d27eebb5154829a00dbcc6e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/__init__.py",
+      "repository_path": "data_platform/__init__.py",
+      "approved_sha256": "d24870a0a09eb46e89e0286f4f2680a9c7564d3a0a1424e6024d6357435e9504",
+      "repository_sha256": "d24870a0a09eb46e89e0286f4f2680a9c7564d3a0a1424e6024d6357435e9504",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/anp/__init__.py",
+      "repository_path": "data_platform/anp/__init__.py",
+      "approved_sha256": "c5a767626990d6ab5905830117ed1fb27ef9c82976922088a0048781d6275df4",
+      "repository_sha256": "c5a767626990d6ab5905830117ed1fb27ef9c82976922088a0048781d6275df4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/anp/cli.py",
+      "repository_path": "data_platform/anp/cli.py",
+      "approved_sha256": "b7b123870ae688a4fd959a00c41c328a0253a089586e3b7c396b3b1c2e8a6d24",
+      "repository_sha256": "b7b123870ae688a4fd959a00c41c328a0253a089586e3b7c396b3b1c2e8a6d24",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/anp/loader.py",
+      "repository_path": "data_platform/anp/loader.py",
+      "approved_sha256": "d74a5d72d58f8aedb9871f5ea6a41d737331b558356061762c1a33494be25586",
+      "repository_sha256": "d74a5d72d58f8aedb9871f5ea6a41d737331b558356061762c1a33494be25586",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/anp/pipeline.py",
+      "repository_path": "data_platform/anp/pipeline.py",
+      "approved_sha256": "a3be7991f44d359ed8b3a612ddb798417b40899c279e2bf30bb2b6244a55d806",
+      "repository_sha256": "a3be7991f44d359ed8b3a612ddb798417b40899c279e2bf30bb2b6244a55d806",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/anp/sources.py",
+      "repository_path": "data_platform/anp/sources.py",
+      "approved_sha256": "6987ee7a9a0bb77ea239312071a64d190440eab0e58a3f3c6fb3bafec5de8793",
+      "repository_sha256": "6987ee7a9a0bb77ea239312071a64d190440eab0e58a3f3c6fb3bafec5de8793",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/carpedia/__init__.py",
+      "repository_path": "data_platform/carpedia/__init__.py",
+      "approved_sha256": "996c5fb570506288a25eb94c5d4339c5732e3f9099eca4978def056ce7e272c0",
+      "repository_sha256": "996c5fb570506288a25eb94c5d4339c5732e3f9099eca4978def056ce7e272c0",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/carpedia/cli.py",
+      "repository_path": "data_platform/carpedia/cli.py",
+      "approved_sha256": "48976089a8543a016825745c1ae470b8012abd3b64823e708900b6e16e32e131",
+      "repository_sha256": "48976089a8543a016825745c1ae470b8012abd3b64823e708900b6e16e32e131",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/carpedia/loader.py",
+      "repository_path": "data_platform/carpedia/loader.py",
+      "approved_sha256": "0e79ddf53bfecd95250695458c2062fd29bd9d4f5a0b7f69a8502dd7705d41cb",
+      "repository_sha256": "0e79ddf53bfecd95250695458c2062fd29bd9d4f5a0b7f69a8502dd7705d41cb",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/carpedia/pipeline.py",
+      "repository_path": "data_platform/carpedia/pipeline.py",
+      "approved_sha256": "1eadeb62ebce9e2768fbf9e18a6145f1705f3d00cf7fe6b915bb20be62f15a76",
+      "repository_sha256": "1eadeb62ebce9e2768fbf9e18a6145f1705f3d00cf7fe6b915bb20be62f15a76",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/__init__.py",
+      "repository_path": "data_platform/catalog/__init__.py",
+      "approved_sha256": "0760eabd815757c8a8a428cc73dab47e8d94e918c869a445209b01695302ed0b",
+      "repository_sha256": "0760eabd815757c8a8a428cc73dab47e8d94e918c869a445209b01695302ed0b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic.py",
+      "repository_path": "data_platform/catalog/academic.py",
+      "approved_sha256": "ed41960804f0ee06221e06267177f0570eac7e44e94b2c6c42c284c708418370",
+      "repository_sha256": "ed41960804f0ee06221e06267177f0570eac7e44e94b2c6c42c284c708418370",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_cohort_v5.json",
+      "repository_path": "data_platform/catalog/academic_cohort_v5.json",
+      "approved_sha256": "f85a455c3698c200771330f852835990ed3305dd1502bc77d5fe7473fcab17ab",
+      "repository_sha256": "f85a455c3698c200771330f852835990ed3305dd1502bc77d5fe7473fcab17ab",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_cohort_v5.py",
+      "repository_path": "data_platform/catalog/academic_cohort_v5.py",
+      "approved_sha256": "dad26605de8741d21c4d93b24c7d159d690a5dc4375b5b632ffa0533e6473aa3",
+      "repository_sha256": "dad26605de8741d21c4d93b24c7d159d690a5dc4375b5b632ffa0533e6473aa3",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_cohort_v5_collection.json",
+      "repository_path": "data_platform/catalog/academic_cohort_v5_collection.json",
+      "approved_sha256": "448cbcb67b824ca60e141b2838fdb97065eb2b6031a247cfabce42ceb19e2788",
+      "repository_sha256": "448cbcb67b824ca60e141b2838fdb97065eb2b6031a247cfabce42ceb19e2788",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_cohort_v5_evidence.json",
+      "repository_path": "data_platform/catalog/academic_cohort_v5_evidence.json",
+      "approved_sha256": "8fff2c639d2f3a02cf5bc394b8d0297d1129b652dcaeda2467bf876beb6f9187",
+      "repository_sha256": "8fff2c639d2f3a02cf5bc394b8d0297d1129b652dcaeda2467bf876beb6f9187",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_cohort_v6.json",
+      "repository_path": "data_platform/catalog/academic_cohort_v6.json",
+      "approved_sha256": "12b30bd6bb5a8b86a1eb287a8d4ca04a14e2c5f9195dc8b09738534080df5f10",
+      "repository_sha256": "12b30bd6bb5a8b86a1eb287a8d4ca04a14e2c5f9195dc8b09738534080df5f10",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_cohort_v6.py",
+      "repository_path": "data_platform/catalog/academic_cohort_v6.py",
+      "approved_sha256": "10a4d34b3f840d36b109bf4314c97381c43df2c04fabed0d0c593cc188024585",
+      "repository_sha256": "10a4d34b3f840d36b109bf4314c97381c43df2c04fabed0d0c593cc188024585",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_cohort_v6_collection.json",
+      "repository_path": "data_platform/catalog/academic_cohort_v6_collection.json",
+      "approved_sha256": "18d7d7aed0bd11f80196d8d0df054d0c9208a9c74fdceb71317ccba817b6efba",
+      "repository_sha256": "18d7d7aed0bd11f80196d8d0df054d0c9208a9c74fdceb71317ccba817b6efba",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_cohort_v6_evidence.json",
+      "repository_path": "data_platform/catalog/academic_cohort_v6_evidence.json",
+      "approved_sha256": "649de636bf2d3ccfd0b6837405c0f393614ea36fdda0949e32081949df61f454",
+      "repository_sha256": "649de636bf2d3ccfd0b6837405c0f393614ea36fdda0949e32081949df61f454",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_cost_scenario.py",
+      "repository_path": "data_platform/catalog/academic_cost_scenario.py",
+      "approved_sha256": "9bfffc2790d324e6398d1f06f5a7b1d0c4cfcdeff6923151618620c0af944fc2",
+      "repository_sha256": "9bfffc2790d324e6398d1f06f5a7b1d0c4cfcdeff6923151618620c0af944fc2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_cost_scenario_v1.json",
+      "repository_path": "data_platform/catalog/academic_cost_scenario_v1.json",
+      "approved_sha256": "f74fbb58d78b72a60d3ace46dbf41d65da91961abaa183773b072125956a624f",
+      "repository_sha256": "f74fbb58d78b72a60d3ace46dbf41d65da91961abaa183773b072125956a624f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_demo_v1.json",
+      "repository_path": "data_platform/catalog/academic_demo_v1.json",
+      "approved_sha256": "f57811c9911a469e609c254f981cfbafe662ca0b7757989222abac16fd518c83",
+      "repository_sha256": "f57811c9911a469e609c254f981cfbafe662ca0b7757989222abac16fd518c83",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/academic_evidence_v2.json",
+      "repository_path": "data_platform/catalog/academic_evidence_v2.json",
+      "approved_sha256": "9c2201a7fa880c1e761138bed13e5f9250c9487596b44ce3394036f4b30c1c11",
+      "repository_sha256": "9c2201a7fa880c1e761138bed13e5f9250c9487596b44ce3394036f4b30c1c11",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/activation.py",
+      "repository_path": "data_platform/catalog/activation.py",
+      "approved_sha256": "ad9572016ba7c7eaee8d9c8c1a46e4281c2631ccc9bc380cdf58d02689c94632",
+      "repository_sha256": "ad9572016ba7c7eaee8d9c8c1a46e4281c2631ccc9bc380cdf58d02689c94632",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/adapter.py",
+      "repository_path": "data_platform/catalog/adapter.py",
+      "approved_sha256": "1f5e17c01a359cee85d4fadb9769085171911b18ce16663b5f9a057f847a6cd5",
+      "repository_sha256": "1f5e17c01a359cee85d4fadb9769085171911b18ce16663b5f9a057f847a6cd5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/batch1_crosswalk_v1.json",
+      "repository_path": "data_platform/catalog/batch1_crosswalk_v1.json",
+      "approved_sha256": "0e54419fb58763a588a9e816f48f773f15ee852f017bf729554dc7e10804c477",
+      "repository_sha256": "0e54419fb58763a588a9e816f48f773f15ee852f017bf729554dc7e10804c477",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/batch2_collection_v1.json",
+      "repository_path": "data_platform/catalog/batch2_collection_v1.json",
+      "approved_sha256": "691f4351e482e9b2a01db01e427d89db9e8dcbe39ee45fcab0a932056964d567",
+      "repository_sha256": "691f4351e482e9b2a01db01e427d89db9e8dcbe39ee45fcab0a932056964d567",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/batch2_crosswalk_v1.json",
+      "repository_path": "data_platform/catalog/batch2_crosswalk_v1.json",
+      "approved_sha256": "8e161efb8bd0a045698344029c1d10a6d08135db7a91faf803e2ac6ac30645cd",
+      "repository_sha256": "8e161efb8bd0a045698344029c1d10a6d08135db7a91faf803e2ac6ac30645cd",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/batch3_academic_v4.py",
+      "repository_path": "data_platform/catalog/batch3_academic_v4.py",
+      "approved_sha256": "b4edfc1f79b0d1b3dabcc3db75b656d18c813c7463762cecf229d67f310e6e9d",
+      "repository_sha256": "b4edfc1f79b0d1b3dabcc3db75b656d18c813c7463762cecf229d67f310e6e9d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/batch3_collection_v1.json",
+      "repository_path": "data_platform/catalog/batch3_collection_v1.json",
+      "approved_sha256": "de08d12e663d81543906098a9f4e32bd02d99a3e4902566f61aafafebc1e8e7b",
+      "repository_sha256": "de08d12e663d81543906098a9f4e32bd02d99a3e4902566f61aafafebc1e8e7b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/batch3_evidence_v1.json",
+      "repository_path": "data_platform/catalog/batch3_evidence_v1.json",
+      "approved_sha256": "41fa6a369ba0d5d5ec19d0611d3d12b7d8fdccf4578c81907754b8cc58dfe821",
+      "repository_sha256": "41fa6a369ba0d5d5ec19d0611d3d12b7d8fdccf4578c81907754b8cc58dfe821",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/batch4_academic_v4.py",
+      "repository_path": "data_platform/catalog/batch4_academic_v4.py",
+      "approved_sha256": "31fc7014d5aacdfebbab9914fc21e176e298c4c1f6d1b571d92f83adeff763a7",
+      "repository_sha256": "31fc7014d5aacdfebbab9914fc21e176e298c4c1f6d1b571d92f83adeff763a7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/batch4_collection_v1.json",
+      "repository_path": "data_platform/catalog/batch4_collection_v1.json",
+      "approved_sha256": "3cd7f83ba12a7cda74b55a58c9e66438955f1dafd4abab64ca1a3d0615aa2750",
+      "repository_sha256": "3cd7f83ba12a7cda74b55a58c9e66438955f1dafd4abab64ca1a3d0615aa2750",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/batch4_evidence_v1.json",
+      "repository_path": "data_platform/catalog/batch4_evidence_v1.json",
+      "approved_sha256": "3c6fa86612f3f94624afd821550d0867695e5a2e0510950a8fbb100213e07f27",
+      "repository_sha256": "3c6fa86612f3f94624afd821550d0867695e5a2e0510950a8fbb100213e07f27",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/carpedia_profile_evidence.py",
+      "repository_path": "data_platform/catalog/carpedia_profile_evidence.py",
+      "approved_sha256": "511fb4e614821067455cd75465b50c28d4235b912e5317dbae2b6d497f48b0db",
+      "repository_sha256": "511fb4e614821067455cd75465b50c28d4235b912e5317dbae2b6d497f48b0db",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/carpedia_profile_evidence_batch2_v1.json",
+      "repository_path": "data_platform/catalog/carpedia_profile_evidence_batch2_v1.json",
+      "approved_sha256": "0cd9218ba70d085c41e9855be882bcc63ce42dbc775215b30400cd9009050c92",
+      "repository_sha256": "0cd9218ba70d085c41e9855be882bcc63ce42dbc775215b30400cd9009050c92",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/carpedia_profile_evidence_v1.json",
+      "repository_path": "data_platform/catalog/carpedia_profile_evidence_v1.json",
+      "approved_sha256": "b2c5f9e699aeca6c8fdeda75dfc41b870afa24adcb8712337897182388e95ecd",
+      "repository_sha256": "b2c5f9e699aeca6c8fdeda75dfc41b870afa24adcb8712337897182388e95ecd",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/change_control_v2.json",
+      "repository_path": "data_platform/catalog/change_control_v2.json",
+      "approved_sha256": "97f104cbd4aa7b419d9392a2bc59dfccd179d2b5215769f822184f8b92c662d2",
+      "repository_sha256": "97f104cbd4aa7b419d9392a2bc59dfccd179d2b5215769f822184f8b92c662d2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/cli.py",
+      "repository_path": "data_platform/catalog/cli.py",
+      "approved_sha256": "8032104aa2a37035f403234be131f2c8080ee50e308250c15cfaedcd39894248",
+      "repository_sha256": "8032104aa2a37035f403234be131f2c8080ee50e308250c15cfaedcd39894248",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/contracts.py",
+      "repository_path": "data_platform/catalog/contracts.py",
+      "approved_sha256": "7ae017ebdaab8f891497b4b2745283c12b1382b674b526345337019d9b2012d3",
+      "repository_sha256": "7ae017ebdaab8f891497b4b2745283c12b1382b674b526345337019d9b2012d3",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/crosswalk.py",
+      "repository_path": "data_platform/catalog/crosswalk.py",
+      "approved_sha256": "df8791317a5572f3086d6349d5a361c4c7fb218f85a73014a089730612079fbd",
+      "repository_sha256": "df8791317a5572f3086d6349d5a361c4c7fb218f85a73014a089730612079fbd",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/crosswalk_aliases_v1.json",
+      "repository_path": "data_platform/catalog/crosswalk_aliases_v1.json",
+      "approved_sha256": "2ef513fa50644d65e2d7bfcab864d2ae08e95cb51099db04c56e5b2f579447c5",
+      "repository_sha256": "2ef513fa50644d65e2d7bfcab864d2ae08e95cb51099db04c56e5b2f579447c5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/evidence_analysis.py",
+      "repository_path": "data_platform/catalog/evidence_analysis.py",
+      "approved_sha256": "d20e26a4dedd4c265a203dba4f93701e0af791e0bbadc090f77f8ea453315bdd",
+      "repository_sha256": "d20e26a4dedd4c265a203dba4f93701e0af791e0bbadc090f77f8ea453315bdd",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/evidence_v2.py",
+      "repository_path": "data_platform/catalog/evidence_v2.py",
+      "approved_sha256": "7feea326935a6c8ce2d84b9066e9aa9d2ac85444940ddae28f4f181cf5a649bf",
+      "repository_sha256": "7feea326935a6c8ce2d84b9066e9aa9d2ac85444940ddae28f4f181cf5a649bf",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/experimental_cohort.py",
+      "repository_path": "data_platform/catalog/experimental_cohort.py",
+      "approved_sha256": "30193882ee6aec840f396b1e326a9299163a8ed31c8bf3a7dce430980f7f914a",
+      "repository_sha256": "30193882ee6aec840f396b1e326a9299163a8ed31c8bf3a7dce430980f7f914a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/experimental_core_v1.json",
+      "repository_path": "data_platform/catalog/experimental_core_v1.json",
+      "approved_sha256": "a3b9a0c75ff59784e864f0498e6fd88c1d915ada0a2410d85c9c94bc277dacf9",
+      "repository_sha256": "a3b9a0c75ff59784e864f0498e6fd88c1d915ada0a2410d85c9c94bc277dacf9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/experimental_legacy_price_crosswalk_v1.json",
+      "repository_path": "data_platform/catalog/experimental_legacy_price_crosswalk_v1.json",
+      "approved_sha256": "d9ae57dd3ae68b15349c3aed04932eceb60272536f636a6d0b4c8ff68589ecbb",
+      "repository_sha256": "d9ae57dd3ae68b15349c3aed04932eceb60272536f636a6d0b4c8ff68589ecbb",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/experimental_planning.py",
+      "repository_path": "data_platform/catalog/experimental_planning.py",
+      "approved_sha256": "22ce60300d9679a85d8783694ffeeb9c1ce0cbd19cd07b1d8f3284f4ee456142",
+      "repository_sha256": "22ce60300d9679a85d8783694ffeeb9c1ce0cbd19cd07b1d8f3284f4ee456142",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/intake.py",
+      "repository_path": "data_platform/catalog/intake.py",
+      "approved_sha256": "f5a142ddf0161a08c1f7e594e8db3bceb50205199a68f8e339bad05a3e2bba57",
+      "repository_sha256": "f5a142ddf0161a08c1f7e594e8db3bceb50205199a68f8e339bad05a3e2bba57",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/legacy_academic_v4.py",
+      "repository_path": "data_platform/catalog/legacy_academic_v4.py",
+      "approved_sha256": "72849ba67de70b30c8c35d39b25a3a9ec12fea0ab0500f0050cef5f8895cbbf9",
+      "repository_sha256": "72849ba67de70b30c8c35d39b25a3a9ec12fea0ab0500f0050cef5f8895cbbf9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/legacy_academic_v4_evidence_v1.json",
+      "repository_path": "data_platform/catalog/legacy_academic_v4_evidence_v1.json",
+      "approved_sha256": "86d2a17b1b649423f6b37c5be36bb91ae58d71f69545e7aaef2639dce6b0ffb5",
+      "repository_sha256": "86d2a17b1b649423f6b37c5be36bb91ae58d71f69545e7aaef2639dce6b0ffb5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/legacy_external_v4.py",
+      "repository_path": "data_platform/catalog/legacy_external_v4.py",
+      "approved_sha256": "df37c5d7361b5a7bd8268397be876c364535f802c8e0b6c12a37d3ccbba1b724",
+      "repository_sha256": "df37c5d7361b5a7bd8268397be876c364535f802c8e0b6c12a37d3ccbba1b724",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/legacy_external_v4_evidence_v1.json",
+      "repository_path": "data_platform/catalog/legacy_external_v4_evidence_v1.json",
+      "approved_sha256": "5ad2f8bef7d7adbadef598beb8cd489760c381b80803a6c13c3440fec5c52fbd",
+      "repository_sha256": "5ad2f8bef7d7adbadef598beb8cd489760c381b80803a6c13c3440fec5c52fbd",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/legacy_remaining_v4.py",
+      "repository_path": "data_platform/catalog/legacy_remaining_v4.py",
+      "approved_sha256": "978fd9eee27ad365f7ded1258031bcd7516f247f784fe55eb8ae550c9a9e7c45",
+      "repository_sha256": "978fd9eee27ad365f7ded1258031bcd7516f247f784fe55eb8ae550c9a9e7c45",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/legacy_technical_v4.py",
+      "repository_path": "data_platform/catalog/legacy_technical_v4.py",
+      "approved_sha256": "a0dd72b851bb2f04820c7b55b20fbe33d7f85015f1b2398685a7e92b515f5d95",
+      "repository_sha256": "a0dd72b851bb2f04820c7b55b20fbe33d7f85015f1b2398685a7e92b515f5d95",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/legacy_technical_v4_evidence_v1.json",
+      "repository_path": "data_platform/catalog/legacy_technical_v4_evidence_v1.json",
+      "approved_sha256": "4c7806a3c0d32d8d45cb5e8b118925e076f5b4474f75079aef979d4f11011ab4",
+      "repository_sha256": "4c7806a3c0d32d8d45cb5e8b118925e076f5b4474f75079aef979d4f11011ab4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/profile_analysis_v3.py",
+      "repository_path": "data_platform/catalog/profile_analysis_v3.py",
+      "approved_sha256": "0160a1764716fcbaab38f5de3e79317a674c92777ee523bf3cdcef17f090a20a",
+      "repository_sha256": "0160a1764716fcbaab38f5de3e79317a674c92777ee523bf3cdcef17f090a20a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/profile_contracts_v3.py",
+      "repository_path": "data_platform/catalog/profile_contracts_v3.py",
+      "approved_sha256": "438ad1f72226c376d810c08d32f6a8a98e9a99a900524ca04202be23b6d85060",
+      "repository_sha256": "438ad1f72226c376d810c08d32f6a8a98e9a99a900524ca04202be23b6d85060",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/profile_costs_v3.py",
+      "repository_path": "data_platform/catalog/profile_costs_v3.py",
+      "approved_sha256": "bcd9b26372cb5b6d4ea149413580003f4934580a6a8853b9957da7a3549bab29",
+      "repository_sha256": "bcd9b26372cb5b6d4ea149413580003f4934580a6a8853b9957da7a3549bab29",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/profile_evidence_v3.py",
+      "repository_path": "data_platform/catalog/profile_evidence_v3.py",
+      "approved_sha256": "5382fb6ca4057237e3e750eb05e06533b2978c74c949b71c1db8b229a05edfc3",
+      "repository_sha256": "5382fb6ca4057237e3e750eb05e06533b2978c74c949b71c1db8b229a05edfc3",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/profile_method_v3.json",
+      "repository_path": "data_platform/catalog/profile_method_v3.json",
+      "approved_sha256": "56f491ecb4c1cdf491601a1415b631098e2816a363c19d53a798d565d598da4d",
+      "repository_sha256": "56f491ecb4c1cdf491601a1415b631098e2816a363c19d53a798d565d598da4d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/profile_method_v4.json",
+      "repository_path": "data_platform/catalog/profile_method_v4.json",
+      "approved_sha256": "9b806a5d1059a385e385ff8c9f4aac9c8c25ded1c9bf1c263b07fa4ccb38e7a5",
+      "repository_sha256": "9b806a5d1059a385e385ff8c9f4aac9c8c25ded1c9bf1c263b07fa4ccb38e7a5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/profile_pilot_v4.py",
+      "repository_path": "data_platform/catalog/profile_pilot_v4.py",
+      "approved_sha256": "e9ffe38168c9e8329faab468276cba4d396bc665c9cd9f4af54eb3caf9f7a383",
+      "repository_sha256": "e9ffe38168c9e8329faab468276cba4d396bc665c9cd9f4af54eb3caf9f7a383",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/profile_safety_v4.py",
+      "repository_path": "data_platform/catalog/profile_safety_v4.py",
+      "approved_sha256": "b004228133fc031d2e93fda70df85682f5ddeb711d544c838474f412e9af61cf",
+      "repository_sha256": "b004228133fc031d2e93fda70df85682f5ddeb711d544c838474f412e9af61cf",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/profile_scoring_v3.py",
+      "repository_path": "data_platform/catalog/profile_scoring_v3.py",
+      "approved_sha256": "9ac0f4c2ac57e534411f3cd259ebb8e5a2022139d8952bd37cc1741d825bdb0a",
+      "repository_sha256": "9ac0f4c2ac57e534411f3cd259ebb8e5a2022139d8952bd37cc1741d825bdb0a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/profile_sources_v3.json",
+      "repository_path": "data_platform/catalog/profile_sources_v3.json",
+      "approved_sha256": "d6403caac8b349195d1299e819167e313ea5b181f45663173a402b31fe151612",
+      "repository_sha256": "d6403caac8b349195d1299e819167e313ea5b181f45663173a402b31fe151612",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/readiness.py",
+      "repository_path": "data_platform/catalog/readiness.py",
+      "approved_sha256": "3201f8dfc69dcecc427878189a0bd008be30ea61b045a294031346c9e5e7f71d",
+      "repository_sha256": "3201f8dfc69dcecc427878189a0bd008be30ea61b045a294031346c9e5e7f71d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/catalog/selection_v1.json",
+      "repository_path": "data_platform/catalog/selection_v1.json",
+      "approved_sha256": "ac670045fc643d66d0fa8ebed32c54798053d51099b0f05e177046734713f0eb",
+      "repository_sha256": "ac670045fc643d66d0fa8ebed32c54798053d51099b0f05e177046734713f0eb",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/common/__init__.py",
+      "repository_path": "data_platform/common/__init__.py",
+      "approved_sha256": "15d1f16f9f5cbdcd5177112bfee580dbdb4cf9330d40f0de93c9f692a5afce2c",
+      "repository_sha256": "15d1f16f9f5cbdcd5177112bfee580dbdb4cf9330d40f0de93c9f692a5afce2c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/common/config.py",
+      "repository_path": "data_platform/common/config.py",
+      "approved_sha256": "3178503ae454cbed040067e75ae659f96b2b3866d217976253f6da880582c235",
+      "repository_sha256": "3178503ae454cbed040067e75ae659f96b2b3866d217976253f6da880582c235",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/common/database.py",
+      "repository_path": "data_platform/common/database.py",
+      "approved_sha256": "309b8f5a319eb514925368abae9fb95abe34923b77852fa89bd5f0db1b371bc5",
+      "repository_sha256": "309b8f5a319eb514925368abae9fb95abe34923b77852fa89bd5f0db1b371bc5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/common/logging.py",
+      "repository_path": "data_platform/common/logging.py",
+      "approved_sha256": "a161ba078fd50b613fcc7669ee5b31d64d4351dc79d1cdf29e21c9a583f4338f",
+      "repository_sha256": "a161ba078fd50b613fcc7669ee5b31d64d4351dc79d1cdf29e21c9a583f4338f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/contracts/__init__.py",
+      "repository_path": "data_platform/contracts/__init__.py",
+      "approved_sha256": "5f49460afb7c7bee2ffdb1bcd44784250d773517c4ba867f0df888a65c48f8a0",
+      "repository_sha256": "5f49460afb7c7bee2ffdb1bcd44784250d773517c4ba867f0df888a65c48f8a0",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/contracts/anp_fuel_prices.py",
+      "repository_path": "data_platform/contracts/anp_fuel_prices.py",
+      "approved_sha256": "7a0d42646d53ba99b66adf3bb4b7aec40b255dc1170d2234eb8a7c8006b62cda",
+      "repository_sha256": "7a0d42646d53ba99b66adf3bb4b7aec40b255dc1170d2234eb8a7c8006b62cda",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/contracts/carpedia_vehicle_specs.py",
+      "repository_path": "data_platform/contracts/carpedia_vehicle_specs.py",
+      "approved_sha256": "2e549d85939659ea02d213bad3a44863f9765a25d4489be276e251eabeff63e5",
+      "repository_sha256": "2e549d85939659ea02d213bad3a44863f9765a25d4489be276e251eabeff63e5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/contracts/fipe.py",
+      "repository_path": "data_platform/contracts/fipe.py",
+      "approved_sha256": "55548f3197754a0b24ae83db0de80547fea200b06e075dd97fc316ba32a93adf",
+      "repository_sha256": "55548f3197754a0b24ae83db0de80547fea200b06e075dd97fc316ba32a93adf",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/contracts/gold_vehicle_features.py",
+      "repository_path": "data_platform/contracts/gold_vehicle_features.py",
+      "approved_sha256": "36d198b6548fcb52b28676e574a0ac55029336d2554160e3042921c037d53d12",
+      "repository_sha256": "36d198b6548fcb52b28676e574a0ac55029336d2554160e3042921c037d53d12",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/contracts/integrated_vehicle_cost.py",
+      "repository_path": "data_platform/contracts/integrated_vehicle_cost.py",
+      "approved_sha256": "f16b957a116772ad61cd191d660b507f0e674ff6d212af89eb183524bf36fa93",
+      "repository_sha256": "f16b957a116772ad61cd191d660b507f0e674ff6d212af89eb183524bf36fa93",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/contracts/pbev.py",
+      "repository_path": "data_platform/contracts/pbev.py",
+      "approved_sha256": "2a4e70b3f9e386530c1b26f5d6ee25eddfa769ebcca31f03bbe6741ed124608a",
+      "repository_sha256": "2a4e70b3f9e386530c1b26f5d6ee25eddfa769ebcca31f03bbe6741ed124608a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/contracts/silver_fipe.py",
+      "repository_path": "data_platform/contracts/silver_fipe.py",
+      "approved_sha256": "58b6b878392c54e85117ecec3d08d40a01b156642759ecdbac3f46772882a4a4",
+      "repository_sha256": "58b6b878392c54e85117ecec3d08d40a01b156642759ecdbac3f46772882a4a4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/__init__.py",
+      "repository_path": "data_platform/ingestion/__init__.py",
+      "approved_sha256": "0c4413ea29e4ca8acef44d6585f9cbbaf355aff0b4eb57b8812ba9fd63a8028a",
+      "repository_sha256": "0c4413ea29e4ca8acef44d6585f9cbbaf355aff0b4eb57b8812ba9fd63a8028a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/anp/__init__.py",
+      "repository_path": "data_platform/ingestion/anp/__init__.py",
+      "approved_sha256": "744f47889bc783d0aa2c3b6a2c2e36b2da336aa80822ef322463ed2225cd7bf2",
+      "repository_sha256": "744f47889bc783d0aa2c3b6a2c2e36b2da336aa80822ef322463ed2225cd7bf2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/anp/client.py",
+      "repository_path": "data_platform/ingestion/anp/client.py",
+      "approved_sha256": "ec0f1ea9dea80d4822d563c4906860403af17e2c9606a0ecac4bccd661405ee9",
+      "repository_sha256": "ec0f1ea9dea80d4822d563c4906860403af17e2c9606a0ecac4bccd661405ee9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/anp/parser.py",
+      "repository_path": "data_platform/ingestion/anp/parser.py",
+      "approved_sha256": "a3a4d0377262bea0cb54567e07c877c78531bc869ec245cf6a58558626cda248",
+      "repository_sha256": "a3a4d0377262bea0cb54567e07c877c78531bc869ec245cf6a58558626cda248",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/bounded_http.py",
+      "repository_path": "data_platform/ingestion/bounded_http.py",
+      "approved_sha256": "8c06008a275e44d50a7ec276c4a99a3224c94fe03b3800a63705a767f3581a9f",
+      "repository_sha256": "8c06008a275e44d50a7ec276c4a99a3224c94fe03b3800a63705a767f3581a9f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/carpedia/__init__.py",
+      "repository_path": "data_platform/ingestion/carpedia/__init__.py",
+      "approved_sha256": "38fe772466e0b0454f631a1bc842c64a4651fab7fd6150297006ea9d96ed233c",
+      "repository_sha256": "38fe772466e0b0454f631a1bc842c64a4651fab7fd6150297006ea9d96ed233c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/carpedia/client.py",
+      "repository_path": "data_platform/ingestion/carpedia/client.py",
+      "approved_sha256": "f8e944882e69c18385848e8c3b92f122bb424060d5c3c95651e91b4b7003b33b",
+      "repository_sha256": "f8e944882e69c18385848e8c3b92f122bb424060d5c3c95651e91b4b7003b33b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/carpedia/parser.py",
+      "repository_path": "data_platform/ingestion/carpedia/parser.py",
+      "approved_sha256": "ccf9545557f953f056ecf3d7ab79fa374587d34b2cea115d5abf212ee7fdb2a8",
+      "repository_sha256": "ccf9545557f953f056ecf3d7ab79fa374587d34b2cea115d5abf212ee7fdb2a8",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/fipe/__init__.py",
+      "repository_path": "data_platform/ingestion/fipe/__init__.py",
+      "approved_sha256": "3f318d9ffb42b9a88998ac663e6a28d69778da8edb6f106282d27476e97b246c",
+      "repository_sha256": "3f318d9ffb42b9a88998ac663e6a28d69778da8edb6f106282d27476e97b246c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/fipe/cli.py",
+      "repository_path": "data_platform/ingestion/fipe/cli.py",
+      "approved_sha256": "5c852432193cb8f087a917747464c5df29292be3ba8cc419f5bd145da42f5041",
+      "repository_sha256": "5c852432193cb8f087a917747464c5df29292be3ba8cc419f5bd145da42f5041",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/fipe/client.py",
+      "repository_path": "data_platform/ingestion/fipe/client.py",
+      "approved_sha256": "b37dc45d6c8986e56bf5e2a6e1ba465658235251c1b838e4261211413d40d71a",
+      "repository_sha256": "b37dc45d6c8986e56bf5e2a6e1ba465658235251c1b838e4261211413d40d71a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/fipe/extractor.py",
+      "repository_path": "data_platform/ingestion/fipe/extractor.py",
+      "approved_sha256": "4028f3e23b6ef539995a373a68b04bbc5b4cb0015d0a36a76a73e29a42201515",
+      "repository_sha256": "4028f3e23b6ef539995a373a68b04bbc5b4cb0015d0a36a76a73e29a42201515",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/fipe/loader.py",
+      "repository_path": "data_platform/ingestion/fipe/loader.py",
+      "approved_sha256": "a8a7672c9ab964549400c64d2056265459d0cf2f4c275d9619edb332396aab5a",
+      "repository_sha256": "a8a7672c9ab964549400c64d2056265459d0cf2f4c275d9619edb332396aab5a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/fipe/pipeline.py",
+      "repository_path": "data_platform/ingestion/fipe/pipeline.py",
+      "approved_sha256": "00f8ad3f176f47a454a978dbf32b433d90725c60559d67810c981724cbd50e9c",
+      "repository_sha256": "00f8ad3f176f47a454a978dbf32b433d90725c60559d67810c981724cbd50e9c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/fipe/targets.py",
+      "repository_path": "data_platform/ingestion/fipe/targets.py",
+      "approved_sha256": "d23077f743ec52e604b81fd65760e0ae3b2f65748b8fabbc911c387c077cd41e",
+      "repository_sha256": "d23077f743ec52e604b81fd65760e0ae3b2f65748b8fabbc911c387c077cd41e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/pbev/__init__.py",
+      "repository_path": "data_platform/ingestion/pbev/__init__.py",
+      "approved_sha256": "0fef6b580f89478c23ca77363d5667427995500b9e01e976de34699a8cf4e07f",
+      "repository_sha256": "0fef6b580f89478c23ca77363d5667427995500b9e01e976de34699a8cf4e07f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/pbev/client.py",
+      "repository_path": "data_platform/ingestion/pbev/client.py",
+      "approved_sha256": "89558f4164a5a012358fc307dc8bedf2c711476bd84306c04f93aaf09b17e209",
+      "repository_sha256": "89558f4164a5a012358fc307dc8bedf2c711476bd84306c04f93aaf09b17e209",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/ingestion/pbev/parser.py",
+      "repository_path": "data_platform/ingestion/pbev/parser.py",
+      "approved_sha256": "120f421e87a5c34e7051dd10406b508250fba330abbbccbcdf2903528eaf2768",
+      "repository_sha256": "120f421e87a5c34e7051dd10406b508250fba330abbbccbcdf2903528eaf2768",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/integrated_vehicle_cost/__init__.py",
+      "repository_path": "data_platform/integrated_vehicle_cost/__init__.py",
+      "approved_sha256": "b9bbfe3862b3b778f7cf5494912e633f7edd946374b7e7aeef24b676ecc66fba",
+      "repository_sha256": "b9bbfe3862b3b778f7cf5494912e633f7edd946374b7e7aeef24b676ecc66fba",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/integrated_vehicle_cost/cli.py",
+      "repository_path": "data_platform/integrated_vehicle_cost/cli.py",
+      "approved_sha256": "112298642bad76b0814d671f42ba7b9563caf0f220e989dc7b082bc26b01af8d",
+      "repository_sha256": "112298642bad76b0814d671f42ba7b9563caf0f220e989dc7b082bc26b01af8d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/integrated_vehicle_cost/loader.py",
+      "repository_path": "data_platform/integrated_vehicle_cost/loader.py",
+      "approved_sha256": "718045528ccaf1f71516639a3efb9f3dc919c0cd90666406182bd1d333a446e5",
+      "repository_sha256": "718045528ccaf1f71516639a3efb9f3dc919c0cd90666406182bd1d333a446e5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/integrated_vehicle_cost/pipeline.py",
+      "repository_path": "data_platform/integrated_vehicle_cost/pipeline.py",
+      "approved_sha256": "58c394d36145bd18093c59e3d4e9cff87857aa680689b43658a8fadcd1a41443",
+      "repository_sha256": "58c394d36145bd18093c59e3d4e9cff87857aa680689b43658a8fadcd1a41443",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/integrated_vehicle_cost/simulation.py",
+      "repository_path": "data_platform/integrated_vehicle_cost/simulation.py",
+      "approved_sha256": "4c76228ad3da8af95eb9e1b039eacf9ab41ccafdcb3485cf48b0d7e7a2c0e5cd",
+      "repository_sha256": "4c76228ad3da8af95eb9e1b039eacf9ab41ccafdcb3485cf48b0d7e7a2c0e5cd",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/integrated_vehicle_cost/simulation_contracts.py",
+      "repository_path": "data_platform/integrated_vehicle_cost/simulation_contracts.py",
+      "approved_sha256": "172468a77708627f86ac6a4176669172754a26289554c4e5b7fe62b159884081",
+      "repository_sha256": "172468a77708627f86ac6a4176669172754a26289554c4e5b7fe62b159884081",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/orchestration/__init__.py",
+      "repository_path": "data_platform/orchestration/__init__.py",
+      "approved_sha256": "0569b09ea0ee1f0463c2697d5b4c9d58a81e4824df9bdc1f6eb4ac983d6fdd92",
+      "repository_sha256": "0569b09ea0ee1f0463c2697d5b4c9d58a81e4824df9bdc1f6eb4ac983d6fdd92",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/orchestration/cli.py",
+      "repository_path": "data_platform/orchestration/cli.py",
+      "approved_sha256": "7b0a2e232baf06f35fa0853799a817ff7936c95c76d8eb340e44ccd07a371cef",
+      "repository_sha256": "7b0a2e232baf06f35fa0853799a817ff7936c95c76d8eb340e44ccd07a371cef",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/orchestration/contracts.py",
+      "repository_path": "data_platform/orchestration/contracts.py",
+      "approved_sha256": "c873d509b559a9bd10ff243bdc31c374bb939b28810e4a510cda2cecadab7c8a",
+      "repository_sha256": "c873d509b559a9bd10ff243bdc31c374bb939b28810e4a510cda2cecadab7c8a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/orchestration/policies.py",
+      "repository_path": "data_platform/orchestration/policies.py",
+      "approved_sha256": "f1599472b95eb071f64d773990bd7a2a8406cdf6a57c8e8f200d4404c5e6bc97",
+      "repository_sha256": "f1599472b95eb071f64d773990bd7a2a8406cdf6a57c8e8f200d4404c5e6bc97",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/orchestration/prefect_flow.py",
+      "repository_path": "data_platform/orchestration/prefect_flow.py",
+      "approved_sha256": "62e4696a93d8a62fa6123c4247b00bc6a0768ccb93ea0c8914ff764a19eff81b",
+      "repository_sha256": "62e4696a93d8a62fa6123c4247b00bc6a0768ccb93ea0c8914ff764a19eff81b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/orchestration/repository.py",
+      "repository_path": "data_platform/orchestration/repository.py",
+      "approved_sha256": "f5ca67bfe0ff5759bd4d467dd0b921eba4ae123469ded1e74c98faa196927f8c",
+      "repository_sha256": "f5ca67bfe0ff5759bd4d467dd0b921eba4ae123469ded1e74c98faa196927f8c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/orchestration/runner.py",
+      "repository_path": "data_platform/orchestration/runner.py",
+      "approved_sha256": "07f778c6126df89d330081b81aec9caa26246d9b637cd2bfab6e7fd28bd52885",
+      "repository_sha256": "07f778c6126df89d330081b81aec9caa26246d9b637cd2bfab6e7fd28bd52885",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/pbev/__init__.py",
+      "repository_path": "data_platform/pbev/__init__.py",
+      "approved_sha256": "2fec25e7748157c94d573cc47c5d50b8a3dfc1556f03a5e8525f4a4076b71676",
+      "repository_sha256": "2fec25e7748157c94d573cc47c5d50b8a3dfc1556f03a5e8525f4a4076b71676",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/pbev/cli.py",
+      "repository_path": "data_platform/pbev/cli.py",
+      "approved_sha256": "69920a3cafc7c599e2af3981e35f25511c0bd12294ec7dbe046438e49607baf6",
+      "repository_sha256": "69920a3cafc7c599e2af3981e35f25511c0bd12294ec7dbe046438e49607baf6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/pbev/loader.py",
+      "repository_path": "data_platform/pbev/loader.py",
+      "approved_sha256": "35ba86c2e74bc50add4372aa590b161b48faa989c3db1923142fbf087321d7a4",
+      "repository_sha256": "35ba86c2e74bc50add4372aa590b161b48faa989c3db1923142fbf087321d7a4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/pbev/pipeline.py",
+      "repository_path": "data_platform/pbev/pipeline.py",
+      "approved_sha256": "2f23e613e11b68d4e752db8f100f8f2cb09954afc12d873e83a3125d774c1b9b",
+      "repository_sha256": "2f23e613e11b68d4e752db8f100f8f2cb09954afc12d873e83a3125d774c1b9b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/pbev/targets.py",
+      "repository_path": "data_platform/pbev/targets.py",
+      "approved_sha256": "af86f3e67769f4f14e1954a7e9d5fe29ceb513c485982fa52ccf97da46c5d0df",
+      "repository_sha256": "af86f3e67769f4f14e1954a7e9d5fe29ceb513c485982fa52ccf97da46c5d0df",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/publication/__init__.py",
+      "repository_path": "data_platform/publication/__init__.py",
+      "approved_sha256": "8bc140ba63fb00e3fb092a07c79eb11aefb2323344fc1ca51160fce1047f81b8",
+      "repository_sha256": "8bc140ba63fb00e3fb092a07c79eb11aefb2323344fc1ca51160fce1047f81b8",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/publication/cli.py",
+      "repository_path": "data_platform/publication/cli.py",
+      "approved_sha256": "b12416b4b281420381b7d62805d1211380eda8c4874472216bcb00757f3a275b",
+      "repository_sha256": "b12416b4b281420381b7d62805d1211380eda8c4874472216bcb00757f3a275b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/publication/loader.py",
+      "repository_path": "data_platform/publication/loader.py",
+      "approved_sha256": "6fc25ed1ea431039a0391b2df5670f81b455f4ba8fb976b313d27c31efc525fa",
+      "repository_sha256": "6fc25ed1ea431039a0391b2df5670f81b455f4ba8fb976b313d27c31efc525fa",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/publication/pipeline.py",
+      "repository_path": "data_platform/publication/pipeline.py",
+      "approved_sha256": "a311ae2f33343599d3111978163c4a64fc45ca268e8ecef62666220bf1e9b71d",
+      "repository_sha256": "a311ae2f33343599d3111978163c4a64fc45ca268e8ecef62666220bf1e9b71d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/quality/__init__.py",
+      "repository_path": "data_platform/quality/__init__.py",
+      "approved_sha256": "ad30581c9b3334beb795c01bba6599a8082d233934480ee0b3d4933ebef384fe",
+      "repository_sha256": "ad30581c9b3334beb795c01bba6599a8082d233934480ee0b3d4933ebef384fe",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/quality/anp_checks.py",
+      "repository_path": "data_platform/quality/anp_checks.py",
+      "approved_sha256": "db21b9fcabfb98331baf9bb283230e90beb97329d9d5b5f4056e04af95f5e6ad",
+      "repository_sha256": "db21b9fcabfb98331baf9bb283230e90beb97329d9d5b5f4056e04af95f5e6ad",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/quality/bronze_checks.py",
+      "repository_path": "data_platform/quality/bronze_checks.py",
+      "approved_sha256": "4f3b78111419cfe2380d553171a1c2d1f0e627681086246b9ad6566bf1dbe928",
+      "repository_sha256": "4f3b78111419cfe2380d553171a1c2d1f0e627681086246b9ad6566bf1dbe928",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/quality/carpedia_checks.py",
+      "repository_path": "data_platform/quality/carpedia_checks.py",
+      "approved_sha256": "34efe5f1bb0f144ce85cc99a411644b695dbd60f99555676ffcc5050eee2dfa6",
+      "repository_sha256": "34efe5f1bb0f144ce85cc99a411644b695dbd60f99555676ffcc5050eee2dfa6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/quality/gold_checks.py",
+      "repository_path": "data_platform/quality/gold_checks.py",
+      "approved_sha256": "46b3cfd4be97b481beebf58462e8a8abf7e439c50a9d4a3ed62ce48cdb780f11",
+      "repository_sha256": "46b3cfd4be97b481beebf58462e8a8abf7e439c50a9d4a3ed62ce48cdb780f11",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/quality/integrated_checks.py",
+      "repository_path": "data_platform/quality/integrated_checks.py",
+      "approved_sha256": "ea5111907d3a6be7a106d9fe9ff690e353a2c88a53c071ed24c7ada3c5fc5a1b",
+      "repository_sha256": "ea5111907d3a6be7a106d9fe9ff690e353a2c88a53c071ed24c7ada3c5fc5a1b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/quality/pbev_checks.py",
+      "repository_path": "data_platform/quality/pbev_checks.py",
+      "approved_sha256": "10065f7706bc43f79aacdfa3ba390122a58da0c9c9f371002a164c34eaa31685",
+      "repository_sha256": "10065f7706bc43f79aacdfa3ba390122a58da0c9c9f371002a164c34eaa31685",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/quality/silver_checks.py",
+      "repository_path": "data_platform/quality/silver_checks.py",
+      "approved_sha256": "f444e8083ae5fec3db7bac048cc9c233fcc1f2af62fa6e5d0bd5ed7a43feb0d7",
+      "repository_sha256": "f444e8083ae5fec3db7bac048cc9c233fcc1f2af62fa6e5d0bd5ed7a43feb0d7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/README.md",
+      "repository_path": "data_platform/README.md",
+      "approved_sha256": "bfd5c460d1f102024ec70b18989969853e32c7ebc94aaf549b9770eefa5cbe76",
+      "repository_sha256": "bfd5c460d1f102024ec70b18989969853e32c7ebc94aaf549b9770eefa5cbe76",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/reconciliation/__init__.py",
+      "repository_path": "data_platform/reconciliation/__init__.py",
+      "approved_sha256": "96fbcf01d480bd3bbf6a044e569e39f7dd00f906c942d7cbebd442415f78b460",
+      "repository_sha256": "96fbcf01d480bd3bbf6a044e569e39f7dd00f906c942d7cbebd442415f78b460",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/reconciliation/legacy_cars.py",
+      "repository_path": "data_platform/reconciliation/legacy_cars.py",
+      "approved_sha256": "6c3768254ff2b2d2796e2511fd3b76156e5397f77dced4babd2d3d5658916bf7",
+      "repository_sha256": "6c3768254ff2b2d2796e2511fd3b76156e5397f77dced4babd2d3d5658916bf7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/transformation/__init__.py",
+      "repository_path": "data_platform/transformation/__init__.py",
+      "approved_sha256": "567981c0fe72a434d69bf0fb7de3ed70dcae7cbc1f94520f2ff7915a56eb3de8",
+      "repository_sha256": "567981c0fe72a434d69bf0fb7de3ed70dcae7cbc1f94520f2ff7915a56eb3de8",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/transformation/anp.py",
+      "repository_path": "data_platform/transformation/anp.py",
+      "approved_sha256": "7974aa44236910117a27655939985908d27457487946b85d1623878b8d19d2e7",
+      "repository_sha256": "7974aa44236910117a27655939985908d27457487946b85d1623878b8d19d2e7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/transformation/carpedia.py",
+      "repository_path": "data_platform/transformation/carpedia.py",
+      "approved_sha256": "df05df332a87be0be77df546a77f17111d27b97c318d127bc2d509dd06f03c35",
+      "repository_sha256": "df05df332a87be0be77df546a77f17111d27b97c318d127bc2d509dd06f03c35",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/transformation/cli.py",
+      "repository_path": "data_platform/transformation/cli.py",
+      "approved_sha256": "ae84ebc0831744d0591131ac9373600bf9c2342911ceffcfed9fa932d1e4b886",
+      "repository_sha256": "ae84ebc0831744d0591131ac9373600bf9c2342911ceffcfed9fa932d1e4b886",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/transformation/fipe.py",
+      "repository_path": "data_platform/transformation/fipe.py",
+      "approved_sha256": "45418073d796ad7fe13c8a36ab9303799d77149b7136085cf3efcd27df531098",
+      "repository_sha256": "45418073d796ad7fe13c8a36ab9303799d77149b7136085cf3efcd27df531098",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/transformation/loader.py",
+      "repository_path": "data_platform/transformation/loader.py",
+      "approved_sha256": "9bf98e8915c87a5700c978813a4eff50f1b546e5d72a82b7c3e79cbcb0dc81b2",
+      "repository_sha256": "9bf98e8915c87a5700c978813a4eff50f1b546e5d72a82b7c3e79cbcb0dc81b2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/transformation/pbev.py",
+      "repository_path": "data_platform/transformation/pbev.py",
+      "approved_sha256": "b40ad4d930c52c2f9bd27e97077e48d2f8baa5a2a8f9c3d0e064e8378f2d74d1",
+      "repository_sha256": "b40ad4d930c52c2f9bd27e97077e48d2f8baa5a2a8f9c3d0e064e8378f2d74d1",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "data_platform/transformation/pipeline.py",
+      "repository_path": "data_platform/transformation/pipeline.py",
+      "approved_sha256": "70815f6f6a57c7381613bbc188c3fb306e26f5961e6fa26a2c477f8841c66b42",
+      "repository_sha256": "70815f6f6a57c7381613bbc188c3fb306e26f5961e6fa26a2c477f8841c66b42",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/build_vercel.mjs",
+      "repository_path": "deploy/build_vercel.mjs",
+      "approved_sha256": "f1caf1047f52acbe87e591a9a3e2c21f164c372023ee1f22fc14adfe6af4c1c7",
+      "repository_sha256": "f1caf1047f52acbe87e591a9a3e2c21f164c372023ee1f22fc14adfe6af4c1c7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/linux-image-dependencies.constraints.txt",
+      "repository_path": "deploy/linux-image-dependencies.constraints.txt",
+      "approved_sha256": "e042a8f11b19c24ebe4c7ade339dd464b719e4542cdee9a36027a12812087440",
+      "repository_sha256": "e042a8f11b19c24ebe4c7ade339dd464b719e4542cdee9a36027a12812087440",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/neon.runtime.env.example",
+      "repository_path": "deploy/neon.runtime.env.example",
+      "approved_sha256": "f60fa30f0f7083f1c217c4c29db2b2ba7935379dc83f6213051a32784e1070d6",
+      "repository_sha256": "f60fa30f0f7083f1c217c4c29db2b2ba7935379dc83f6213051a32784e1070d6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/neon.target.UNCONFIGURED.json",
+      "repository_path": "deploy/neon.target.UNCONFIGURED.json",
+      "approved_sha256": "b845d79f3e380391aeb0ec64ae18946c0e7b9da15cedd2635c43ee08e50ab2da",
+      "repository_sha256": "b845d79f3e380391aeb0ec64ae18946c0e7b9da15cedd2635c43ee08e50ab2da",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/NEON_PREVIEW.md",
+      "repository_path": "deploy/NEON_PREVIEW.md",
+      "approved_sha256": "e7f178ad959831d47ae6e9368b239c12e894e306d397a2bb1e6938fcccf48607",
+      "repository_sha256": "e7f178ad959831d47ae6e9368b239c12e894e306d397a2bb1e6938fcccf48607",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/research-grants.sql",
+      "repository_path": "deploy/research-grants.sql",
+      "approved_sha256": "2b6393c416edf651c91ec7843bb57cf47915b4b2972dd8a8f107e69dc0e7e421",
+      "repository_sha256": "2b6393c416edf651c91ec7843bb57cf47915b4b2972dd8a8f107e69dc0e7e421",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/start_tcc.py",
+      "repository_path": "deploy/start_tcc.py",
+      "approved_sha256": "130a7bed14f5949623332f5b795f0581cb3f68a92b2270303a8fe1e0ff1edc4c",
+      "repository_sha256": "130a7bed14f5949623332f5b795f0581cb3f68a92b2270303a8fe1e0ff1edc4c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/tcc-image.render.example.yaml",
+      "repository_path": "deploy/tcc-image.render.example.yaml",
+      "approved_sha256": "47def074c9caa5e4e3ff26bc6a61b0f4373148d63aa00d82e074b8b9aacc94e9",
+      "repository_sha256": "47def074c9caa5e4e3ff26bc6a61b0f4373148d63aa00d82e074b8b9aacc94e9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/tcc-participants.render.yaml",
+      "repository_path": "deploy/tcc-participants.render.yaml",
+      "approved_sha256": "7324daf3966872a6a6b3451d253e061b41e772a3aa310480c2c88dcc2a6f1f1e",
+      "repository_sha256": "7324daf3966872a6a6b3451d253e061b41e772a3aa310480c2c88dcc2a6f1f1e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/tcc.Dockerfile",
+      "repository_path": "deploy/tcc.Dockerfile",
+      "approved_sha256": "3b9b0b26787a7d399cfc4e3b495e1391a1cd10286cc377c8e0e3b02e1be2fe3a",
+      "repository_sha256": "3b9b0b26787a7d399cfc4e3b495e1391a1cd10286cc377c8e0e3b02e1be2fe3a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/tcc.runtime.env.example",
+      "repository_path": "deploy/tcc.runtime.env.example",
+      "approved_sha256": "ee8c8a8867cc50fe5064dadb076436f680c382c4a1c834a237c4dbb70230fe34",
+      "repository_sha256": "ee8c8a8867cc50fe5064dadb076436f680c382c4a1c834a237c4dbb70230fe34",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/tcc.target.example.json",
+      "repository_path": "deploy/tcc.target.example.json",
+      "approved_sha256": "ece40994859516ad581e78f836b66267e36b4c50683a1dda5ceebea047817486",
+      "repository_sha256": "ece40994859516ad581e78f836b66267e36b4c50683a1dda5ceebea047817486",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/vercel.runtime.env.example",
+      "repository_path": "deploy/vercel.runtime.env.example",
+      "approved_sha256": "02294f031241a63729d8c1dea074fda229e7c7bb7561e49c7a1ae957f801c9b6",
+      "repository_sha256": "02294f031241a63729d8c1dea074fda229e7c7bb7561e49c7a1ae957f801c9b6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/vercel.target.UNCONFIGURED.json",
+      "repository_path": "deploy/vercel.target.UNCONFIGURED.json",
+      "approved_sha256": "92c34730fee1c034b15089d84f06993ecba357b7d5c475dc2ead6feab5096681",
+      "repository_sha256": "92c34730fee1c034b15089d84f06993ecba357b7d5c475dc2ead6feab5096681",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "deploy/VERCEL_HOBBY.md",
+      "repository_path": "deploy/VERCEL_HOBBY.md",
+      "approved_sha256": "8a33373c969cad7ae88839024d1df5fb858713aea54e034328d81bad49c00c12",
+      "repository_sha256": "8a33373c969cad7ae88839024d1df5fb858713aea54e034328d81bad49c00c12",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/ACADEMIC_COHORT_V5.md",
+      "repository_path": "docs/ACADEMIC_COHORT_V5.md",
+      "approved_sha256": "f9b259f4ea435eaae05bdb99a09438259f173bbd44572c90194effdb82b42f56",
+      "repository_sha256": "f9b259f4ea435eaae05bdb99a09438259f173bbd44572c90194effdb82b42f56",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/ACADEMIC_COHORT_V6.md",
+      "repository_path": "docs/ACADEMIC_COHORT_V6.md",
+      "approved_sha256": "5980e0c46f26bddcba3eb6bbfcf2db952444ef061f93bc59b4249b3e4a0c4a60",
+      "repository_sha256": "5980e0c46f26bddcba3eb6bbfcf2db952444ef061f93bc59b4249b3e4a0c4a60",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/ACADEMIC_COHORT_V6_BACKEND.md",
+      "repository_path": "docs/ACADEMIC_COHORT_V6_BACKEND.md",
+      "approved_sha256": "e06032c6b921714186822597098e5dcb5d65620a4e8f8400c7c27d04699757ba",
+      "repository_sha256": "e06032c6b921714186822597098e5dcb5d65620a4e8f8400c7c27d04699757ba",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/ACADEMIC_COHORT_V6_FRONTEND.md",
+      "repository_path": "docs/ACADEMIC_COHORT_V6_FRONTEND.md",
+      "approved_sha256": "9ad8813c8f86fce516f059d3cc1f7ee23e1e69727c7758ebd617d33cb9dd4cab",
+      "repository_sha256": "b405e015a86f0f7e5799677ed3f1df3060ee369dae96c752ec6883eecdf3466e",
+      "note": "Only personal local paths removed in public documentation; original retained in sealed ZIP."
+    },
+    {
+      "application_path": "docs/ACADEMIC_COHORT_V6_RECOMMENDATION.md",
+      "repository_path": "docs/ACADEMIC_COHORT_V6_RECOMMENDATION.md",
+      "approved_sha256": "4271e990b3158a5a2299a562f19162876ea3695ba61efb435d41d206d7d910c6",
+      "repository_sha256": "4271e990b3158a5a2299a562f19162876ea3695ba61efb435d41d206d7d910c6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/ACADEMIC_COST_SCENARIO_V1.md",
+      "repository_path": "docs/ACADEMIC_COST_SCENARIO_V1.md",
+      "approved_sha256": "a0a0ab8a7724b43e509128618889c22986e452533b205fa3d14cacda080679c6",
+      "repository_sha256": "a0a0ab8a7724b43e509128618889c22986e452533b205fa3d14cacda080679c6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/ACADEMIC_SAFETY_REVISION6_HOMOLOGATION.md",
+      "repository_path": "docs/ACADEMIC_SAFETY_REVISION6_HOMOLOGATION.md",
+      "approved_sha256": "d75a79e203bcb5322a02f925b505a802d58daa5e30b93f69200679ae2e1fa605",
+      "repository_sha256": "d75a79e203bcb5322a02f925b505a802d58daa5e30b93f69200679ae2e1fa605",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/ACADEMIC_SAFETY_REVISION6_INTEGRATION.md",
+      "repository_path": "docs/ACADEMIC_SAFETY_REVISION6_INTEGRATION.md",
+      "approved_sha256": "e4835c6ca66b0c5408fc6124ff4cf5ec84a42470479ddf01fe2217881b7c95c7",
+      "repository_sha256": "e4835c6ca66b0c5408fc6124ff4cf5ec84a42470479ddf01fe2217881b7c95c7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/ADR_GESTAO_VEICULAR.md",
+      "repository_path": "docs/ADR_GESTAO_VEICULAR.md",
+      "approved_sha256": "5a0755a7778d87f641cfc87688a7f83d50f38eff8c4bff83cc46effba81f5e58",
+      "repository_sha256": "5a0755a7778d87f641cfc87688a7f83d50f38eff8c4bff83cc46effba81f5e58",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/ALGORITMO_V2_1_AUDITAVEL.md",
+      "repository_path": "docs/ALGORITMO_V2_1_AUDITAVEL.md",
+      "approved_sha256": "ee3217818151a35fb38492b2f6a0864c17b06021a40233a49237926720e7eba7",
+      "repository_sha256": "ee3217818151a35fb38492b2f6a0864c17b06021a40233a49237926720e7eba7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/API_FINANCIAMENTO.md",
+      "repository_path": "docs/API_FINANCIAMENTO.md",
+      "approved_sha256": "313493c7650fed9499a56ef79e294101305696cc49ed553d643bcd88d4722b0a",
+      "repository_sha256": "313493c7650fed9499a56ef79e294101305696cc49ed553d643bcd88d4722b0a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/API_RECOMENDACOES.md",
+      "repository_path": "docs/API_RECOMENDACOES.md",
+      "approved_sha256": "b141a6017882323005dcb15064ded888965a331ffabdd14bb8ecf3a8e96b2da1",
+      "repository_sha256": "b141a6017882323005dcb15064ded888965a331ffabdd14bb8ecf3a8e96b2da1",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/AUDITORIA_REGISTROS_MOTOCICLETAS.md",
+      "repository_path": "docs/AUDITORIA_REGISTROS_MOTOCICLETAS.md",
+      "approved_sha256": "dbc035658bb1d6475ee2a8d5970486dc37206a10b4d72f639b25dc37bbc87196",
+      "repository_sha256": "dbc035658bb1d6475ee2a8d5970486dc37206a10b4d72f639b25dc37bbc87196",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/BATCH3_ACADEMIC_V4.md",
+      "repository_path": "docs/BATCH3_ACADEMIC_V4.md",
+      "approved_sha256": "96edd3eb1dd6d31eefe7eeabfe6e345e6c6dd2d64e13bad26f45ea7b9135b290",
+      "repository_sha256": "96edd3eb1dd6d31eefe7eeabfe6e345e6c6dd2d64e13bad26f45ea7b9135b290",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/BATCH4_ACADEMIC_V4.md",
+      "repository_path": "docs/BATCH4_ACADEMIC_V4.md",
+      "approved_sha256": "62e24bd0c28eb0d5815c7c79b7ba64a66e74d478f93b3681046fec58f6e716cf",
+      "repository_sha256": "62e24bd0c28eb0d5815c7c79b7ba64a66e74d478f93b3681046fec58f6e716cf",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/CATALOG_ACADEMIC_V4.md",
+      "repository_path": "docs/CATALOG_ACADEMIC_V4.md",
+      "approved_sha256": "ceefd3602274843a986c32d173c9fffe6eec51080d889c2a0065228f0c29655a",
+      "repository_sha256": "ceefd3602274843a986c32d173c9fffe6eec51080d889c2a0065228f0c29655a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/CATALOG_PROFILE_EVIDENCE_V3.md",
+      "repository_path": "docs/CATALOG_PROFILE_EVIDENCE_V3.md",
+      "approved_sha256": "93bcf6dd9673c781f33eb3daf80460dffb2dfc5a1b2c3ac4f498d8da429fd76b",
+      "repository_sha256": "93bcf6dd9673c781f33eb3daf80460dffb2dfc5a1b2c3ac4f498d8da429fd76b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/CATALOGO_100.md",
+      "repository_path": "docs/CATALOGO_100.md",
+      "approved_sha256": "aaca80fde9d1a450f943cb531cab9bea1d9ed36b2431551f3439c84e5afe37c0",
+      "repository_sha256": "aaca80fde9d1a450f943cb531cab9bea1d9ed36b2431551f3439c84e5afe37c0",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/CATALOGO_ACADEMIC_EVIDENCE_V2.md",
+      "repository_path": "docs/CATALOGO_ACADEMIC_EVIDENCE_V2.md",
+      "approved_sha256": "aa04487151dd3101b66e28f5023439fbe8931b55d7675d380b0498c64e41dbaa",
+      "repository_sha256": "aa04487151dd3101b66e28f5023439fbe8931b55d7675d380b0498c64e41dbaa",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/CATALOGO_ACADEMICO_V1.md",
+      "repository_path": "docs/CATALOGO_ACADEMICO_V1.md",
+      "approved_sha256": "a0b76ae4333baf463a3b8fb0a2daf45788310062be8e21c535a1a1e2890d0c06",
+      "repository_sha256": "a0b76ae4333baf463a3b8fb0a2daf45788310062be8e21c535a1a1e2890d0c06",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/CATALOGO_COORTE_EXPERIMENTAL_V1.md",
+      "repository_path": "docs/CATALOGO_COORTE_EXPERIMENTAL_V1.md",
+      "approved_sha256": "9cab5d6480446f665a6c87b31ede0ec2a6f09ef4a098b0e15a51509c4c33dcea",
+      "repository_sha256": "9cab5d6480446f665a6c87b31ede0ec2a6f09ef4a098b0e15a51509c4c33dcea",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/CHECKLIST_ENTREGA.md",
+      "repository_path": "docs/CHECKLIST_ENTREGA.md",
+      "approved_sha256": "08f696a6e929b059581694546c010bea611b68fd3c3a2a56e2fb8f85cec851ec",
+      "repository_sha256": "08f696a6e929b059581694546c010bea611b68fd3c3a2a56e2fb8f85cec851ec",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/CRITERIOS_RECOMENDACAO.md",
+      "repository_path": "docs/CRITERIOS_RECOMENDACAO.md",
+      "approved_sha256": "80faa5400515a4eae818411eb1b0781965be42a5c8b38a1f8c86359299897b88",
+      "repository_sha256": "80faa5400515a4eae818411eb1b0781965be42a5c8b38a1f8c86359299897b88",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/DADOS_E_INDICADORES_MOTOCICLETAS.md",
+      "repository_path": "docs/DADOS_E_INDICADORES_MOTOCICLETAS.md",
+      "approved_sha256": "c9cc61b3d156f039ceffa51227edc834c42fd83df34d114639ed9c6e7d6a2673",
+      "repository_sha256": "c9cc61b3d156f039ceffa51227edc834c42fd83df34d114639ed9c6e7d6a2673",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/DATABASE_MIGRATION.md",
+      "repository_path": "docs/DATABASE_MIGRATION.md",
+      "approved_sha256": "31a3555a673564f1970040bf39b9b0c48106bc054e68847f54a728c1a2b52e89",
+      "repository_sha256": "31a3555a673564f1970040bf39b9b0c48106bc054e68847f54a728c1a2b52e89",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/DEPLOY_READINESS.md",
+      "repository_path": "docs/DEPLOY_READINESS.md",
+      "approved_sha256": "c3b45c0de631d98f21728e0549a9ce7daf0319d6b1a5311a1345dcbee8dc55cb",
+      "repository_sha256": "c3b45c0de631d98f21728e0549a9ce7daf0319d6b1a5311a1345dcbee8dc55cb",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/DERIVED_SEVEN_CRITERIA_V1.md",
+      "repository_path": "docs/DERIVED_SEVEN_CRITERIA_V1.md",
+      "approved_sha256": "ade076fbf5f7519a3945445c4c20f95bb2e3dd84cf697347f4b38f2e6bbc8cb0",
+      "repository_sha256": "ade076fbf5f7519a3945445c4c20f95bb2e3dd84cf697347f4b38f2e6bbc8cb0",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/E2E_WINDOWS.md",
+      "repository_path": "docs/E2E_WINDOWS.md",
+      "approved_sha256": "0b8fc50e42125da6ca1bdfb2cc571953b658c282756bad5ee561359aa41f35b3",
+      "repository_sha256": "0b8fc50e42125da6ca1bdfb2cc571953b658c282756bad5ee561359aa41f35b3",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/FORMULAS_FINANCIAMENTO.md",
+      "repository_path": "docs/FORMULAS_FINANCIAMENTO.md",
+      "approved_sha256": "043444d645bcc683e6c5983287f21df4e6ea62f4ee38a9bf5eea59ecb6cadfb2",
+      "repository_sha256": "043444d645bcc683e6c5983287f21df4e6ea62f4ee38a9bf5eea59ecb6cadfb2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/frontend/FRONTEND_V2.md",
+      "repository_path": "docs/frontend/FRONTEND_V2.md",
+      "approved_sha256": "2ce9b2dc35e2a9a09d489b2d14d0e73d5d7a6766c95778de6f5058265c7b1cb8",
+      "repository_sha256": "2ce9b2dc35e2a9a09d489b2d14d0e73d5d7a6766c95778de6f5058265c7b1cb8",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/GITHUB_FIRST_PUSH.md",
+      "repository_path": "docs/GITHUB_FIRST_PUSH.md",
+      "approved_sha256": "db80c0ec73db17ca0c29ab792a5c7228daaa270a46cf52a83568d1e6325c9c47",
+      "repository_sha256": "db80c0ec73db17ca0c29ab792a5c7228daaa270a46cf52a83568d1e6325c9c47",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/GUARDRAILS_MOTOCICLETAS.md",
+      "repository_path": "docs/GUARDRAILS_MOTOCICLETAS.md",
+      "approved_sha256": "0eec48c6c3f217b8adecefc19202f41357c4ae1239207acece48e6d5cbb3c797",
+      "repository_sha256": "0eec48c6c3f217b8adecefc19202f41357c4ae1239207acece48e6d5cbb3c797",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/HOMOLOGATION_BACKUP_RESTORE.md",
+      "repository_path": "docs/HOMOLOGATION_BACKUP_RESTORE.md",
+      "approved_sha256": "11e4c6b07937c730f3cccfbf9b0446a0f9c3ba3fe197bb018e8e4640ed6a1e66",
+      "repository_sha256": "11e4c6b07937c730f3cccfbf9b0446a0f9c3ba3fe197bb018e8e4640ed6a1e66",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/HOMOLOGATION_DEPLOY.md",
+      "repository_path": "docs/HOMOLOGATION_DEPLOY.md",
+      "approved_sha256": "b34ebdba65bb9bd9025ae64305b9a055a6bc9c1d76df50b58f54969a989cb242",
+      "repository_sha256": "b34ebdba65bb9bd9025ae64305b9a055a6bc9c1d76df50b58f54969a989cb242",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/HOMOLOGATION_ROLLBACK.md",
+      "repository_path": "docs/HOMOLOGATION_ROLLBACK.md",
+      "approved_sha256": "1d929678c51b1fefcf403ad02e16c61cc9ad364d0d064d65c5a182c448a60af2",
+      "repository_sha256": "1d929678c51b1fefcf403ad02e16c61cc9ad364d0d064d65c5a182c448a60af2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/HOMOLOGATION_SECURITY.md",
+      "repository_path": "docs/HOMOLOGATION_SECURITY.md",
+      "approved_sha256": "0a85aeaa9bda5997095fa4c9a1acad51f5bfd914bc014e950382a8e5f52b4703",
+      "repository_sha256": "0a85aeaa9bda5997095fa4c9a1acad51f5bfd914bc014e950382a8e5f52b4703",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/INTEGRACAO_FINANCIAMENTO_TCO.md",
+      "repository_path": "docs/INTEGRACAO_FINANCIAMENTO_TCO.md",
+      "approved_sha256": "87adfd233aad1f241a9348dce03ecbed9c507102cb1ad3ddbaac87a3e7e084b0",
+      "repository_sha256": "87adfd233aad1f241a9348dce03ecbed9c507102cb1ad3ddbaac87a3e7e084b0",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/LEGACY_ACADEMIC_V4_OFFLINE.md",
+      "repository_path": "docs/LEGACY_ACADEMIC_V4_OFFLINE.md",
+      "approved_sha256": "8fe3ccdb10115d1dfdda496d5bc652ded3ebe80b89bcd9010b63cd33b8226915",
+      "repository_sha256": "8fe3ccdb10115d1dfdda496d5bc652ded3ebe80b89bcd9010b63cd33b8226915",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/LEGACY_EXTERNAL_V4.md",
+      "repository_path": "docs/LEGACY_EXTERNAL_V4.md",
+      "approved_sha256": "f9fdd4efc7387ee9f650a7d0911c8937a0562b84ede033b2a5ca408ff08f26d8",
+      "repository_sha256": "f9fdd4efc7387ee9f650a7d0911c8937a0562b84ede033b2a5ca408ff08f26d8",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/LEGACY_REMAINING_V4_OFFLINE.md",
+      "repository_path": "docs/LEGACY_REMAINING_V4_OFFLINE.md",
+      "approved_sha256": "243b4f67347bff39d4b21394fc0d0d44f6a5382c53a9d103d9e9374fef01c802",
+      "repository_sha256": "243b4f67347bff39d4b21394fc0d0d44f6a5382c53a9d103d9e9374fef01c802",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/LEGACY_TECHNICAL_V4_OFFLINE.md",
+      "repository_path": "docs/LEGACY_TECHNICAL_V4_OFFLINE.md",
+      "approved_sha256": "cfcc7ade2db61fa79de55108ebe8e0ea6ac10a1efb5b8b8432240904090c735e",
+      "repository_sha256": "cfcc7ade2db61fa79de55108ebe8e0ea6ac10a1efb5b8b8432240904090c735e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/LIMITACOES_E_EVOLUCOES.md",
+      "repository_path": "docs/LIMITACOES_E_EVOLUCOES.md",
+      "approved_sha256": "63f477efe9fb2ca048e2ea20b3cd845609c70c90efb1adc6a1457a90fdb09a37",
+      "repository_sha256": "63f477efe9fb2ca048e2ea20b3cd845609c70c90efb1adc6a1457a90fdb09a37",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/MATRIZ_CRITERIOS_MOTOCICLETAS.md",
+      "repository_path": "docs/MATRIZ_CRITERIOS_MOTOCICLETAS.md",
+      "approved_sha256": "356d370da3e61bcdc3d2dd372f8c1af02a54a301c300fbc15853b784e0493eef",
+      "repository_sha256": "356d370da3e61bcdc3d2dd372f8c1af02a54a301c300fbc15853b784e0493eef",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/METODOLOGIA_RECOMENDADOR_MOTOCICLETAS.md",
+      "repository_path": "docs/METODOLOGIA_RECOMENDADOR_MOTOCICLETAS.md",
+      "approved_sha256": "925559978b820f99a7c5400593a803d14d50160373d5038123e966403ac48ce2",
+      "repository_sha256": "925559978b820f99a7c5400593a803d14d50160373d5038123e966403ac48ce2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/MIGRACAO_MOTOCICLETAS.md",
+      "repository_path": "docs/MIGRACAO_MOTOCICLETAS.md",
+      "approved_sha256": "43e897bc40aa0f188ea0365a7151a4af5a8c8c13950adc14accda0b5593b83f9",
+      "repository_sha256": "43e897bc40aa0f188ea0365a7151a4af5a8c8c13950adc14accda0b5593b83f9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/MODULO_FINANCIAMENTO.md",
+      "repository_path": "docs/MODULO_FINANCIAMENTO.md",
+      "approved_sha256": "c99695ba657f3a44b0ce0819decb8a226e429d388417b4ed19fec7852bb93bbf",
+      "repository_sha256": "c99695ba657f3a44b0ce0819decb8a226e429d388417b4ed19fec7852bb93bbf",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/MODULO_MOTOCICLETAS.md",
+      "repository_path": "docs/MODULO_MOTOCICLETAS.md",
+      "approved_sha256": "6124224e87cfd4f9205710d9bfcd969ed82fe69b94f3c3cbfccc1d9fc664c70c",
+      "repository_sha256": "6124224e87cfd4f9205710d9bfcd969ed82fe69b94f3c3cbfccc1d9fc664c70c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/MOTORCYCLE_RECOMMENDER_SPEC_V1.md",
+      "repository_path": "docs/MOTORCYCLE_RECOMMENDER_SPEC_V1.md",
+      "approved_sha256": "17ec48a6a17cf3ee2e8f1de19a26656f67d7cfc6f799997c8e00f33496d1c0b1",
+      "repository_sha256": "17ec48a6a17cf3ee2e8f1de19a26656f67d7cfc6f799997c8e00f33496d1c0b1",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/PLANO_COLETA_PILOTO_MOTOCICLETAS.md",
+      "repository_path": "docs/PLANO_COLETA_PILOTO_MOTOCICLETAS.md",
+      "approved_sha256": "c749c6ed92b923966a97358222cc5edf7b6cb18222ac81fbad2dbc9481b288f5",
+      "repository_sha256": "c749c6ed92b923966a97358222cc5edf7b6cb18222ac81fbad2dbc9481b288f5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/PLANO_INTEGRACAO_FINANCIAMENTO_RECOMENDADOR.md",
+      "repository_path": "docs/PLANO_INTEGRACAO_FINANCIAMENTO_RECOMENDADOR.md",
+      "approved_sha256": "d1b7e1e1e10bf7db727a2ddbdacbda6f2cc75251072e927159be26b810a826b3",
+      "repository_sha256": "d1b7e1e1e10bf7db727a2ddbdacbda6f2cc75251072e927159be26b810a826b3",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/PLANO_VALIDACAO_MOTOCICLETAS.md",
+      "repository_path": "docs/PLANO_VALIDACAO_MOTOCICLETAS.md",
+      "approved_sha256": "d2ccb4b1d159bc870774446252253ab334806ac16d43d5a2cc3962d34cbe2934",
+      "repository_sha256": "d2ccb4b1d159bc870774446252253ab334806ac16d43d5a2cc3962d34cbe2934",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/POLITICA_FONTES_MOTOCICLETAS.md",
+      "repository_path": "docs/POLITICA_FONTES_MOTOCICLETAS.md",
+      "approved_sha256": "a081be79bb5113450a410e72506ad1018ed127e00b431aeb64235f50bcffb00c",
+      "repository_sha256": "a081be79bb5113450a410e72506ad1018ed127e00b431aeb64235f50bcffb00c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/POSTGRESQL_MIGRATION_READINESS.md",
+      "repository_path": "docs/POSTGRESQL_MIGRATION_READINESS.md",
+      "approved_sha256": "b084af83185a9737878c86756049fcc5c099bb815e01ba65486bb6bf0dba9f39",
+      "repository_sha256": "b084af83185a9737878c86756049fcc5c099bb815e01ba65486bb6bf0dba9f39",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/POSTGRESQL_SETUP.md",
+      "repository_path": "docs/POSTGRESQL_SETUP.md",
+      "approved_sha256": "03c9deb2c3bd96fd3f45719068aa2aa32afa3507119a703ef7cc8238cd605eff",
+      "repository_sha256": "03c9deb2c3bd96fd3f45719068aa2aa32afa3507119a703ef7cc8238cd605eff",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/PRECOS_FIPE.md",
+      "repository_path": "docs/PRECOS_FIPE.md",
+      "approved_sha256": "23ae3f4473cdacc591b000e68f27b494d7741c65103c548413ca5a427b81480d",
+      "repository_sha256": "23ae3f4473cdacc591b000e68f27b494d7741c65103c548413ca5a427b81480d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/releases/tcc-presentation-setpoint-2026-09-02.json",
+      "repository_path": "docs/releases/tcc-presentation-setpoint-2026-09-02.json",
+      "approved_sha256": "1eacaa17b4cb089e7a5cc7d8c3080eab2944b4ab73d6f0c69831c6741c6f2221",
+      "repository_sha256": "1eacaa17b4cb089e7a5cc7d8c3080eab2944b4ab73d6f0c69831c6741c6f2221",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/releases/TCC_PRESENTATION_SETPOINT_2026-09-02.md",
+      "repository_path": "docs/releases/TCC_PRESENTATION_SETPOINT_2026-09-02.md",
+      "approved_sha256": "ec29b5451bd790baf92e5668b9e39ebbf31baaf18f8b6a0c49f13a043810d664",
+      "repository_sha256": "ec29b5451bd790baf92e5668b9e39ebbf31baaf18f8b6a0c49f13a043810d664",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/ROTEIRO_DEFESA.md",
+      "repository_path": "docs/ROTEIRO_DEFESA.md",
+      "approved_sha256": "61cd9d2c9c5b575c4d83f0e07a9032cc85cc136907d82828bd3ba994aabddd60",
+      "repository_sha256": "61cd9d2c9c5b575c4d83f0e07a9032cc85cc136907d82828bd3ba994aabddd60",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/SCHEMA_MOTOCICLETAS_V0_3.md",
+      "repository_path": "docs/SCHEMA_MOTOCICLETAS_V0_3.md",
+      "approved_sha256": "c68463d5d7986bed17c1e5a9765a30dade1eb057004fe0c0a644c479661249f2",
+      "repository_sha256": "c68463d5d7986bed17c1e5a9765a30dade1eb057004fe0c0a644c479661249f2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/SEVEN_CRITERIA_PERSONALIZATION.md",
+      "repository_path": "docs/SEVEN_CRITERIA_PERSONALIZATION.md",
+      "approved_sha256": "1852efa71f6dd2624236d1cf5c59aa2979be84a8fb5351fd0c278717362a4166",
+      "repository_sha256": "1852efa71f6dd2624236d1cf5c59aa2979be84a8fb5351fd0c278717362a4166",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/SIGRA_ARQUITETURA_MEDALHAO.md",
+      "repository_path": "docs/SIGRA_ARQUITETURA_MEDALHAO.md",
+      "approved_sha256": "7e76d41df09c4a541754a1c48d5cad0a088c7d9692060b39194612330a747a65",
+      "repository_sha256": "7e76d41df09c4a541754a1c48d5cad0a088c7d9692060b39194612330a747a65",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/SUPABASE_SETUP.md",
+      "repository_path": "docs/SUPABASE_SETUP.md",
+      "approved_sha256": "cee9a4269173dab8a25d1dc91960954919640464b1cd2d31384605bc12a8c878",
+      "repository_sha256": "cee9a4269173dab8a25d1dc91960954919640464b1cd2d31384605bc12a8c878",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/TCC_DEPLOY_PREPARATION.md",
+      "repository_path": "docs/TCC_DEPLOY_PREPARATION.md",
+      "approved_sha256": "411664dc440298ed4318ef13b8376c40876af38ce96c2171831f5cbd5668e107",
+      "repository_sha256": "411664dc440298ed4318ef13b8376c40876af38ce96c2171831f5cbd5668e107",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/TCC_PARTICIPANT_TESTS.md",
+      "repository_path": "docs/TCC_PARTICIPANT_TESTS.md",
+      "approved_sha256": "180b22280d7c05272935d933754a15efe0a155d610d1b651283b5989b5f4cf85",
+      "repository_sha256": "180b22280d7c05272935d933754a15efe0a155d610d1b651283b5989b5f4cf85",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/TCC_STUDY_PROTOCOL_REVIEW.md",
+      "repository_path": "docs/TCC_STUDY_PROTOCOL_REVIEW.md",
+      "approved_sha256": "38c5af1c7b3c035bc8eb892dd869b3ad92848c45ebe3176f5bc1419f6607c4a5",
+      "repository_sha256": "38c5af1c7b3c035bc8eb892dd869b3ad92848c45ebe3176f5bc1419f6607c4a5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/TCC_SUPABASE_HOMOLOGATION.md",
+      "repository_path": "docs/TCC_SUPABASE_HOMOLOGATION.md",
+      "approved_sha256": "8da92de9ad14ef094d53187383a5b176f38d819728bce1455ffc86bd9a065577",
+      "repository_sha256": "8da92de9ad14ef094d53187383a5b176f38d819728bce1455ffc86bd9a065577",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/TCO_MOTOCICLETAS.md",
+      "repository_path": "docs/TCO_MOTOCICLETAS.md",
+      "approved_sha256": "00778abc8cd46a7b0624589639a3b9820ee67dab67f7f184bf76861aaeb27e4b",
+      "repository_sha256": "00778abc8cd46a7b0624589639a3b9820ee67dab67f7f184bf76861aaeb27e4b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "docs/TESTES_E_CI.md",
+      "repository_path": "docs/TESTES_E_CI.md",
+      "approved_sha256": "52f1eff75fbc9f0c1fc760edcb088c86334ad8c0fee60795a00ed36f3ca6d6d2",
+      "repository_sha256": "52f1eff75fbc9f0c1fc760edcb088c86334ad8c0fee60795a00ed36f3ca6d6d2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/e2e/environment.js",
+      "repository_path": "frontend/e2e/environment.js",
+      "approved_sha256": "38934c78daad5774f963e8beb58397b5cd015b4885c9f430ca96aafdead52a3c",
+      "repository_sha256": "38934c78daad5774f963e8beb58397b5cd015b4885c9f430ca96aafdead52a3c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/e2e/financing.spec.js",
+      "repository_path": "frontend/e2e/financing.spec.js",
+      "approved_sha256": "156da53fdbfb2f5edda77811d23ffd69ce2eb7026ef521906682ff156e20f23c",
+      "repository_sha256": "156da53fdbfb2f5edda77811d23ffd69ce2eb7026ef521906682ff156e20f23c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/e2e/global-teardown.js",
+      "repository_path": "frontend/e2e/global-teardown.js",
+      "approved_sha256": "59b0461567b1378991439b8fb1399d34fec381b570fa1e9966d4c7e01ee7547a",
+      "repository_sha256": "59b0461567b1378991439b8fb1399d34fec381b570fa1e9966d4c7e01ee7547a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/e2e/homologation.spec.js",
+      "repository_path": "frontend/e2e/homologation.spec.js",
+      "approved_sha256": "e46640e07cd6476c085d8daf1ec57c7fcf6113a48a558ffb7589690fd3f2ff37",
+      "repository_sha256": "e46640e07cd6476c085d8daf1ec57c7fcf6113a48a558ffb7589690fd3f2ff37",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/e2e/recommendation-v2.spec.js",
+      "repository_path": "frontend/e2e/recommendation-v2.spec.js",
+      "approved_sha256": "3ee5750fa89f94832cdb27a4a36cadf3de66eadccdd80e8365e09d5664c6cd6c",
+      "repository_sha256": "3ee5750fa89f94832cdb27a4a36cadf3de66eadccdd80e8365e09d5664c6cd6c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/index.html",
+      "repository_path": "frontend/index.html",
+      "approved_sha256": "d63b161b15746aef153e1165854208dbef7aadca2e92f5f338a831006dae7d86",
+      "repository_sha256": "d63b161b15746aef153e1165854208dbef7aadca2e92f5f338a831006dae7d86",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/package-lock.json",
+      "repository_path": "frontend/package-lock.json",
+      "approved_sha256": "239f487ecbd2975670d416d3cbb6f5ee531ebaf11d7a22c661c64f7f8c059ec0",
+      "repository_sha256": "239f487ecbd2975670d416d3cbb6f5ee531ebaf11d7a22c661c64f7f8c059ec0",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/package.json",
+      "repository_path": "frontend/package.json",
+      "approved_sha256": "cd1d7c3790d6d87e8c0268825fd721cb8e307a9288720d9bb6b6d6514b91bfe6",
+      "repository_sha256": "cd1d7c3790d6d87e8c0268825fd721cb8e307a9288720d9bb6b6d6514b91bfe6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/playwright.config.js",
+      "repository_path": "frontend/playwright.config.js",
+      "approved_sha256": "ba0084685466a9ad2cbb75b30d4320fc40374bfaceefdbf23b73f972f29cd372",
+      "repository_sha256": "ba0084685466a9ad2cbb75b30d4320fc40374bfaceefdbf23b73f972f29cd372",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/chevrolet-cobalt-ltz-2018.svg",
+      "repository_path": "frontend/public/cars/chevrolet-cobalt-ltz-2018.svg",
+      "approved_sha256": "a51d26e57ea833342a79c576780599dd98e6420098763eb3b6a25638a244f718",
+      "repository_sha256": "a51d26e57ea833342a79c576780599dd98e6420098763eb3b6a25638a244f718",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/chevrolet-onix-lt-2021.svg",
+      "repository_path": "frontend/public/cars/chevrolet-onix-lt-2021.svg",
+      "approved_sha256": "1946b16914cc74f28b3df039a3c21437108d21e4e1f0ff0705a5f815886981ce",
+      "repository_sha256": "1946b16914cc74f28b3df039a3c21437108d21e4e1f0ff0705a5f815886981ce",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/chevrolet-prisma-lt-2018.svg",
+      "repository_path": "frontend/public/cars/chevrolet-prisma-lt-2018.svg",
+      "approved_sha256": "1393227b92a881afb5c46390b984dd69a3d17200913fc204753057e74bbbf14c",
+      "repository_sha256": "1393227b92a881afb5c46390b984dd69a3d17200913fc204753057e74bbbf14c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/chevrolet-spin-lt-2019.svg",
+      "repository_path": "frontend/public/cars/chevrolet-spin-lt-2019.svg",
+      "approved_sha256": "70587efd5b60bcaf761df17c625bb0b2d80112c34ade0ee2c218d79dbf9cc909",
+      "repository_sha256": "70587efd5b60bcaf761df17c625bb0b2d80112c34ade0ee2c218d79dbf9cc909",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/chevrolet-tracker-lt-2021.svg",
+      "repository_path": "frontend/public/cars/chevrolet-tracker-lt-2021.svg",
+      "approved_sha256": "c2b2172cd8a71c1c69d0e8cc149a23e37e6bf185e17e3554741ce3325848d560",
+      "repository_sha256": "c2b2172cd8a71c1c69d0e8cc149a23e37e6bf185e17e3554741ce3325848d560",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/fiat-argo-drive-2020.svg",
+      "repository_path": "frontend/public/cars/fiat-argo-drive-2020.svg",
+      "approved_sha256": "783144f4c44310b0b2550b1e9b33fee43540f3b94e3a1594687a142a9587e5b2",
+      "repository_sha256": "783144f4c44310b0b2550b1e9b33fee43540f3b94e3a1594687a142a9587e5b2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/fiat-cronos-drive-2020.svg",
+      "repository_path": "frontend/public/cars/fiat-cronos-drive-2020.svg",
+      "approved_sha256": "53e0549593fec9c80a24c1f3c1c4884df111d8c8d3c0c46a523a0cf7c496846e",
+      "repository_sha256": "53e0549593fec9c80a24c1f3c1c4884df111d8c8d3c0c46a523a0cf7c496846e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/fiat-mobi-like-2021.svg",
+      "repository_path": "frontend/public/cars/fiat-mobi-like-2021.svg",
+      "approved_sha256": "9ed8c741d7fab4fb4449b0079ed26cabdf701320b57e78b48cd30b8b34e24c93",
+      "repository_sha256": "9ed8c741d7fab4fb4449b0079ed26cabdf701320b57e78b48cd30b8b34e24c93",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/fiat-uno-attractive-2018.svg",
+      "repository_path": "frontend/public/cars/fiat-uno-attractive-2018.svg",
+      "approved_sha256": "17fac8cea89f3a9e27ad8e1ffedc005287d1bdce6ecd22b6582d7b1feaa3f7b9",
+      "repository_sha256": "17fac8cea89f3a9e27ad8e1ffedc005287d1bdce6ecd22b6582d7b1feaa3f7b9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/ford-ecosport-se-2018.svg",
+      "repository_path": "frontend/public/cars/ford-ecosport-se-2018.svg",
+      "approved_sha256": "9902fc08901bda80ccddd898bddf2d6409944601dbe3c4cfb0815c5ebcfce7e8",
+      "repository_sha256": "9902fc08901bda80ccddd898bddf2d6409944601dbe3c4cfb0815c5ebcfce7e8",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/ford-ka-se-2019.svg",
+      "repository_path": "frontend/public/cars/ford-ka-se-2019.svg",
+      "approved_sha256": "b3a22ccf9ec202164c05f53b455ceda1a62bbe04e902d508fabca5566411eb30",
+      "repository_sha256": "b3a22ccf9ec202164c05f53b455ceda1a62bbe04e902d508fabca5566411eb30",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/honda-city-lx-2018.svg",
+      "repository_path": "frontend/public/cars/honda-city-lx-2018.svg",
+      "approved_sha256": "401080bf4d6adde9c074ed8cba1d94c2a6911c9d8dc2ab4242e753c02d60cdd7",
+      "repository_sha256": "401080bf4d6adde9c074ed8cba1d94c2a6911c9d8dc2ab4242e753c02d60cdd7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/honda-civic-ex-2017.svg",
+      "repository_path": "frontend/public/cars/honda-civic-ex-2017.svg",
+      "approved_sha256": "8ba116f42a5b36b9b3c5f30c665c08425ed00999b60bc8a000a099ca71d33ab4",
+      "repository_sha256": "8ba116f42a5b36b9b3c5f30c665c08425ed00999b60bc8a000a099ca71d33ab4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/honda-fit-ex-2017.svg",
+      "repository_path": "frontend/public/cars/honda-fit-ex-2017.svg",
+      "approved_sha256": "df8370b87226ca6b71350ae38dcf81b420e9901297dbe59209033cfc02a90c2c",
+      "repository_sha256": "df8370b87226ca6b71350ae38dcf81b420e9901297dbe59209033cfc02a90c2c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/honda-hr-v-lx-2018.svg",
+      "repository_path": "frontend/public/cars/honda-hr-v-lx-2018.svg",
+      "approved_sha256": "1d5c63af515fad2f8319235a518fc1d3e2d524a762be6b3c141c694262139df3",
+      "repository_sha256": "1d5c63af515fad2f8319235a518fc1d3e2d524a762be6b3c141c694262139df3",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/hyundai-creta-attitude-2019.svg",
+      "repository_path": "frontend/public/cars/hyundai-creta-attitude-2019.svg",
+      "approved_sha256": "72f71c0a9d64e9da0c299d10d1c18229b962856943a71c18d35d8efa8d3044dc",
+      "repository_sha256": "72f71c0a9d64e9da0c299d10d1c18229b962856943a71c18d35d8efa8d3044dc",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/hyundai-hb20-comfort-2020.svg",
+      "repository_path": "frontend/public/cars/hyundai-hb20-comfort-2020.svg",
+      "approved_sha256": "e014fa0b479de425bee444176c3b1a26364df47c00fad0914146e773f6c5013b",
+      "repository_sha256": "e014fa0b479de425bee444176c3b1a26364df47c00fad0914146e773f6c5013b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/hyundai-hb20s-comfort-2020.svg",
+      "repository_path": "frontend/public/cars/hyundai-hb20s-comfort-2020.svg",
+      "approved_sha256": "52096ab454b6d4911dc0cf2ca7a65694b3c6d53a1a9ce24f796c3be491692d69",
+      "repository_sha256": "52096ab454b6d4911dc0cf2ca7a65694b3c6d53a1a9ce24f796c3be491692d69",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/jeep-renegade-sport-2019.svg",
+      "repository_path": "frontend/public/cars/jeep-renegade-sport-2019.svg",
+      "approved_sha256": "15f1cd8b5e60c8d1bdc7f9124fa51d689dfff6a4c20b0e9d0ba55115e69bcee6",
+      "repository_sha256": "15f1cd8b5e60c8d1bdc7f9124fa51d689dfff6a4c20b0e9d0ba55115e69bcee6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/nissan-kicks-s-2020.svg",
+      "repository_path": "frontend/public/cars/nissan-kicks-s-2020.svg",
+      "approved_sha256": "be176c6d9090dcf0809f9cbfebb9d7d792ab6547ebeb88a2f910369771c30a3b",
+      "repository_sha256": "be176c6d9090dcf0809f9cbfebb9d7d792ab6547ebeb88a2f910369771c30a3b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/nissan-march-sv-2018.svg",
+      "repository_path": "frontend/public/cars/nissan-march-sv-2018.svg",
+      "approved_sha256": "c7d5dba0dde96a42cb0aa1646d574968e6e5aa988e4e3027cb441a22775e2029",
+      "repository_sha256": "c7d5dba0dde96a42cb0aa1646d574968e6e5aa988e4e3027cb441a22775e2029",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/nissan-versa-sv-2019.svg",
+      "repository_path": "frontend/public/cars/nissan-versa-sv-2019.svg",
+      "approved_sha256": "c77896e0c855077abe2b697d0c9210e55adbd645e6d2404ffd24f34cd1122b89",
+      "repository_sha256": "c77896e0c855077abe2b697d0c9210e55adbd645e6d2404ffd24f34cd1122b89",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/renault-duster-zen-2020.svg",
+      "repository_path": "frontend/public/cars/renault-duster-zen-2020.svg",
+      "approved_sha256": "c50735ca63eb705acfbba3904f5272bbc5476a3823fb212c32f5963d92ae2783",
+      "repository_sha256": "c50735ca63eb705acfbba3904f5272bbc5476a3823fb212c32f5963d92ae2783",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/renault-logan-zen-2020.svg",
+      "repository_path": "frontend/public/cars/renault-logan-zen-2020.svg",
+      "approved_sha256": "6c56c08dac109d90decb80a4814ec54415793bd53d3119215e26db5717472e90",
+      "repository_sha256": "6c56c08dac109d90decb80a4814ec54415793bd53d3119215e26db5717472e90",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/renault-sandero-zen-2020.svg",
+      "repository_path": "frontend/public/cars/renault-sandero-zen-2020.svg",
+      "approved_sha256": "364d417d80b7bb2f2345145e27b720c72e79aa04b01f4a8d2075b49451980748",
+      "repository_sha256": "364d417d80b7bb2f2345145e27b720c72e79aa04b01f4a8d2075b49451980748",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/toyota-corolla-cross-xr-2022.svg",
+      "repository_path": "frontend/public/cars/toyota-corolla-cross-xr-2022.svg",
+      "approved_sha256": "85861eb810ece9f69a0a9bf1b27f0b45ba32c0b94c14a306390c0a4a02c8e29d",
+      "repository_sha256": "85861eb810ece9f69a0a9bf1b27f0b45ba32c0b94c14a306390c0a4a02c8e29d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/toyota-corolla-gli-2018.svg",
+      "repository_path": "frontend/public/cars/toyota-corolla-gli-2018.svg",
+      "approved_sha256": "bf8d703d9a15c8b00d29a7ea434210cbd0faf451df76bdb8fa25a4be97320a29",
+      "repository_sha256": "bf8d703d9a15c8b00d29a7ea434210cbd0faf451df76bdb8fa25a4be97320a29",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/toyota-etios-xls-2018.svg",
+      "repository_path": "frontend/public/cars/toyota-etios-xls-2018.svg",
+      "approved_sha256": "b4a5963b4a086ac261a464e31677faa6d1b3b230f45a13f8e04854d84886c00b",
+      "repository_sha256": "b4a5963b4a086ac261a464e31677faa6d1b3b230f45a13f8e04854d84886c00b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/toyota-yaris-xl-2020.svg",
+      "repository_path": "frontend/public/cars/toyota-yaris-xl-2020.svg",
+      "approved_sha256": "50ee14b51134446348ceeff852d1cf4058c8d2a15e6f4ae6aee39ed319ac6f0e",
+      "repository_sha256": "50ee14b51134446348ceeff852d1cf4058c8d2a15e6f4ae6aee39ed319ac6f0e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/volkswagen-gol-trendline-2019.svg",
+      "repository_path": "frontend/public/cars/volkswagen-gol-trendline-2019.svg",
+      "approved_sha256": "1984fef9cec13d83adfea043f6c4faa3c4c10fa694d43c80e1f5bdee3ceca12d",
+      "repository_sha256": "1984fef9cec13d83adfea043f6c4faa3c4c10fa694d43c80e1f5bdee3ceca12d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/volkswagen-polo-msi-2019.svg",
+      "repository_path": "frontend/public/cars/volkswagen-polo-msi-2019.svg",
+      "approved_sha256": "d06f791d6ff3f0c41dd2c7c420e8e8343353fb37a5a446ec3c5aeefa7aee5f43",
+      "repository_sha256": "d06f791d6ff3f0c41dd2c7c420e8e8343353fb37a5a446ec3c5aeefa7aee5f43",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/volkswagen-t-cross-200-tsi-2020.svg",
+      "repository_path": "frontend/public/cars/volkswagen-t-cross-200-tsi-2020.svg",
+      "approved_sha256": "3c42f1fbeeea2efb5164ea660743367008e4bc24f19360fd3127fc17e1e83c55",
+      "repository_sha256": "3c42f1fbeeea2efb5164ea660743367008e4bc24f19360fd3127fc17e1e83c55",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/volkswagen-virtus-msi-2019.svg",
+      "repository_path": "frontend/public/cars/volkswagen-virtus-msi-2019.svg",
+      "approved_sha256": "afb4cb8f97bcff577490e5cc8085204e61fbe7b89def8a3687c19ec2444d7bfa",
+      "repository_sha256": "afb4cb8f97bcff577490e5cc8085204e61fbe7b89def8a3687c19ec2444d7bfa",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/public/cars/volkswagen-voyage-comfortline-2018.svg",
+      "repository_path": "frontend/public/cars/volkswagen-voyage-comfortline-2018.svg",
+      "approved_sha256": "4c3594d4c06e628d8dca253d49e79ca43670d74fffd7eb2297dcd0b823fb17af",
+      "repository_sha256": "4c3594d4c06e628d8dca253d49e79ca43670d74fffd7eb2297dcd0b823fb17af",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/api/compactTransport.js",
+      "repository_path": "frontend/src/api/compactTransport.js",
+      "approved_sha256": "4d0d0d801513a4ca694c9698c1d2031489cb8ce95e14bf3d5f01cadee49cd458",
+      "repository_sha256": "4d0d0d801513a4ca694c9698c1d2031489cb8ce95e14bf3d5f01cadee49cd458",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/api/sigraApi.js",
+      "repository_path": "frontend/src/api/sigraApi.js",
+      "approved_sha256": "a8420bdc5cc7657cf10367a7b658cb6287fef7e124fdf807a7e4a624f6d7d0cf",
+      "repository_sha256": "a8420bdc5cc7657cf10367a7b658cb6287fef7e124fdf807a7e4a624f6d7d0cf",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/App.jsx",
+      "repository_path": "frontend/src/App.jsx",
+      "approved_sha256": "6ec2dd8e806432fb8c8147b8c1a197e2a860579aed69d1f203ceae4fa77b7449",
+      "repository_sha256": "6ec2dd8e806432fb8c8147b8c1a197e2a860579aed69d1f203ceae4fa77b7449",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/AppHeader.jsx",
+      "repository_path": "frontend/src/AppHeader.jsx",
+      "approved_sha256": "40039cd06325bec4ec001cdd1acc0eb64a6b70b9a801cfe582866c19e6ef0344",
+      "repository_sha256": "40039cd06325bec4ec001cdd1acc0eb64a6b70b9a801cfe582866c19e6ef0344",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/config/runtime.js",
+      "repository_path": "frontend/src/config/runtime.js",
+      "approved_sha256": "88efc79796339dde0927dc8c5880396c54db66c7bfc199649415bee97186600f",
+      "repository_sha256": "88efc79796339dde0927dc8c5880396c54db66c7bfc199649415bee97186600f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/domain/vehicleTypes.js",
+      "repository_path": "frontend/src/domain/vehicleTypes.js",
+      "approved_sha256": "3121e712fb77779942fb551439118789b34d557204c3377307ec1b77d69dd765",
+      "repository_sha256": "3121e712fb77779942fb551439118789b34d557204c3377307ec1b77d69dd765",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/academic/academic.css",
+      "repository_path": "frontend/src/features/academic/academic.css",
+      "approved_sha256": "4c5650aa3ac096affb14438ec919d9e7f605f670d0b235e703fec018347c1eb8",
+      "repository_sha256": "4c5650aa3ac096affb14438ec919d9e7f605f670d0b235e703fec018347c1eb8",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/academic/academicModel.js",
+      "repository_path": "frontend/src/features/academic/academicModel.js",
+      "approved_sha256": "30755b49e3ab4c788098076ba60fd974490f7287f010b7fab48b067800366a8f",
+      "repository_sha256": "30755b49e3ab4c788098076ba60fd974490f7287f010b7fab48b067800366a8f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/academic/AcademicPage.jsx",
+      "repository_path": "frontend/src/features/academic/AcademicPage.jsx",
+      "approved_sha256": "fcb2e3ac951e7809616d158f656650fb745b45040e80c5fb68fdf56f50d529f7",
+      "repository_sha256": "fcb2e3ac951e7809616d158f656650fb745b45040e80c5fb68fdf56f50d529f7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/financing/FinancingComparison.jsx",
+      "repository_path": "frontend/src/features/financing/FinancingComparison.jsx",
+      "approved_sha256": "3ecd3d872e16dce8f259ebc538559e906e26039c8810c7dbd5adc7c94868ecef",
+      "repository_sha256": "3ecd3d872e16dce8f259ebc538559e906e26039c8810c7dbd5adc7c94868ecef",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/financing/FinancingForm.jsx",
+      "repository_path": "frontend/src/features/financing/FinancingForm.jsx",
+      "approved_sha256": "6a426f7290bf3368822b9da8f590fb08b6c32b2820f98244bc347bedff42d1f4",
+      "repository_sha256": "6a426f7290bf3368822b9da8f590fb08b6c32b2820f98244bc347bedff42d1f4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/financing/financingModel.js",
+      "repository_path": "frontend/src/features/financing/financingModel.js",
+      "approved_sha256": "6db629845ee5e87373ae1fe22fba46e2737b5d1df2166226e15fb5c9af1d0c2b",
+      "repository_sha256": "6db629845ee5e87373ae1fe22fba46e2737b5d1df2166226e15fb5c9af1d0c2b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/financing/FinancingPage.jsx",
+      "repository_path": "frontend/src/features/financing/FinancingPage.jsx",
+      "approved_sha256": "b49eeae4a3b849bdc70085ba44f56b519957082dabefe0573f52ba9b63f464e4",
+      "repository_sha256": "b49eeae4a3b849bdc70085ba44f56b519957082dabefe0573f52ba9b63f464e4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/financing/FinancingResult.jsx",
+      "repository_path": "frontend/src/features/financing/FinancingResult.jsx",
+      "approved_sha256": "4f1f8afb5715bb479053f35dc694b06563ae958052de712ecb92e3a8da172129",
+      "repository_sha256": "4f1f8afb5715bb479053f35dc694b06563ae958052de712ecb92e3a8da172129",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/motorcycles/MotorcycleCard.jsx",
+      "repository_path": "frontend/src/features/motorcycles/MotorcycleCard.jsx",
+      "approved_sha256": "846cd4fcc0796f1f037a9a4819fb7a0e057b5a4935bcf6790dbd8080303b3af3",
+      "repository_sha256": "846cd4fcc0796f1f037a9a4819fb7a0e057b5a4935bcf6790dbd8080303b3af3",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/motorcycles/MotorcycleList.jsx",
+      "repository_path": "frontend/src/features/motorcycles/MotorcycleList.jsx",
+      "approved_sha256": "44a774bdc0556b2f27bd8486a46c102d4d82d4b87e329a81e90d93107456c28c",
+      "repository_sha256": "44a774bdc0556b2f27bd8486a46c102d4d82d4b87e329a81e90d93107456c28c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/motorcycles/motorcycleModel.js",
+      "repository_path": "frontend/src/features/motorcycles/motorcycleModel.js",
+      "approved_sha256": "540ec1313a51108b12117fe586ed1d111521e8380e75205074321fc1bb8e7f6f",
+      "repository_sha256": "540ec1313a51108b12117fe586ed1d111521e8380e75205074321fc1bb8e7f6f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/motorcycles/MotorcyclePage.jsx",
+      "repository_path": "frontend/src/features/motorcycles/MotorcyclePage.jsx",
+      "approved_sha256": "571335f7e9a79d02b014351e34daaaf14d297c889490e92773d843d68bba052a",
+      "repository_sha256": "571335f7e9a79d02b014351e34daaaf14d297c889490e92773d843d68bba052a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/motorcycles/motorcycleValidation.js",
+      "repository_path": "frontend/src/features/motorcycles/motorcycleValidation.js",
+      "approved_sha256": "117ff2a6e37ee3eb2957a6282379636d2a09cad1b29a2399808fa20b961e94a4",
+      "repository_sha256": "117ff2a6e37ee3eb2957a6282379636d2a09cad1b29a2399808fa20b961e94a4",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/CohortPreferenceFields.jsx",
+      "repository_path": "frontend/src/features/recommendations/CohortPreferenceFields.jsx",
+      "approved_sha256": "3434bbf625fd9dfd8ed4989d2772747ea61609c7e8435b103c433f3e25b964a1",
+      "repository_sha256": "3434bbf625fd9dfd8ed4989d2772747ea61609c7e8435b103c433f3e25b964a1",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/cohortPresentation.js",
+      "repository_path": "frontend/src/features/recommendations/cohortPresentation.js",
+      "approved_sha256": "4f925cd5501a3546d143cba5e11f524719d64b2081814426658d265bb611945b",
+      "repository_sha256": "4f925cd5501a3546d143cba5e11f524719d64b2081814426658d265bb611945b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/cohortRecommendationModel.js",
+      "repository_path": "frontend/src/features/recommendations/cohortRecommendationModel.js",
+      "approved_sha256": "0e30a404cd5025e620dfcc2df8d72c7099dcc10e746e4bafeb6b29f8d34fb6ef",
+      "repository_sha256": "0e30a404cd5025e620dfcc2df8d72c7099dcc10e746e4bafeb6b29f8d34fb6ef",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/CohortRecommendationResults.jsx",
+      "repository_path": "frontend/src/features/recommendations/CohortRecommendationResults.jsx",
+      "approved_sha256": "e713e09dc03381c1ae5ec628ccd385fbbbd5945867a9e2ae6c2aff656b44be0c",
+      "repository_sha256": "e713e09dc03381c1ae5ec628ccd385fbbbd5945867a9e2ae6c2aff656b44be0c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/CohortVehicleDetails.jsx",
+      "repository_path": "frontend/src/features/recommendations/CohortVehicleDetails.jsx",
+      "approved_sha256": "2a448f6fe97c8e0e5128aedac02aae51e63abf45e7f068bc8345645e98330862",
+      "repository_sha256": "2a448f6fe97c8e0e5128aedac02aae51e63abf45e7f068bc8345645e98330862",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/ConfidenceIndicator.jsx",
+      "repository_path": "frontend/src/features/recommendations/ConfidenceIndicator.jsx",
+      "approved_sha256": "f39ac57f0e85f882cfb8b9c1644acd2a9e82cab63e645e17ba03d9c7326eee10",
+      "repository_sha256": "f39ac57f0e85f882cfb8b9c1644acd2a9e82cab63e645e17ba03d9c7326eee10",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/MultifactorBreakdown.jsx",
+      "repository_path": "frontend/src/features/recommendations/MultifactorBreakdown.jsx",
+      "approved_sha256": "eb7315940e05e5f037f90b5ae7b179801344e47ea21a4008bac1c8b133d73a06",
+      "repository_sha256": "eb7315940e05e5f037f90b5ae7b179801344e47ea21a4008bac1c8b133d73a06",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/MultifactorProfileFields.jsx",
+      "repository_path": "frontend/src/features/recommendations/MultifactorProfileFields.jsx",
+      "approved_sha256": "d65aed084d0d373460e635ab55ed2466a3d1424f52ef8a7b3917e683c4a42a05",
+      "repository_sha256": "d65aed084d0d373460e635ab55ed2466a3d1424f52ef8a7b3917e683c4a42a05",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/multifactorRecommendationModel.js",
+      "repository_path": "frontend/src/features/recommendations/multifactorRecommendationModel.js",
+      "approved_sha256": "38a67780df9f4675baea9f97b7f8f24427234119f382e7d1fe49d745d559cf2c",
+      "repository_sha256": "38a67780df9f4675baea9f97b7f8f24427234119f382e7d1fe49d745d559cf2c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/RecommendationDetails.jsx",
+      "repository_path": "frontend/src/features/recommendations/RecommendationDetails.jsx",
+      "approved_sha256": "29859e7ef017a25d441eac50536d407b8d72b237b58b5212fdb68004783c9575",
+      "repository_sha256": "29859e7ef017a25d441eac50536d407b8d72b237b58b5212fdb68004783c9575",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/RecommendationForm.jsx",
+      "repository_path": "frontend/src/features/recommendations/RecommendationForm.jsx",
+      "approved_sha256": "d7d040cd231c1ba77afecc5900c16749ac5306ba3d1d252f0c845a9454e4ab8c",
+      "repository_sha256": "d7d040cd231c1ba77afecc5900c16749ac5306ba3d1d252f0c845a9454e4ab8c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/recommendationModel.js",
+      "repository_path": "frontend/src/features/recommendations/recommendationModel.js",
+      "approved_sha256": "44dc42524fe5e24f41d895bb58c966ff4903c131d3cd59880306b5cf08b8d7b6",
+      "repository_sha256": "44dc42524fe5e24f41d895bb58c966ff4903c131d3cd59880306b5cf08b8d7b6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/RecommendationPage.jsx",
+      "repository_path": "frontend/src/features/recommendations/RecommendationPage.jsx",
+      "approved_sha256": "24f5f18bcc91ef9314bd7c26ebc72a892f82cf50382494e4b0b9ab241bdfb1fa",
+      "repository_sha256": "24f5f18bcc91ef9314bd7c26ebc72a892f82cf50382494e4b0b9ab241bdfb1fa",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/recommendationPriorityModel.js",
+      "repository_path": "frontend/src/features/recommendations/recommendationPriorityModel.js",
+      "approved_sha256": "bde6692222d56e29461bece664c12128cdf4cddbdc57b33f365a54898572a9e6",
+      "repository_sha256": "bde6692222d56e29461bece664c12128cdf4cddbdc57b33f365a54898572a9e6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/RecommendationResults.jsx",
+      "repository_path": "frontend/src/features/recommendations/RecommendationResults.jsx",
+      "approved_sha256": "e905a2aae5f69b3fe3d6640a70ea029aef5e91874d671fd9ff8ce5c48533ded7",
+      "repository_sha256": "e905a2aae5f69b3fe3d6640a70ea029aef5e91874d671fd9ff8ce5c48533ded7",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/recommendationValidation.js",
+      "repository_path": "frontend/src/features/recommendations/recommendationValidation.js",
+      "approved_sha256": "447cedb161885b0c295b7558ecbb617fd3095c53c923b2b83d49cd492b6e9758",
+      "repository_sha256": "447cedb161885b0c295b7558ecbb617fd3095c53c923b2b83d49cd492b6e9758",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/recommendationWizardModel.js",
+      "repository_path": "frontend/src/features/recommendations/recommendationWizardModel.js",
+      "approved_sha256": "1fa9744352da0c8a40de707f306132298c9d61d5efb353f204cc0ecef006266f",
+      "repository_sha256": "1fa9744352da0c8a40de707f306132298c9d61d5efb353f204cc0ecef006266f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/SevenCriteriaBreakdown.jsx",
+      "repository_path": "frontend/src/features/recommendations/SevenCriteriaBreakdown.jsx",
+      "approved_sha256": "108d85ced5a8f0b89e44a1f284c33276e33edaf449cb23595b9737a9076de150",
+      "repository_sha256": "108d85ced5a8f0b89e44a1f284c33276e33edaf449cb23595b9737a9076de150",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/recommendations/VehicleCard.jsx",
+      "repository_path": "frontend/src/features/recommendations/VehicleCard.jsx",
+      "approved_sha256": "adfa8c0f43c607af498ad5ea1eb710c7b2e8dc8d284150dd78dafb9d76bfef62",
+      "repository_sha256": "adfa8c0f43c607af498ad5ea1eb710c7b2e8dc8d284150dd78dafb9d76bfef62",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/session/AuthPanel.jsx",
+      "repository_path": "frontend/src/features/session/AuthPanel.jsx",
+      "approved_sha256": "c260e331bf0e0ed73bc94fcd5350d7a43c52f116c9fe70737a72149fbb9ec265",
+      "repository_sha256": "c260e331bf0e0ed73bc94fcd5350d7a43c52f116c9fe70737a72149fbb9ec265",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/session/loginObservation.js",
+      "repository_path": "frontend/src/features/session/loginObservation.js",
+      "approved_sha256": "8e93c8c07322f71999ab164c7ef94571102f061597d383d5c2f6b4c6c726a2bf",
+      "repository_sha256": "8e93c8c07322f71999ab164c7ef94571102f061597d383d5c2f6b4c6c726a2bf",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/session/participants.css",
+      "repository_path": "frontend/src/features/session/participants.css",
+      "approved_sha256": "26ccf83e64425e32156317ccf37443407acca239c4809ed45b18cf193165b92b",
+      "repository_sha256": "26ccf83e64425e32156317ccf37443407acca239c4809ed45b18cf193165b92b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/session/SessionContext.jsx",
+      "repository_path": "frontend/src/features/session/SessionContext.jsx",
+      "approved_sha256": "4f48d7c969e1ec5aba22e26b40e9c192841f1817844e256590b5b7be7696e946",
+      "repository_sha256": "4f48d7c969e1ec5aba22e26b40e9c192841f1817844e256590b5b7be7696e946",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/session/StudyBeforeRanking.jsx",
+      "repository_path": "frontend/src/features/session/StudyBeforeRanking.jsx",
+      "approved_sha256": "fb5c25abe6f178394d1ddac05a646c1856d48839990c9ae26c1f8d4b837517c6",
+      "repository_sha256": "fb5c25abe6f178394d1ddac05a646c1856d48839990c9ae26c1f8d4b837517c6",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/session/studyInstrument.js",
+      "repository_path": "frontend/src/features/session/studyInstrument.js",
+      "approved_sha256": "e206c741a72828ff048e48e74ef42c19328aa0294750ea8e43af6702b4b181fe",
+      "repository_sha256": "e206c741a72828ff048e48e74ef42c19328aa0294750ea8e43af6702b4b181fe",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/session/TestHistory.jsx",
+      "repository_path": "frontend/src/features/session/TestHistory.jsx",
+      "approved_sha256": "71cb380b6c4ed289a0508106db744dcc18a4755d009f894a095fb8f8dd470b5c",
+      "repository_sha256": "71cb380b6c4ed289a0508106db744dcc18a4755d009f894a095fb8f8dd470b5c",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/vehicle-cost-simulation/simulationModel.js",
+      "repository_path": "frontend/src/features/vehicle-cost-simulation/simulationModel.js",
+      "approved_sha256": "da54c38b9918e21e39efe1394350d152aba6741ab3be7daaaaa53459a3fbbfd5",
+      "repository_sha256": "da54c38b9918e21e39efe1394350d152aba6741ab3be7daaaaa53459a3fbbfd5",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/features/vehicle-cost-simulation/VehicleCostSimulationPanel.jsx",
+      "repository_path": "frontend/src/features/vehicle-cost-simulation/VehicleCostSimulationPanel.jsx",
+      "approved_sha256": "97293e162fc2b35e374de7494dd08ecebbf8ca8111a51fe63636ada62e9e162f",
+      "repository_sha256": "97293e162fc2b35e374de7494dd08ecebbf8ca8111a51fe63636ada62e9e162f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/main.jsx",
+      "repository_path": "frontend/src/main.jsx",
+      "approved_sha256": "ecb98a340d69782884f2772d41497e8da15a959813022c1b0db3fd0f34451c68",
+      "repository_sha256": "ecb98a340d69782884f2772d41497e8da15a959813022c1b0db3fd0f34451c68",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/src/styles.css",
+      "repository_path": "frontend/src/styles.css",
+      "approved_sha256": "08739008ff79d56dc0b456569ab5b305a6925835aa9b1445bb07f61ad53d0754",
+      "repository_sha256": "08739008ff79d56dc0b456569ab5b305a6925835aa9b1445bb07f61ad53d0754",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "frontend/vercel.json",
+      "repository_path": "frontend/vercel.json",
+      "approved_sha256": "bcd5f951a2c3ee04b77fc8a1e81a1346f1c324523e33c771256d882f70937842",
+      "repository_sha256": "bcd5f951a2c3ee04b77fc8a1e81a1346f1c324523e33c771256d882f70937842",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "pyproject.toml",
+      "repository_path": "deploy/published/project/pyproject.toml",
+      "approved_sha256": "8c10ec62a26567f3542e59b21003a08333c606f4ea552f519ccf5abd317cfc54",
+      "repository_sha256": "8c10ec62a26567f3542e59b21003a08333c606f4ea552f519ccf5abd317cfc54",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "requirements.txt",
+      "repository_path": "deploy/published/project/requirements.txt",
+      "approved_sha256": "524b2346cfe8fa8de56f8e6cb77e8bfbfb08041bec2bf5dc71ded3c32a5b6cf2",
+      "repository_sha256": "524b2346cfe8fa8de56f8e6cb77e8bfbfb08041bec2bf5dc71ded3c32a5b6cf2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/bootstrap_ci_sqlite.py",
+      "repository_path": "scripts/bootstrap_ci_sqlite.py",
+      "approved_sha256": "f2930dc52cac9f8cc84be4bb6c75ed4468d47d8dd1f73610d0663e40382bb1e2",
+      "repository_sha256": "f2930dc52cac9f8cc84be4bb6c75ed4468d47d8dd1f73610d0663e40382bb1e2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/bootstrap_homologation_data.py",
+      "repository_path": "scripts/bootstrap_homologation_data.py",
+      "approved_sha256": "467b933ba254bd87892de16fdd98684cfa532671bd42e9a9a9cc78b32d50608f",
+      "repository_sha256": "467b933ba254bd87892de16fdd98684cfa532671bd42e9a9a9cc78b32d50608f",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/bootstrap_postgresql_demo_gold.py",
+      "repository_path": "scripts/bootstrap_postgresql_demo_gold.py",
+      "approved_sha256": "2a7a1b04351ed6f810c39bf2b7d43602b7d706d1ba670f863c8d0d23ce68a943",
+      "repository_sha256": "2a7a1b04351ed6f810c39bf2b7d43602b7d706d1ba670f863c8d0d23ce68a943",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/build_academic_release.py",
+      "repository_path": "scripts/build_academic_release.py",
+      "approved_sha256": "397cabfb56aba93509a4fd7c2e777fc5e890374cdf95676a06ba99c31f4bdfaa",
+      "repository_sha256": "397cabfb56aba93509a4fd7c2e777fc5e890374cdf95676a06ba99c31f4bdfaa",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/check_database_configuration.py",
+      "repository_path": "scripts/check_database_configuration.py",
+      "approved_sha256": "632f3179454a78c82695044107a3f069980e986a3decf3988b9cb6c658562e36",
+      "repository_sha256": "632f3179454a78c82695044107a3f069980e986a3decf3988b9cb6c658562e36",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/check_migration_status.py",
+      "repository_path": "scripts/check_migration_status.py",
+      "approved_sha256": "6a3d0b9e15d5b188cc97a7a438d948fd1752c1323b452586d3ddb80455a2d83a",
+      "repository_sha256": "6a3d0b9e15d5b188cc97a7a438d948fd1752c1323b452586d3ddb80455a2d83a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/clean_workspace.py",
+      "repository_path": "scripts/clean_workspace.py",
+      "approved_sha256": "fbf662f4060d71b386ba68d0e8ff1a464f8b2c2b000c033508811173a1053a4d",
+      "repository_sha256": "fbf662f4060d71b386ba68d0e8ff1a464f8b2c2b000c033508811173a1053a4d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/compare_database_contents.py",
+      "repository_path": "scripts/compare_database_contents.py",
+      "approved_sha256": "07238e7c1222a7e44d879b69de0cbf1056bc314549142edc60b63e121f94b2ed",
+      "repository_sha256": "07238e7c1222a7e44d879b69de0cbf1056bc314549142edc60b63e121f94b2ed",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/confirm_revision6_supabase_target.py",
+      "repository_path": "scripts/confirm_revision6_supabase_target.py",
+      "approved_sha256": "a939e3c8ea4fdc8460a70e18997c83957242d9345dfd62b81dd197190a7caf9d",
+      "repository_sha256": "a939e3c8ea4fdc8460a70e18997c83957242d9345dfd62b81dd197190a7caf9d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/create_clean_package.py",
+      "repository_path": "scripts/create_clean_package.py",
+      "approved_sha256": "485ca4dd2c32dca1453f9d40db2ffa09099e15d790d634abe3989a234d13f4a2",
+      "repository_sha256": "485ca4dd2c32dca1453f9d40db2ffa09099e15d790d634abe3989a234d13f4a2",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/database_migration_common.py",
+      "repository_path": "scripts/database_migration_common.py",
+      "approved_sha256": "bb62d3421932122ec905e59082f98cde80e2b15e706439008a51a2082111c5bc",
+      "repository_sha256": "bb62d3421932122ec905e59082f98cde80e2b15e706439008a51a2082111c5bc",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/export_sqlite_data.py",
+      "repository_path": "scripts/export_sqlite_data.py",
+      "approved_sha256": "8e7efd70dcf51e8a66868efbb8d1813274b0e6b9dc3a3a342ad857da7c2be29b",
+      "repository_sha256": "8e7efd70dcf51e8a66868efbb8d1813274b0e6b9dc3a3a342ad857da7c2be29b",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/homologate_safety_revision6.py",
+      "repository_path": "scripts/homologate_safety_revision6.py",
+      "approved_sha256": "f95217a9e331ee6b4c5cc74f8ef5b8f7d3b817a83414cbb7b8461302b464f63e",
+      "repository_sha256": "f95217a9e331ee6b4c5cc74f8ef5b8f7d3b817a83414cbb7b8461302b464f63e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/import_motorcycle_pilot_data.py",
+      "repository_path": "scripts/import_motorcycle_pilot_data.py",
+      "approved_sha256": "ecd589ee8b08552843dd0e94ca286f4743a8d18615d6370b14d1b40e16d03265",
+      "repository_sha256": "ecd589ee8b08552843dd0e94ca286f4743a8d18615d6370b14d1b40e16d03265",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/import_postgresql_data.py",
+      "repository_path": "scripts/import_postgresql_data.py",
+      "approved_sha256": "b17a6367588a7518cc9e53ec9608dc898ff821986c5c967f236146bdbb86f2bb",
+      "repository_sha256": "b17a6367588a7518cc9e53ec9608dc898ff821986c5c967f236146bdbb86f2bb",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/inspect_neon_preview.py",
+      "repository_path": "scripts/inspect_neon_preview.py",
+      "approved_sha256": "856341cbb82dc753d16ab244e5bdd9006881f922a4ca076246f4061734447eb9",
+      "repository_sha256": "856341cbb82dc753d16ab244e5bdd9006881f922a4ca076246f4061734447eb9",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/manage_tcc_deploy.py",
+      "repository_path": "scripts/manage_tcc_deploy.py",
+      "approved_sha256": "dc5fd47b63b72b6f7f75bd32f3a95cb1229c52df1a0756803a71fb1c594c11cf",
+      "repository_sha256": "dc5fd47b63b72b6f7f75bd32f3a95cb1229c52df1a0756803a71fb1c594c11cf",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/materialize_academic_cohort_v6.py",
+      "repository_path": "scripts/materialize_academic_cohort_v6.py",
+      "approved_sha256": "fc64db8539ceae8706af31e5320bf822dc5c2446eb4565e002cb48d5cca74b62",
+      "repository_sha256": "fc64db8539ceae8706af31e5320bf822dc5c2446eb4565e002cb48d5cca74b62",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/postgres-init/01-create-validation-databases.sql",
+      "repository_path": "scripts/postgres-init/01-create-validation-databases.sql",
+      "approved_sha256": "97e5af2145e1278e21a2098470fc09a2579aabf2b466eece6ae676b10ed87f8e",
+      "repository_sha256": "97e5af2145e1278e21a2098470fc09a2579aabf2b466eece6ae676b10ed87f8e",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/prepare_tcc_release.py",
+      "repository_path": "scripts/prepare_tcc_release.py",
+      "approved_sha256": "5a25ae1252cfa1ab01f53ec12687278214e0d16b9f57dfed467da9856ff7c03a",
+      "repository_sha256": "5a25ae1252cfa1ab01f53ec12687278214e0d16b9f57dfed467da9856ff7c03a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/prepare_tcc_supabase.py",
+      "repository_path": "scripts/prepare_tcc_supabase.py",
+      "approved_sha256": "31b263089ebb7ad7493df2e2279bdc2fe9364392dbf5e132b7b8e5f50d5d8d9d",
+      "repository_sha256": "31b263089ebb7ad7493df2e2279bdc2fe9364392dbf5e132b7b8e5f50d5d8d9d",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/release_packaging.py",
+      "repository_path": "scripts/release_packaging.py",
+      "approved_sha256": "9d7d43ed2b74df65c734175f08e3fd8b34ed818cf767b9eb055c3da4fe737740",
+      "repository_sha256": "9d7d43ed2b74df65c734175f08e3fd8b34ed818cf767b9eb055c3da4fe737740",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/seed_motorcycles.py",
+      "repository_path": "scripts/seed_motorcycles.py",
+      "approved_sha256": "1b23ed92efc98362407d8b6bf875249de11e8e10b8f920af3be7f20f30750dfd",
+      "repository_sha256": "1b23ed92efc98362407d8b6bf875249de11e8e10b8f920af3be7f20f30750dfd",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/smoke_test_homologation.py",
+      "repository_path": "scripts/smoke_test_homologation.py",
+      "approved_sha256": "dbfe610026ff198a7fdeada963039bd9b391ac271fafcb44570b7fec03af2d67",
+      "repository_sha256": "dbfe610026ff198a7fdeada963039bd9b391ac271fafcb44570b7fec03af2d67",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/tcc_supabase_session.py",
+      "repository_path": "scripts/tcc_supabase_session.py",
+      "approved_sha256": "b9081a370cfdce8399a2947e6cdd1002d3f2170762010a3c019eddeaf5b56cdb",
+      "repository_sha256": "b9081a370cfdce8399a2947e6cdd1002d3f2170762010a3c019eddeaf5b56cdb",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/validate_database_export.py",
+      "repository_path": "scripts/validate_database_export.py",
+      "approved_sha256": "202b1f9aebae4130e2d42bec54a4efe75736571dcbbad504386a1017c715a87a",
+      "repository_sha256": "202b1f9aebae4130e2d42bec54a4efe75736571dcbbad504386a1017c715a87a",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/validate_motorcycle_pilot_data.py",
+      "repository_path": "scripts/validate_motorcycle_pilot_data.py",
+      "approved_sha256": "2d42ad3dafcc0cb40e4b372e1017062e194e0b4ae7b2e978f531a19a57ccafba",
+      "repository_sha256": "2d42ad3dafcc0cb40e4b372e1017062e194e0b4ae7b2e978f531a19a57ccafba",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/validate_postgresql_schema.py",
+      "repository_path": "scripts/validate_postgresql_schema.py",
+      "approved_sha256": "3a252d760bb3e227f8ba3dd1ac03d9c55c12674ab2bb8a79666a499f669ab2ad",
+      "repository_sha256": "3a252d760bb3e227f8ba3dd1ac03d9c55c12674ab2bb8a79666a499f669ab2ad",
+      "note": "Byte-identical to application source in approved archive."
+    },
+    {
+      "application_path": "scripts/wait_for_database.py",
+      "repository_path": "scripts/wait_for_database.py",
+      "approved_sha256": "f66b2f07633c5853f9f7e4692ed677649a6762145d1c26a12d1a12c1a8678fac",
+      "repository_sha256": "f66b2f07633c5853f9f7e4692ed677649a6762145d1c26a12d1a12c1a8678fac",
+      "note": "Byte-identical to application source in approved archive."
+    }
+  ],
+  "outside_git_artifacts": [
+    {
+      "path": "frontend/test-results/e2e/recommendation-v2-cards-aÃ§-1783f-m-largura-Ãºtil-sem-overflow-chromium/error-context.md",
+      "sha256": "c164ea81463915d1ba99f09912eff67270e943455d227e16fcdd218bf1495983",
+      "reason": "Private evidence/generated artifact or original internal frozen configuration; preserved outside Git."
+    },
+    {
+      "path": "frontend/test-results/e2e/recommendation-v2-jornada--8a127-ncar-campos-etapas-ou-aÃ§Ãµes-chromium/error-context.md",
+      "sha256": "65dbb9c1afd264f4633dd1200488257e83316ab464b86f34f64e4c043ed5d3a0",
+      "reason": "Private evidence/generated artifact or original internal frozen configuration; preserved outside Git."
+    },
+    {
+      "path": "release/functional-acceptance.json",
+      "sha256": "e23eb2be3ba98a2520fb87b51c5534271530ccbb8ea1e1c1a9890dbc3cf2914a",
+      "reason": "Private evidence/generated artifact or original internal frozen configuration; preserved outside Git."
+    },
+    {
+      "path": "release/neon-transport-acceptance.json",
+      "sha256": "8d278f21d9bc4e8be02b06f2e88ef0d3542acc07a2c2b99454cd36c6d7d4e839",
+      "reason": "Private evidence/generated artifact or original internal frozen configuration; preserved outside Git."
+    },
+    {
+      "path": "release/plan.json.gz",
+      "sha256": "77bde60efdb96e4bfd540055555824319d668991e9020425a9295340e91b620f",
+      "reason": "Private evidence/generated artifact or original internal frozen configuration; preserved outside Git."
+    },
+    {
+      "path": "vercel.json",
+      "sha256": "8151f9cf226ffee0462afa40076dc0761a91586b72bb4c2c4313a73bab75c4d1",
+      "reason": "Private evidence/generated artifact or original internal frozen configuration; preserved outside Git."
+    }
+  ],
+  "outer_project_files": {
+    "deploy/published/project/.python-version": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+    "deploy/published/project/api/index.py": "24395d3767b6fca76baf5bed84d7c3b3e0488cc72daec314bc2f2b2c8e42f7d7",
+    "deploy/published/project/pyproject.toml": "8c10ec62a26567f3542e59b21003a08333c606f4ea552f519ccf5abd317cfc54",
+    "deploy/published/project/requirements.txt": "524b2346cfe8fa8de56f8e6cb77e8bfbfb08041bec2bf5dc71ded3c32a5b6cf2",
+    "deploy/published/project/vercel.json": "13189e0531a8b566bf0be6b2938f33b9b6a32a5cba56cf1a96abe9cd754c80ae"
+  },
+  "real_collection_enabled": false,
+  "historical_row_changed": 1,
+  "checkout_is_not_complete_frozen_deployment_directory": true
+}

@@ -958,10 +958,10 @@ def ensure_seed_data(db: Session) -> None:
     demo_user = db.query(models.User).filter(models.User.email == "usuario@sigra.local").first()
     legacy_user = db.get(models.User, 1)
     if demo_user is None and legacy_user is not None:
-        legacy_user.name = "Usuario Demonstracao"
+        legacy_user.name = "Usuário Demonstração"
         legacy_user.email = "usuario@sigra.local"
     elif demo_user is None:
-        db.add(models.User(id=1, name="Usuario Demonstracao", email="usuario@sigra.local"))
+        db.add(models.User(id=1, name="Usuário Demonstração", email="usuario@sigra.local"))
 
     existing_vehicles = {vehicle.id: vehicle for vehicle in car_query(db).all()}
     for vehicle in SAMPLE_VEHICLES:
@@ -1049,7 +1049,7 @@ def ensure_parts_seed_data(db: Session) -> None:
     )
     suppliers = [
         (1, "AutoPecas Centro", "https://example.com/autocentro", "Sao Paulo", "SP", "autopecas local", 82),
-        (2, "Pecas Online Brasil", "https://example.com/pecasonline", "Curitiba", "PR", "loja online", 86),
+        (2, "Peças Online Brasil", "https://example.com/pecasonline", "Curitiba", "PR", "loja online", 86),
         (3, "Mercado Auto Demo", "https://example.com/marketauto", "Rio de Janeiro", "RJ", "marketplace", 74),
         (4, "Concessionaria Oficial Demo", "https://example.com/concessionaria", "Sao Paulo", "SP", "concessionaria", 90),
         (5, "Distribuidora Nacional", "https://example.com/distribuidora", "Belo Horizonte", "MG", "distribuidor", 84),
@@ -1094,22 +1094,22 @@ def ensure_parts_seed_data(db: Session) -> None:
                         condition="novo" if supplier_id != 4 else "original",
                         url=f"https://example.com/parts/{vehicle_id}/{part_id}/{supplier_id}",
                         source="demonstrativo",
-                        notes="Preco demonstrativo para MVP academico.",
+                        notes="Preço demonstrativo para MVP acadêmico.",
                     )
                 )
                 price_id += 1
 
     compatibility_rows = [
-        (1, 1, 2, "mesma plataforma", "Compartilha familia de pecas Chevrolet.", "alta"),
+        (1, 1, 2, "mesma plataforma", "Compartilha família de peças Chevrolet.", "alta"),
         (1, 12, 17, "peca equivalente", "Filtro com equivalentes amplos no mercado.", "alta"),
         (6, 1, 7, "mesma peca", "Compartilha itens com HB20S.", "alta"),
         (10, 12, 11, "mesma peca", "Compatibilidade Toyota em filtros.", "media"),
         (13, 5, 14, "peca equivalente", "Componentes equivalentes Honda Fit/City.", "media"),
-        (9, 1, 14, "compatibilidade parcial", "Algumas pecas de freio requerem validacao.", "baixa"),
+        (9, 1, 14, "compatibilidade parcial", "Algumas peças de freio requerem validação.", "baixa"),
         (22, 12, 23, "mesma peca", "Filtros compartilhados com Uno.", "alta"),
         (29, 13, 30, "mesma plataforma", "Compatibilidade March/Versa em itens simples.", "media"),
-        (17, 1, 20, "mesma peca", "Linha Volkswagen popular com alta reposicao.", "alta"),
-        (17, 5, 18, "peca equivalente", "Itens de suspensao com equivalentes.", "media"),
+        (17, 1, 20, "mesma peca", "Linha Volkswagen popular com alta reposição.", "alta"),
+        (17, 5, 18, "peca equivalente", "Itens de suspensão com equivalentes.", "media"),
         (26, 12, 27, "mesma peca", "Sandero/Logan compartilham filtros.", "alta"),
         (33, 12, 34, "mesma peca", "Compatibilidade parcial na linha Ford.", "media"),
     ]
@@ -1143,7 +1143,7 @@ def ensure_history_seed_data(db: Session) -> None:
             purchase_km=52000,
             purchase_date=date(2022, 2, 10),
             main_usage="familia",
-            notes="Honda Fit usado para familia e cidade.",
+            notes="Honda Fit usado para família e cidade.",
         ),
         models.UserVehicle(
             id=2,
@@ -1197,10 +1197,10 @@ def ensure_history_seed_data(db: Session) -> None:
         [
             models.VehicleReport(user_vehicle_id=1, vehicle_id=13, problem_category="suspensao", description="Barulho na suspensao dianteira.", occurrence_km=98000, repair_cost=1200, severity="media", occurrence_date=date(2025, 4, 8), resolved=True, notes="Troca de buchas e bieletas."),
             models.VehicleReport(user_vehicle_id=1, vehicle_id=13, problem_category="suspensao", description="Amortecedor com desgaste.", occurrence_km=104000, repair_cost=1800, severity="media", occurrence_date=date(2025, 9, 18), resolved=True, notes="Relato demonstrativo para alerta preventivo."),
-            models.VehicleReport(user_vehicle_id=2, vehicle_id=1, problem_category="consumo", description="Consumo urbano abaixo do esperado em uso de aplicativo.", occurrence_km=69000, repair_cost=450, severity="baixa", occurrence_date=date(2026, 1, 12), resolved=True, notes="Limpeza de bicos e revisao."),
-            models.VehicleReport(user_vehicle_id=2, vehicle_id=1, problem_category="motor", description="Atraso na troca de oleo gerou alerta de manutencao.", occurrence_km=72000, repair_cost=900, severity="media", occurrence_date=date(2026, 3, 2), resolved=False, notes="Motor turbo exige manutencao preventiva."),
-            models.VehicleReport(user_vehicle_id=3, vehicle_id=9, problem_category="seguro", description="Seguro acima da media regional.", occurrence_km=84000, repair_cost=0, severity="baixa", occurrence_date=date(2025, 11, 20), resolved=True, notes="Custo alto, mas baixa frequencia de problema mecanico."),
-            models.VehicleReport(user_vehicle_id=3, vehicle_id=9, problem_category="freio", description="Troca preventiva de pastilhas e discos.", occurrence_km=90000, repair_cost=2100, severity="media", occurrence_date=date(2026, 2, 14), resolved=True, notes="Manutencao mais cara que compactos."),
+            models.VehicleReport(user_vehicle_id=2, vehicle_id=1, problem_category="consumo", description="Consumo urbano abaixo do esperado em uso de aplicativo.", occurrence_km=69000, repair_cost=450, severity="baixa", occurrence_date=date(2026, 1, 12), resolved=True, notes="Limpeza de bicos e revisão."),
+            models.VehicleReport(user_vehicle_id=2, vehicle_id=1, problem_category="motor", description="Atraso na troca de óleo gerou alerta de manutenção.", occurrence_km=72000, repair_cost=900, severity="media", occurrence_date=date(2026, 3, 2), resolved=False, notes="Motor turbo exige manutenção preventiva."),
+            models.VehicleReport(user_vehicle_id=3, vehicle_id=9, problem_category="seguro", description="Seguro acima da média regional.", occurrence_km=84000, repair_cost=0, severity="baixa", occurrence_date=date(2025, 11, 20), resolved=True, notes="Custo alto, mas baixa frequência de problema mecânico."),
+            models.VehicleReport(user_vehicle_id=3, vehicle_id=9, problem_category="freio", description="Troca preventiva de pastilhas e discos.", occurrence_km=90000, repair_cost=2100, severity="media", occurrence_date=date(2026, 2, 14), resolved=True, notes="Manutenção mais cara que compactos."),
             models.VehicleReport(user_vehicle_id=4, vehicle_id=22, problem_category="acabamento", description="Acabamento interno simples e ruido em painel.", occurrence_km=39000, repair_cost=250, severity="baixa", occurrence_date=date(2025, 12, 1), resolved=False, notes="Baixo custo, menor conforto."),
             models.VehicleReport(user_vehicle_id=5, vehicle_id=10, problem_category="acabamento", description="Acabamento simples, sem falha mecanica relevante.", occurrence_km=79000, repair_cost=150, severity="baixa", occurrence_date=date(2025, 10, 6), resolved=True, notes="Boa confiabilidade geral."),
         ]

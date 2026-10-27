@@ -1,0 +1,43 @@
+{
+  "version": "academic-profile-pilot-v4",
+  "mode": "offline_diagnostic_only",
+  "inherits": ["catalog-profile-evidence-v3", "academic_cost_scenario_v1"],
+  "operational_activation_allowed": false,
+  "recommendation_allowed": false,
+  "academic_habitability_proxy": {
+    "inputs": {"wheelbase_mm": "mm", "width_mm": "mm", "seats": "count"},
+    "formula": "wheelbase_mm * width_mm / 1000000 / seats",
+    "unit": "m2/nominal_place",
+    "meaning": "External wheelbase-by-BODY-width envelope per nominal place, NOT measured interior area or comfort.",
+    "input_policy": "Positive observed exact-variant or explicitly qualified model-nominal geometry; no imputation; preserve all citations, applicability and limitations.",
+    "utility_formula": "100 * x / (x + reference)",
+    "reference": "1",
+    "reference_unit": "m2/nominal_place",
+    "justification": "Transparent dimensional exploratory normalization. 1 square metre per nominal place is an arithmetic reference, NOT a calibrated comfort threshold. No readiness cutoff uses this utility.",
+    "weight_source": "Unmodified v3 passenger_space weight (0.25); exploratory assumption, not empirically validated.",
+    "confidence": "Uncalibrated weak geometric surrogate; numeric confidence remains null.",
+    "limitations": ["Not cabin dimensions", "Penalizes nominal capacity, including seven-seat layouts", "Ignores packaging, row distribution, headroom and usable legroom", "Does not certify ride-hailing platform eligibility"]
+  },
+  "safety": {
+    "path_a": "Complete exact observed airbags/ABS/ESC inventory with unchanged v3 equipment index.",
+    "path_b": "Reviewed exact official Latin NCAP test applicability; verified offline document hashes; explicit generation, body, configuration, year period and protocol.",
+    "equipment_inference_allowed": false,
+    "cross_path_comparison_allowed": false,
+    "cross_protocol_comparison_allowed": false,
+    "path_b_utility": "100 * official_result / official_maximum, only within the same protocol, metric and scale; NOT equipment inventory or injury probability.",
+    "records": []
+  },
+  "ranking": {
+    "grouping": "Profile + evidence path + protocol/metric/maximum + available positive-weight criteria. No pooled ranking across incompatible evidence.",
+    "ties": "Exact quantized score ties; ID only stabilizes display; include all boundary ties in top10 metrics.",
+    "coverage": "Available original positive weights / all original positive weights; never statistical confidence or a score multiplier.",
+    "readiness": "Exact identity, original eligibility gates, all required criteria/required_any and complete academic scenario TCO. Alternative evidence is accepted ONLY by academic_test_ready."
+  },
+  "sensitivity": {
+    "proxy_reference_values": ["0.5", "1", "1.5"],
+    "proxy_weight_multipliers": ["0.5", "2"],
+    "capacity_divisors": ["nominal_places", "none"],
+    "undivided_reference_m2": "5",
+    "purpose": "Prespecified one-at-a-time perturbations, not calibrated to counts or order. Undivided envelope is a separate m2 specification, not measured space."
+  }
+}

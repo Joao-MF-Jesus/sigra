@@ -25,20 +25,32 @@ def _append_scalar_attributes(
     section: str,
     prefix: str,
     value: object,
+    locator: str,
+    provenance: Mapping[str, object],
 ) -> None:
     """Preserve nested official fields without assigning invented semantics."""
     if isinstance(value, Mapping):
         for key, item in value.items():
             label = " ".join(part for part in (prefix, str(key)) if part)
-            _append_scalar_attributes(attributes, section=section, prefix=label, value=item)
-        return
-    if isinstance(value, list):
-        for index, item in enumerate(value, start=1):
+            child_locator = f"{locator}.{key}" if locator else str(key)
             _append_scalar_attributes(
                 attributes,
                 section=section,
-                prefix=f"{prefix} {index}",
+                prefix=label,
                 value=item,
+                locator=child_locator,
+                provenance=provenance,
+            )
+        return
+    if isinstance(value, list):
+        for index, item in enumerate(value):
+            _append_scalar_attributes(
+                attributes,
+                section=section,
+                prefix=f"{prefix} {index + 1}",
+                value=item,
+                locator=f"{locator}[{index}]",
+                provenance=provenance,
             )
         return
     if value is None or isinstance(value, bool):
@@ -57,7 +69,7 @@ def _append_scalar_attributes(
             normalized_unit=None,
             precision=None,
             unit_status="pending",
-            provenance={"contract_version": "carpedia-api-v1", "shape": "nested"},
+            provenance={**provenance, "field_locator": locator, "shape": "nested"},
         )
     )
 
@@ -128,18 +140,36 @@ class CarpediaJsonParser:
             year_value = int(year_value)
         if isinstance(year_value, bool) or not isinstance(year_value, int) or not 1900 <= year_value <= 2100:
             raise ValueError("Carpedia response has an invalid model year")
+        source = sanitized.get("fonte")
+        source_name = source_at = None
+        if source is not None:
+            if not isinstance(source, Mapping):
+                raise ValueError("Carpedia source provenance has an invalid shape")
+            source_name = str(source.get("fonte") or "").strip() or None
+            source_at = str(source.get("em") or "").strip() or None
+        provenance = {
+            "contract_version": "carpedia-api-v1",
+            "origin": "carpedia_api_v1",
+            "external_vehicle_id": external_id,
+            "model_year": year_value,
+            "response_sha256": asset.sha256,
+            "source_reference": source_reference,
+            "collected_at": asset.collected_at.isoformat(),
+            "source_name": source_name,
+            "source_at": source_at,
+        }
         sections = sanitized.get("secoes")
         if not isinstance(sections, list) or not sections:
             raise ValueError("Carpedia response has no specification sections")
         attributes: list[CarpediaAttribute] = []
-        for section in sections:
+        for section_index, section in enumerate(sections):
             if not isinstance(section, Mapping):
                 raise ValueError("Carpedia response contains an invalid section")
             title = _required_text(section.get("titulo"), "section title")
             items = section.get("itens")
             if not isinstance(items, list):
                 raise ValueError("Carpedia response contains an invalid item list")
-            for item in items:
+            for item_index, item in enumerate(items):
                 if not isinstance(item, Mapping):
                     raise ValueError("Carpedia response contains an invalid specification item")
                 label = _required_text(item.get("label"), "specification label")
@@ -160,7 +190,10 @@ class CarpediaJsonParser:
                         normalized_unit=None,
                         precision=None,
                         unit_status="pending",
-                        provenance={"contract_version": "carpedia-api-v1"},
+                        provenance={
+                            **provenance,
+                            "field_locator": f"secoes[{section_index}].itens[{item_index}]",
+                        },
                     )
                 )
         for field, section_title in (("consumo", "Consumo"), ("autonomia", "Autonomia")):
@@ -171,14 +204,9 @@ class CarpediaJsonParser:
                     section=section_title,
                     prefix="",
                     value=nested,
+                    locator=field,
+                    provenance=provenance,
                 )
-        source = sanitized.get("fonte")
-        source_name = source_at = None
-        if source is not None:
-            if not isinstance(source, Mapping):
-                raise ValueError("Carpedia source provenance has an invalid shape")
-            source_name = str(source.get("fonte") or "").strip() or None
-            source_at = str(source.get("em") or "").strip() or None
         raw_payload = dict(sanitized)
         encoded = json.dumps(raw_payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"), default=str).encode("utf-8")
         raw = CarpediaRawRecord(

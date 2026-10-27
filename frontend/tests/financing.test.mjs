@@ -327,7 +327,8 @@ test("comparacao respeita limite de dez e remocao libera nova inclusao", () => {
 
 test("navegacao principal expoe financiamento sem substituir carros ou motos", () => {
   const app = readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
-  assert.match(app, /Financiamento/);
+  const header = readFileSync(new URL("../src/AppHeader.jsx", import.meta.url), "utf8");
+  assert.match(header, /Financiamento/);
   assert.match(app, /activeTab === "financing"/);
   assert.match(app, /FinancingPage cars=\{safeVehicles\}/);
   assert.match(app, /RecommendationPage/);

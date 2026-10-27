@@ -1,20 +1,22 @@
 from collections.abc import Generator
+import os
 
 from sqlalchemy import create_engine, event, inspect, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
-from sqlalchemy.pool import StaticPool
+from sqlalchemy.pool import NullPool, StaticPool
 
 from app.config import (
     DEFAULT_DATABASE_PATH,
     DatabaseSettings,
+    database_connect_args,
     load_database_settings,
     normalize_database_url,
 )
 
 DATABASE_SETTINGS = load_database_settings()
 DATABASE_URL = DATABASE_SETTINGS.url
-EXPECTED_ALEMBIC_HEAD = "20260811_0011"
+EXPECTED_ALEMBIC_HEAD = "20261007_0015"
 
 
 def resolve_database_url(configured_url: str | None = None) -> str:
@@ -36,16 +38,17 @@ def create_database_engine(settings: DatabaseSettings) -> Engine:
         "pool_pre_ping": True,
     }
     if settings.is_sqlite:
-        options["connect_args"] = {"check_same_thread": False}
+        options["connect_args"] = database_connect_args(settings)
         if settings.url.endswith(":memory:"):
             options["poolclass"] = StaticPool
+    elif os.environ.get("SIGRA_VERCEL_ENABLED") == "true":
+        # Functions may freeze without shutdown. Do not retain idle DB sockets
+        # in a frozen instance; get_db already closes/rolls back every session.
+        options.update(connect_args=database_connect_args(settings), poolclass=NullPool)
     else:
-        connect_args = {"options": "-c timezone=UTC"}
-        if settings.ssl_required:
-            connect_args["sslmode"] = "require"
         options.update(
             {
-                "connect_args": connect_args,
+                "connect_args": database_connect_args(settings),
                 "pool_size": settings.pool_size,
                 "max_overflow": settings.max_overflow,
                 "pool_timeout": settings.pool_timeout,

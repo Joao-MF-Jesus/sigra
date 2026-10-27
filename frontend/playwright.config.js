@@ -75,6 +75,7 @@ export default defineConfig({
         DATABASE_URL: e2eEnvironment.databaseUrl,
         CORS_ALLOWED_ORIGINS: frontendUrl,
         FIPE_AUTO_REFRESH: "false",
+        PYTHONPATH: [rootDir, process.env.PYTHONPATH].filter(Boolean).join(path.delimiter),
         PYTHONUTF8: "1",
       },
       url: `${backendUrl}/health`,

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import {
   cleanupE2EEnvironment,
@@ -12,6 +13,8 @@ import {
   shutdownE2EEnvironment,
   waitForPortsReleased,
 } from "../e2e/environment.js";
+
+const frontendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 
 test("ambiente E2E cria tmp, remove banco anterior e produz DATABASE_URL absoluta", () => {
@@ -145,6 +148,12 @@ test("teardown Windows libera as duas portas antes de apagar o SQLite", async ()
     "cleanup:temporary.db",
   ]);
   assert.equal(result.terminatedProcesses[0].processName, "python.exe");
+});
+
+test("servidor E2E expõe backend e raiz do repositório no PYTHONPATH", () => {
+  const config = fs.readFileSync(path.join(frontendRoot, "playwright.config.js"), "utf8");
+  assert.match(config, /PYTHONPATH:\s*\[rootDir, process\.env\.PYTHONPATH\]/);
+  assert.match(config, /join\(path\.delimiter\)/);
 });
 
 

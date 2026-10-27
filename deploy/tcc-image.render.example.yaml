@@ -1,0 +1,70 @@
+# REVIEW ONLY. No service is created by this file. Replace image digest privately.
+# Review 2 GB compute before creation. No billing authorization is implied.
+# Free/512 MB is not suitable for this artifact's observed local memory footprint.
+services:
+  - type: web
+    name: sigra-tcc-research-preview
+    runtime: image
+    plan: 1c-2g
+    region: virginia
+    numInstances: 1
+    image:
+      url: registry.example.invalid/sigra@sha256:0000000000000000000000000000000000000000000000000000000000000000
+    healthCheckPath: /sigra-api/health
+    envVars:
+      - key: SIGRA_DEPLOY_ENABLED
+        value: "true"
+      - key: DATABASE_ENV
+        value: homologation
+      - key: DATABASE_SSL_REQUIRED
+        value: "true"
+      - key: DATABASE_ECHO
+        value: "false"
+      - key: DATABASE_POOL_SIZE
+        value: "3"
+      - key: DATABASE_MAX_OVERFLOW
+        value: "2"
+      - key: PUBLIC_DEMO_MODE
+        value: "false"
+      - key: ACADEMIC_COHORT_ENABLED
+        value: "true"
+      - key: FIPE_AUTO_REFRESH
+        value: "false"
+      - key: API_DOCS_ENABLED
+        value: "false"
+      - key: SIGRA_COOKIE_SECURE
+        value: "true"
+      - key: SIGRA_COOKIE_SAMESITE
+        value: lax
+      - key: SIGRA_REVISION6_HOMOLOGATION_ENABLED
+        value: "false"
+      - key: SIGRA_DERIVED_PERSONALIZATION_ENABLED
+        value: "true"
+      - key: SIGRA_RESEARCH_COLLECTION_ENABLED
+        value: "false"
+      - key: SIGRA_TCC_COLLECTION_MODE
+        value: homologation
+      - key: SIGRA_PUBLIC_ORIGIN
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: SIGRA_TRUSTED_PROXY_IPS
+        sync: false
+      - key: SIGRA_DEPLOY_TARGET_FILE
+        value: /etc/secrets/sigra-target.json
+      - key: SIGRA_DEPLOY_TARGET_SHA256
+        sync: false
+      - key: SIGRA_FUNCTIONAL_ACCEPTANCE_FILE
+        value: /app/release/functional-acceptance.json
+      - key: SIGRA_DEPLOY_PLAN_FILE
+        value: /app/release/plan.json
+      - key: SIGRA_DEPLOY_PLAN_SHA256
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: SIGRA_RESEARCH_PSEUDONYM_KEY
+        sync: false
+# Image-based services do not follow autoDeployTrigger. Use a manually pinned digest.
+# Add CA and target receipt as private secret files in the Dashboard, not in Git/image.

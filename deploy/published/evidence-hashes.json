@@ -1,0 +1,30 @@
+{
+  "schema": "sigra-sanitized-evidence-hashes-v1",
+  "evidence": [
+    {
+      "artifact": "preview-deploy-final-20261022/report.json",
+      "sha256": "98c35b8d123681b846cdd52e25a5c1102d590e015e3143d6e7535c5b774e7456"
+    },
+    {
+      "artifact": "pv23/smoke-20261022T2113513367320Z/report.json",
+      "sha256": "6f2a001f7941180655b0d4a6daeca21ae3670f846f5288411716b4890d9d1e47"
+    },
+    {
+      "artifact": "pv23/smoke-20261022T2113513367320Z/host-report.json",
+      "sha256": "8a0da4bde179e37f8c00bc9c22b1ebff38ea52e46b9c72bad922c0f212d923f0"
+    },
+    {
+      "artifact": "pv22/vercel.overlay.json",
+      "sha256": "13189e0531a8b566bf0be6b2938f33b9b6a32a5cba56cf1a96abe9cd754c80ae"
+    }
+  ],
+  "remote_flow_method": "HTTP/API, not visual browser",
+  "recommendations": {
+    "attempts": 1,
+    "successes": 1,
+    "uncertain": 0,
+    "remaining": 29
+  },
+  "real_collection_enabled": false,
+  "historical_row_changed": 1
+}

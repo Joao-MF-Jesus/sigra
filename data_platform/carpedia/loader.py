@@ -3,6 +3,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 from dataclasses import replace
 from datetime import UTC, date, datetime
+from decimal import Decimal, InvalidOperation
 import hashlib
 import json
 from typing import Iterable, Iterator, Mapping, Sequence
@@ -49,6 +50,86 @@ def _event_fingerprint(
     return hashlib.sha256(
         _json([event_type, dataset_version, related_dataset_version, reason]).encode("utf-8")
     ).hexdigest()
+
+
+def _mapping_decision_is_valid(
+    status: object,
+    vehicle_sk: object,
+    confidence: object,
+    review_required: object,
+) -> bool:
+    try:
+        normalized_status = CarpediaMappingStatus(str(status))
+    except ValueError:
+        return False
+    if normalized_status == CarpediaMappingStatus.MATCHED:
+        try:
+            normalized_confidence = Decimal(str(confidence))
+        except (InvalidOperation, ValueError):
+            return False
+        return (
+            vehicle_sk is not None
+            and normalized_confidence == Decimal("100")
+            and not bool(review_required)
+        )
+    return vehicle_sk is None
+
+
+def _mapping_decision_is_publishable(
+    status: object,
+    vehicle_sk: object,
+    confidence: object,
+    review_required: object,
+) -> bool:
+    return (
+        str(status) == CarpediaMappingStatus.MATCHED.value
+        and _mapping_decision_is_valid(status, vehicle_sk, confidence, review_required)
+    )
+
+
+def _same_mapping_decision(
+    prior_mapping: Mapping[str, object] | None,
+    specification: CarpediaSpecification,
+) -> bool:
+    mapping = specification.mapping
+    return prior_mapping is not None and (
+        str(prior_mapping["mapping_status"]) == mapping.status.value
+        and str(prior_mapping["match_method"]) == mapping.match_method
+        and prior_mapping["vehicle_sk"] == mapping.vehicle_sk
+        and prior_mapping["confidence"] == mapping.confidence
+        and bool(prior_mapping["review_required"]) == mapping.review_required
+        and str(prior_mapping["matcher_version"]) == CARPEDIA_MATCHER_VERSION
+        and _json(prior_mapping["identity_evidence"]) == _json(mapping.identity_evidence)
+        and _json(prior_mapping["candidate_evidence"]) == _json(mapping.candidate_evidence)
+        and str(prior_mapping["decision_reason"]) == mapping.decision_reason
+        and _mapping_decision_is_valid(
+            prior_mapping["mapping_status"],
+            prior_mapping["vehicle_sk"],
+            prior_mapping["confidence"],
+            prior_mapping["review_required"],
+        )
+    )
+
+
+def _can_reuse_specification(
+    prior_specification: Mapping[str, object] | None,
+    mapping_decision_id: int,
+    specification: CarpediaSpecification,
+) -> bool:
+    mapping = specification.mapping
+    return prior_specification is not None and (
+        str(prior_specification["normalized_fingerprint"])
+        == specification.normalized_fingerprint
+        and int(prior_specification["mapping_decision_id"]) == mapping_decision_id
+        and prior_specification["vehicle_sk"] == mapping.vehicle_sk
+        and str(prior_specification["mapping_status"]) == mapping.status.value
+        and _mapping_decision_is_valid(
+            mapping.status.value,
+            mapping.vehicle_sk,
+            mapping.confidence,
+            mapping.review_required,
+        )
+    )
 
 
 class CarpediaVehicleSpecsLoader:
@@ -143,6 +224,114 @@ class CarpediaVehicleSpecsLoader:
             )
             for row in rows
         )
+
+    @staticmethod
+    def _audit_lineage_with_connection(
+        connection: Connection,
+        specifications: Sequence[CarpediaSpecification],
+        snapshots: Sequence[CarpediaSnapshot],
+    ) -> Mapping[str, object]:
+        issues: list[str] = []
+        rows_by_specification: dict[int, Mapping[str, object]] = {}
+        specifications_by_id: dict[int, CarpediaSpecification] = {}
+        for specification in specifications:
+            mapping_id = specification.mapping.mapping_decision_id
+            specification_id = specification.specification_id
+            if mapping_id is None or specification_id is None:
+                issues.append("missing_persisted_lineage")
+                continue
+            if specification_id in specifications_by_id:
+                issues.append("duplicate_specification_lineage")
+                continue
+            specifications_by_id[specification_id] = specification
+            row = connection.execute(
+                text("""SELECT
+                    specification.specification_id,
+                    specification.raw_record_id AS specification_raw_record_id,
+                    specification.mapping_decision_id AS specification_mapping_decision_id,
+                    specification.vehicle_sk AS specification_vehicle_sk,
+                    specification.mapping_status AS specification_mapping_status,
+                    mapping.mapping_decision_id,
+                    mapping.raw_record_id AS mapping_raw_record_id,
+                    mapping.vehicle_sk AS mapping_vehicle_sk,
+                    mapping.mapping_status,
+                    mapping.confidence,
+                    mapping.review_required,
+                    NOT EXISTS (
+                      SELECT 1 FROM silver.carpedia_vehicle_specification AS successor
+                      WHERE successor.supersedes_specification_id=specification.specification_id
+                    ) AS specification_current,
+                    NOT EXISTS (
+                      SELECT 1 FROM silver.carpedia_vehicle_mapping AS successor
+                      WHERE successor.supersedes_mapping_id=mapping.mapping_decision_id
+                    ) AS mapping_current
+                    FROM silver.carpedia_vehicle_specification AS specification
+                    JOIN silver.carpedia_vehicle_mapping AS mapping
+                      ON mapping.mapping_decision_id=specification.mapping_decision_id
+                    WHERE specification.specification_id=:specification"""),
+                {"specification": specification_id},
+            ).mappings().one_or_none()
+            if row is None:
+                issues.append("persisted_lineage_not_found")
+                continue
+            rows_by_specification[specification_id] = row
+            if (
+                int(row["specification_mapping_decision_id"]) != mapping_id
+                or int(row["mapping_decision_id"]) != mapping_id
+                or row["specification_raw_record_id"] != row["mapping_raw_record_id"]
+                or row["specification_vehicle_sk"] != specification.mapping.vehicle_sk
+                or row["mapping_vehicle_sk"] != specification.mapping.vehicle_sk
+                or str(row["specification_mapping_status"]) != specification.mapping.status.value
+                or str(row["mapping_status"]) != specification.mapping.status.value
+            ):
+                issues.append("persisted_identity_mismatch")
+            if not bool(row["specification_current"]) or not bool(row["mapping_current"]):
+                issues.append("superseded_lineage")
+            if not _mapping_decision_is_valid(
+                row["mapping_status"],
+                row["mapping_vehicle_sk"],
+                row["confidence"],
+                row["review_required"],
+            ):
+                issues.append("invalid_mapping_decision")
+
+        publishable_snapshots = 0
+        for snapshot in snapshots:
+            specification = specifications_by_id.get(snapshot.specification_id)
+            row = rows_by_specification.get(snapshot.specification_id)
+            if specification is None or row is None:
+                issues.append("snapshot_specification_not_found")
+                continue
+            if (
+                snapshot.vehicle_sk != specification.mapping.vehicle_sk
+                or snapshot.vehicle_sk != row["specification_vehicle_sk"]
+                or snapshot.vehicle_sk != row["mapping_vehicle_sk"]
+                or not _mapping_decision_is_publishable(
+                    row["mapping_status"],
+                    row["mapping_vehicle_sk"],
+                    row["confidence"],
+                    row["review_required"],
+                )
+            ):
+                issues.append("snapshot_identity_not_publishable")
+                continue
+            publishable_snapshots += 1
+        unique_issues = tuple(sorted(set(issues)))
+        return {
+            "coherent": not unique_issues,
+            "specifications": len(specifications),
+            "snapshots": len(snapshots),
+            "publishable_snapshots": publishable_snapshots,
+            "issue_codes": unique_issues,
+        }
+
+    def audit_lineage(
+        self,
+        specifications: Sequence[CarpediaSpecification],
+        snapshots: Sequence[CarpediaSnapshot],
+    ) -> Mapping[str, object]:
+        with self.engine.connect() as connection:
+            return self._audit_lineage_with_connection(connection, specifications, snapshots)
 
     def persist_bronze(
         self,
@@ -246,18 +435,13 @@ class CarpediaVehicleSpecsLoader:
         with self.engine.begin() as connection:
             prior_mapping = connection.execute(
                 text("""SELECT mapping_decision_id,mapping_status,match_method,
-                    vehicle_sk,confidence,review_required
+                    vehicle_sk,confidence,review_required,matcher_version,
+                    identity_evidence,candidate_evidence,decision_reason
                     FROM silver.carpedia_vehicle_mapping_current
                     WHERE raw_record_id=:raw"""),
                 {"raw": raw_id},
             ).mappings().one_or_none()
-            same_mapping = prior_mapping is not None and (
-                str(prior_mapping["mapping_status"]) == specification.mapping.status.value
-                and str(prior_mapping["match_method"]) == specification.mapping.match_method
-                and prior_mapping["vehicle_sk"] == specification.mapping.vehicle_sk
-                and prior_mapping["confidence"] == specification.mapping.confidence
-                and bool(prior_mapping["review_required"]) == specification.mapping.review_required
-            )
+            same_mapping = _same_mapping_decision(prior_mapping, specification)
             if same_mapping:
                 mapping_id = int(prior_mapping["mapping_decision_id"])
                 persisted_mapping = replace(specification.mapping, mapping_decision_id=mapping_id)
@@ -293,7 +477,8 @@ class CarpediaVehicleSpecsLoader:
                     supersedes_mapping_id=int(prior_mapping["mapping_decision_id"]) if prior_mapping else None,
                 )
             prior_spec = connection.execute(
-                text("""SELECT specification_id,normalized_fingerprint
+                text("""SELECT specification_id,normalized_fingerprint,
+                    mapping_decision_id,vehicle_sk,mapping_status
                     FROM silver.carpedia_vehicle_specification_current
                     WHERE external_vehicle_id=:external AND model_year=:year"""),
                 {
@@ -301,7 +486,7 @@ class CarpediaVehicleSpecsLoader:
                     "year": specification.parsed.model_year,
                 },
             ).mappings().one_or_none()
-            if prior_spec is not None and prior_spec["normalized_fingerprint"] == specification.normalized_fingerprint:
+            if _can_reuse_specification(prior_spec, mapping_id, specification):
                 specification_id = int(prior_spec["specification_id"])
                 inserted = False
                 supersedes_specification_id = None
@@ -406,6 +591,14 @@ class CarpediaVehicleSpecsLoader:
         fingerprint = hashlib.sha256(_json(fingerprint_payload).encode("utf-8")).hexdigest()
         dataset_version = f"carpedia-shadow-v1-{fingerprint[:24]}"
         with self.engine.begin() as connection:
+            connection.execute(text("SELECT meta.assert_carpedia_lineage_consistent()"))
+            lineage = self._audit_lineage_with_connection(
+                connection,
+                specifications,
+                snapshots,
+            )
+            if not bool(lineage["coherent"]):
+                raise ValueError("Carpedia Silver-to-Gold lineage is inconsistent")
             active = connection.execute(
                 text("""SELECT dataset_version,dataset_fingerprint
                     FROM gold.carpedia_vehicle_spec_dataset

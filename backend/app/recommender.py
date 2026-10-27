@@ -48,33 +48,33 @@ RECOMMENDATION_STRATEGIES = {
 }
 
 STRATEGY_LABELS = {
-    "lowest_cost": "menor custo possivel",
-    "budget_economy": "economico dentro do orcamento",
-    "cost_benefit": "custo-beneficio",
+    "lowest_cost": "menor custo possível",
+    "budget_economy": "econômico dentro do orçamento",
+    "cost_benefit": "custo-benefício",
     "balanced": "equilibrado",
-    "comfort_space": "conforto e espaco",
-    "best_within_budget": "melhor categoria dentro do orcamento",
+    "comfort_space": "conforto e espaço",
+    "best_within_budget": "melhor categoria dentro do orçamento",
 }
 
 CRITERIA_LABELS = {
-    "financial_score": "aderencia ao orcamento",
+    "financial_score": "aderência ao orçamento",
     "tco_score": "custo total mensal",
-    "usage_score": "aderencia ao perfil de uso",
-    "maintenance_score": "facilidade de manutencao",
+    "usage_score": "aderência ao perfil de uso",
+    "maintenance_score": "facilidade de manutenção",
     "reliability_score": "confiabilidade",
-    "parts_score": "disponibilidade de pecas",
-    "resale_score": "menor desvalorizacao",
+    "parts_score": "disponibilidade de peças",
+    "resale_score": "menor desvalorização",
     "risk_score": "baixo risco geral",
-    "segment_score": "categoria, conforto e espaco",
+    "segment_score": "categoria, conforto e espaço",
     "purchase_intent_score": "prioridade de compra informada",
     "monthly_capacity_score": "capacidade mensal informada",
 }
 
 STATUS_LABELS = {
     "recommended": "Recomendado",
-    "good_option": "Boa opcao",
-    "attention": "Requer atencao",
-    "not_recommended": "Nao recomendado",
+    "good_option": "Boa opção",
+    "attention": "Requer atenção",
+    "not_recommended": "Não recomendado",
 }
 
 USE_CASE_TEXT = {
@@ -756,8 +756,8 @@ def select_primary_factors(
     context_adjustment = float(score_breakdown.get("context_adjustment", 0) or 0)
     evidence_adjustment = float(score_breakdown.get("evidence_adjustment", 0) or 0)
     for label, source, impact in (
-        ("ajuste contextual favoravel", "context_adjustment", context_adjustment),
-        ("evidencias favoraveis", "evidence_adjustment", evidence_adjustment),
+        ("ajuste contextual favorável", "context_adjustment", context_adjustment),
+        ("evidências favoráveis", "evidence_adjustment", evidence_adjustment),
     ):
         if impact > advantage_impact:
             advantage, advantage_source, advantage_impact = label, source, impact
@@ -771,8 +771,8 @@ def select_primary_factors(
     risk_impact = (100.0 - float(risk_row["score"])) * (float(risk_row["weight"]) / 100.0)
 
     negative_candidates = [
-        (abs(context_adjustment), "context_adjustment", penalties[0] if penalties else "ajuste contextual desfavoravel"),
-        (abs(evidence_adjustment), "evidence_adjustment", "evidencias desfavoraveis"),
+        (abs(context_adjustment), "context_adjustment", penalties[0] if penalties else "ajuste contextual desfavorável"),
+        (abs(evidence_adjustment), "evidence_adjustment", "evidências desfavoráveis"),
     ]
     preliminary_score = (
         float(score_breakdown.get("base_score", 0) or 0)
@@ -815,7 +815,7 @@ def apply_score_guardrails(
     if not purchase_viable and not monthly_viable:
         caps.append((49.0, "Compra e TCO mensal excedem os limites informados."))
     elif not purchase_viable or not monthly_viable:
-        caps.append((69.0, "A opcao nao atende simultaneamente aos limites de compra e custo mensal."))
+        caps.append((69.0, "A opção não atende simultaneamente aos limites de compra e custo mensal."))
     if not monthly_viable:
         monthly_cost = float(score_components.get("total_monthly_cost", 0) or 0)
         monthly_gap = float(score_components.get("monthly_limit_gap", 0) or 0)
@@ -826,13 +826,13 @@ def apply_score_guardrails(
         elif monthly_ratio > 1.25:
             caps.append((59.0, "O TCO mensal supera o limite informado em mais de 25%."))
     if score_components["usage_score"] < 50:
-        caps.append((69.0, "A aderencia ao uso informado e insuficiente para uma recomendacao forte."))
+        caps.append((69.0, "A aderência ao uso informado é insuficiente para uma recomendação forte."))
     if score_components["financial_score"] < 35:
-        caps.append((74.0, "A eficiencia financeira comparativa e baixa."))
+        caps.append((74.0, "A eficiência financeira comparativa é baixa."))
     if score_components["parts_score"] < 35:
-        caps.append((79.0, "A evidencia de disponibilidade de pecas e fraca."))
+        caps.append((79.0, "A evidência de disponibilidade de peças é fraca."))
     if feedback_adjustment <= -5:
-        caps.append((84.0, "Relatos reais relevantes impedem classificacao de excelencia."))
+        caps.append((84.0, "Relatos reais relevantes impedem classificação de excelência."))
 
     essential_scores = [
         score_components["financial_score"],
@@ -844,7 +844,7 @@ def apply_score_guardrails(
     weakest_essential = min(essential_scores)
     if weakest_essential < 60:
         excellence_cap = 89.0 - min(8.0, (60.0 - weakest_essential) * 0.15)
-        caps.append((excellence_cap, "Existe ao menos um criterio essencial abaixo de 60/100."))
+        caps.append((excellence_cap, "Existe ao menos um critério essencial abaixo de 60/100."))
 
     applied = []
     guarded_score = score
@@ -858,24 +858,24 @@ def apply_score_guardrails(
 def build_confidence_assessment(feedback: dict, parts_feedback: dict) -> dict[str, object]:
     """Separa qualidade da recomendacao da quantidade de evidencia disponivel."""
     score = 46.0
-    reasons = ["Base tecnica e custos do MVP sao demonstrativos."]
+    reasons = ["Base técnica e custos do MVP são demonstrativos."]
 
     if parts_feedback:
         score += 15
-        reasons.append("Ha analise estruturada de pecas e fornecedores para o modelo.")
+        reasons.append("Há análise estruturada de peças e fornecedores para o modelo.")
     else:
-        reasons.append("Nao ha analise detalhada de pecas para o modelo.")
+        reasons.append("Não há análise detalhada de peças para o modelo.")
 
     stats = feedback.get("stats", {}) if feedback else {}
     report_count = int(stats.get("report_count", 0) or 0)
     if report_count:
         score += min(15, report_count * 3)
-        reasons.append(f"Foram considerados {report_count} relato(s) de usuarios.")
+        reasons.append(f"Foram considerados {report_count} relato(s) de usuários.")
     else:
-        reasons.append("Ainda nao ha relatos suficientes de usuarios para validar o historico do modelo.")
+        reasons.append("Ainda não há relatos suficientes de usuários para validar o histórico do modelo.")
     if stats.get("consumption_gap_percent") is not None:
         score += 5
-        reasons.append("Ha comparacao entre consumo informado e consumo observado.")
+        reasons.append("Há comparação entre consumo informado e consumo observado.")
 
     score = round(min(80.0, score), 2)
     level = "moderada" if score >= 60 else "baixa"
@@ -884,7 +884,7 @@ def build_confidence_assessment(feedback: dict, parts_feedback: dict) -> dict[st
         "level": level,
         "basis": "demonstrative" if score < 80 else "mixed",
         "reasons": reasons,
-        "disclaimer": "A confianca mede a cobertura dos dados, nao garante preco, custo ou ausencia de falhas.",
+        "disclaimer": "A confiança mede a cobertura dos dados, não garante preço, custo ou ausência de falhas.",
     }
 
 
@@ -975,12 +975,12 @@ def weakest_component(score_components: dict[str, float]) -> tuple[str, float]:
 
 def strategy_explanation(strategy: str) -> str:
     messages = {
-        "lowest_cost": "A recomendacao priorizou o menor custo mensal e preco de compra.",
-        "budget_economy": "A recomendacao buscou opcoes economicas dentro de uma faixa racional do orcamento, evitando escolher apenas o carro mais barato.",
-        "cost_benefit": "A recomendacao equilibrou TCO, preco, uso, confiabilidade e manutencao.",
-        "balanced": "A recomendacao distribuiu o peso entre custo, uso, confiabilidade, pecas e categoria.",
-        "comfort_space": "A recomendacao valorizou conforto, espaco, seguranca e aderencia ao uso.",
-        "best_within_budget": "A recomendacao buscou a melhor categoria possivel dentro do orcamento informado.",
+        "lowest_cost": "A recomendação priorizou o menor custo mensal e preço de compra.",
+        "budget_economy": "A recomendação buscou opções econômicas dentro de uma faixa racional do orçamento, evitando escolher apenas o carro mais barato.",
+        "cost_benefit": "A recomendação equilibrou TCO, preço, uso, confiabilidade e manutenção.",
+        "balanced": "A recomendação distribuiu o peso entre custo, uso, confiabilidade, peças e categoria.",
+        "comfort_space": "A recomendação valorizou conforto, espaço, segurança e aderência ao uso.",
+        "best_within_budget": "A recomendação buscou a melhor categoria possível dentro do orçamento informado.",
     }
     return messages.get(strategy, messages["cost_benefit"])
 
@@ -1006,7 +1006,7 @@ def build_recommendation_summary(
     return {
         "why_recommended": (
             f"{vehicle.brand} {vehicle.model} foi avaliado para {use_case_label} com a prioridade "
-            f"de {STRATEGY_LABELS[strategy]}, considerando TCO, uso, manutencao, segmento e risco."
+            f"de {STRATEGY_LABELS[strategy]}, considerando TCO, uso, manutenção, segmento e risco."
         ),
         "strategy_explanation": strategy_explanation(strategy),
         "main_advantage": main_advantage,
@@ -1029,12 +1029,12 @@ def build_recommendation_summary(
 
 def financial_status_text(fits_purchase: bool, fits_monthly: bool) -> str:
     if fits_purchase and fits_monthly:
-        return "Cabe na compra e na manutencao."
+        return "Cabe na compra e na manutenção."
     if fits_purchase and not fits_monthly:
         return "Cabe na compra, mas pesa no mensal."
     if not fits_purchase and fits_monthly:
-        return "Cabe no mensal, mas passa do orcamento de compra."
-    return "Acima do orcamento de compra e do limite mensal."
+        return "Cabe no mensal, mas passa do orçamento de compra."
+    return "Acima do orçamento de compra e do limite mensal."
 
 
 def suggested_monthly_limit(results: list[dict], profile: RecommendationProfile) -> int | None:
@@ -1070,13 +1070,13 @@ def build_viability_summary(results: list[dict], profile: RecommendationProfile)
     strategy = normalize_strategy(profile.recommendation_strategy)
     suggested_strategy = "lowest_cost" if strategy in {"best_within_budget", "comfort_space"} else None
     message = (
-        "Nenhum veiculo da base ficou totalmente viavel dentro do limite mensal informado. "
-        "O orcamento de compra pode ser suficiente, mas o custo mensal estimado ultrapassa sua capacidade mensal."
+        "Nenhum veículo da base ficou totalmente viável dentro do limite mensal informado. "
+        "O orçamento de compra pode ser suficiente, mas o custo mensal estimado ultrapassa sua capacidade mensal."
     )
     if minimum_limit is not None:
-        message += f" Para encontrar opcoes viaveis, considere um limite mensal a partir de aproximadamente R$ {minimum_limit:,.0f}."
+        message += f" Para encontrar opções viáveis, considere um limite mensal a partir de aproximadamente R$ {minimum_limit:,.0f}."
     if suggested_strategy is not None:
-        message += " Outra opcao e escolher Menor custo possivel ou Economico dentro do orcamento."
+        message += " Outra opção é escolher Menor custo possível ou Econômico dentro do orçamento."
 
     summary.update(
         {
@@ -1235,7 +1235,7 @@ def recommend(
         if vehicle.price > profile.budget:
             over_budget_percent = (vehicle.price - profile.budget) / profile.budget
             weighted_score -= min(35, over_budget_percent * 30)
-            penalties.append("Esta acima do orcamento de compra informado.")
+            penalties.append("Está acima do orçamento de compra informado.")
 
         if monthly_cost > profile.monthly_limit:
             over_limit_percent = (monthly_cost - profile.monthly_limit) / profile.monthly_limit
@@ -1246,7 +1246,7 @@ def recommend(
             if not monthly_viable:
                 over_limit_percent = (monthly_cost - profile.monthly_limit) / profile.monthly_limit
                 weighted_score -= min(55, 18 + (over_limit_percent * 30))
-                penalties.append("Apesar do orcamento de compra elevado, o limite mensal informado restringe opcoes com custo de manutencao mais alto.")
+                penalties.append("Apesar do orçamento de compra elevado, o limite mensal informado restringe opções com custo de manutenção mais alto.")
             elif vehicle.segment_level >= 3:
                 weighted_score += 4
 
@@ -1273,21 +1273,21 @@ def recommend(
                 if vehicle.price < profile.budget * 0.25:
                     if is_superior_vehicle(vehicle):
                         weighted_score -= 4
-                        penalties.append("Apesar de custar pouco frente ao orcamento informado, ainda compete por categoria superior.")
+                        penalties.append("Apesar de custar pouco frente ao orçamento informado, ainda compete por categoria superior.")
                     elif vehicle.segment_level >= 3 and has_direct_use_match(vehicle, profile):
                         weighted_score -= 18
-                        penalties.append("Esta abaixo da faixa ideal do orcamento, mas permanece competitiva pela aderencia ao uso informado.")
+                        penalties.append("Está abaixo da faixa ideal do orçamento, mas permanece competitiva pela aderência ao uso informado.")
                     else:
                         weighted_score -= 34 if vehicle.segment_level >= 3 else 38
-                        penalties.append("Com orcamento alto, perdeu pontos por ser uma escolha muito abaixo da capacidade de compra informada.")
+                        penalties.append("Com orçamento alto, perdeu pontos por ser uma escolha muito abaixo da capacidade de compra informada.")
                 elif vehicle.price < profile.budget * 0.35 and not is_superior_vehicle(vehicle):
                     weighted_score -= 18 if strategy in {"cost_benefit", "balanced"} else 6
-                    penalties.append("Fica abaixo da faixa ideal para aproveitar melhor o orcamento informado.")
+                    penalties.append("Fica abaixo da faixa ideal para aproveitar melhor o orçamento informado.")
 
         if profile.use_case == "app" and financial_capacity_profile in {"comfortable", "high_capacity"} and strategy != "lowest_cost":
             if vehicle.segment_level <= 1:
                 weighted_score -= 24
-                penalties.append("Apesar do baixo custo, perdeu pontos por oferecer menor conforto e espaco para uso recorrente em aplicativo.")
+                penalties.append("Apesar do baixo custo, perdeu pontos por oferecer menor conforto e espaço para uso recorrente em aplicativo.")
             elif vehicle.segment_level >= 3 and fully_viable:
                 weighted_score += 9
                 if vehicle.category in {"compact_sedan", "midsize_sedan", "compact_minivan", "minivan"}:
@@ -1304,32 +1304,32 @@ def recommend(
         if strategy == "budget_economy":
             if vehicle.price < profile.budget * 0.30:
                 weighted_score -= 7
-                penalties.append("Esta muito abaixo da faixa desejada para essa prioridade de compra.")
+                penalties.append("Está muito abaixo da faixa desejada para essa prioridade de compra.")
             elif vehicle.price < profile.budget * 0.40:
                 weighted_score -= 3
-                penalties.append("Esta abaixo da faixa ideal para aproveitar o orcamento informado.")
+                penalties.append("Está abaixo da faixa ideal para aproveitar o orçamento informado.")
 
         if strategy == "best_within_budget":
             if vehicle.price < profile.budget * 0.30:
                 if is_superior_vehicle(vehicle):
                     weighted_score -= 4
-                    penalties.append("Apesar de estar abaixo da faixa ideal do orcamento, compete por categoria, conforto e confiabilidade.")
+                    penalties.append("Apesar de estar abaixo da faixa ideal do orçamento, compete por categoria, conforto e confiabilidade.")
                 elif vehicle.segment_level >= 3:
                     weighted_score -= 18
-                    penalties.append("Esta abaixo da faixa desejada para buscar uma categoria realmente superior dentro do orcamento.")
+                    penalties.append("Está abaixo da faixa desejada para buscar uma categoria realmente superior dentro do orçamento.")
                 else:
                     weighted_score -= 34
-                    penalties.append("Esta muito abaixo da faixa desejada para buscar a melhor categoria dentro do orcamento.")
+                    penalties.append("Está muito abaixo da faixa desejada para buscar a melhor categoria dentro do orçamento.")
             elif vehicle.price < profile.budget * 0.40:
                 if is_superior_vehicle(vehicle):
                     weighted_score -= 2
-                    penalties.append("Fica abaixo da faixa ideal do orcamento, mas entrega categoria superior.")
+                    penalties.append("Fica abaixo da faixa ideal do orçamento, mas entrega categoria superior.")
                 elif vehicle.segment_level >= 3:
                     weighted_score -= 10
-                    penalties.append("Esta abaixo da faixa ideal para buscar categoria superior dentro do orcamento.")
+                    penalties.append("Está abaixo da faixa ideal para buscar categoria superior dentro do orçamento.")
                 else:
                     weighted_score -= 18
-                    penalties.append("Esta abaixo da faixa ideal para buscar categoria superior dentro do orcamento.")
+                    penalties.append("Está abaixo da faixa ideal para buscar categoria superior dentro do orçamento.")
 
         fit_score = profile_fit_score(vehicle, profile)
         if fit_score >= 90:
@@ -1355,15 +1355,15 @@ def recommend(
             if profile.use_case == "suv" and "suv" not in vehicle.use_cases:
                 weighted_score -= 45
             if mismatch_penalty >= PROFILE_MISMATCH_PENALTY:
-                penalties.append("Perfil de uso nao e o ponto forte do modelo.")
+                penalties.append("Perfil de uso não é o ponto forte do modelo.")
             else:
-                penalties.append("Nao e o modelo mais urbano da base, mas compete por categoria superior.")
+                penalties.append("Não é o modelo mais urbano da base, mas compete por categoria superior.")
 
         feedback = model_feedback.get(vehicle.id, {})
         feedback_adjustment = feedback.get("net_adjustment", 0)
         weighted_score += feedback_adjustment
         if feedback_adjustment < 0:
-            penalties.append("Dados reais de usuarios reduziram a nota do modelo.")
+            penalties.append("Dados reais de usuários reduziram a nota do modelo.")
 
         parts_adjustment = part_feedback.get("score_adjustment", 0)
         weighted_score += parts_adjustment
@@ -1373,7 +1373,7 @@ def recommend(
             components["supplier_availability_score"] = part_feedback.get("supplier_availability_score", components["parts_availability"])
             components["price_variation_risk"] = 100 - part_feedback.get("price_variation_risk", 50)
             if parts_adjustment < 0:
-                penalties.append("Analise de pecas reduziu a nota por custo, variacao ou baixa disponibilidade.")
+                penalties.append("Análise de peças reduziu a nota por custo, variação ou baixa disponibilidade.")
 
         score_breakdown = build_score_breakdown(score_components, profile)
         base_score = float(score_breakdown["base_score"])
@@ -1431,15 +1431,15 @@ def recommend(
         explanations.extend(
             [
                 (
-                    f"Preco FIPE de referencia: R$ {vehicle.price:,.2f}, "
-                    f"{vehicle.price_reference_month}, codigo {vehicle.fipe_code}."
+                    f"Preço FIPE de referência: R$ {vehicle.price:,.2f}, "
+                    f"{vehicle.price_reference_month}, código {vehicle.fipe_code}."
                     if vehicle.price_is_fipe
-                    else "Preco de compra ainda demonstrativo; pareamento FIPE da versao pendente."
+                    else "Preço de compra ainda demonstrativo; pareamento FIPE da versão pendente."
                 ),
                 f"Nota base ponderada: {score_breakdown['base_score']:.2f}/100.",
                 f"Ajuste contextual limitado: {score_breakdown['context_adjustment']:+.2f} ponto(s).",
-                f"Ajuste por evidencias: {score_breakdown['evidence_adjustment']:+.2f} ponto(s).",
-                f"Confianca dos dados: {confidence['level']} ({confidence['score']:.0f}/100).",
+                f"Ajuste por evidências: {score_breakdown['evidence_adjustment']:+.2f} ponto(s).",
+                f"Confiança dos dados: {confidence['level']} ({confidence['score']:.0f}/100).",
                 str(confidence["disclaimer"]),
             ]
         )
@@ -1488,12 +1488,12 @@ def build_category_awards(results: list[dict], profile: RecommendationProfile) -
         eligible = results
 
     categories = {
-        "Melhor custo-beneficio": max(eligible, key=lambda item: item["value_score"]),
+        "Melhor custo-benefício": max(eligible, key=lambda item: item["value_score"]),
         "Menor TCO mensal": min(eligible, key=lambda item: item["tco"]["total_monthly_cost"]),
-        "Mais economico": max(eligible, key=lambda item: item["components"]["fuel_efficiency"]),
-        "Mais confiavel": max(eligible, key=lambda item: item["score_components"]["reliability_score"]),
-        "Menor custo de manutencao": max(eligible, key=lambda item: item["score_components"]["maintenance_score"]),
-        "Melhor dentro do orcamento": max(
+        "Mais econômico": max(eligible, key=lambda item: item["components"]["fuel_efficiency"]),
+        "Mais confiável": max(eligible, key=lambda item: item["score_components"]["reliability_score"]),
+        "Menor custo de manutenção": max(eligible, key=lambda item: item["score_components"]["maintenance_score"]),
+        "Melhor dentro do orçamento": max(
             eligible,
             key=lambda item: (
                 item["vehicle"].price <= profile.budget,
@@ -1505,13 +1505,13 @@ def build_category_awards(results: list[dict], profile: RecommendationProfile) -
     }
     with_parts = [item for item in eligible if item.get("parts_feedback")]
     if with_parts:
-        categories["Mais facil de manter"] = max(with_parts, key=lambda item: item["parts_feedback"]["maintenance_index"])
-        categories["Melhor disponibilidade de pecas"] = max(with_parts, key=lambda item: item["parts_feedback"]["supplier_availability_score"])
-        categories["Menor risco de preco abusivo"] = min(with_parts, key=lambda item: item["parts_feedback"]["price_variation_risk"])
+        categories["Mais fácil de manter"] = max(with_parts, key=lambda item: item["parts_feedback"]["maintenance_index"])
+        categories["Melhor disponibilidade de peças"] = max(with_parts, key=lambda item: item["parts_feedback"]["supplier_availability_score"])
+        categories["Menor risco de preço abusivo"] = min(with_parts, key=lambda item: item["parts_feedback"]["price_variation_risk"])
 
     family_pool = [item for item in eligible if "familia" in item["vehicle"].use_cases]
     if family_pool:
-        categories["Melhor para familia"] = max(family_pool, key=lambda item: item["score_components"]["usage_score"] + item["score_components"]["reliability_score"])
+        categories["Melhor para família"] = max(family_pool, key=lambda item: item["score_components"]["usage_score"] + item["score_components"]["reliability_score"])
 
     city_pool = [item for item in eligible if "cidade" in item["vehicle"].use_cases]
     if city_pool:
@@ -1525,17 +1525,17 @@ def build_category_awards(results: list[dict], profile: RecommendationProfile) -
 
 def award_reason(label: str) -> str:
     reasons = {
-        "Melhor custo-beneficio": "combina nota SIGRA, TCO e aderencia ao perfil.",
+        "Melhor custo-benefício": "combina nota SIGRA, TCO e aderência ao perfil.",
         "Menor TCO mensal": "tem menor custo total mensal estimado.",
-        "Mais economico": "apresenta melhor indicador de consumo no ranking.",
-        "Mais confiavel": "tem melhor indicador de confiabilidade.",
-        "Menor custo de manutencao": "tem melhor relacao entre manutencao e facilidade de pecas.",
-        "Melhor dentro do orcamento": "equilibra faixa de compra, TCO e qualidade do segmento.",
-        "Melhor para familia": "prioriza aderencia familiar e confiabilidade.",
+        "Mais econômico": "apresenta melhor indicador de consumo no ranking.",
+        "Mais confiável": "tem melhor indicador de confiabilidade.",
+        "Menor custo de manutenção": "tem melhor relação entre manutenção e facilidade de peças.",
+        "Melhor dentro do orçamento": "equilibra faixa de compra, TCO e qualidade do segmento.",
+        "Melhor para família": "prioriza aderência familiar e confiabilidade.",
         "Melhor para uso urbano": "prioriza consumo e custo para cidade.",
-        "Mais facil de manter": "combina pecas, fornecedores e custo de manutencao.",
-        "Melhor disponibilidade de pecas": "tem mais fornecedores e pecas demonstrativas disponiveis.",
-        "Menor risco de preco abusivo": "apresenta menor variacao de preco nas pecas analisadas.",
+        "Mais fácil de manter": "combina peças, fornecedores e custo de manutenção.",
+        "Melhor disponibilidade de peças": "tem mais fornecedores e peças demonstrativas disponíveis.",
+        "Menor risco de preço abusivo": "apresenta menor variação de preço nas peças analisadas.",
     }
     return reasons.get(label, "destaque calculado pelo SIGRA.")
 
@@ -1595,26 +1595,26 @@ def build_explanations(
             f"(impacto de {float(summary.get('main_risk_impact', 0)):.2f} ponto(s))."
         ),
         f"TCO mensal estimado: R$ {tco['total_monthly_cost']:,.2f}.",
-        f"Cabe no limite mensal: {'sim' if summary['fits_monthly_budget'] else 'nao'}.",
-        f"Classificacao final: {STATUS_LABELS[status]}.",
+        f"Cabe no limite mensal: {'sim' if summary['fits_monthly_budget'] else 'não'}.",
+        f"Classificação final: {STATUS_LABELS[status]}.",
     ]
     if summary.get("fits_purchase_budget") and summary.get("fits_monthly_budget"):
-        messages.append("O veiculo cabe no orcamento de compra e no limite mensal informado.")
+        messages.append("O veículo cabe no orçamento de compra e no limite mensal informado.")
     financial_profile = summary.get("financial_capacity_profile")
     if financial_profile in {"comfortable", "high_capacity"} and strategy in {"best_within_budget", "comfort_space"}:
-        messages.append("Subiu no ranking porque o perfil financeiro informado permite manter um veiculo de categoria superior.")
-        messages.append("O limite mensal informado permite considerar veiculos de maior segmento disponiveis na base.")
+        messages.append("Subiu no ranking porque o perfil financeiro informado permite manter um veículo de categoria superior.")
+        messages.append("O limite mensal informado permite considerar veículos de maior segmento disponíveis na base.")
     if financial_profile == "purchase_high_monthly_low":
-        messages.append("Apesar do orcamento de compra elevado, o limite mensal informado restringe opcoes com custo mensal mais alto.")
+        messages.append("Apesar do orçamento de compra elevado, o limite mensal informado restringe opções com custo mensal mais alto.")
     if "aplicativo" in str(summary.get("why_recommended", "")):
         if strategy == "lowest_cost":
-            messages.append("Priorizado pelo baixo custo mensal, manutencao simples e bom consumo para uso em aplicativo.")
+            messages.append("Priorizado pelo baixo custo mensal, manutenção simples e bom consumo para uso em aplicativo.")
         elif financial_profile in {"comfortable", "high_capacity"}:
-            messages.append("Subiu no ranking por equilibrar conforto, confiabilidade e custo mensal compativel para uso profissional.")
+            messages.append("Subiu no ranking por equilibrar conforto, confiabilidade e custo mensal compatível para uso profissional.")
     if strategy == "budget_economy" and summary.get("fits_monthly_budget"):
-        messages.append("Foi priorizado por equilibrar boa categoria e custo mensal compativel.")
+        messages.append("Foi priorizado por equilibrar boa categoria e custo mensal compatível.")
     if vehicle.chronic_issues:
-        messages.append("Pontos de atencao: " + "; ".join(vehicle.chronic_issues) + ".")
+        messages.append("Pontos de atenção: " + "; ".join(vehicle.chronic_issues) + ".")
     messages.extend(penalties)
     return messages
 
@@ -1626,11 +1626,11 @@ def build_parts_explanations(part_feedback: dict) -> list[str]:
     shared = part_feedback.get("shared_parts_score")
     variation = part_feedback.get("price_variation_risk")
     if maintenance_index is not None:
-        messages.append(f"Indice SIGRA de Manutencao: {maintenance_index}/100.")
+        messages.append(f"Índice SIGRA de Manutenção: {maintenance_index}/100.")
     if availability is not None and shared is not None and availability >= 70 and shared >= 65:
-        messages.append("Boa disponibilidade de pecas, fornecedores variados e compatibilidade com outros modelos.")
+        messages.append("Boa disponibilidade de peças, fornecedores variados e compatibilidade com outros modelos.")
     if variation is not None and variation >= 55:
-        messages.append("Ponto de atencao: pecas com alta variacao de preco entre fornecedores. Compare antes de comprar.")
+        messages.append("Ponto de atenção: peças com alta variação de preço entre fornecedores. Compare antes de comprar.")
     if shared is not None and shared < 55:
-        messages.append("Compatibilidade de pecas mais limitada, podendo depender de fornecedores especificos.")
+        messages.append("Compatibilidade de peças mais limitada, podendo depender de fornecedores específicos.")
     return messages

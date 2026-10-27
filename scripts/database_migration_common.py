@@ -78,12 +78,16 @@ def safe_database_url(url: str) -> str:
 
 
 def expected_table_order() -> list[str]:
-    return [table.name for table in Base.metadata.sorted_tables]
+    # This is the legacy public-data transfer format, not an authentication backup.
+    return [table.name for table in Base.metadata.sorted_tables
+            if table.name not in {"auth_sessions", "participant_test_runs", "participant_study_sessions", "participant_questionnaires"}]
 
 
 def expected_schema_contract() -> dict[str, Any]:
     contract: dict[str, Any] = {}
     for table in Base.metadata.sorted_tables:
+        if table.name not in expected_table_order():
+            continue
         foreign_keys = []
         for constraint in table.foreign_key_constraints:
             for element in constraint.elements:
@@ -103,6 +107,7 @@ def expected_schema_contract() -> dict[str, Any]:
                     "money": (table.name, column.name) in MONEY_COLUMNS,
                 }
                 for column in table.columns
+                if not (table.name == "users" and column.name in {"password_hash", "normalized_email", "role"})
             },
             "primary_key": [column.name for column in table.primary_key.columns],
             "foreign_keys": foreign_keys,
@@ -199,7 +204,8 @@ def reflected_tables(engine: Engine) -> dict[str, Table]:
 
 
 def ordered_rows(connection: Connection, table: Table) -> list[dict]:
-    statement = select(table)
+    allowed = expected_schema_contract()[table.name]["columns"]
+    statement = select(*(column for column in table.columns if column.name in allowed))
     primary_key = list(table.primary_key.columns)
     if primary_key:
         statement = statement.order_by(*primary_key)

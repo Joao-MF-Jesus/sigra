@@ -1,0 +1,28 @@
+{
+  "version": "batch3-academic-v4-evidence-v1",
+  "methodology": "academic-profile-pilot-v4",
+  "records": [
+    {
+      "id": 55,
+      "catalog": {"brand": "Nissan", "model_family": "Sentra", "target_version": "SV 2.0 CVT", "model_year": 2020},
+      "identity": {"fipe_code": "023123-1", "year_code": "2020-5", "commercial_identity": "Sentra SV 2.0 FlexStart 16V Aut.", "fuel": "flex", "transmission": "cvt", "reference_month": "2026-09"},
+      "crosswalk": {"file": "batch1_crosswalk_v1.json", "review_id": 55, "alias_id": "sentra-novo-sentra-v1", "link_type": "versioned_commercial_alias", "pbev_row_hash": "e3cbab17812b0905738470885d47edf316ecda6d7cf3942d583b4a27d944c06e", "fipe_response_sha256": "7fe7d14987404659c0dde719f943843c080b10b440b28b364d420d6e17c42953"},
+      "source": {"provider": "manufacturer", "url": "https://www.nissan-cdn.net/content/dam/Nissan/br/brochures/2021/Brochura%20Sentra%202020.pdf", "sha256": "6e58d5973c6ee793a2d0dcf16ca410eb254992815015f4dbea7e96471415c86e", "cache_file": "sentra2020.pdf", "document": "Nissan Sentra 2020 Brasil, 13 pages", "collected_at": "2026-09-22T22:18:08.700540+00:00"},
+      "review": {"status": "exact_variant_reviewed", "market": "BR", "model_year": 2020, "variant": "2.0 SV", "engine": "2.0 16V", "fuel": "flex", "transmission": "cvt", "source_kind": "manufacturer_version_table", "unresolved_restrictions": [], "rationale": "Cover identifies Sentra 2020. Pages 11 and 12 identify SV separately from S and SL. SV explicitly contains S equipment; page 12 marks frontal airbags, ABS and VDC as standard in SV and lateral/curtain airbags unavailable. Technical common cells span S/SV/SL; weight uses only SV column. Published April 2019 describes model year 2020, not upload year 2021."},
+      "fields": {
+        "seats": {"value": "5", "unit": "count", "page": 11, "locator": "CARROCERIA / Arquitetura: Sedan, 4 portas, 5 lugares; common S/SV/SL cell", "condition": "standard"},
+        "cargo_l": {"value": "503", "unit": "l", "page": 11, "locator": "CAPACIDADES / Porta-malas", "condition": "standard"},
+        "length_mm": {"value": "4635.9", "unit": "mm", "page": 11, "locator": "DIMENSOES / Comprimento", "condition": "standard"},
+        "width_mm": {"value": "1761.4", "unit": "mm", "page": 11, "locator": "DIMENSOES / Largura; nominal body width, no claim about mirrors", "condition": "standard"},
+        "wheelbase_mm": {"value": "2700", "unit": "mm", "page": 11, "locator": "DIMENSOES / Distancia entre-eixos", "condition": "standard"},
+        "ground_clearance_mm": {"value": "186.3", "unit": "mm", "page": 11, "locator": "DIMENSOES / Altura livre do solo", "condition": "standard"},
+        "weight_kg": {"value": "1337", "unit": "kg", "page": 11, "locator": "DIMENSOES / Peso em ordem de marcha / 2.0 SV column", "condition": "standard"},
+        "power_gasoline_cv": {"value": "140", "unit": "cv", "page": 11, "locator": "MOTOR / Potencia: 140 cv @ 5100 rpm (etanol/gasolina)", "condition": "standard"},
+        "airbags": {"value": "2", "unit": "count", "page": 12, "locator": "SEGURANCA / 2.0 SV: frontais motorista e passageiro standard; laterais/cortina unavailable; p11 air bag duplo inherited from S", "condition": "standard"},
+        "abs": {"value": true, "unit": "bool", "page": 12, "locator": "2.0 SV middle column: Freios ABS com EBD e BA; red series marker", "condition": "standard"},
+        "esc": {"value": true, "unit": "bool", "page": 12, "locator": "2.0 SV middle column: VDC controle de tracao e estabilidade; red series marker", "condition": "standard"}
+      },
+      "limitations": ["No measured passenger-space claim", "Body width does not establish width with mirrors", "Fuel consumption is taken from PBEV 2020, not the brochure marketing figure", "Academic scenario costs are not observed expenses", "No operational publication or activation"]
+    }
+  ]
+}

@@ -157,6 +157,23 @@ class DatabaseSettings:
         return make_url(self.url).render_as_string(hide_password=True)
 
 
+def database_connect_args(settings: DatabaseSettings) -> dict[str, object]:
+    """One transport policy for runtime and Alembic; never downgrade TLS in a URL."""
+    if settings.is_sqlite:
+        return {"check_same_thread": False}
+    arguments: dict[str, object] = {"options": "-c timezone=UTC"}
+    mode = make_url(settings.url).query.get("sslmode")
+    if isinstance(mode, tuple):
+        raise ValueError("sslmode must be specified exactly once")
+    if settings.ssl_required:
+        if mode is not None and mode not in {"require", "verify-ca", "verify-full"}:
+            raise ValueError("The configured sslmode does not satisfy required TLS")
+        if mode is None:
+            arguments["sslmode"] = "require"
+    # Explicit sslmode/sslrootcert remain in the URL and are handled by psycopg.
+    return arguments
+
+
 def load_database_settings(
     environ: Mapping[str, str] | None = None,
 ) -> DatabaseSettings:

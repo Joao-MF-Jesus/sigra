@@ -1,0 +1,3995 @@
+{
+  "limits": {
+    "carpedia": 23,
+    "fipe": 17,
+    "public_documents": 48
+  },
+  "previous_ledger_sha256": "1c0e9dbe0a1f8a0fc932309c4931733493f92813f7566eac558c1d0ee50898df",
+  "continuation_authorized": true,
+  "attempts": [
+    {
+      "provider": "fipe",
+      "id": 96,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/7899/anos/2020-5",
+      "started_at": "2026-10-05T15:47:49.041703+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "fipe-96-1.raw",
+      "sha256": "c4df4fe3887adb00c0fbeb19cf7de4b25fd96a197e99cf6f608f64bdac2c5b4f",
+      "byte_length": 218
+    },
+    {
+      "provider": "carpedia",
+      "id": 96,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/140945/2020",
+      "started_at": "2026-10-05T15:49:52.930894+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-96-2.raw",
+      "sha256": "bd33ecf7ac50178959bb53f44dcfb034cd36127df7ebc3072c7cc9dadddf78a8",
+      "byte_length": 4019
+    },
+    {
+      "provider": "carpedia",
+      "id": 35,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/252662/2021",
+      "started_at": "2026-10-05T15:50:12.967189+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-35-3.raw",
+      "sha256": "4c96cdae9b5a47ce49984098745109e391a908d30871685c86f429d2b9a1b0bb",
+      "byte_length": 4038
+    },
+    {
+      "provider": "carpedia",
+      "id": 101,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/180947/2020",
+      "started_at": "2026-10-05T16:43:15.190800+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-101-4.raw",
+      "sha256": "7a71b12d2584268bc9fa7ed15d19a2ade7d8fd9489cc0fc619652b82356b1c39",
+      "byte_length": 3818
+    },
+    {
+      "provider": "carpedia",
+      "id": 102,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/180955/2020",
+      "started_at": "2026-10-05T16:43:16.578712+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-102-5.raw",
+      "sha256": "0e085f067390e6029f6624eba38dda9f17881df79edf7f5921d0a882a8b22620",
+      "byte_length": 3699
+    },
+    {
+      "provider": "carpedia",
+      "id": 103,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/730211/2021",
+      "started_at": "2026-10-05T16:43:17.721521+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-103-6.raw",
+      "sha256": "cdbe71f48409d9338507c7c780ec5b475e8edb2891b7f7acc06087435c8dcfe0",
+      "byte_length": 3950
+    },
+    {
+      "provider": "carpedia",
+      "id": 104,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/730203/2020",
+      "started_at": "2026-10-05T16:43:18.846350+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-104-7.raw",
+      "sha256": "fd3196d63906390220eeb5a3f25ed6a2405d874c3d5e40b543aef670f1c7de6c",
+      "byte_length": 3513
+    },
+    {
+      "provider": "fipe",
+      "id": 106,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/7900/anos/2020-5",
+      "started_at": "2026-10-05T16:43:39.248443+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "fipe-106-8.raw",
+      "sha256": "3dece4de8eb413727d6e277b130b4c444aa6cf3298d747c2791a06cffcdd6a65",
+      "byte_length": 219
+    },
+    {
+      "provider": "carpedia",
+      "id": 106,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/140953/2020",
+      "started_at": "2026-10-05T16:43:39.789169+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-106-9.raw",
+      "sha256": "60e4a33cea34fcea895e2b5f1ecf0cfa2606b548a2a40a99c173e2f7d3ffd4d1",
+      "byte_length": 3906
+    },
+    {
+      "provider": "fipe",
+      "id": 107,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/6779/anos/2020-5",
+      "started_at": "2026-10-05T16:43:40.470288+00:00",
+      "http_status": 404,
+      "retry": false,
+      "cache_file": "fipe-107-10.raw",
+      "sha256": "4138123a817fa5688465b9383fac731aea47115e6e3af9c5d1766ff73a540be2",
+      "byte_length": 65
+    },
+    {
+      "provider": "fipe",
+      "id": 108,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/6781/anos/2020-5",
+      "started_at": "2026-10-05T16:43:40.687316+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "fipe-108-11.raw",
+      "sha256": "64366fa68a297926fe0a606efd3cc1d46a4309418988882af2e79dd6aa943520",
+      "byte_length": 217
+    },
+    {
+      "provider": "carpedia",
+      "id": 108,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/140813/2020",
+      "started_at": "2026-10-05T16:43:40.863686+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-108-12.raw",
+      "sha256": "7cf84bcd8806a105dad871c509cc6c7708990f3e81bdcc4c8ffe48de5f1bfb36",
+      "byte_length": 3815
+    },
+    {
+      "provider": "fipe",
+      "id": 109,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/4971/anos/2020-5",
+      "started_at": "2026-10-05T16:43:41.441171+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "fipe-109-13.raw",
+      "sha256": "f36a55f9082a8bd19f1ba2294ea046dedcae9d388a398cb31dd0a4e4f1d32ec4",
+      "byte_length": 221
+    },
+    {
+      "provider": "carpedia",
+      "id": 109,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/140619/2020",
+      "started_at": "2026-10-05T16:43:41.637065+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-109-14.raw",
+      "sha256": "63b2ad605f8dff87233aaafd41fa1d9f78ca7628f4d1eccf3a2f7291d3b2d759",
+      "byte_length": 3936
+    },
+    {
+      "provider": "fipe",
+      "id": 110,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/5372/anos/2020-5",
+      "started_at": "2026-10-05T16:43:42.226921+00:00",
+      "http_status": 404,
+      "retry": false,
+      "cache_file": "fipe-110-15.raw",
+      "sha256": "4138123a817fa5688465b9383fac731aea47115e6e3af9c5d1766ff73a540be2",
+      "byte_length": 65
+    },
+    {
+      "provider": "fipe",
+      "id": 111,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/4975/anos/2020-5",
+      "started_at": "2026-10-05T16:43:42.410247+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "fipe-111-16.raw",
+      "sha256": "d2d387ceb2c2d3fbfd28f266da1fdde486872e7bda20d41d80fb8bad987377ea",
+      "byte_length": 221
+    },
+    {
+      "provider": "carpedia",
+      "id": 111,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/140597/2020",
+      "started_at": "2026-10-05T16:43:42.890646+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-111-17.raw",
+      "sha256": "be02a0a25263a15d5a803747aef76e3215641eb6398e9596698bbab6c5a100d2",
+      "byte_length": 3704
+    },
+    {
+      "provider": "carpedia",
+      "id": 121,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/730114/2020",
+      "started_at": "2026-10-05T16:44:57.270690+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-121-18.raw",
+      "sha256": "49dd3680e34c73025c24d71fd68a7051a5dff0c95bf4e754bdb79dd7c2c88160",
+      "byte_length": 3360
+    },
+    {
+      "provider": "public_documents",
+      "id": 61,
+      "url": "https://carros.peugeot.com.br/content/dam/peugeot/brazil/b2c/owners/maintain-your-car/manuais/3008/3008_20-20_manual_capa_garantiaunificado.pdf",
+      "started_at": "2026-10-05T16:45:58.224977+00:00",
+      "http_status": null,
+      "retry": false,
+      "error_type": "ConnectError"
+    },
+    {
+      "provider": "public_documents",
+      "id": 61,
+      "url": "https://carros.peugeot.com.br/content/dam/peugeot/brazil/b2c/owners/maintain-your-car/manuais/3008/3008_20-20_manual_capa_garantiaunificado.pdf",
+      "started_at": "2026-10-05T16:47:06.894637+00:00",
+      "http_status": null,
+      "retry": true,
+      "error_type": "ConnectError"
+    },
+    {
+      "provider": "fipe",
+      "id": 122,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/8212/anos/2020-5",
+      "started_at": "2026-10-05T18:48:27.523360+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "fipe-122-1.raw",
+      "sha256": "0a58f42efd5a59840aac04bd1b4022b69d6d6721e62deea87d7f2b97eed955e5",
+      "byte_length": 224
+    },
+    {
+      "provider": "carpedia",
+      "id": 122,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/140988/2020",
+      "started_at": "2026-10-05T18:48:28.540608+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-122-2.raw",
+      "sha256": "dc580a060e76dfe1438e2cc1dc5224e4dd3aadc9822d2540bf38121bd6af1781",
+      "byte_length": 3748
+    },
+    {
+      "provider": "fipe",
+      "id": 123,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos/7983/anos/2020-5",
+      "started_at": "2026-10-05T18:50:29.325645+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "fipe-123-3.raw",
+      "sha256": "85b984788eb5b89ff98090997792ee22ac12e62912fdc4d668cab9630e9642b0",
+      "byte_length": 221
+    },
+    {
+      "provider": "carpedia",
+      "id": 123,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/231541/2020",
+      "started_at": "2026-10-05T18:50:29.924211+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-123-4.raw",
+      "sha256": "29fec36223d972d2006ccad5c8a98397e40a2d41bdbca63684b4bf5ee73e703f",
+      "byte_length": 4326
+    },
+    {
+      "provider": "fipe",
+      "id": 124,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos/7670/anos/2020-5",
+      "started_at": "2026-10-05T18:50:59.182254+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "fipe-124-5.raw",
+      "sha256": "4ad435851476a2443e40a0c06e9a2347e74793e32165d983ebf39a3ae816fa4d",
+      "byte_length": 221
+    },
+    {
+      "provider": "carpedia",
+      "id": 124,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/231495/2020",
+      "started_at": "2026-10-05T18:50:59.587418+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-124-6.raw",
+      "sha256": "1ae7c4ed7f2ceb1cf8378f1fd9738ec55caa27e19a33512d539e4e6a318f2b54",
+      "byte_length": 4566
+    },
+    {
+      "provider": "fipe",
+      "id": 125,
+      "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos/8202/anos/2020-5",
+      "started_at": "2026-10-05T18:51:25.672522+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "fipe-125-7.raw",
+      "sha256": "1abf91ced1f76380a205d588bad36f88043c77c532e1805fe85652ff89ec4aaa",
+      "byte_length": 220
+    },
+    {
+      "provider": "carpedia",
+      "id": 125,
+      "url": "https://www.carpedia.com.br/api/v1/ficha/15024/2020",
+      "started_at": "2026-10-05T18:51:26.033243+00:00",
+      "http_status": 200,
+      "retry": false,
+      "cache_file": "carpedia-125-8.raw",
+      "sha256": "b29dfa9f262aaf6122d91eeaa79f59418eb16a7e3bc8fe01c79973277ee65604",
+      "byte_length": 4137
+    }
+  ],
+  "prior_attempt_count": 3,
+  "stopped": [],
+  "cache_hits": [
+    {
+      "provider": "fipe",
+      "id": 35,
+      "sha256": "d91c4823a1afe41759b64e58034cf9dbfc94e659aa3cc23790a4a1ee66e3e301",
+      "purpose": "exact price September2026"
+    },
+    {
+      "provider": "fipe",
+      "id": 96,
+      "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+      "purpose": "Honda discovery exact model7899"
+    },
+    {
+      "provider": "pbev",
+      "id": 35,
+      "sha256": "3c2350a98cb5182f6d4c165be310f4edf4eb9b3162a92bf089be2a8005e2b6b7",
+      "purpose": "audited exact annual row"
+    },
+    {
+      "provider": "pbev_parse",
+      "id": 35,
+      "sha256": "30a0a1a2fc4db9f8c282d0054e02ed6bdff729c052dedef83f058aa99ae98ebd",
+      "purpose": "audited exact annual row"
+    },
+    {
+      "provider": "pbev",
+      "id": 96,
+      "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+      "purpose": "audited exact annual row"
+    },
+    {
+      "provider": "pbev_parse",
+      "id": 96,
+      "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "purpose": "audited exact annual row"
+    },
+    {
+      "provider": "public_documents",
+      "id": 35,
+      "sha256": "8d8900d7118d2f58fc0b2d4e0294c15b88f298879f4d0f8b1027525213b4b37f",
+      "purpose": "retain unresolved official dimension conflict"
+    },
+    {
+      "provider": "public_documents",
+      "id": 35,
+      "sha256": "3a8d94b914d190dcb8f3c1e9b1a6b89a79516f03112e753e4c7b31c7ecb8f57e",
+      "purpose": "retain unresolved official dimension conflict"
+    },
+    {
+      "provider": "fipe",
+      "id": 101,
+      "sha256": "295a20cba1a5344e63d45a5e104904057c50511f02587b0d2e34f07a1adc111a",
+      "purpose": "exact September price",
+      "source_receipt": {
+        "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/31/modelos/8990/anos/2020-5",
+        "sha256": "295a20cba1a5344e63d45a5e104904057c50511f02587b0d2e34f07a1adc111a",
+        "cache_file": "295a20cba1a5344e63d45a5e104904057c50511f02587b0d2e34f07a1adc111a.json",
+        "collected_at": "2026-09-07T01:40:55.698976+00:00",
+        "request_count": 1,
+        "http_status": 200
+      }
+    },
+    {
+      "provider": "fipe",
+      "id": 102,
+      "sha256": "5f1dc52194f700620b3a4f247fb013fe6b7cc9a99c642fa42668e4e80b3c0421",
+      "purpose": "exact September price",
+      "source_receipt": {
+        "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/31/modelos/8991/anos/2020-5",
+        "sha256": "5f1dc52194f700620b3a4f247fb013fe6b7cc9a99c642fa42668e4e80b3c0421",
+        "cache_file": "5f1dc52194f700620b3a4f247fb013fe6b7cc9a99c642fa42668e4e80b3c0421.json",
+        "collected_at": "2026-09-07T01:40:56.029166+00:00",
+        "request_count": 1,
+        "http_status": 200
+      }
+    },
+    {
+      "provider": "fipe",
+      "id": 103,
+      "sha256": "b4db764e23e681eea3bf1b619aa1c2c72b9ce5ebbdb523cbfb1e921d69bc8fc8",
+      "purpose": "exact September price",
+      "source_receipt": {
+        "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/161/modelos/8514/anos/2021-5",
+        "sha256": "b4db764e23e681eea3bf1b619aa1c2c72b9ce5ebbdb523cbfb1e921d69bc8fc8",
+        "cache_file": "b4db764e23e681eea3bf1b619aa1c2c72b9ce5ebbdb523cbfb1e921d69bc8fc8.json",
+        "collected_at": "2026-09-07T01:40:57.348448+00:00",
+        "request_count": 1,
+        "http_status": 200
+      }
+    },
+    {
+      "provider": "fipe",
+      "id": 104,
+      "sha256": "d47ca861f52241c0aa0f1c43669c1fead67c7496744e19d73292a2cc86e2df10",
+      "purpose": "exact September price",
+      "source_receipt": {
+        "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/161/modelos/8513/anos/2020-5",
+        "sha256": "d47ca861f52241c0aa0f1c43669c1fead67c7496744e19d73292a2cc86e2df10",
+        "cache_file": "d47ca861f52241c0aa0f1c43669c1fead67c7496744e19d73292a2cc86e2df10.json",
+        "collected_at": "2026-09-07T01:40:56.684767+00:00",
+        "request_count": 1,
+        "http_status": 200
+      }
+    },
+    {
+      "provider": "pbev",
+      "id": 101,
+      "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev_parse",
+      "id": 101,
+      "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev",
+      "id": 102,
+      "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev_parse",
+      "id": 102,
+      "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev",
+      "id": 103,
+      "sha256": "3c2350a98cb5182f6d4c165be310f4edf4eb9b3162a92bf089be2a8005e2b6b7",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev_parse",
+      "id": 103,
+      "sha256": "30a0a1a2fc4db9f8c282d0054e02ed6bdff729c052dedef83f058aa99ae98ebd",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev",
+      "id": 104,
+      "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev_parse",
+      "id": 104,
+      "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev",
+      "id": 106,
+      "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev_parse",
+      "id": 106,
+      "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev",
+      "id": 108,
+      "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev_parse",
+      "id": 108,
+      "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev",
+      "id": 109,
+      "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev_parse",
+      "id": 109,
+      "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev",
+      "id": 111,
+      "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "pbev_parse",
+      "id": 111,
+      "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "purpose": "individual exact-year row"
+    },
+    {
+      "provider": "fipe",
+      "id": 121,
+      "sha256": "04638478b39b215fa5a14b9ddbb5f1f82afb947d2ab80c2cc25616373112328c",
+      "purpose": "exact cached September2026 price; fuel mismatch rejected"
+    },
+    {
+      "provider": "carpedia",
+      "id": 35,
+      "sha256": "4c96cdae9b5a47ce49984098745109e391a908d30871685c86f429d2b9a1b0bb",
+      "purpose": "reuse prior v6 response; known dimension conflict preserved"
+    },
+    {
+      "provider": "carpedia",
+      "id": 96,
+      "sha256": "bd33ecf7ac50178959bb53f44dcfb034cd36127df7ebc3072c7cc9dadddf78a8",
+      "purpose": "reuse prior v6 exact ficha under newly authorized price window"
+    },
+    {
+      "provider": "fipe",
+      "id": 96,
+      "sha256": "c4df4fe3887adb00c0fbeb19cf7de4b25fd96a197e99cf6f608f64bdac2c5b4f",
+      "purpose": "reuse prior v6 exact October2026 price without another HTTP attempt"
+    }
+  ],
+  "discovery_queries": [
+    "site.deividfortuna.github.io fipe tabelaReferencia historico reference API",
+    "site.parallelum.com.br fipe api v1 tabela_referencia",
+    "site.peugeot.com.br 3008 Allure 2020 ficha técnica 1841 2675 airbags",
+    "site.honda.com.br WR-V 2020 EX EXL airbags VSA ficha técnica",
+    "site.media.stellantis.com/br-pt/peugeot 3008 2020 Allure",
+    "site.media.stellantis.com/br-pt/peugeot 3008 2675 1841"
+  ],
+  "remaining_at_continuation": {
+    "carpedia": 13,
+    "fipe": 6,
+    "public_documents": 25,
+    "web_queries": 30
+  },
+  "planned": {
+    "carpedia": 9,
+    "fipe": 6,
+    "public_documents": 2
+  },
+  "fipe_historical_flow": {
+    "v1_documentation": "https://deividfortuna.github.io/fipe/",
+    "v2_documentation": "https://fipe.api.br/docs/api/fipe",
+    "historical_parameter": "reference (v2)",
+    "historical_reference_code_not_guessed": true,
+    "v1_current_prices_used_only_when_no_exact_september_cache": true,
+    "separate_historical_discovery_not_executed": "would consume scarce FIPE budget; documented v2 requires a proven reference code and separate integration, not invented v1 parameter"
+  },
+  "version": "academic-cohort-v6-collection-v1",
+  "admission_count": 10,
+  "global_stop": false,
+  "known_conflicts_preserved": {
+    "35": "dimension conflict",
+    "61": "generation dimensions conflict",
+    "74": "GL17 vs R18 conflict",
+    "121": "FIPE gasoline vs PBEV/technical flex"
+  },
+  "backlog_preserved": true,
+  "candidate_gate_audit": [
+    {
+      "id": 101,
+      "candidate": "KIA Rio EX 2020",
+      "target": {
+        "brand": "KIA",
+        "model_family": "Rio",
+        "target_version": "EX",
+        "model_year": 2020,
+        "gear": "A-6"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 5,
+        "row_number": 22,
+        "row_hash": "b3846a94b2d4c09d0c014075d2adc97de3719dc5f97685e04ea3a2b809b5b16d"
+      },
+      "cached_price": {
+        "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-academic-sources-v1\\295a20cba1a5344e63d45a5e104904057c50511f02587b0d2e34f07a1adc111a.json",
+        "sha256": "295a20cba1a5344e63d45a5e104904057c50511f02587b0d2e34f07a1adc111a",
+        "identity": {
+          "TipoVeiculo": 1,
+          "Valor": "R$ 65.590,00",
+          "Marca": "Kia Motors",
+          "Modelo": "RIO EX 1.6 Flex Aut.",
+          "AnoModelo": 2020,
+          "Combustivel": "Flex",
+          "CodigoFipe": "018094-7",
+          "MesReferencia": "setembro de 2026",
+          "SiglaCombustivel": "F"
+        }
+      },
+      "discovery_options": [],
+      "http_attempts": [
+        {
+          "provider": "carpedia",
+          "id": 101,
+          "url": "https://www.carpedia.com.br/api/v1/ficha/180947/2020",
+          "started_at": "2026-10-05T16:43:15.190800+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "carpedia-101-4.raw",
+          "sha256": "7a71b12d2584268bc9fa7ed15d19a2ade7d8fd9489cc0fc619652b82356b1c39",
+          "byte_length": 3818
+        }
+      ],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "REJECTED_DUPLICATE_FIPE_CODE",
+      "gate_evaluation": "all_required_admission_fields",
+      "blockers": [
+        "DUPLICATE_FROZEN_FIPE_CODE_DIFFERENT_YEAR_NOT_NEW_ADMISSION"
+      ],
+      "evidence_record_id": 101,
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/31/modelos/8990/anos/2020-5",
+          "sha256": "295a20cba1a5344e63d45a5e104904057c50511f02587b0d2e34f07a1adc111a",
+          "cache_file": "295a20cba1a5344e63d45a5e104904057c50511f02587b0d2e34f07a1adc111a.json",
+          "collected_at": "2026-09-07T01:40:55.698976+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/180947/2020",
+          "sha256": "7a71b12d2584268bc9fa7ed15d19a2ade7d8fd9489cc0fc619652b82356b1c39",
+          "cache_file": "carpedia-101-4.raw",
+          "collected_at": "2026-10-05T16:43:15.190800+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      },
+      "profile_evidence_ready": true,
+      "duplicate_of_frozen_id": 45,
+      "duplicate_fipe_code": "018094-7",
+      "source_audit": "All source/three-scenario gates pass individually, but same FIPE already selected in frozen50; distinct year is not a new cohort admission under user uniqueness requirement."
+    },
+    {
+      "id": 102,
+      "candidate": "KIA Rio LX 2020",
+      "target": {
+        "brand": "KIA",
+        "model_family": "Rio",
+        "target_version": "LX",
+        "model_year": 2020,
+        "gear": "A-6"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 5,
+        "row_number": 23,
+        "row_hash": "c545eb6e83364af50d4030b9ed3a5a63336c6c687e83bd4a8f257707b0f891eb"
+      },
+      "cached_price": {
+        "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-academic-sources-v1\\5f1dc52194f700620b3a4f247fb013fe6b7cc9a99c642fa42668e4e80b3c0421.json",
+        "sha256": "5f1dc52194f700620b3a4f247fb013fe6b7cc9a99c642fa42668e4e80b3c0421",
+        "identity": {
+          "TipoVeiculo": 1,
+          "Valor": "R$ 60.996,00",
+          "Marca": "Kia Motors",
+          "Modelo": "RIO LX 1.6 Flex Aut.",
+          "AnoModelo": 2020,
+          "Combustivel": "Flex",
+          "CodigoFipe": "018095-5",
+          "MesReferencia": "setembro de 2026",
+          "SiglaCombustivel": "F"
+        }
+      },
+      "discovery_options": [],
+      "http_attempts": [
+        {
+          "provider": "carpedia",
+          "id": 102,
+          "url": "https://www.carpedia.com.br/api/v1/ficha/180955/2020",
+          "started_at": "2026-10-05T16:43:16.578712+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "carpedia-102-5.raw",
+          "sha256": "0e085f067390e6029f6624eba38dda9f17881df79edf7f5921d0a882a8b22620",
+          "byte_length": 3699
+        }
+      ],
+      "academic_test_ready": true,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "ADMITTED_EXACT",
+      "gate_evaluation": "all_required_admission_fields",
+      "blockers": [],
+      "evidence_record_id": 102,
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/31/modelos/8991/anos/2020-5",
+          "sha256": "5f1dc52194f700620b3a4f247fb013fe6b7cc9a99c642fa42668e4e80b3c0421",
+          "cache_file": "5f1dc52194f700620b3a4f247fb013fe6b7cc9a99c642fa42668e4e80b3c0421.json",
+          "collected_at": "2026-09-07T01:40:56.029166+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/180955/2020",
+          "sha256": "0e085f067390e6029f6624eba38dda9f17881df79edf7f5921d0a882a8b22620",
+          "cache_file": "carpedia-102-5.raw",
+          "collected_at": "2026-10-05T16:43:16.578712+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      }
+    },
+    {
+      "id": 103,
+      "candidate": "CAOA CHERY Arrizo 5 RXT 2021",
+      "target": {
+        "brand": "CAOA CHERY",
+        "model_family": "Arrizo 5",
+        "target_version": "RXT",
+        "model_year": 2021,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2021,
+        "page_number": 5,
+        "row_number": 26,
+        "row_hash": "ef11e7b1b7971325e53e7b0fa6932863b4e1cf362c77041449ed07f9e4f7ce12"
+      },
+      "cached_price": {
+        "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-academic-sources-v1\\b4db764e23e681eea3bf1b619aa1c2c72b9ce5ebbdb523cbfb1e921d69bc8fc8.json",
+        "sha256": "b4db764e23e681eea3bf1b619aa1c2c72b9ce5ebbdb523cbfb1e921d69bc8fc8",
+        "identity": {
+          "TipoVeiculo": 1,
+          "Valor": "R$ 69.898,00",
+          "Marca": "Caoa Chery/Chery",
+          "Modelo": "ARRIZO 5 RXT 1.5 16V Turbo Flex Aut.",
+          "AnoModelo": 2021,
+          "Combustivel": "Flex",
+          "CodigoFipe": "073021-1",
+          "MesReferencia": "setembro de 2026",
+          "SiglaCombustivel": "F"
+        }
+      },
+      "discovery_options": [],
+      "http_attempts": [
+        {
+          "provider": "carpedia",
+          "id": 103,
+          "url": "https://www.carpedia.com.br/api/v1/ficha/730211/2021",
+          "started_at": "2026-10-05T16:43:17.721521+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "carpedia-103-6.raw",
+          "sha256": "cdbe71f48409d9338507c7c780ec5b475e8edb2891b7f7acc06087435c8dcfe0",
+          "byte_length": 3950
+        }
+      ],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "REJECTED_DUPLICATE_FIPE_CODE",
+      "gate_evaluation": "all_required_admission_fields",
+      "blockers": [
+        "DUPLICATE_FROZEN_FIPE_CODE_DIFFERENT_YEAR_NOT_NEW_ADMISSION"
+      ],
+      "evidence_record_id": 103,
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/161/modelos/8514/anos/2021-5",
+          "sha256": "b4db764e23e681eea3bf1b619aa1c2c72b9ce5ebbdb523cbfb1e921d69bc8fc8",
+          "cache_file": "b4db764e23e681eea3bf1b619aa1c2c72b9ce5ebbdb523cbfb1e921d69bc8fc8.json",
+          "collected_at": "2026-09-07T01:40:57.348448+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/730211/2021",
+          "sha256": "cdbe71f48409d9338507c7c780ec5b475e8edb2891b7f7acc06087435c8dcfe0",
+          "cache_file": "carpedia-103-6.raw",
+          "collected_at": "2026-10-05T16:43:17.721521+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2021/@@download/file",
+          "sha256": "3c2350a98cb5182f6d4c165be310f4edf4eb9b3162a92bf089be2a8005e2b6b7",
+          "cache_file": "pbe-veicular-2021.pdf",
+          "collected_at": "2026-09-07T01:03:43.689460+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2021-parsed.json",
+          "sha256": "30a0a1a2fc4db9f8c282d0054e02ed6bdff729c052dedef83f058aa99ae98ebd"
+        }
+      },
+      "profile_evidence_ready": true,
+      "duplicate_of_frozen_id": 52,
+      "duplicate_fipe_code": "073021-1",
+      "source_audit": "All source/three-scenario gates pass individually, but same FIPE already selected in frozen50; distinct year is not a new cohort admission under user uniqueness requirement."
+    },
+    {
+      "id": 104,
+      "candidate": "CAOA CHERY Arrizo 5 RX 2020",
+      "target": {
+        "brand": "CAOA CHERY",
+        "model_family": "Arrizo 5",
+        "target_version": "RX",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 9,
+        "row_number": 14,
+        "row_hash": "8a5f12797966394b903ac7b66e5ca70f80cdc525a8faab51b951bb98d07c67d7"
+      },
+      "cached_price": {
+        "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-academic-sources-v1\\d47ca861f52241c0aa0f1c43669c1fead67c7496744e19d73292a2cc86e2df10.json",
+        "sha256": "d47ca861f52241c0aa0f1c43669c1fead67c7496744e19d73292a2cc86e2df10",
+        "identity": {
+          "TipoVeiculo": 1,
+          "Valor": "R$ 58.250,00",
+          "Marca": "Caoa Chery/Chery",
+          "Modelo": "ARRIZO 5 RX 1.5 16V Turbo Flex Aut.",
+          "AnoModelo": 2020,
+          "Combustivel": "Flex",
+          "CodigoFipe": "073020-3",
+          "MesReferencia": "setembro de 2026",
+          "SiglaCombustivel": "F"
+        }
+      },
+      "discovery_options": [],
+      "http_attempts": [
+        {
+          "provider": "carpedia",
+          "id": 104,
+          "url": "https://www.carpedia.com.br/api/v1/ficha/730203/2020",
+          "started_at": "2026-10-05T16:43:18.846350+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "carpedia-104-7.raw",
+          "sha256": "fd3196d63906390220eeb5a3f25ed6a2405d874c3d5e40b543aef670f1c7de6c",
+          "byte_length": 3513
+        }
+      ],
+      "academic_test_ready": true,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "ADMITTED_EXACT",
+      "gate_evaluation": "all_required_admission_fields",
+      "blockers": [],
+      "evidence_record_id": 104,
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/161/modelos/8513/anos/2020-5",
+          "sha256": "d47ca861f52241c0aa0f1c43669c1fead67c7496744e19d73292a2cc86e2df10",
+          "cache_file": "d47ca861f52241c0aa0f1c43669c1fead67c7496744e19d73292a2cc86e2df10.json",
+          "collected_at": "2026-09-07T01:40:56.684767+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/730203/2020",
+          "sha256": "fd3196d63906390220eeb5a3f25ed6a2405d874c3d5e40b543aef670f1c7de6c",
+          "cache_file": "carpedia-104-7.raw",
+          "collected_at": "2026-10-05T16:43:18.846350+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      }
+    },
+    {
+      "id": 105,
+      "candidate": "CAOA CHERY Arrizo 5 RX 2019",
+      "target": {
+        "brand": "CAOA CHERY",
+        "model_family": "Arrizo 5",
+        "target_version": "RX",
+        "model_year": 2019,
+        "gear": "CVT"
+      },
+      "pbev_locator": null,
+      "cached_price": {
+        "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-academic-sources-v1\\e3d5277f4aed5110ed2b6a8b4f6cb356081432f5670c0d99cffb8632b8514329.json",
+        "sha256": "e3d5277f4aed5110ed2b6a8b4f6cb356081432f5670c0d99cffb8632b8514329",
+        "identity": {
+          "TipoVeiculo": 1,
+          "Valor": "R$ 56.161,00",
+          "Marca": "Caoa Chery/Chery",
+          "Modelo": "ARRIZO 5 RX 1.5 16V Turbo Flex Aut.",
+          "AnoModelo": 2019,
+          "Combustivel": "Flex",
+          "CodigoFipe": "073020-3",
+          "MesReferencia": "setembro de 2026",
+          "SiglaCombustivel": "F"
+        }
+      },
+      "discovery_options": [],
+      "http_attempts": [],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "REJECTED",
+      "gate_evaluation": "required_source_gate_completed",
+      "blockers": [
+        "PBEV_2019_ARRIZO5_RX_CVT_INDIVIDUAL_ROW_NOT_FOUND"
+      ],
+      "source_audit": "All locally cached PBEV2019 rows inspected; no RX individual CVT row. Later-year rows cannot supply MY2019."
+    },
+    {
+      "id": 106,
+      "candidate": "HONDA WR-V EXL 2020",
+      "target": {
+        "brand": "HONDA",
+        "model_family": "WR-V",
+        "target_version": "EXL",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 17,
+        "row_number": 20,
+        "row_hash": "13d7253cffc1156b62175f6afbb00bcf52c1a8a1eebed2f005a8d0316a9ac7bc"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 7900,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "WR-V EXL 1.5 Flexone 16V 5p Aut."
+        }
+      ],
+      "http_attempts": [
+        {
+          "provider": "fipe",
+          "id": 106,
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/7900/anos/2020-5",
+          "started_at": "2026-10-05T16:43:39.248443+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "fipe-106-8.raw",
+          "sha256": "3dece4de8eb413727d6e277b130b4c444aa6cf3298d747c2791a06cffcdd6a65",
+          "byte_length": 219
+        },
+        {
+          "provider": "carpedia",
+          "id": 106,
+          "url": "https://www.carpedia.com.br/api/v1/ficha/140953/2020",
+          "started_at": "2026-10-05T16:43:39.789169+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "carpedia-106-9.raw",
+          "sha256": "60e4a33cea34fcea895e2b5f1ecf0cfa2606b548a2a40a99c173e2f7d3ffd4d1",
+          "byte_length": 3906
+        }
+      ],
+      "academic_test_ready": true,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "ADMITTED_EXACT",
+      "gate_evaluation": "all_required_admission_fields",
+      "blockers": [],
+      "evidence_record_id": 106,
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/7900/anos/2020-5",
+          "sha256": "3dece4de8eb413727d6e277b130b4c444aa6cf3298d747c2791a06cffcdd6a65",
+          "cache_file": "fipe-106-8.raw",
+          "collected_at": "2026-10-05T16:43:39.248443+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/140953/2020",
+          "sha256": "60e4a33cea34fcea895e2b5f1ecf0cfa2606b548a2a40a99c173e2f7d3ffd4d1",
+          "cache_file": "carpedia-106-9.raw",
+          "collected_at": "2026-10-05T16:43:39.789169+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      }
+    },
+    {
+      "id": 107,
+      "candidate": "HONDA Fit DX 2020",
+      "target": {
+        "brand": "HONDA",
+        "model_family": "Fit",
+        "target_version": "DX",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 3,
+        "row_number": 11,
+        "row_hash": "5b26c3a0bc9a945af1aedc8f1de3cecfd678e81ae071a30400f4c17e79aef78a"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 6779,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "Fit DX 1.5 Flexone 16V 5p Aut."
+        },
+        {
+          "model_code": 6780,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "Fit DX 1.5 Flexone 16V 5p Mec."
+        }
+      ],
+      "http_attempts": [
+        {
+          "provider": "fipe",
+          "id": 107,
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/6779/anos/2020-5",
+          "started_at": "2026-10-05T16:43:40.470288+00:00",
+          "http_status": 404,
+          "retry": false,
+          "cache_file": "fipe-107-10.raw",
+          "sha256": "4138123a817fa5688465b9383fac731aea47115e6e3af9c5d1766ff73a540be2",
+          "byte_length": 65
+        }
+      ],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "REJECTED",
+      "gate_evaluation": "required_source_gate_completed",
+      "blockers": [
+        "EXACT_FIPE_CODE_YEAR_PRICE_HTTP404_NO_CACHED_PRICE"
+      ],
+      "source_audit": "Exact cached model code/year route returned HTTP404; no retry or alternative trim/year substituted."
+    },
+    {
+      "id": 108,
+      "candidate": "HONDA Fit LX 2020",
+      "target": {
+        "brand": "HONDA",
+        "model_family": "Fit",
+        "target_version": "LX",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 3,
+        "row_number": 12,
+        "row_hash": "6fa4a889686b462753b30305d9223ae08b14f392db3cd500edc154412b924821"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 6781,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "Fit LX 1.5 Flexone 16V 5p Aut."
+        },
+        {
+          "model_code": 6782,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "Fit LX 1.5 Flexone 16V 5p Mec."
+        }
+      ],
+      "http_attempts": [
+        {
+          "provider": "fipe",
+          "id": 108,
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/6781/anos/2020-5",
+          "started_at": "2026-10-05T16:43:40.687316+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "fipe-108-11.raw",
+          "sha256": "64366fa68a297926fe0a606efd3cc1d46a4309418988882af2e79dd6aa943520",
+          "byte_length": 217
+        },
+        {
+          "provider": "carpedia",
+          "id": 108,
+          "url": "https://www.carpedia.com.br/api/v1/ficha/140813/2020",
+          "started_at": "2026-10-05T16:43:40.863686+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "carpedia-108-12.raw",
+          "sha256": "7cf84bcd8806a105dad871c509cc6c7708990f3e81bdcc4c8ffe48de5f1bfb36",
+          "byte_length": 3815
+        }
+      ],
+      "academic_test_ready": true,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "ADMITTED_EXACT",
+      "gate_evaluation": "all_required_admission_fields",
+      "blockers": [],
+      "evidence_record_id": 108,
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/6781/anos/2020-5",
+          "sha256": "64366fa68a297926fe0a606efd3cc1d46a4309418988882af2e79dd6aa943520",
+          "cache_file": "fipe-108-11.raw",
+          "collected_at": "2026-10-05T16:43:40.687316+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/140813/2020",
+          "sha256": "7cf84bcd8806a105dad871c509cc6c7708990f3e81bdcc4c8ffe48de5f1bfb36",
+          "cache_file": "carpedia-108-12.raw",
+          "collected_at": "2026-10-05T16:43:40.863686+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      }
+    },
+    {
+      "id": 109,
+      "candidate": "HONDA City EX 2020",
+      "target": {
+        "brand": "HONDA",
+        "model_family": "City",
+        "target_version": "EX",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 5,
+        "row_number": 28,
+        "row_hash": "c336c67f8b14a33680965b34b75d680aad5dfb550a05de94d41990379979c4a9"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 4971,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "CITY Sedan EX 1.5 Flex 16V 4p Aut."
+        },
+        {
+          "model_code": 4972,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "CITY Sedan EX 1.5 Flex 16V 4p Mec."
+        }
+      ],
+      "http_attempts": [
+        {
+          "provider": "fipe",
+          "id": 109,
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/4971/anos/2020-5",
+          "started_at": "2026-10-05T16:43:41.441171+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "fipe-109-13.raw",
+          "sha256": "f36a55f9082a8bd19f1ba2294ea046dedcae9d388a398cb31dd0a4e4f1d32ec4",
+          "byte_length": 221
+        },
+        {
+          "provider": "carpedia",
+          "id": 109,
+          "url": "https://www.carpedia.com.br/api/v1/ficha/140619/2020",
+          "started_at": "2026-10-05T16:43:41.637065+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "carpedia-109-14.raw",
+          "sha256": "63b2ad605f8dff87233aaafd41fa1d9f78ca7628f4d1eccf3a2f7291d3b2d759",
+          "byte_length": 3936
+        }
+      ],
+      "academic_test_ready": true,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "ADMITTED_EXACT",
+      "gate_evaluation": "all_required_admission_fields",
+      "blockers": [],
+      "evidence_record_id": 109,
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/4971/anos/2020-5",
+          "sha256": "f36a55f9082a8bd19f1ba2294ea046dedcae9d388a398cb31dd0a4e4f1d32ec4",
+          "cache_file": "fipe-109-13.raw",
+          "collected_at": "2026-10-05T16:43:41.441171+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/140619/2020",
+          "sha256": "63b2ad605f8dff87233aaafd41fa1d9f78ca7628f4d1eccf3a2f7291d3b2d759",
+          "cache_file": "carpedia-109-14.raw",
+          "collected_at": "2026-10-05T16:43:41.637065+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      }
+    },
+    {
+      "id": 110,
+      "candidate": "HONDA City DX 2020",
+      "target": {
+        "brand": "HONDA",
+        "model_family": "City",
+        "target_version": "DX",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 5,
+        "row_number": 26,
+        "row_hash": "b72ec78a7e1939a636b4854c4941eee8db27650b8c607281199d28dd9dd3645b"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 5372,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "CITY Sedan DX 1.5 Flex 16V Aut."
+        },
+        {
+          "model_code": 5373,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "CITY Sedan DX 1.5 Flex 16V Mec."
+        }
+      ],
+      "http_attempts": [
+        {
+          "provider": "fipe",
+          "id": 110,
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/5372/anos/2020-5",
+          "started_at": "2026-10-05T16:43:42.226921+00:00",
+          "http_status": 404,
+          "retry": false,
+          "cache_file": "fipe-110-15.raw",
+          "sha256": "4138123a817fa5688465b9383fac731aea47115e6e3af9c5d1766ff73a540be2",
+          "byte_length": 65
+        }
+      ],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "REJECTED",
+      "gate_evaluation": "required_source_gate_completed",
+      "blockers": [
+        "EXACT_FIPE_CODE_YEAR_PRICE_HTTP404_NO_CACHED_PRICE"
+      ],
+      "source_audit": "Exact cached model code/year route returned HTTP404; no retry or alternative trim/year substituted."
+    },
+    {
+      "id": 111,
+      "candidate": "HONDA City LX 2020",
+      "target": {
+        "brand": "HONDA",
+        "model_family": "City",
+        "target_version": "LX",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 5,
+        "row_number": 27,
+        "row_hash": "d7d6c76c4005b5cedcb238495d2baafe645b8fe2a6e63cc0a5012a2b1151c325"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 4975,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "CITY Sedan LX 1.5 Flex 16V 4p Aut."
+        },
+        {
+          "model_code": 4976,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "CITY Sedan LX 1.5 Flex 16V 4p Mec."
+        }
+      ],
+      "http_attempts": [
+        {
+          "provider": "fipe",
+          "id": 111,
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/4975/anos/2020-5",
+          "started_at": "2026-10-05T16:43:42.410247+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "fipe-111-16.raw",
+          "sha256": "d2d387ceb2c2d3fbfd28f266da1fdde486872e7bda20d41d80fb8bad987377ea",
+          "byte_length": 221
+        },
+        {
+          "provider": "carpedia",
+          "id": 111,
+          "url": "https://www.carpedia.com.br/api/v1/ficha/140597/2020",
+          "started_at": "2026-10-05T16:43:42.890646+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "carpedia-111-17.raw",
+          "sha256": "be02a0a25263a15d5a803747aef76e3215641eb6398e9596698bbab6c5a100d2",
+          "byte_length": 3704
+        }
+      ],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "REJECTED_DUPLICATE_FIPE_CODE",
+      "gate_evaluation": "all_required_admission_fields",
+      "blockers": [
+        "DUPLICATE_FROZEN_FIPE_CODE_DIFFERENT_YEAR_NOT_NEW_ADMISSION"
+      ],
+      "evidence_record_id": 111,
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/4975/anos/2020-5",
+          "sha256": "d2d387ceb2c2d3fbfd28f266da1fdde486872e7bda20d41d80fb8bad987377ea",
+          "cache_file": "fipe-111-16.raw",
+          "collected_at": "2026-10-05T16:43:42.410247+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/140597/2020",
+          "sha256": "be02a0a25263a15d5a803747aef76e3215641eb6398e9596698bbab6c5a100d2",
+          "cache_file": "carpedia-111-17.raw",
+          "collected_at": "2026-10-05T16:43:42.890646+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      },
+      "profile_evidence_ready": true,
+      "duplicate_of_frozen_id": 14,
+      "duplicate_fipe_code": "014059-7",
+      "source_audit": "All source/three-scenario gates pass individually, but same FIPE already selected in frozen50; distinct year is not a new cohort admission under user uniqueness requirement."
+    },
+    {
+      "id": 112,
+      "candidate": "HONDA City EX 2021",
+      "target": {
+        "brand": "HONDA",
+        "model_family": "City",
+        "target_version": "EX",
+        "model_year": 2021,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2021,
+        "page_number": 3,
+        "row_number": 44,
+        "row_hash": "794bd9bbcd576f9185896e4b41cc56a20611db577424448ba8ee41a81bd74483"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 4971,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "CITY Sedan EX 1.5 Flex 16V 4p Aut."
+        },
+        {
+          "model_code": 4972,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "CITY Sedan EX 1.5 Flex 16V 4p Mec."
+        }
+      ],
+      "http_attempts": [],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "BLOCKED_BEFORE_TECHNICAL_COLLECTION",
+      "gate_evaluation": "required_price_gate_completed",
+      "blockers": [
+        "NO_EXACT_FIPE_CODE_YEAR_PRICE_IN_AUDITED_CACHE_FIPE_BUDGET_ZERO"
+      ],
+      "source_audit": "Bounded exact-code/year scan of existing price caches; cached discovery is not a price snapshot.",
+      "technical_gate": "not evaluated; no unnecessary ficha call without required FIPE price"
+    },
+    {
+      "id": 113,
+      "candidate": "HONDA City EXL 2020",
+      "target": {
+        "brand": "HONDA",
+        "model_family": "City",
+        "target_version": "EXL",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 5,
+        "row_number": 29,
+        "row_hash": "e0da63aaf5316b51c3eea09feea4d5e0f3b6e53c99b5fcdf4a2c639dc4bfca91"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 4973,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "CITY Sedan EXL 1.5 Flex  16V 4p Aut."
+        },
+        {
+          "model_code": 4974,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "CITY Sedan EXL 1.5 Flex 16V 4p Mec."
+        }
+      ],
+      "http_attempts": [],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "BLOCKED_BEFORE_TECHNICAL_COLLECTION",
+      "gate_evaluation": "required_price_gate_completed",
+      "blockers": [
+        "NO_EXACT_FIPE_CODE_YEAR_PRICE_IN_AUDITED_CACHE_FIPE_BUDGET_ZERO"
+      ],
+      "source_audit": "Bounded exact-code/year scan of existing price caches; cached discovery is not a price snapshot.",
+      "technical_gate": "not evaluated; no unnecessary ficha call without required FIPE price"
+    },
+    {
+      "id": 114,
+      "candidate": "HONDA Fit EXL 2020",
+      "target": {
+        "brand": "HONDA",
+        "model_family": "Fit",
+        "target_version": "EXL",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 3,
+        "row_number": 14,
+        "row_hash": "518cb7c9711bb473b1f8031cfdd7990a0653566d9699cbf81b9209045781ceeb"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 4800,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "Fit EXL 1.5 Flex 16V 5p Mec"
+        },
+        {
+          "model_code": 4799,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "Fit EXL 1.5 Flex/Flexone 16V 5p Aut"
+        }
+      ],
+      "http_attempts": [],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "BLOCKED_BEFORE_TECHNICAL_COLLECTION",
+      "gate_evaluation": "required_price_gate_completed",
+      "blockers": [
+        "NO_EXACT_FIPE_CODE_YEAR_PRICE_IN_AUDITED_CACHE_FIPE_BUDGET_ZERO"
+      ],
+      "source_audit": "Bounded exact-code/year scan of existing price caches; cached discovery is not a price snapshot.",
+      "technical_gate": "not evaluated; no unnecessary ficha call without required FIPE price"
+    },
+    {
+      "id": 115,
+      "candidate": "HONDA Fit Personal 2020",
+      "target": {
+        "brand": "HONDA",
+        "model_family": "Fit",
+        "target_version": "Personal",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 3,
+        "row_number": 15,
+        "row_hash": "5c2d164a809f5d38dedc8c538327418aa5c52febe3b4ca8e9d2f18d9840f3576"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 8050,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+          "name": "Fit Personal 1.5 Flexone 16V 5p Aut."
+        }
+      ],
+      "http_attempts": [],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "BLOCKED_BEFORE_TECHNICAL_COLLECTION",
+      "gate_evaluation": "required_price_gate_completed",
+      "blockers": [
+        "NO_EXACT_FIPE_CODE_YEAR_PRICE_IN_AUDITED_CACHE_FIPE_BUDGET_ZERO"
+      ],
+      "source_audit": "Bounded exact-code/year scan of existing price caches; cached discovery is not a price snapshot.",
+      "technical_gate": "not evaluated; no unnecessary ficha call without required FIPE price"
+    },
+    {
+      "id": 116,
+      "candidate": "RENAULT Captur Zen 2020",
+      "target": {
+        "brand": "RENAULT",
+        "model_family": "Captur",
+        "target_version": "Zen",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 19,
+        "row_number": 19,
+        "row_hash": "9bb9c6dbba4e0fdfba6f98707d5dd037dba9d96de905c60b1e21edbc5a742e33"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 9547,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5.json",
+          "sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+          "name": "CAPTUR Zen 1.3 TB 16V Flex 5p Aut."
+        },
+        {
+          "model_code": 7991,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5.json",
+          "sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+          "name": "CAPTUR Zen 1.6 16V Flex 5p Aut."
+        },
+        {
+          "model_code": 7891,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5.json",
+          "sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+          "name": "CAPTUR Zen 1.6 16V Flex 5p Mec."
+        }
+      ],
+      "http_attempts": [],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "REJECTED_DUPLICATE_CANONICAL_IDENTITY",
+      "gate_evaluation": "required_source_gate_completed",
+      "blockers": [
+        "CAPTUR_ZEN_CVT2020_ALREADY_SELECTED_ID91_FIPE0252611"
+      ],
+      "source_audit": {
+        "baseline_inventory": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v6-20261005\\baseline-replay.json",
+        "sha256": "9f7524910e9d62c5fd309ea4a3028809081fbb988a1c94280c4e226d2afeabdd",
+        "locator": "$.inventory[id=91]",
+        "fipe_code": "025261-1",
+        "year_code": "2020-5"
+      },
+      "technical_gate": "not repeated",
+      "duplicate_of_frozen_id": 91
+    },
+    {
+      "id": 117,
+      "candidate": "RENAULT Captur Intens 2020",
+      "target": {
+        "brand": "RENAULT",
+        "model_family": "Captur",
+        "target_version": "Intens",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 19,
+        "row_number": 20,
+        "row_hash": "545a3a5969f74ffe9577776ef99f2b5d4ce4afda11a592df9b8dcf38435a8ef8"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 9546,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5.json",
+          "sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+          "name": "CAPTUR Intense 1.3 TB 16V Flex 5p Aut."
+        },
+        {
+          "model_code": 7990,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5.json",
+          "sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+          "name": "CAPTUR Intense 1.6 16V Flex 5p Aut."
+        },
+        {
+          "model_code": 7890,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5.json",
+          "sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+          "name": "CAPTUR Intense 2.0 16V Flex 5p Aut."
+        },
+        {
+          "model_code": 8869,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5.json",
+          "sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+          "name": "CAPTUR Intense Bose 1.6 16V Flex 5p Aut."
+        },
+        {
+          "model_code": 8870,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5.json",
+          "sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+          "name": "CAPTUR Intense Bose 2.0 16V Flex 5p Aut."
+        }
+      ],
+      "http_attempts": [],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "BLOCKED_BEFORE_TECHNICAL_COLLECTION",
+      "gate_evaluation": "required_price_gate_completed",
+      "blockers": [
+        "NO_EXACT_FIPE_CODE_YEAR_PRICE_IN_AUDITED_CACHE_FIPE_BUDGET_ZERO"
+      ],
+      "source_audit": "Bounded exact-code/year scan of existing price caches; cached discovery is not a price snapshot.",
+      "technical_gate": "not evaluated; no unnecessary ficha call without required FIPE price"
+    },
+    {
+      "id": 118,
+      "candidate": "TOYOTA COROLLA GLI 2019",
+      "target": {
+        "brand": "TOYOTA",
+        "model_family": "COROLLA",
+        "target_version": "GLI",
+        "model_year": 2019,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2019,
+        "page_number": 10,
+        "row_number": 22,
+        "row_hash": "7e234ff280478eb190d6f33aec1b3a45c1a2b75112b79eb6fcb62ae8dba5e8dc"
+      },
+      "cached_price": null,
+      "discovery_options": [],
+      "http_attempts": [],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "BLOCKED_BEFORE_TECHNICAL_COLLECTION",
+      "gate_evaluation": "required_price_gate_completed",
+      "blockers": [
+        "NO_EXACT_FIPE_CODE_YEAR_PRICE_IN_AUDITED_CACHE_FIPE_BUDGET_ZERO"
+      ],
+      "source_audit": "Bounded exact-code/year scan of existing price caches; cached discovery is not a price snapshot.",
+      "technical_gate": "not evaluated; no unnecessary ficha call without required FIPE price"
+    },
+    {
+      "id": 119,
+      "candidate": "TOYOTA Corolla XEI 2020",
+      "target": {
+        "brand": "TOYOTA",
+        "model_family": "Corolla",
+        "target_version": "XEI",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 9,
+        "row_number": 32,
+        "row_hash": "231f94095e4d7607dec0d6da1f8b4a4afd7ceb6f83f3e1bf644ac54fffdb3c3a"
+      },
+      "cached_price": null,
+      "discovery_options": [],
+      "http_attempts": [],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "BLOCKED_BEFORE_TECHNICAL_COLLECTION",
+      "gate_evaluation": "required_price_gate_completed",
+      "blockers": [
+        "NO_EXACT_FIPE_CODE_YEAR_PRICE_IN_AUDITED_CACHE_FIPE_BUDGET_ZERO"
+      ],
+      "source_audit": "Bounded exact-code/year scan of existing price caches; cached discovery is not a price snapshot.",
+      "technical_gate": "not evaluated; no unnecessary ficha call without required FIPE price"
+    },
+    {
+      "id": 120,
+      "candidate": "NISSAN New Versa SL 2020",
+      "target": {
+        "brand": "NISSAN",
+        "model_family": "New Versa",
+        "target_version": "SL",
+        "model_year": 2020,
+        "gear": "CVT"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 4,
+        "row_number": 38,
+        "row_hash": "777c41c406be6e70af1519f7de769c2008905ed9aaa791735ee0f55dec1eace1"
+      },
+      "cached_price": null,
+      "discovery_options": [
+        {
+          "model_code": 5709,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8.json",
+          "sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8",
+          "name": "VERSA SL 1.6 16V Flex Fuel 4p Mec."
+        },
+        {
+          "model_code": 7628,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8.json",
+          "sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8",
+          "name": "VERSA SL 1.6 16V FlexStart 4p Aut."
+        },
+        {
+          "model_code": 7629,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8.json",
+          "sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8",
+          "name": "VERSA SL 1.6 16V FlexStart 4p Mec."
+        },
+        {
+          "model_code": 9598,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8.json",
+          "sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8",
+          "name": "VERSA SL Direct 1.6 16V Flex  Aut. "
+        }
+      ],
+      "http_attempts": [],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "BLOCKED_BEFORE_TECHNICAL_COLLECTION",
+      "gate_evaluation": "required_price_gate_completed",
+      "blockers": [
+        "NO_EXACT_FIPE_CODE_YEAR_PRICE_IN_AUDITED_CACHE_FIPE_BUDGET_ZERO"
+      ],
+      "source_audit": "Bounded exact-code/year scan of existing price caches; cached discovery is not a price snapshot.",
+      "technical_gate": "not evaluated; no unnecessary ficha call without required FIPE price"
+    },
+    {
+      "id": 121,
+      "candidate": "CAOA CHERY New QQ Look 2020",
+      "target": {
+        "brand": "CAOA CHERY",
+        "model_family": "New QQ",
+        "target_version": "Look",
+        "model_year": 2020,
+        "gear": "M-5"
+      },
+      "pbev_locator": {
+        "cycle_year": 2020,
+        "page_number": 1,
+        "row_number": 6,
+        "row_hash": "09ba92905799cb372773e5315e364363dcd33d1f31d497cc9bf5adf0b2897c7d"
+      },
+      "cached_price": {
+        "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-academic-sources-v1\\04638478b39b215fa5a14b9ddbb5f1f82afb947d2ab80c2cc25616373112328c.json",
+        "sha256": "04638478b39b215fa5a14b9ddbb5f1f82afb947d2ab80c2cc25616373112328c",
+        "locator": "$",
+        "identity": {
+          "TipoVeiculo": 1,
+          "Valor": "R$ 36.296,00",
+          "Marca": "Caoa Chery/Chery",
+          "Modelo": "QQ 1.0 Look FL 12V/1.0 12V Flex 5p",
+          "AnoModelo": 2020,
+          "Combustivel": "Gasolina",
+          "CodigoFipe": "073011-4",
+          "MesReferencia": "setembro de 2026",
+          "SiglaCombustivel": "G"
+        }
+      },
+      "discovery_options": [],
+      "http_attempts": [
+        {
+          "provider": "carpedia",
+          "id": 121,
+          "url": "https://www.carpedia.com.br/api/v1/ficha/730114/2020",
+          "started_at": "2026-10-05T16:44:57.270690+00:00",
+          "http_status": 200,
+          "retry": false,
+          "cache_file": "carpedia-121-18.raw",
+          "sha256": "49dd3680e34c73025c24d71fd68a7051a5dff0c95bf4e754bdb79dd7c2c88160",
+          "byte_length": 3360
+        }
+      ],
+      "academic_test_ready": false,
+      "operationally_active": false,
+      "recommended": false,
+      "decision": "REJECTED",
+      "gate_evaluation": "required_source_gate_completed",
+      "blockers": [
+        "FIPE_GASOLINA_PBEV_FLEX_TECHNICAL_FLEX_IDENTITY_CONFLICT"
+      ],
+      "source_audit": {
+        "fipe_fuel": "Gasolina",
+        "pbev_fuel": "flex",
+        "technical_fuel": "Flex",
+        "fipe_source": {
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-academic-sources-v1\\04638478b39b215fa5a14b9ddbb5f1f82afb947d2ab80c2cc25616373112328c.json",
+          "sha256": "04638478b39b215fa5a14b9ddbb5f1f82afb947d2ab80c2cc25616373112328c",
+          "locator": "$",
+          "identity": {
+            "TipoVeiculo": 1,
+            "Valor": "R$ 36.296,00",
+            "Marca": "Caoa Chery/Chery",
+            "Modelo": "QQ 1.0 Look FL 12V/1.0 12V Flex 5p",
+            "AnoModelo": 2020,
+            "Combustivel": "Gasolina",
+            "CodigoFipe": "073011-4",
+            "MesReferencia": "setembro de 2026",
+            "SiglaCombustivel": "G"
+          }
+        },
+        "technical_sha256": "49dd3680e34c73025c24d71fd68a7051a5dff0c95bf4e754bdb79dd7c2c88160",
+        "technical_locator": "$.secoes[0].itens[4] (label=Combustível; valor=Flex)"
+      },
+      "safety": "unknown; no equipment inference"
+    },
+    {
+      "id": 35,
+      "candidate": {
+        "id": 35,
+        "candidate_key": "sigra-100-2026-09-06:35",
+        "collection_group": "Cidade",
+        "collection_order": 1,
+        "batch": 1,
+        "brand": "Renault",
+        "model_family": "Kwid",
+        "target_version": "Zen 1.0 manual",
+        "model_year": 2021,
+        "category": "subcompact",
+        "source_row": 2,
+        "status": "selected",
+        "identity_note": "Fixar código FIPE, ano e versão antes de criar o vínculo Gold.",
+        "fipe_family_url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/48/modelos",
+        "pbev_cycle_url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2021/@@download/file"
+      },
+      "decision": "REJECTED",
+      "academic_test_ready": false,
+      "gate_evaluation": "required_source_gate_completed",
+      "blockers": [
+        "OFFICIAL_LENGTH_3679_3680_MM_CONFLICT_PRESERVED"
+      ],
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/48/modelos/8023/anos/2021-5",
+          "sha256": "d91c4823a1afe41759b64e58034cf9dbfc94e659aa3cc23790a4a1ee66e3e301",
+          "cache_file": "d91c4823a1afe41759b64e58034cf9dbfc94e659aa3cc23790a4a1ee66e3e301.json",
+          "collected_at": "2026-09-07T01:02:07.540136+00:00",
+          "document": "fipe exact 35/2021"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/252662/2021",
+          "sha256": "4c96cdae9b5a47ce49984098745109e391a908d30871685c86f429d2b9a1b0bb",
+          "cache_file": "carpedia-35-3.raw",
+          "collected_at": "2026-10-05T15:50:12.967189+00:00",
+          "document": "carpedia exact 35/2021"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2021/@@download/file",
+          "sha256": "3c2350a98cb5182f6d4c165be310f4edf4eb9b3162a92bf089be2a8005e2b6b7",
+          "cache_file": "pbe-veicular-2021.pdf",
+          "collected_at": "2026-09-07T01:03:43.689460+00:00",
+          "document": "pbev exact 35/2021"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2021-parsed.json",
+          "sha256": "30a0a1a2fc4db9f8c282d0054e02ed6bdff729c052dedef83f058aa99ae98ebd"
+        }
+      },
+      "fipe_identity": {
+        "Marca": "Renault",
+        "Combustivel": "Flex",
+        "AnoModelo": 2021,
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "KWID Zen 1.0 Flex 12V 5p Mec.",
+        "Valor": "R$ 38.838,00",
+        "CodigoFipe": "025266-2"
+      },
+      "pbev_locator": {
+        "page": 10,
+        "row": 16
+      },
+      "operationally_active": false,
+      "recommended": false
+    },
+    {
+      "id": 96,
+      "candidate": {
+        "id": 96,
+        "candidate_key": "sigra-100-2026-09-06:96",
+        "collection_group": "SUV/Espaço",
+        "collection_order": 7,
+        "batch": 3,
+        "brand": "Honda",
+        "model_family": "WR-V",
+        "target_version": "EX 1.5 CVT",
+        "model_year": 2020,
+        "category": "compact_suv",
+        "source_row": 63,
+        "status": "selected",
+        "identity_note": "Fixar código FIPE, ano e versão antes de criar o vínculo Gold.",
+        "fipe_family_url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos",
+        "pbev_cycle_url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file"
+      },
+      "decision": "ADMITTED_EXACT",
+      "academic_test_ready": true,
+      "gate_evaluation": "all_required_admission_fields",
+      "blockers": [],
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/7899/anos/2020-5",
+          "sha256": "c4df4fe3887adb00c0fbeb19cf7de4b25fd96a197e99cf6f608f64bdac2c5b4f",
+          "cache_file": "fipe-96-1.raw",
+          "collected_at": "2026-10-05T15:47:49.041703+00:00",
+          "document": "fipe exact 96/2020"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/140945/2020",
+          "sha256": "bd33ecf7ac50178959bb53f44dcfb034cd36127df7ebc3072c7cc9dadddf78a8",
+          "cache_file": "carpedia-96-2.raw",
+          "collected_at": "2026-10-05T15:49:52.930894+00:00",
+          "document": "carpedia exact 96/2020"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact 96/2020"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      },
+      "fipe_identity": {
+        "Marca": "Honda",
+        "Combustivel": "Flex",
+        "AnoModelo": 2020,
+        "MesReferencia": "outubro de 2026",
+        "Modelo": "WR-V EX 1.5 Flexone 16V 5p Aut.",
+        "Valor": "R$ 84.900,00",
+        "CodigoFipe": "014094-5"
+      },
+      "pbev_locator": {
+        "page": 17,
+        "row": 19
+      },
+      "operationally_active": false,
+      "recommended": false
+    },
+    {
+      "id": 61,
+      "decision": "REJECTED",
+      "academic_test_ready": false,
+      "gate_evaluation": "required_source_gate_completed",
+      "blockers": [
+        "CARPEDIA_4365_1837_2613_MM_CROSS_GENERATION_ALLURE2020_UNRESOLVED"
+      ],
+      "preserved_diagnostics": [
+        {
+          "locator": "$.source_receipts.candidates[0]",
+          "record": {
+            "id": 61,
+            "decision": "blocked",
+            "reason": "Generation/body dimensions not reconciled: returned 4365/1837/2613 mm; official second-generation archive does not establish these measurements for exact Allure MY2020. No cross-year repair."
+          }
+        },
+        {
+          "locator": "$.source_receipts.attempts[2]",
+          "record": {
+            "provider": "fipe",
+            "id": 61,
+            "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/44/modelos/5427/anos/2020-1",
+            "started_at": "2026-09-27T04:07:48.110968+00:00",
+            "http_status": 200,
+            "cache_file": "fipe-61-3.raw",
+            "sha256": "0aa4552400df77e9d015203ff418ad8341a41083a64f384abfd62869b33f7813"
+          }
+        },
+        {
+          "locator": "$.source_receipts.attempts[3]",
+          "record": {
+            "provider": "carpedia",
+            "id": 61,
+            "url": "https://www.carpedia.com.br/api/v1/ficha/241750/2020",
+            "started_at": "2026-09-27T04:07:48.487183+00:00",
+            "http_status": 200,
+            "cache_file": "carpedia-61-4.raw",
+            "sha256": "19d17e39372f148533501a02defc19a7be23a7b73832e88e1e6608a0dfd8a57c"
+          }
+        },
+        {
+          "locator": "$.source_receipts.attempts[22]",
+          "record": {
+            "provider": "public_documents",
+            "id": 61,
+            "url": "https://www.media.stellantis.com/br-pt/peugeot/novo-peugeot-3008-2016-a-2025",
+            "started_at": "2026-09-27T04:27:12.680947+00:00",
+            "http_status": 200,
+            "cache_file": "public_documents-61-23.raw",
+            "sha256": "e1c76a72116d30f6ed093e03eab1a49d0106ffea01e0b0311073166e19102d74"
+          }
+        },
+        {
+          "locator": "$.source_receipts.attempts[23]",
+          "record": {
+            "provider": "public_documents",
+            "id": 61,
+            "url": "https://www.media.stellantis.com/br-pt/peugeot/press/novo-suv-peugeot-3008-chega-ao-brasil-e-consolida-momento-historico-da-marca",
+            "started_at": "2026-09-27T04:27:41.628327+00:00",
+            "http_status": 200,
+            "cache_file": "public_documents-61-24.raw",
+            "sha256": "ecc49e0659fd756a11b0e7c6c800ec9b8d56f3776760f055f48a31d7e691a53c"
+          }
+        }
+      ],
+      "diagnostic_report_sha256": "c8e373836cc46b1bbdb678e9108f1ce8b44720054dda79350a468f4d4fb4a85a",
+      "document_attempts": [
+        {
+          "provider": "public_documents",
+          "id": 61,
+          "url": "https://carros.peugeot.com.br/content/dam/peugeot/brazil/b2c/owners/maintain-your-car/manuais/3008/3008_20-20_manual_capa_garantiaunificado.pdf",
+          "started_at": "2026-10-05T16:45:58.224977+00:00",
+          "http_status": null,
+          "retry": false,
+          "error_type": "ConnectError"
+        },
+        {
+          "provider": "public_documents",
+          "id": 61,
+          "url": "https://carros.peugeot.com.br/content/dam/peugeot/brazil/b2c/owners/maintain-your-car/manuais/3008/3008_20-20_manual_capa_garantiaunificado.pdf",
+          "started_at": "2026-10-05T16:47:06.894637+00:00",
+          "http_status": null,
+          "retry": true,
+          "error_type": "ConnectError"
+        }
+      ],
+      "operationally_active": false,
+      "recommended": false
+    },
+    {
+      "id": 74,
+      "decision": "REJECTED",
+      "academic_test_ready": false,
+      "gate_evaluation": "required_source_gate_completed",
+      "blockers": [
+        "PBEV_GL_ARO17_VS_TECHNICAL_225_55_R18_CONFIGURATION_CONFLICT"
+      ],
+      "preserved_diagnostics": [
+        {
+          "locator": "$.source_receipts.candidates[5]",
+          "record": {
+            "id": 74,
+            "decision": "blocked",
+            "reason": "PBEV ix35 GL exact row specifies aro17; technical response specifies 225/55 R18. Configuration conflict."
+          }
+        },
+        {
+          "locator": "$.source_receipts.attempts[8]",
+          "record": {
+            "provider": "fipe",
+            "id": 74,
+            "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/26/modelos/7859/anos/2020-5",
+            "started_at": "2026-09-27T04:07:50.812829+00:00",
+            "http_status": 200,
+            "cache_file": "fipe-74-9.raw",
+            "sha256": "771d559ccc88a7563c625df0159bce848582c892fe999bedc7b83cff98d4cf25"
+          }
+        },
+        {
+          "locator": "$.source_receipts.attempts[9]",
+          "record": {
+            "provider": "carpedia",
+            "id": 74,
+            "url": "https://www.carpedia.com.br/api/v1/ficha/151459/2020",
+            "started_at": "2026-09-27T04:07:50.918634+00:00",
+            "http_status": 200,
+            "cache_file": "carpedia-74-10.raw",
+            "sha256": "e7df646a68c7ebac0870c43b58b7ec91e7447919d26050c63ac1cc9990138854"
+          }
+        }
+      ],
+      "diagnostic_report_sha256": "c8e373836cc46b1bbdb678e9108f1ce8b44720054dda79350a468f4d4fb4a85a",
+      "document_attempts": [],
+      "operationally_active": false,
+      "recommended": false
+    },
+    {
+      "id": 122,
+      "candidate": "CITY Sedan Personal 1.5 Flex 16V Aut.",
+      "pbev_row_hash": "3dec837fe5a5b50af56b39751cd7bd28d339e935a2fe9c865f64c1a398eb549f",
+      "pbev_locator": {
+        "page": 5,
+        "row": 30
+      },
+      "decision": "admitted_academic_only",
+      "blockers": [],
+      "fipe_http_status": 200,
+      "fipe_code": "014098-8",
+      "fipe_identity": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 84.167,00",
+        "Marca": "Honda",
+        "Modelo": "CITY Sedan Personal 1.5 Flex 16V Aut.",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "014098-8",
+        "MesReferencia": "outubro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "carpedia_http_status": 200,
+      "focal_candidate_replay": "passed",
+      "idempotence": true,
+      "tco": {
+        "low": "1610.03",
+        "base": "2101.01",
+        "high": "2732.26"
+      },
+      "fields": [
+        "seats",
+        "length_mm",
+        "width_mm",
+        "wheelbase_mm",
+        "payload_kg",
+        "cargo_l"
+      ],
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/8212/anos/2020-5",
+          "sha256": "0a58f42efd5a59840aac04bd1b4022b69d6d6721e62deea87d7f2b97eed955e5",
+          "cache_file": "fipe-122-1.raw",
+          "collected_at": "2026-10-05T18:48:27.523360+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/140988/2020",
+          "sha256": "dc580a060e76dfe1438e2cc1dc5224e4dd3aadc9822d2540bf38121bd6af1781",
+          "cache_file": "carpedia-122-2.raw",
+          "collected_at": "2026-10-05T18:48:28.540608+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      },
+      "gate_evaluation": "exact_price_then_technical_then_three_scenarios"
+    },
+    {
+      "id": 123,
+      "candidate": "KICKS SV 1.6 16V FlexStar 5p Aut.",
+      "pbev_row_hash": "b2c01ccbe377f8b76a57e6276bee948e83c8550e661aca898ac8fda3bb0d0536",
+      "pbev_locator": {
+        "page": 15,
+        "row": 16
+      },
+      "decision": "admitted_academic_only",
+      "blockers": [],
+      "fipe_http_status": 200,
+      "fipe_code": "023154-1",
+      "fipe_identity": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 81.905,00",
+        "Marca": "Nissan",
+        "Modelo": "KICKS SV 1.6 16V FlexStar 5p Aut.",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "023154-1",
+        "MesReferencia": "outubro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "carpedia_http_status": 200,
+      "focal_candidate_replay": "passed",
+      "idempotence": true,
+      "tco": {
+        "low": "1618.39",
+        "base": "2096.17",
+        "high": "2710.45"
+      },
+      "fields": [
+        "seats",
+        "length_mm",
+        "width_mm",
+        "wheelbase_mm",
+        "payload_kg",
+        "cargo_l"
+      ],
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos/7983/anos/2020-5",
+          "sha256": "85b984788eb5b89ff98090997792ee22ac12e62912fdc4d668cab9630e9642b0",
+          "cache_file": "fipe-123-3.raw",
+          "collected_at": "2026-10-05T18:50:29.325645+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/231541/2020",
+          "sha256": "29fec36223d972d2006ccad5c8a98397e40a2d41bdbca63684b4bf5ee73e703f",
+          "cache_file": "carpedia-123-4.raw",
+          "collected_at": "2026-10-05T18:50:29.924211+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      },
+      "gate_evaluation": "exact_price_then_technical_then_three_scenarios"
+    },
+    {
+      "id": 124,
+      "candidate": "KICKS SL 1.6 16V FlexStar 5p Aut.",
+      "pbev_row_hash": "8cfc494385baa02b8d28f38cda5d40e5f89af3256e4c36a239065da44b7a6af5",
+      "pbev_locator": {
+        "page": 15,
+        "row": 17
+      },
+      "decision": "admitted_academic_only",
+      "blockers": [],
+      "fipe_http_status": 200,
+      "fipe_code": "023149-5",
+      "fipe_identity": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 83.475,00",
+        "Marca": "Nissan",
+        "Modelo": "KICKS SL 1.6 16V FlexStar 5p Aut.",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "023149-5",
+        "MesReferencia": "outubro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "carpedia_http_status": 200,
+      "focal_candidate_replay": "passed",
+      "idempotence": true,
+      "tco": {
+        "low": "1639.33",
+        "base": "2126.27",
+        "high": "2752.32"
+      },
+      "fields": [
+        "seats",
+        "length_mm",
+        "width_mm",
+        "wheelbase_mm",
+        "payload_kg",
+        "cargo_l"
+      ],
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos/7670/anos/2020-5",
+          "sha256": "4ad435851476a2443e40a0c06e9a2347e74793e32165d983ebf39a3ae816fa4d",
+          "cache_file": "fipe-124-5.raw",
+          "collected_at": "2026-10-05T18:50:59.182254+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/231495/2020",
+          "sha256": "1ae7c4ed7f2ceb1cf8378f1fd9738ec55caa27e19a33512d539e4e6a318f2b54",
+          "cache_file": "carpedia-124-6.raw",
+          "collected_at": "2026-10-05T18:50:59.587418+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      },
+      "gate_evaluation": "exact_price_then_technical_then_three_scenarios"
+    },
+    {
+      "id": 125,
+      "candidate": "CRONOS PRECISION 1.8 16V Flex Aut.",
+      "pbev_row_hash": "e2d8ed39a68305a58658f4f27c6c4245e0953fbbf93bea0a1be734a76a429c29",
+      "pbev_locator": {
+        "page": 6,
+        "row": 25
+      },
+      "decision": "admitted_academic_only",
+      "blockers": [],
+      "fipe_http_status": 200,
+      "fipe_code": "001502-4",
+      "fipe_identity": {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 66.857,00",
+        "Marca": "Fiat",
+        "Modelo": "CRONOS PRECISION 1.8 16V Flex Aut.",
+        "AnoModelo": 2020,
+        "Combustivel": "Flex",
+        "CodigoFipe": "001502-4",
+        "MesReferencia": "outubro de 2026",
+        "SiglaCombustivel": "F"
+      },
+      "carpedia_http_status": 200,
+      "focal_candidate_replay": "passed",
+      "idempotence": true,
+      "tco": {
+        "low": "1503.67",
+        "base": "1893.67",
+        "high": "2395.09"
+      },
+      "fields": [
+        "seats",
+        "length_mm",
+        "width_mm",
+        "wheelbase_mm",
+        "payload_kg",
+        "cargo_l"
+      ],
+      "sources": {
+        "fipe": {
+          "provider": "fipe",
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos/8202/anos/2020-5",
+          "sha256": "1abf91ced1f76380a205d588bad36f88043c77c532e1805fe85652ff89ec4aaa",
+          "cache_file": "fipe-125-7.raw",
+          "collected_at": "2026-10-05T18:51:25.672522+00:00",
+          "document": "fipe exact code/year snapshot"
+        },
+        "carpedia": {
+          "provider": "carpedia",
+          "url": "https://www.carpedia.com.br/api/v1/ficha/15024/2020",
+          "sha256": "b29dfa9f262aaf6122d91eeaa79f59418eb16a7e3bc8fe01c79973277ee65604",
+          "cache_file": "carpedia-125-8.raw",
+          "collected_at": "2026-10-05T18:51:26.033243+00:00",
+          "document": "carpedia exact code/year snapshot"
+        },
+        "pbev": {
+          "provider": "pbev",
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00",
+          "document": "pbev exact code/year snapshot"
+        },
+        "pbev_parse": {
+          "cache_file": "pbev-2020-parsed.json",
+          "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+        }
+      },
+      "gate_evaluation": "exact_price_then_technical_then_three_scenarios"
+    }
+  ],
+  "new_candidate_queue": [
+    {
+      "id": 101,
+      "brand": "KIA",
+      "model_family": "Rio",
+      "target_version": "EX",
+      "model_year": 2020,
+      "gear": "A-6",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "low: individual trim and mechanical row; ficha must confirm",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 102,
+      "brand": "KIA",
+      "model_family": "Rio",
+      "target_version": "LX",
+      "model_year": 2020,
+      "gear": "A-6",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "low: individual trim and mechanical row; ficha must confirm",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 103,
+      "brand": "CAOA CHERY",
+      "model_family": "Arrizo 5",
+      "target_version": "RXT",
+      "model_year": 2021,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "low: individual trim and mechanical row; ficha must confirm",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 104,
+      "brand": "CAOA CHERY",
+      "model_family": "Arrizo 5",
+      "target_version": "RX",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "low: individual trim and mechanical row; ficha must confirm",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 105,
+      "brand": "CAOA CHERY",
+      "model_family": "Arrizo 5",
+      "target_version": "RX",
+      "model_year": 2019,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "blocked: no individualized local PBEV2019 RX/CVT row",
+      "estimated_admission_chance": "no admission on current cached annual PBEV; not a statistical probability"
+    },
+    {
+      "id": 106,
+      "brand": "HONDA",
+      "model_family": "WR-V",
+      "target_version": "EXL",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "low: individual trim and mechanical row; ficha must confirm",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 107,
+      "brand": "HONDA",
+      "model_family": "Fit",
+      "target_version": "DX",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "multiple FIPE gear variants must select explicit CVT",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 108,
+      "brand": "HONDA",
+      "model_family": "Fit",
+      "target_version": "LX",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "multiple FIPE gear variants must select explicit CVT",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 109,
+      "brand": "HONDA",
+      "model_family": "City",
+      "target_version": "EX",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "multiple FIPE gear variants must select explicit CVT",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 110,
+      "brand": "HONDA",
+      "model_family": "City",
+      "target_version": "DX",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "multiple FIPE gear variants must select explicit CVT",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 111,
+      "brand": "HONDA",
+      "model_family": "City",
+      "target_version": "LX",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "multiple FIPE gear variants must select explicit CVT",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 112,
+      "brand": "HONDA",
+      "model_family": "City",
+      "target_version": "EX",
+      "model_year": 2021,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "multiple FIPE gear variants must select explicit CVT",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 113,
+      "brand": "HONDA",
+      "model_family": "City",
+      "target_version": "EXL",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "multiple FIPE gear variants must select explicit CVT",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 114,
+      "brand": "HONDA",
+      "model_family": "Fit",
+      "target_version": "EXL",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "multiple FIPE gear variants must select explicit CVT",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 115,
+      "brand": "HONDA",
+      "model_family": "Fit",
+      "target_version": "Personal",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "low: individual trim and mechanical row; ficha must confirm",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 116,
+      "brand": "RENAULT",
+      "model_family": "Captur",
+      "target_version": "Zen",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "exact same selected identity as frozenID91; no duplicate admission",
+      "estimated_admission_chance": "excluded by canonical identity; no repeated source call"
+    },
+    {
+      "id": 117,
+      "brand": "RENAULT",
+      "model_family": "Captur",
+      "target_version": "Intens",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "multiple FIPE gear variants must select explicit CVT",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 118,
+      "brand": "TOYOTA",
+      "model_family": "COROLLA",
+      "target_version": "GLI",
+      "model_year": 2019,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "low: individual trim and mechanical row; ficha must confirm",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 119,
+      "brand": "TOYOTA",
+      "model_family": "Corolla",
+      "target_version": "XEI",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "low: individual trim and mechanical row; ficha must confirm",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 120,
+      "brand": "NISSAN",
+      "model_family": "New Versa",
+      "target_version": "SL",
+      "model_year": 2020,
+      "gear": "CVT",
+      "technical_availability": "exact code/year ficha route; not yet collected",
+      "official_document_availability": "existing manufacturer documents to audit; no safety admission yet",
+      "ambiguity_risk": "multiple FIPE gear variants must select explicit CVT",
+      "estimated_admission_chance": "high if exact technical positive seats/width/wheelbase confirmed; not a statistical probability"
+    },
+    {
+      "id": 121,
+      "brand": "CAOA CHERY",
+      "model_family": "New QQ",
+      "target_version": "Look",
+      "model_year": 2020,
+      "gear": "M-5",
+      "technical_availability": "exact code/year ficha collected: CarPedia730114/2020",
+      "official_document_availability": "not used to override incompatible fuel identities",
+      "ambiguity_risk": "FIPE payload Gasolina contradicts PBEV flex and ficha Flex; name does not override payload",
+      "estimated_admission_chance": "rejected after mandatory fuel gate; no inferred replacement"
+    }
+  ],
+  "distinct_candidates_gate_evaluated": 29,
+  "complete_admission_or_definitive_required_gate_decision_ids": [
+    35,
+    61,
+    74,
+    96,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    116,
+    121,
+    122,
+    123,
+    124,
+    125
+  ],
+  "later_gates_not_evaluated_after_required_gate_failure": true,
+  "closure_reason": "Four final admissions source-verified; collection stopped at60. Final offline replay/tests required before completion claim.",
+  "closed": true,
+  "source_complete_individual_candidates": 13,
+  "source_complete_but_duplicate_fipe_not_admitted": [
+    101,
+    103,
+    111
+  ],
+  "selected_fipe_codes_must_be_unique_even_across_years": true,
+  "new_queue_canonical_duplicates": [
+    116
+  ],
+  "new_queue_distinct_unseen_code_year_identities": 20,
+  "final_closure_round": {
+    "round": "v6-final-20261005",
+    "limits": {
+      "fipe": 10,
+      "carpedia": 8,
+      "public_documents": 23,
+      "web_queries": 20
+    },
+    "planned": {
+      "fipe": 8,
+      "carpedia": 8,
+      "public_documents": 0,
+      "web_queries": 0
+    },
+    "attempts": [
+      {
+        "provider": "fipe",
+        "id": 122,
+        "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/8212/anos/2020-5",
+        "started_at": "2026-10-05T18:48:27.523360+00:00",
+        "http_status": 200,
+        "retry": false,
+        "cache_file": "fipe-122-1.raw",
+        "sha256": "0a58f42efd5a59840aac04bd1b4022b69d6d6721e62deea87d7f2b97eed955e5",
+        "byte_length": 224
+      },
+      {
+        "provider": "carpedia",
+        "id": 122,
+        "url": "https://www.carpedia.com.br/api/v1/ficha/140988/2020",
+        "started_at": "2026-10-05T18:48:28.540608+00:00",
+        "http_status": 200,
+        "retry": false,
+        "cache_file": "carpedia-122-2.raw",
+        "sha256": "dc580a060e76dfe1438e2cc1dc5224e4dd3aadc9822d2540bf38121bd6af1781",
+        "byte_length": 3748
+      },
+      {
+        "provider": "fipe",
+        "id": 123,
+        "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos/7983/anos/2020-5",
+        "started_at": "2026-10-05T18:50:29.325645+00:00",
+        "http_status": 200,
+        "retry": false,
+        "cache_file": "fipe-123-3.raw",
+        "sha256": "85b984788eb5b89ff98090997792ee22ac12e62912fdc4d668cab9630e9642b0",
+        "byte_length": 221
+      },
+      {
+        "provider": "carpedia",
+        "id": 123,
+        "url": "https://www.carpedia.com.br/api/v1/ficha/231541/2020",
+        "started_at": "2026-10-05T18:50:29.924211+00:00",
+        "http_status": 200,
+        "retry": false,
+        "cache_file": "carpedia-123-4.raw",
+        "sha256": "29fec36223d972d2006ccad5c8a98397e40a2d41bdbca63684b4bf5ee73e703f",
+        "byte_length": 4326
+      },
+      {
+        "provider": "fipe",
+        "id": 124,
+        "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos/7670/anos/2020-5",
+        "started_at": "2026-10-05T18:50:59.182254+00:00",
+        "http_status": 200,
+        "retry": false,
+        "cache_file": "fipe-124-5.raw",
+        "sha256": "4ad435851476a2443e40a0c06e9a2347e74793e32165d983ebf39a3ae816fa4d",
+        "byte_length": 221
+      },
+      {
+        "provider": "carpedia",
+        "id": 124,
+        "url": "https://www.carpedia.com.br/api/v1/ficha/231495/2020",
+        "started_at": "2026-10-05T18:50:59.587418+00:00",
+        "http_status": 200,
+        "retry": false,
+        "cache_file": "carpedia-124-6.raw",
+        "sha256": "1ae7c4ed7f2ceb1cf8378f1fd9738ec55caa27e19a33512d539e4e6a318f2b54",
+        "byte_length": 4566
+      },
+      {
+        "provider": "fipe",
+        "id": 125,
+        "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos/8202/anos/2020-5",
+        "started_at": "2026-10-05T18:51:25.672522+00:00",
+        "http_status": 200,
+        "retry": false,
+        "cache_file": "fipe-125-7.raw",
+        "sha256": "1abf91ced1f76380a205d588bad36f88043c77c532e1805fe85652ff89ec4aaa",
+        "byte_length": 220
+      },
+      {
+        "provider": "carpedia",
+        "id": 125,
+        "url": "https://www.carpedia.com.br/api/v1/ficha/15024/2020",
+        "started_at": "2026-10-05T18:51:26.033243+00:00",
+        "http_status": 200,
+        "retry": false,
+        "cache_file": "carpedia-125-8.raw",
+        "sha256": "b29dfa9f262aaf6122d91eeaa79f59418eb16a7e3bc8fe01c79973277ee65604",
+        "byte_length": 4137
+      }
+    ],
+    "cache_hits": [
+      {
+        "provider": "fipe_discovery",
+        "id": 122,
+        "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd",
+        "http_attempt": false
+      },
+      {
+        "provider": "fipe_discovery",
+        "id": 123,
+        "sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8",
+        "http_attempt": false
+      },
+      {
+        "provider": "fipe_discovery",
+        "id": 124,
+        "sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8",
+        "http_attempt": false
+      },
+      {
+        "provider": "fipe_discovery",
+        "id": 125,
+        "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+        "http_attempt": false
+      },
+      {
+        "provider": "fipe_discovery",
+        "id": 126,
+        "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+        "http_attempt": false
+      },
+      {
+        "provider": "fipe_discovery",
+        "id": 127,
+        "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+        "http_attempt": false
+      },
+      {
+        "provider": "fipe_discovery",
+        "id": 128,
+        "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+        "http_attempt": false
+      },
+      {
+        "provider": "fipe_discovery",
+        "id": 129,
+        "sha256": "301a1af3b91fe87a0f0612e3196f317bc8c4c165fffb0b419d0a31811ce83e34",
+        "http_attempt": false
+      }
+    ],
+    "stopped": [],
+    "decisions": [
+      {
+        "id": 122,
+        "candidate": "CITY Sedan Personal 1.5 Flex 16V Aut.",
+        "pbev_row_hash": "3dec837fe5a5b50af56b39751cd7bd28d339e935a2fe9c865f64c1a398eb549f",
+        "pbev_locator": {
+          "page": 5,
+          "row": 30
+        },
+        "decision": "admitted_academic_only",
+        "blockers": [],
+        "fipe_http_status": 200,
+        "fipe_code": "014098-8",
+        "fipe_identity": {
+          "TipoVeiculo": 1,
+          "Valor": "R$ 84.167,00",
+          "Marca": "Honda",
+          "Modelo": "CITY Sedan Personal 1.5 Flex 16V Aut.",
+          "AnoModelo": 2020,
+          "Combustivel": "Flex",
+          "CodigoFipe": "014098-8",
+          "MesReferencia": "outubro de 2026",
+          "SiglaCombustivel": "F"
+        },
+        "carpedia_http_status": 200,
+        "focal_candidate_replay": "passed",
+        "idempotence": true,
+        "tco": {
+          "low": "1610.03",
+          "base": "2101.01",
+          "high": "2732.26"
+        },
+        "fields": [
+          "seats",
+          "length_mm",
+          "width_mm",
+          "wheelbase_mm",
+          "payload_kg",
+          "cargo_l"
+        ],
+        "sources": {
+          "fipe": {
+            "provider": "fipe",
+            "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos/8212/anos/2020-5",
+            "sha256": "0a58f42efd5a59840aac04bd1b4022b69d6d6721e62deea87d7f2b97eed955e5",
+            "cache_file": "fipe-122-1.raw",
+            "collected_at": "2026-10-05T18:48:27.523360+00:00",
+            "document": "fipe exact code/year snapshot"
+          },
+          "carpedia": {
+            "provider": "carpedia",
+            "url": "https://www.carpedia.com.br/api/v1/ficha/140988/2020",
+            "sha256": "dc580a060e76dfe1438e2cc1dc5224e4dd3aadc9822d2540bf38121bd6af1781",
+            "cache_file": "carpedia-122-2.raw",
+            "collected_at": "2026-10-05T18:48:28.540608+00:00",
+            "document": "carpedia exact code/year snapshot"
+          },
+          "pbev": {
+            "provider": "pbev",
+            "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+            "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+            "cache_file": "veiculos_leves_2020.pdf",
+            "collected_at": "2026-09-07T01:03:10.213253+00:00",
+            "document": "pbev exact code/year snapshot"
+          },
+          "pbev_parse": {
+            "cache_file": "pbev-2020-parsed.json",
+            "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+          }
+        }
+      },
+      {
+        "id": 123,
+        "candidate": "KICKS SV 1.6 16V FlexStar 5p Aut.",
+        "pbev_row_hash": "b2c01ccbe377f8b76a57e6276bee948e83c8550e661aca898ac8fda3bb0d0536",
+        "pbev_locator": {
+          "page": 15,
+          "row": 16
+        },
+        "decision": "admitted_academic_only",
+        "blockers": [],
+        "fipe_http_status": 200,
+        "fipe_code": "023154-1",
+        "fipe_identity": {
+          "TipoVeiculo": 1,
+          "Valor": "R$ 81.905,00",
+          "Marca": "Nissan",
+          "Modelo": "KICKS SV 1.6 16V FlexStar 5p Aut.",
+          "AnoModelo": 2020,
+          "Combustivel": "Flex",
+          "CodigoFipe": "023154-1",
+          "MesReferencia": "outubro de 2026",
+          "SiglaCombustivel": "F"
+        },
+        "carpedia_http_status": 200,
+        "focal_candidate_replay": "passed",
+        "idempotence": true,
+        "tco": {
+          "low": "1618.39",
+          "base": "2096.17",
+          "high": "2710.45"
+        },
+        "fields": [
+          "seats",
+          "length_mm",
+          "width_mm",
+          "wheelbase_mm",
+          "payload_kg",
+          "cargo_l"
+        ],
+        "sources": {
+          "fipe": {
+            "provider": "fipe",
+            "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos/7983/anos/2020-5",
+            "sha256": "85b984788eb5b89ff98090997792ee22ac12e62912fdc4d668cab9630e9642b0",
+            "cache_file": "fipe-123-3.raw",
+            "collected_at": "2026-10-05T18:50:29.325645+00:00",
+            "document": "fipe exact code/year snapshot"
+          },
+          "carpedia": {
+            "provider": "carpedia",
+            "url": "https://www.carpedia.com.br/api/v1/ficha/231541/2020",
+            "sha256": "29fec36223d972d2006ccad5c8a98397e40a2d41bdbca63684b4bf5ee73e703f",
+            "cache_file": "carpedia-123-4.raw",
+            "collected_at": "2026-10-05T18:50:29.924211+00:00",
+            "document": "carpedia exact code/year snapshot"
+          },
+          "pbev": {
+            "provider": "pbev",
+            "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+            "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+            "cache_file": "veiculos_leves_2020.pdf",
+            "collected_at": "2026-09-07T01:03:10.213253+00:00",
+            "document": "pbev exact code/year snapshot"
+          },
+          "pbev_parse": {
+            "cache_file": "pbev-2020-parsed.json",
+            "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+          }
+        }
+      },
+      {
+        "id": 124,
+        "candidate": "KICKS SL 1.6 16V FlexStar 5p Aut.",
+        "pbev_row_hash": "8cfc494385baa02b8d28f38cda5d40e5f89af3256e4c36a239065da44b7a6af5",
+        "pbev_locator": {
+          "page": 15,
+          "row": 17
+        },
+        "decision": "admitted_academic_only",
+        "blockers": [],
+        "fipe_http_status": 200,
+        "fipe_code": "023149-5",
+        "fipe_identity": {
+          "TipoVeiculo": 1,
+          "Valor": "R$ 83.475,00",
+          "Marca": "Nissan",
+          "Modelo": "KICKS SL 1.6 16V FlexStar 5p Aut.",
+          "AnoModelo": 2020,
+          "Combustivel": "Flex",
+          "CodigoFipe": "023149-5",
+          "MesReferencia": "outubro de 2026",
+          "SiglaCombustivel": "F"
+        },
+        "carpedia_http_status": 200,
+        "focal_candidate_replay": "passed",
+        "idempotence": true,
+        "tco": {
+          "low": "1639.33",
+          "base": "2126.27",
+          "high": "2752.32"
+        },
+        "fields": [
+          "seats",
+          "length_mm",
+          "width_mm",
+          "wheelbase_mm",
+          "payload_kg",
+          "cargo_l"
+        ],
+        "sources": {
+          "fipe": {
+            "provider": "fipe",
+            "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos/7670/anos/2020-5",
+            "sha256": "4ad435851476a2443e40a0c06e9a2347e74793e32165d983ebf39a3ae816fa4d",
+            "cache_file": "fipe-124-5.raw",
+            "collected_at": "2026-10-05T18:50:59.182254+00:00",
+            "document": "fipe exact code/year snapshot"
+          },
+          "carpedia": {
+            "provider": "carpedia",
+            "url": "https://www.carpedia.com.br/api/v1/ficha/231495/2020",
+            "sha256": "1ae7c4ed7f2ceb1cf8378f1fd9738ec55caa27e19a33512d539e4e6a318f2b54",
+            "cache_file": "carpedia-124-6.raw",
+            "collected_at": "2026-10-05T18:50:59.587418+00:00",
+            "document": "carpedia exact code/year snapshot"
+          },
+          "pbev": {
+            "provider": "pbev",
+            "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+            "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+            "cache_file": "veiculos_leves_2020.pdf",
+            "collected_at": "2026-09-07T01:03:10.213253+00:00",
+            "document": "pbev exact code/year snapshot"
+          },
+          "pbev_parse": {
+            "cache_file": "pbev-2020-parsed.json",
+            "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+          }
+        }
+      },
+      {
+        "id": 125,
+        "candidate": "CRONOS PRECISION 1.8 16V Flex Aut.",
+        "pbev_row_hash": "e2d8ed39a68305a58658f4f27c6c4245e0953fbbf93bea0a1be734a76a429c29",
+        "pbev_locator": {
+          "page": 6,
+          "row": 25
+        },
+        "decision": "admitted_academic_only",
+        "blockers": [],
+        "fipe_http_status": 200,
+        "fipe_code": "001502-4",
+        "fipe_identity": {
+          "TipoVeiculo": 1,
+          "Valor": "R$ 66.857,00",
+          "Marca": "Fiat",
+          "Modelo": "CRONOS PRECISION 1.8 16V Flex Aut.",
+          "AnoModelo": 2020,
+          "Combustivel": "Flex",
+          "CodigoFipe": "001502-4",
+          "MesReferencia": "outubro de 2026",
+          "SiglaCombustivel": "F"
+        },
+        "carpedia_http_status": 200,
+        "focal_candidate_replay": "passed",
+        "idempotence": true,
+        "tco": {
+          "low": "1503.67",
+          "base": "1893.67",
+          "high": "2395.09"
+        },
+        "fields": [
+          "seats",
+          "length_mm",
+          "width_mm",
+          "wheelbase_mm",
+          "payload_kg",
+          "cargo_l"
+        ],
+        "sources": {
+          "fipe": {
+            "provider": "fipe",
+            "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos/8202/anos/2020-5",
+            "sha256": "1abf91ced1f76380a205d588bad36f88043c77c532e1805fe85652ff89ec4aaa",
+            "cache_file": "fipe-125-7.raw",
+            "collected_at": "2026-10-05T18:51:25.672522+00:00",
+            "document": "fipe exact code/year snapshot"
+          },
+          "carpedia": {
+            "provider": "carpedia",
+            "url": "https://www.carpedia.com.br/api/v1/ficha/15024/2020",
+            "sha256": "b29dfa9f262aaf6122d91eeaa79f59418eb16a7e3bc8fe01c79973277ee65604",
+            "cache_file": "carpedia-125-8.raw",
+            "collected_at": "2026-10-05T18:51:26.033243+00:00",
+            "document": "carpedia exact code/year snapshot"
+          },
+          "pbev": {
+            "provider": "pbev",
+            "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+            "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+            "cache_file": "veiculos_leves_2020.pdf",
+            "collected_at": "2026-09-07T01:03:10.213253+00:00",
+            "document": "pbev exact code/year snapshot"
+          },
+          "pbev_parse": {
+            "cache_file": "pbev-2020-parsed.json",
+            "sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88"
+          }
+        }
+      }
+    ],
+    "admitted_ids": [
+      122,
+      123,
+      124,
+      125
+    ],
+    "prior_report_sha256": "9cdbb17a7dd2e6cb4b7265cf27bcdfb599f7ee802d943b12a6006a20ad302b6f",
+    "queue": [
+      {
+        "id": 122,
+        "brand": "HONDA",
+        "model_family": "City",
+        "target_version": "Personal",
+        "model_year": 2020,
+        "gear": "CVT",
+        "pbev_row": {
+          "category_name": "MÉDIO",
+          "brand_name": "HONDA",
+          "model_name": "City",
+          "version_name": "Personal",
+          "motor_description": "1.5-16V",
+          "transmission_code": "CVT",
+          "propulsion_type": null,
+          "fuel_type": "flex",
+          "air_conditioning_code": "S",
+          "steering_assistance_code": "E",
+          "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+          "emission_raw": [
+            "0,015",
+            "0,086",
+            "0,016",
+            "A",
+            "0",
+            "101"
+          ],
+          "consumption_raw": [
+            "8,5",
+            "10,3",
+            "12,3",
+            "14,5"
+          ],
+          "nmhc_mg_km": "15.000",
+          "nox_mg_km": "16.000",
+          "nmog_nox_mg_km": null,
+          "co_mg_km": "86.000",
+          "cho_mg_km": null,
+          "co2_ethanol_g_km": "0",
+          "co2_fossil_g_km": "101",
+          "pollutant_reduction_class": "A",
+          "ethanol_city_km_l": "8.5",
+          "ethanol_highway_km_l": "10.3",
+          "fossil_city_km_l": "12.3",
+          "fossil_highway_km_l": "14.5",
+          "electric_city_km_l_equivalent": null,
+          "electric_highway_km_l_equivalent": null,
+          "energy_mj_km": "1.63",
+          "pbe_relative_class": "B",
+          "pbe_absolute_class": "B",
+          "conpet_seal": null
+        },
+        "fipe_model": {
+          "name": "CITY Sedan Personal 1.5 Flex 16V Aut.",
+          "model_code": 8212,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\cohort-v5-20260927\\fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd"
+        },
+        "fipe_discovery_receipt": {
+          "provider": "fipe",
+          "id": 72,
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/25/modelos",
+          "started_at": "2026-09-27T04:11:00.959958+00:00",
+          "http_status": 200,
+          "cache_file": "fipe-72-18.raw",
+          "sha256": "c6f01962101be1f04cc12470ba9a813203122848e7c528a9cf5ba965f7d9cafd"
+        },
+        "fipe_brand_api": 25,
+        "cached_prices": [],
+        "known_fipe_codes": [],
+        "code_verification": "known codes checked against all56; unknown canonical code requires exact FIPE price before any technical call",
+        "technical_plan": "direct canonical FIPE-code/year ficha only after price200 and uniqueness",
+        "probability_basis": "single exact-year PBEV trim/engine/gear/fuel + named FIPE model inventory; technical gates remain unproven",
+        "pbev_row_hash": "3dec837fe5a5b50af56b39751cd7bd28d339e935a2fe9c865f64c1a398eb549f",
+        "pbev_locator": {
+          "page": 5,
+          "row": 30
+        }
+      },
+      {
+        "id": 123,
+        "brand": "NISSAN",
+        "model_family": "Kicks",
+        "target_version": "SV",
+        "model_year": 2020,
+        "gear": "CVT",
+        "pbev_row": {
+          "category_name": "UTILITÁRIO ESPORTIVO COMPACTO",
+          "brand_name": "NISSAN",
+          "model_name": "Kicks",
+          "version_name": "SV",
+          "motor_description": "1.6-16V",
+          "transmission_code": "CVT",
+          "propulsion_type": null,
+          "fuel_type": "flex",
+          "air_conditioning_code": "S",
+          "steering_assistance_code": "E",
+          "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+          "emission_raw": [
+            "0,015",
+            "0,285",
+            "0,013",
+            "A",
+            "0",
+            "109"
+          ],
+          "consumption_raw": [
+            "7,7",
+            "9,4",
+            "11,4",
+            "13,7"
+          ],
+          "nmhc_mg_km": "15.000",
+          "nox_mg_km": "13.000",
+          "nmog_nox_mg_km": null,
+          "co_mg_km": "285.000",
+          "cho_mg_km": null,
+          "co2_ethanol_g_km": "0",
+          "co2_fossil_g_km": "109",
+          "pollutant_reduction_class": "A",
+          "ethanol_city_km_l": "7.7",
+          "ethanol_highway_km_l": "9.4",
+          "fossil_city_km_l": "11.4",
+          "fossil_highway_km_l": "13.7",
+          "electric_city_km_l_equivalent": null,
+          "electric_highway_km_l_equivalent": null,
+          "energy_mj_km": "1.78",
+          "pbe_relative_class": "C",
+          "pbe_absolute_class": "B",
+          "conpet_seal": null
+        },
+        "fipe_model": {
+          "name": "KICKS SV 1.6 16V FlexStar 5p Aut.",
+          "model_code": 7983,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8.json",
+          "sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8"
+        },
+        "fipe_discovery_receipt": {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos",
+          "source": "fipe_family_discovery",
+          "collected_at": "2026-09-07T01:00:08.924861+00:00",
+          "request_count": 1,
+          "http_status": 200,
+          "sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8",
+          "cache_file": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8.json",
+          "count": 200,
+          "status": "cached_family_only"
+        },
+        "fipe_brand_api": 43,
+        "cached_prices": [],
+        "known_fipe_codes": [],
+        "code_verification": "known codes checked against all56; unknown canonical code requires exact FIPE price before any technical call",
+        "technical_plan": "direct canonical FIPE-code/year ficha only after price200 and uniqueness",
+        "probability_basis": "single exact-year PBEV trim/engine/gear/fuel + named FIPE model inventory; technical gates remain unproven",
+        "pbev_row_hash": "b2c01ccbe377f8b76a57e6276bee948e83c8550e661aca898ac8fda3bb0d0536",
+        "pbev_locator": {
+          "page": 15,
+          "row": 16
+        }
+      },
+      {
+        "id": 124,
+        "brand": "NISSAN",
+        "model_family": "Kicks",
+        "target_version": "SL",
+        "model_year": 2020,
+        "gear": "CVT",
+        "pbev_row": {
+          "category_name": "UTILITÁRIO ESPORTIVO COMPACTO",
+          "brand_name": "NISSAN",
+          "model_name": "Kicks",
+          "version_name": "SL",
+          "motor_description": "1.6-16V",
+          "transmission_code": "CVT",
+          "propulsion_type": null,
+          "fuel_type": "flex",
+          "air_conditioning_code": "S",
+          "steering_assistance_code": "E",
+          "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+          "emission_raw": [
+            "0,015",
+            "0,285",
+            "0,013",
+            "A",
+            "0",
+            "109"
+          ],
+          "consumption_raw": [
+            "7,7",
+            "9,4",
+            "11,4",
+            "13,7"
+          ],
+          "nmhc_mg_km": "15.000",
+          "nox_mg_km": "13.000",
+          "nmog_nox_mg_km": null,
+          "co_mg_km": "285.000",
+          "cho_mg_km": null,
+          "co2_ethanol_g_km": "0",
+          "co2_fossil_g_km": "109",
+          "pollutant_reduction_class": "A",
+          "ethanol_city_km_l": "7.7",
+          "ethanol_highway_km_l": "9.4",
+          "fossil_city_km_l": "11.4",
+          "fossil_highway_km_l": "13.7",
+          "electric_city_km_l_equivalent": null,
+          "electric_highway_km_l_equivalent": null,
+          "energy_mj_km": "1.78",
+          "pbe_relative_class": "C",
+          "pbe_absolute_class": "B",
+          "conpet_seal": null
+        },
+        "fipe_model": {
+          "name": "KICKS SL 1.6 16V FlexStar 5p Aut.",
+          "model_code": 7670,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8.json",
+          "sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8"
+        },
+        "fipe_discovery_receipt": {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/43/modelos",
+          "source": "fipe_family_discovery",
+          "collected_at": "2026-09-07T01:00:08.924861+00:00",
+          "request_count": 1,
+          "http_status": 200,
+          "sha256": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8",
+          "cache_file": "535f05b7a266e417ac14b5396bcb6c79716eda3d018e2fe689b06170ccfbbec8.json",
+          "count": 200,
+          "status": "cached_family_only"
+        },
+        "fipe_brand_api": 43,
+        "cached_prices": [],
+        "known_fipe_codes": [],
+        "code_verification": "known codes checked against all56; unknown canonical code requires exact FIPE price before any technical call",
+        "technical_plan": "direct canonical FIPE-code/year ficha only after price200 and uniqueness",
+        "probability_basis": "single exact-year PBEV trim/engine/gear/fuel + named FIPE model inventory; technical gates remain unproven",
+        "pbev_row_hash": "8cfc494385baa02b8d28f38cda5d40e5f89af3256e4c36a239065da44b7a6af5",
+        "pbev_locator": {
+          "page": 15,
+          "row": 17
+        }
+      },
+      {
+        "id": 125,
+        "brand": "FIAT",
+        "model_family": "Cronos",
+        "target_version": "Precision",
+        "model_year": 2020,
+        "gear": "A-6",
+        "pbev_row": {
+          "category_name": "MÉDIO",
+          "brand_name": "FIAT",
+          "model_name": "Cronos",
+          "version_name": "Precision",
+          "motor_description": "1.8-16V",
+          "transmission_code": "A-6",
+          "propulsion_type": null,
+          "fuel_type": "flex",
+          "air_conditioning_code": "S",
+          "steering_assistance_code": "E",
+          "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+          "emission_raw": [
+            "0,015",
+            "0,329",
+            "0,013",
+            "B",
+            "0",
+            "122"
+          ],
+          "consumption_raw": [
+            "6,7",
+            "9,3",
+            "9,8",
+            "13,2"
+          ],
+          "nmhc_mg_km": "15.000",
+          "nox_mg_km": "13.000",
+          "nmog_nox_mg_km": null,
+          "co_mg_km": "329.000",
+          "cho_mg_km": null,
+          "co2_ethanol_g_km": "0",
+          "co2_fossil_g_km": "122",
+          "pollutant_reduction_class": "B",
+          "ethanol_city_km_l": "6.7",
+          "ethanol_highway_km_l": "9.3",
+          "fossil_city_km_l": "9.8",
+          "fossil_highway_km_l": "13.2",
+          "electric_city_km_l_equivalent": null,
+          "electric_highway_km_l_equivalent": null,
+          "energy_mj_km": "1.99",
+          "pbe_relative_class": "D",
+          "pbe_absolute_class": "C",
+          "conpet_seal": null
+        },
+        "fipe_model": {
+          "name": "CRONOS PRECISION 1.8 16V Flex Aut.",
+          "model_code": 8202,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe.json",
+          "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe"
+        },
+        "fipe_discovery_receipt": {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos",
+          "source": "fipe_family_discovery",
+          "collected_at": "2026-09-07T01:00:08.572431+00:00",
+          "request_count": 1,
+          "http_status": 200,
+          "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+          "cache_file": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe.json",
+          "count": 585,
+          "status": "cached_family_only"
+        },
+        "fipe_brand_api": 21,
+        "cached_prices": [],
+        "known_fipe_codes": [],
+        "code_verification": "known codes checked against all56; unknown canonical code requires exact FIPE price before any technical call",
+        "technical_plan": "direct canonical FIPE-code/year ficha only after price200 and uniqueness",
+        "probability_basis": "single exact-year PBEV trim/engine/gear/fuel + named FIPE model inventory; technical gates remain unproven",
+        "pbev_row_hash": "e2d8ed39a68305a58658f4f27c6c4245e0953fbbf93bea0a1be734a76a429c29",
+        "pbev_locator": {
+          "page": 6,
+          "row": 25
+        }
+      },
+      {
+        "id": 126,
+        "brand": "FIAT",
+        "model_family": "Cronos",
+        "target_version": "HGT",
+        "model_year": 2020,
+        "gear": "A-6",
+        "pbev_row": {
+          "category_name": "MÉDIO",
+          "brand_name": "FIAT",
+          "model_name": "Cronos",
+          "version_name": "HGT",
+          "motor_description": "1.8-16V",
+          "transmission_code": "A-6",
+          "propulsion_type": null,
+          "fuel_type": "flex",
+          "air_conditioning_code": "S",
+          "steering_assistance_code": "E",
+          "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+          "emission_raw": [
+            "0,015",
+            "0,329",
+            "0,013",
+            "B",
+            "0",
+            "122"
+          ],
+          "consumption_raw": [
+            "6,7",
+            "9,3",
+            "9,8",
+            "13,2"
+          ],
+          "nmhc_mg_km": "15.000",
+          "nox_mg_km": "13.000",
+          "nmog_nox_mg_km": null,
+          "co_mg_km": "329.000",
+          "cho_mg_km": null,
+          "co2_ethanol_g_km": "0",
+          "co2_fossil_g_km": "122",
+          "pollutant_reduction_class": "B",
+          "ethanol_city_km_l": "6.7",
+          "ethanol_highway_km_l": "9.3",
+          "fossil_city_km_l": "9.8",
+          "fossil_highway_km_l": "13.2",
+          "electric_city_km_l_equivalent": null,
+          "electric_highway_km_l_equivalent": null,
+          "energy_mj_km": "1.99",
+          "pbe_relative_class": "D",
+          "pbe_absolute_class": "C",
+          "conpet_seal": null
+        },
+        "fipe_model": {
+          "name": "CRONOS HGT 1.8 16V Flex Aut.",
+          "model_code": 8778,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe.json",
+          "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe"
+        },
+        "fipe_discovery_receipt": {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos",
+          "source": "fipe_family_discovery",
+          "collected_at": "2026-09-07T01:00:08.572431+00:00",
+          "request_count": 1,
+          "http_status": 200,
+          "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+          "cache_file": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe.json",
+          "count": 585,
+          "status": "cached_family_only"
+        },
+        "fipe_brand_api": 21,
+        "cached_prices": [],
+        "known_fipe_codes": [],
+        "code_verification": "known codes checked against all56; unknown canonical code requires exact FIPE price before any technical call",
+        "technical_plan": "direct canonical FIPE-code/year ficha only after price200 and uniqueness",
+        "probability_basis": "single exact-year PBEV trim/engine/gear/fuel + named FIPE model inventory; technical gates remain unproven",
+        "pbev_row_hash": "1369341f39ddc4609bcda8f8507f94247032af91540b9fdafa2c1689e442b24b",
+        "pbev_locator": {
+          "page": 6,
+          "row": 26
+        }
+      },
+      {
+        "id": 127,
+        "brand": "FIAT",
+        "model_family": "Argo",
+        "target_version": "Precision",
+        "model_year": 2020,
+        "gear": "A-6",
+        "pbev_row": {
+          "category_name": "COMPACTO",
+          "brand_name": "FIAT",
+          "model_name": "Argo",
+          "version_name": "Precision",
+          "motor_description": "1.8-16V",
+          "transmission_code": "A-6",
+          "propulsion_type": null,
+          "fuel_type": "flex",
+          "air_conditioning_code": "S",
+          "steering_assistance_code": "E",
+          "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+          "emission_raw": [
+            "0,014",
+            "0,386",
+            "0,015",
+            "B",
+            "0",
+            "124"
+          ],
+          "consumption_raw": [
+            "6,9",
+            "9,2",
+            "9,7",
+            "12,8"
+          ],
+          "nmhc_mg_km": "14.000",
+          "nox_mg_km": "15.000",
+          "nmog_nox_mg_km": null,
+          "co_mg_km": "386.000",
+          "cho_mg_km": null,
+          "co2_ethanol_g_km": "0",
+          "co2_fossil_g_km": "124",
+          "pollutant_reduction_class": "B",
+          "ethanol_city_km_l": "6.9",
+          "ethanol_highway_km_l": "9.2",
+          "fossil_city_km_l": "9.7",
+          "fossil_highway_km_l": "12.8",
+          "electric_city_km_l_equivalent": null,
+          "electric_highway_km_l_equivalent": null,
+          "energy_mj_km": "1.99",
+          "pbe_relative_class": "E",
+          "pbe_absolute_class": "C",
+          "conpet_seal": null
+        },
+        "fipe_model": {
+          "name": "ARGO PRECISION 1.8 16V Flex Aut.",
+          "model_code": 7971,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe.json",
+          "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe"
+        },
+        "fipe_discovery_receipt": {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos",
+          "source": "fipe_family_discovery",
+          "collected_at": "2026-09-07T01:00:08.572431+00:00",
+          "request_count": 1,
+          "http_status": 200,
+          "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+          "cache_file": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe.json",
+          "count": 585,
+          "status": "cached_family_only"
+        },
+        "fipe_brand_api": 21,
+        "cached_prices": [],
+        "known_fipe_codes": [],
+        "code_verification": "known codes checked against all56; unknown canonical code requires exact FIPE price before any technical call",
+        "technical_plan": "direct canonical FIPE-code/year ficha only after price200 and uniqueness",
+        "probability_basis": "single exact-year PBEV trim/engine/gear/fuel + named FIPE model inventory; technical gates remain unproven",
+        "pbev_row_hash": "56d2456958398e251fc2fa8321719ee1dd540fa4c60f66f09aaa1deace1e1ccb",
+        "pbev_locator": {
+          "page": 3,
+          "row": 35
+        }
+      },
+      {
+        "id": 128,
+        "brand": "FIAT",
+        "model_family": "Argo",
+        "target_version": "HGT",
+        "model_year": 2020,
+        "gear": "A-6",
+        "pbev_row": {
+          "category_name": "COMPACTO",
+          "brand_name": "FIAT",
+          "model_name": "Argo",
+          "version_name": "HGT",
+          "motor_description": "1.8-16V",
+          "transmission_code": "A-6",
+          "propulsion_type": null,
+          "fuel_type": "flex",
+          "air_conditioning_code": "S",
+          "steering_assistance_code": "E",
+          "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+          "emission_raw": [
+            "0,014",
+            "0,386",
+            "0,015",
+            "B",
+            "0",
+            "124"
+          ],
+          "consumption_raw": [
+            "6,9",
+            "9,2",
+            "9,7",
+            "12,8"
+          ],
+          "nmhc_mg_km": "14.000",
+          "nox_mg_km": "15.000",
+          "nmog_nox_mg_km": null,
+          "co_mg_km": "386.000",
+          "cho_mg_km": null,
+          "co2_ethanol_g_km": "0",
+          "co2_fossil_g_km": "124",
+          "pollutant_reduction_class": "B",
+          "ethanol_city_km_l": "6.9",
+          "ethanol_highway_km_l": "9.2",
+          "fossil_city_km_l": "9.7",
+          "fossil_highway_km_l": "12.8",
+          "electric_city_km_l_equivalent": null,
+          "electric_highway_km_l_equivalent": null,
+          "energy_mj_km": "1.99",
+          "pbe_relative_class": "E",
+          "pbe_absolute_class": "C",
+          "conpet_seal": null
+        },
+        "fipe_model": {
+          "name": "ARGO HGT 1.8 16V Flex Aut.",
+          "model_code": 7968,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe.json",
+          "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe"
+        },
+        "fipe_discovery_receipt": {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos",
+          "source": "fipe_family_discovery",
+          "collected_at": "2026-09-07T01:00:08.572431+00:00",
+          "request_count": 1,
+          "http_status": 200,
+          "sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+          "cache_file": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe.json",
+          "count": 585,
+          "status": "cached_family_only"
+        },
+        "fipe_brand_api": 21,
+        "cached_prices": [],
+        "known_fipe_codes": [],
+        "code_verification": "known codes checked against all56; unknown canonical code requires exact FIPE price before any technical call",
+        "technical_plan": "direct canonical FIPE-code/year ficha only after price200 and uniqueness",
+        "probability_basis": "single exact-year PBEV trim/engine/gear/fuel + named FIPE model inventory; technical gates remain unproven",
+        "pbev_row_hash": "c89317f6565a5b44468d60578975572ff01193dd3ec5df282968cd2279c89eb2",
+        "pbev_locator": {
+          "page": 3,
+          "row": 37
+        }
+      },
+      {
+        "id": 129,
+        "brand": "Hyundai",
+        "model_family": "HB20X",
+        "target_version": "Vision",
+        "model_year": 2020,
+        "gear": "A-6",
+        "pbev_row": {
+          "category_name": "UTILITÁRIO ESPORTIVO COMPACTO",
+          "brand_name": "Hyundai",
+          "model_name": "HB20X",
+          "version_name": "Vision",
+          "motor_description": "1.6-16V",
+          "transmission_code": "A-6",
+          "propulsion_type": null,
+          "fuel_type": "flex",
+          "air_conditioning_code": "S",
+          "steering_assistance_code": "E",
+          "emission_schema_version": "pbev-emissions-2017-2021-g-v1",
+          "emission_raw": [
+            "0,014",
+            "0,500",
+            "0,016",
+            "B",
+            "0",
+            "114"
+          ],
+          "consumption_raw": [
+            "7,7",
+            "9,2",
+            "10,9",
+            "12,9"
+          ],
+          "nmhc_mg_km": "14.000",
+          "nox_mg_km": "16.000",
+          "nmog_nox_mg_km": null,
+          "co_mg_km": "500.000",
+          "cho_mg_km": null,
+          "co2_ethanol_g_km": "0",
+          "co2_fossil_g_km": "114",
+          "pollutant_reduction_class": "B",
+          "ethanol_city_km_l": "7.7",
+          "ethanol_highway_km_l": "9.2",
+          "fossil_city_km_l": "10.9",
+          "fossil_highway_km_l": "12.9",
+          "electric_city_km_l_equivalent": null,
+          "electric_highway_km_l_equivalent": null,
+          "energy_mj_km": "1.84",
+          "pbe_relative_class": "C",
+          "pbe_absolute_class": "C",
+          "conpet_seal": null
+        },
+        "fipe_model": {
+          "name": "HB20X Vision 1.6 Flex 16V Aut.",
+          "model_code": 8954,
+          "path": "C:\\Users\\jmrcl\\Documents\\Codex\\2026-08-10\\trabalhe-exclusivamente-no-reposit-rio-atualmente\\.sigra-demo-agent-temp\\catalog-expansion-sources-20260906\\301a1af3b91fe87a0f0612e3196f317bc8c4c165fffb0b419d0a31811ce83e34.json",
+          "sha256": "301a1af3b91fe87a0f0612e3196f317bc8c4c165fffb0b419d0a31811ce83e34"
+        },
+        "fipe_discovery_receipt": {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/26/modelos",
+          "source": "fipe_family_discovery",
+          "collected_at": "2026-09-07T01:00:08.794260+00:00",
+          "request_count": 1,
+          "http_status": 200,
+          "sha256": "301a1af3b91fe87a0f0612e3196f317bc8c4c165fffb0b419d0a31811ce83e34",
+          "cache_file": "301a1af3b91fe87a0f0612e3196f317bc8c4c165fffb0b419d0a31811ce83e34.json",
+          "count": 261,
+          "status": "cached_family_only"
+        },
+        "fipe_brand_api": 26,
+        "cached_prices": [],
+        "known_fipe_codes": [],
+        "code_verification": "known codes checked against all56; unknown canonical code requires exact FIPE price before any technical call",
+        "technical_plan": "direct canonical FIPE-code/year ficha only after price200 and uniqueness",
+        "probability_basis": "single exact-year PBEV trim/engine/gear/fuel + named FIPE model inventory; technical gates remain unproven",
+        "pbev_row_hash": "c65574c53ac30c4dbb871f3e9ed265b493cb431169fc13ccc4b51a229fd9b57e",
+        "pbev_locator": {
+          "page": 20,
+          "row": 14
+        }
+      }
+    ],
+    "initial_selected_ids": [
+      2,
+      3,
+      4,
+      5,
+      8,
+      10,
+      12,
+      14,
+      15,
+      16,
+      20,
+      22,
+      29,
+      30,
+      31,
+      32,
+      34,
+      36,
+      37,
+      38,
+      39,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      49,
+      51,
+      52,
+      54,
+      55,
+      56,
+      58,
+      59,
+      62,
+      65,
+      68,
+      69,
+      70,
+      72,
+      76,
+      77,
+      79,
+      80,
+      88,
+      91,
+      92,
+      93,
+      94,
+      96,
+      102,
+      104,
+      106,
+      108,
+      109
+    ],
+    "initial_selected_state_fingerprints": {
+      "2": "166c6999fcba34c4d42d71c2f5957cc031dd83f7e4397d40d35f58e16c9d3c1b",
+      "3": "a5d3bc13e2965617f71c6a5fe8edfb0045dd54f678c52e068d7da1351e642497",
+      "4": "52a1081ecbda100ad33317a19190d37202e0b3d370c16bb1bb33a5517afd497b",
+      "5": "ef5b42a34a3660e1cabc4266c9e8b4254b94b9bc00e60cd74e4632407ba2060c",
+      "8": "8964fe3c239b07dd94c72cdb7fb47eb5e3082d8875ba18726077ded3ee399698",
+      "10": "2578e4f51772273d48e23ac4285eae3e0231d2cd8059d0b9f5f53c5eb24f2210",
+      "12": "be247d2d82c0fcf6aef143465e278fb0debc155b03d1e84dab39758aec16091a",
+      "14": "3bd4b63866cc46210bb71c82742a1ba408c385a5200a4cf2d5aac9c25e4d8b04",
+      "15": "54a0c54de6461e09ec5b5f5896ca779d2b023d5c62e28bf3be20e000817a6cc2",
+      "16": "b0a213dea5edf7fbd8dd2dd5ca9c877ffd97d39cf44be1f41abae1e8e7c18998",
+      "20": "fe9625b52c22b8f72d394d840da0550ef0f6c4c011800b63cd63df1b41c63723",
+      "22": "8d36e645bf22a60e17567a8d6a8d8761d618d9c1a550cf22ce91283ef24d9a00",
+      "29": "b4994cb0b004b71597c3c9ef2c75c7a18f17aef0b96fbf6e3756655c6a58b441",
+      "30": "a9dc4bdfb9c126dcd2c0a89595e4e620b88123e26daa3c9a61aedaef872580c6",
+      "31": "a16bf01d02c2c6e0d56ed5bd1bff6f0bd81a7501a0c659d1d7932d711a08b8d7",
+      "32": "96bd3294554ff1663e29b2c1b31a2e103f36127b51e42f72bfff891242a19ace",
+      "34": "687ee54e986a1bed21049b0742daec4aa599b3ba36e6c5d562f6d0715cd0f113",
+      "36": "eb9e82899192157fb169c5c57ad7e94221197d3eafa536af89021f643abc16af",
+      "37": "5c731a26463eded4f99a820f371b9a75e7ea1d105622439c104d488256569825",
+      "38": "1e797a71a3f222042f58665620dd317752458483982df9d78177a0bff2c43b96",
+      "39": "398d2fdeb8cabab08c5971ab2a3449c800d7ce14838ac785891fc349d2a449f3",
+      "42": "247382694605cbc090712e34fba782a2951176f52f45a3a636ce2a6f8156a248",
+      "43": "575cb09929c288309acb6018eaba9e4011b3d4edbb8dfd1c079e542a70aa2558",
+      "44": "81f31a3384503f15b11e5b7fa084ccf015a574d8fbd97c5e4bc5106a6f5a1158",
+      "45": "b0e17b021c6f01ae1e5813b143b1da073671dfc7753c8c4060a90576310618ef",
+      "46": "54e688e2942015a74559ff28d21c063172b5f64b1eaeca87b7bfdc2bc30801ac",
+      "47": "857a6565c929402192abcadca9fda3b76084acfebcb94c2fd0e4163dd9f05d75",
+      "49": "17364fd3ce0063b8ca78906f865eda0ccc9b9e2db27a26d24327b144e04e0d51",
+      "51": "29beb4f1afea2ddb30ab5d17754f86520ee7da203f6ab29853767dd7f009a66a",
+      "52": "6e5df49bc58a143c88c382875268a9cbba10521c28e5180b95a51c35505e84af",
+      "54": "7215fbd2ec4616b4857f33b2d5c926db91378c0542c2cf2911be90ec931f0bab",
+      "55": "532ac16b07937c6df3417b2289d24256b26e6ca1b0db40fdd392ed4708e0b985",
+      "56": "acc4f86f1281056bee2dc5cd38ccd639610b7ce310a96c9b71222ef6673f9ca6",
+      "58": "723a85414bbb3e34496dc8034c44d6ea11a5565731ba5b25408192f3453eac38",
+      "59": "014fdc2766a4e5c7e5ebd80a44ab39c03b22410054807ae01e5acdca8c40f909",
+      "62": "c6ce4fe7712087b05a092109827a757ccc1ffb47c4c24e7700a6415be38e4157",
+      "65": "23735fcb85592759a561830ea5a07f1dd671322f65960f69890baa5904b2d350",
+      "68": "c885d6db4390c5bd0e83b67ce5ad6fa04c873469d54e1a4268d2b6cc54f45869",
+      "69": "8ed427dc156bd96b8f5cce48b80a9330c31c537abb1bd34ac3f24b9cf59a851a",
+      "70": "930f921ed3277efaf1a962bce068bdf2b8a4596302e623c132d97c18147297bb",
+      "72": "f005fade972d0627ca2f8d0ecbbc117c455ba0967f5e7c8408a9e11cea5fc912",
+      "76": "ce9e6624ae16e0a020a34270cb7b76d8e74b698e6ffa7e4a4d3e9308ddd7968c",
+      "77": "69a2f6590ce878c0e472eaff68ad50a9f41e3cb09748f86468869e19ec82e278",
+      "79": "36663aa6f4da788de747b69be2ad6a85f94da90c5a098f3528d03c4ee5d9851d",
+      "80": "7fda050eb620407b5f185352eac6081f307289c9527012c71e41b130f2862208",
+      "88": "e7429cc1d317dab6bfbdf3d86128f9dc01c4ff2893e319436b988e7adf65c51e",
+      "91": "87164594ed2886069e76cebad31a40fcac23956338aaf21675b17e5aee912f3e",
+      "92": "dfa8025a3d687f8f7b46978bc267ea05ef9f5763e15378c0484555ab242580d2",
+      "93": "5ec2d7bdb76a728c97ddf9e776e119c3b94fab79e13af0f51c6a5d6dc1c84a9d",
+      "94": "78bff6887b5d2da7439637abde845f417ea60999798a5e9b7e17867d6143eae9",
+      "96": "8a9ff15b6ccf251ce618f144ec13769b918157be5fc9d41512230b5887c2918e",
+      "102": "8e822477c184f899461b146e18d68bca1ff29cf4bf125b27d236ce6eee6fe44d",
+      "104": "d564b969c6137f154445f672f2a65f1d607808167bc1e8e4432ada189521fa34",
+      "106": "f31478ca394feba65b79a013dd781a6851e137cbd42b1e328b65cdde1f944feb",
+      "108": "b274afff175d2d737bbba0d9e5b34e2841e656cac2d8b3c71847713eb21ea1c4",
+      "109": "5257d77dfcc5394409a120e507f380550c806b7ff0bcf46a02d5fab001e82cb8"
+    },
+    "initial_inventory": 77,
+    "initial_ready": 56,
+    "new_admissions": 4,
+    "remaining": {
+      "fipe": 6,
+      "carpedia": 4,
+      "public_documents": 23,
+      "web_queries": 20
+    },
+    "stopped_after_four_admissions": true,
+    "code_before_technical_call_checked": true,
+    "no_safety_research": true
+  }
+}

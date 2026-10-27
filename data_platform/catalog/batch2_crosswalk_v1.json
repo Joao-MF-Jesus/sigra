@@ -1,0 +1,908 @@
+{
+  "method_version": "catalog-identity-crosswalk-v1",
+  "selection_id": "sigra-100-2026-09-06",
+  "batch": 2,
+  "reviews": [
+    {
+      "id": 57,
+      "reviewed_at": "2026-09-14T15:05:24.571744+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled source review",
+      "blocked_reason": "FIPE_SEPTEMBER_2026_EXACT_TARGET_HTTP_404",
+      "evidence": {
+        "pbev_row_hash": "0162e4730d6b2407b4be6e129f97864463ad878cf48d01069b0cf6f4ddc5aa04",
+        "fipe_http_status": 404,
+        "no_carpedia_request": true
+      }
+    },
+    {
+      "id": 58,
+      "reviewed_at": "2026-09-14T15:05:26.083429+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled exact cached evidence review",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2018,
+      "approved_version": "Trendline 1.6 manual",
+      "target_change_reason": "",
+      "commercial_description": "SPACEFOX 1.6 Trendline Total Flex 8v 5p",
+      "pbev_family": "Spacefox",
+      "fipe": {
+        "AnoModelo": 2018,
+        "CodigoFipe": "005441-0",
+        "Combustivel": "Flex",
+        "Marca": "VW - VolksWagen",
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "SPACEFOX 1.6 Trendline Total Flex 8v 5p",
+        "SiglaCombustivel": "F",
+        "TipoVeiculo": 1,
+        "Valor": "R$ 50.516,00"
+      },
+      "year_code": "2018-5",
+      "pbev": {
+        "brand_name": "VW",
+        "model_name": "Spacefox",
+        "version_name": "Trendline",
+        "motor_description": "1.6-8V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "11.1",
+        "fossil_highway_km_l": "13.6",
+        "category_name": "Médio",
+        "raw": {
+          "cycle_year": 2018,
+          "page_number": 7,
+          "row_number": 16,
+          "row_hash": "e5ac8bf4118783dc7fb511e819976222686a4d5d18b0d01d2e5ea25ed6832662"
+        }
+      },
+      "powertrain": [
+        "1.6",
+        8,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "VW",
+          "model_name": "Spacefox",
+          "version_name": "Trendline",
+          "motor_description": "1.6-8V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "11.1",
+          "fossil_highway_km_l": "13.6",
+          "category_name": "Médio",
+          "raw": {
+            "cycle_year": 2018,
+            "page_number": 7,
+            "row_number": 16,
+            "row_hash": "e5ac8bf4118783dc7fb511e819976222686a4d5d18b0d01d2e5ea25ed6832662"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/59/modelos/7322/anos/2018-5",
+          "sha256": "3656f6e343b4abe8cb865309cf47d9a9e48bbd913bfc230619e51826487db9de",
+          "cache_file": "raw-response-02.json",
+          "collected_at": "2026-09-14T15:05:26.083429+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+          "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4",
+          "cache_file": "veiculos_leves_2018.pdf",
+          "collected_at": "2026-09-07T01:02:37.462160+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a5d41bda1c51a87be9b7ee936a9e691583709472a03d15d1ac5d45ce5565ca1c",
+      "fipe_family_inventory_sha256": "89559a4c77891431b154bd1e6f173fe91daf86e67fa929aece7a44393ace22be",
+      "shared_group": "Trendline",
+      "shared_trims_as_published": "Trendline",
+      "shared_group_explanation": null,
+      "source_role_notes": "FIPE fixes commercial identity and September 2026 price; PBEV fixes official fuel, transmission and consumption. CarPedia is optional technical enrichment only."
+    },
+    {
+      "id": 59,
+      "reviewed_at": "2026-09-14T15:05:26.145185+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled exact cached evidence review",
+      "link_type": "shared_powertrain_group",
+      "alias_id": null,
+      "approved_year": 2019,
+      "approved_version": "Live 1.6 manual",
+      "target_change_reason": "",
+      "commercial_description": "AIRCROSS Live 1.6 Flex 16V 5p Mec.",
+      "pbev_family": "Aircross",
+      "fipe": {
+        "AnoModelo": 2019,
+        "CodigoFipe": "011180-5",
+        "Combustivel": "Flex",
+        "Marca": "Citroën",
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "AIRCROSS Live 1.6 Flex 16V 5p Mec.",
+        "SiglaCombustivel": "F",
+        "TipoVeiculo": 1,
+        "Valor": "R$ 55.942,00"
+      },
+      "year_code": "2019-5",
+      "pbev": {
+        "brand_name": "Citroën",
+        "model_name": "Aircross",
+        "version_name": "START MT / LIVE MT",
+        "motor_description": "1.6 16v",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "10.9",
+        "fossil_highway_km_l": "12.8",
+        "category_name": "Utilitário Esportivo Compacto",
+        "raw": {
+          "cycle_year": 2019,
+          "page_number": 17,
+          "row_number": 7,
+          "row_hash": "680e2741b8ecb64ab04b8b1b22a37bc9b725a054d0cbe0c31735c8154c210855"
+        }
+      },
+      "powertrain": [
+        "1.6",
+        16,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "Citroën",
+          "model_name": "Aircross",
+          "version_name": "START MT / LIVE MT",
+          "motor_description": "1.6 16v",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "10.9",
+          "fossil_highway_km_l": "12.8",
+          "category_name": "Utilitário Esportivo Compacto",
+          "raw": {
+            "cycle_year": 2019,
+            "page_number": 17,
+            "row_number": 7,
+            "row_hash": "680e2741b8ecb64ab04b8b1b22a37bc9b725a054d0cbe0c31735c8154c210855"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/13/modelos/7962/anos/2019-5",
+          "sha256": "e6bc0abe90ae665cb676ac1a1adab9aa158cafaec396c4e632e036b42797577c",
+          "cache_file": "raw-response-03.json",
+          "collected_at": "2026-09-14T15:05:26.145185+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2019/@@download/file",
+          "sha256": "d2168ac4bdd266a483468390d501565186e36949eff0c37f61fbc419be5d8804",
+          "cache_file": "veiculos_leves_2019.pdf",
+          "collected_at": "2026-09-07T01:02:54.889224+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "acee52912c45b7c4e08df60495cf55b221d234424475a6541761a6969071c951",
+      "fipe_family_inventory_sha256": "5e6fb64e03b8fe8ce4cab8b3010cd4eff82d0c96bd7f175901bd8d5f91f4a317",
+      "shared_group": "START MT / LIVE MT",
+      "shared_trims_as_published": "START MT / LIVE MT",
+      "shared_group_explanation": "PBEV publishes this exact engine/transmission line for the named trim group; no metric is transferred outside that literal published scope.",
+      "source_role_notes": "FIPE fixes commercial identity and September 2026 price; PBEV fixes official fuel, transmission and consumption. CarPedia is optional technical enrichment only."
+    },
+    {
+      "id": 68,
+      "reviewed_at": "2026-09-14T15:05:26.198008+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled exact cached evidence review",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2018,
+      "approved_version": "Essence 1.8 manual",
+      "target_change_reason": "",
+      "commercial_description": "Doblo ESSENCE 1.8 Flex 16V 5p",
+      "pbev_family": "Dobló",
+      "fipe": {
+        "AnoModelo": 2018,
+        "CodigoFipe": "001352-8",
+        "Combustivel": "Flex",
+        "Marca": "Fiat",
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "Doblo ESSENCE 1.8 Flex 16V 5p",
+        "SiglaCombustivel": "F",
+        "TipoVeiculo": 1,
+        "Valor": "R$ 55.217,00"
+      },
+      "year_code": "2018-5",
+      "pbev": {
+        "brand_name": "FIAT",
+        "model_name": "Dobló",
+        "version_name": "Essence",
+        "motor_description": "1.8-16V",
+        "transmission_code": "M-5",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "9.3",
+        "fossil_highway_km_l": "10.2",
+        "category_name": "Médio",
+        "raw": {
+          "cycle_year": 2018,
+          "page_number": 8,
+          "row_number": 16,
+          "row_hash": "6ced9d68a9411b8c8d5c0e6a76b5feff93d9e081dcde8259651ca241aa886ac9"
+        }
+      },
+      "powertrain": [
+        "1.8",
+        16,
+        false,
+        "manual",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "FIAT",
+          "model_name": "Dobló",
+          "version_name": "Essence",
+          "motor_description": "1.8-16V",
+          "transmission_code": "M-5",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "9.3",
+          "fossil_highway_km_l": "10.2",
+          "category_name": "Médio",
+          "raw": {
+            "cycle_year": 2018,
+            "page_number": 8,
+            "row_number": 16,
+            "row_hash": "6ced9d68a9411b8c8d5c0e6a76b5feff93d9e081dcde8259651ca241aa886ac9"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/21/modelos/5536/anos/2018-5",
+          "sha256": "69e0e66d535ea278addf4f0e1f3fe34bade26d4c4470ce47cd58c12dac50f19b",
+          "cache_file": "raw-response-04.json",
+          "collected_at": "2026-09-14T15:05:26.198008+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+          "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4",
+          "cache_file": "veiculos_leves_2018.pdf",
+          "collected_at": "2026-09-07T01:02:37.462160+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a5d41bda1c51a87be9b7ee936a9e691583709472a03d15d1ac5d45ce5565ca1c",
+      "fipe_family_inventory_sha256": "3bad109a2d06c236f7c7956b3efbae55015f3188427da941e0adfb7cca87e6fe",
+      "shared_group": "Essence",
+      "shared_trims_as_published": "Essence",
+      "shared_group_explanation": null,
+      "source_role_notes": "FIPE fixes commercial identity and September 2026 price; PBEV fixes official fuel, transmission and consumption. CarPedia is optional technical enrichment only."
+    },
+    {
+      "id": 69,
+      "reviewed_at": "2026-09-14T15:05:26.243388+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled exact cached evidence review",
+      "link_type": "shared_powertrain_group",
+      "alias_id": null,
+      "approved_year": 2018,
+      "approved_version": "Intensive 1.6 turbo automatico",
+      "target_change_reason": "",
+      "commercial_description": "C4 Picasso Intensive 1.6 Turbo 16V Aut.",
+      "pbev_family": "C4 Picasso",
+      "fipe": {
+        "AnoModelo": 2018,
+        "CodigoFipe": "011160-0",
+        "Combustivel": "Gasolina",
+        "Marca": "Citroën",
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "C4 Picasso Intensive 1.6 Turbo 16V Aut.",
+        "SiglaCombustivel": "G",
+        "TipoVeiculo": 1,
+        "Valor": "R$ 84.584,00"
+      },
+      "year_code": "2018-1",
+      "pbev": {
+        "brand_name": "Citroën",
+        "model_name": "C4 Picasso",
+        "version_name": "Seduction / Intensive",
+        "motor_description": "1.6 THP 16v",
+        "transmission_code": "A-6",
+        "fuel_type": "gasoline",
+        "propulsion_type": null,
+        "fossil_city_km_l": "9.9",
+        "fossil_highway_km_l": "12.2",
+        "category_name": "Grande",
+        "raw": {
+          "cycle_year": 2018,
+          "page_number": 12,
+          "row_number": 22,
+          "row_hash": "8ec7838d1e58cbd1a8e21605ac82eaf0f37320827042fb1d5cfa8127c8a7bd29"
+        }
+      },
+      "powertrain": [
+        "1.6",
+        16,
+        true,
+        "automatic",
+        "gasoline"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "Citroën",
+          "model_name": "C4 Picasso",
+          "version_name": "Seduction / Intensive",
+          "motor_description": "1.6 THP 16v",
+          "transmission_code": "A-6",
+          "fuel_type": "gasoline",
+          "propulsion_type": null,
+          "fossil_city_km_l": "9.9",
+          "fossil_highway_km_l": "12.2",
+          "category_name": "Grande",
+          "raw": {
+            "cycle_year": 2018,
+            "page_number": 12,
+            "row_number": 22,
+            "row_hash": "8ec7838d1e58cbd1a8e21605ac82eaf0f37320827042fb1d5cfa8127c8a7bd29"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/13/modelos/7426/anos/2018-1",
+          "sha256": "38ed75f7281dcfe21faf61727f90f44dde184b83a19c0c9e3a22a8c036b65975",
+          "cache_file": "raw-response-05.json",
+          "collected_at": "2026-09-14T15:05:26.243388+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+          "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4",
+          "cache_file": "veiculos_leves_2018.pdf",
+          "collected_at": "2026-09-07T01:02:37.462160+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a5d41bda1c51a87be9b7ee936a9e691583709472a03d15d1ac5d45ce5565ca1c",
+      "fipe_family_inventory_sha256": "5e6fb64e03b8fe8ce4cab8b3010cd4eff82d0c96bd7f175901bd8d5f91f4a317",
+      "shared_group": "Seduction / Intensive",
+      "shared_trims_as_published": "Seduction / Intensive",
+      "shared_group_explanation": "PBEV publishes this exact engine/transmission line for the named trim group; no metric is transferred outside that literal published scope.",
+      "source_role_notes": "FIPE fixes commercial identity and September 2026 price; PBEV fixes official fuel, transmission and consumption. CarPedia is optional technical enrichment only."
+    },
+    {
+      "id": 70,
+      "reviewed_at": "2026-09-14T15:05:26.315809+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled exact cached evidence review",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "Comfortline 1.4 TSI automatico",
+      "target_change_reason": "",
+      "commercial_description": "TIGUAN Allspac Comf 250 TSI 1.4 Flex",
+      "pbev_family": "Tiguan",
+      "fipe": {
+        "AnoModelo": 2020,
+        "CodigoFipe": "005487-9",
+        "Combustivel": "Flex",
+        "Marca": "VW - VolksWagen",
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "TIGUAN Allspac Comf 250 TSI 1.4 Flex",
+        "SiglaCombustivel": "F",
+        "TipoVeiculo": 1,
+        "Valor": "R$ 116.704,00"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "VW",
+        "model_name": "Tiguan",
+        "version_name": "Allspace Comfortline 250 TSI",
+        "motor_description": "1.4-16V",
+        "transmission_code": "DCT-6",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "10.1",
+        "fossil_highway_km_l": "11.7",
+        "category_name": "EXTRA GRANDE",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 14,
+          "row_number": 27,
+          "row_hash": "92c09b3137abe7dc5ffff08b3e3a1d712868e4815b6407c60dc993186a1c98f9"
+        }
+      },
+      "powertrain": [
+        "1.4",
+        16,
+        false,
+        "automatic",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "VW",
+          "model_name": "Tiguan",
+          "version_name": "Allspace Comfortline 250 TSI",
+          "motor_description": "1.4-16V",
+          "transmission_code": "DCT-6",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "10.1",
+          "fossil_highway_km_l": "11.7",
+          "category_name": "EXTRA GRANDE",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 14,
+            "row_number": 27,
+            "row_hash": "92c09b3137abe7dc5ffff08b3e3a1d712868e4815b6407c60dc993186a1c98f9"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/59/modelos/8301/anos/2020-5",
+          "sha256": "1d05ad64a914dec46f14111138b6e1753fca8e6a2e11d1ff17cd57686d176fdf",
+          "cache_file": "raw-response-06.json",
+          "collected_at": "2026-09-14T15:05:26.315809+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "89559a4c77891431b154bd1e6f173fe91daf86e67fa929aece7a44393ace22be",
+      "shared_group": "Allspace Comfortline 250 TSI",
+      "shared_trims_as_published": "Allspace Comfortline 250 TSI",
+      "shared_group_explanation": null,
+      "source_role_notes": "FIPE fixes commercial identity and September 2026 price; PBEV fixes official fuel, transmission and consumption. CarPedia is optional technical enrichment only."
+    },
+    {
+      "id": 79,
+      "reviewed_at": "2026-09-14T15:05:26.370920+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled exact cached evidence review",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "Comfortline 1.4 TSI automatico",
+      "target_change_reason": "",
+      "commercial_description": "JETTA Comfort. 250 TSI 1.4 Flex 16v Aut.",
+      "pbev_family": "Jetta",
+      "fipe": {
+        "AnoModelo": 2020,
+        "CodigoFipe": "005504-2",
+        "Combustivel": "Flex",
+        "Marca": "VW - VolksWagen",
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "JETTA Comfort. 250 TSI 1.4 Flex 16v Aut.",
+        "SiglaCombustivel": "F",
+        "TipoVeiculo": 1,
+        "Valor": "R$ 110.110,00"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "VW",
+        "model_name": "Jetta",
+        "version_name": "Comfortline 250 TSI",
+        "motor_description": "1.4-16V",
+        "transmission_code": "A-6",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "10.9",
+        "fossil_highway_km_l": "14.0",
+        "category_name": "EXTRA GRANDE",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 14,
+          "row_number": 21,
+          "row_hash": "f2f9eed2f080fc0f5d157c32649e3a834f53367df761723dd34aaa73701dcb03"
+        }
+      },
+      "powertrain": [
+        "1.4",
+        16,
+        false,
+        "automatic",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "VW",
+          "model_name": "Jetta",
+          "version_name": "Comfortline 250 TSI",
+          "motor_description": "1.4-16V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "10.9",
+          "fossil_highway_km_l": "14.0",
+          "category_name": "EXTRA GRANDE",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 14,
+            "row_number": 21,
+            "row_hash": "f2f9eed2f080fc0f5d157c32649e3a834f53367df761723dd34aaa73701dcb03"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/59/modelos/8487/anos/2020-5",
+          "sha256": "2fc94f09038f6dd92e078d95c7429f513e6d66e58c39037745b85374851d96f4",
+          "cache_file": "raw-response-07.json",
+          "collected_at": "2026-09-14T15:05:26.370920+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "89559a4c77891431b154bd1e6f173fe91daf86e67fa929aece7a44393ace22be",
+      "shared_group": "Comfortline 250 TSI",
+      "shared_trims_as_published": "Comfortline 250 TSI",
+      "shared_group_explanation": null,
+      "source_role_notes": "FIPE fixes commercial identity and September 2026 price; PBEV fixes official fuel, transmission and consumption. CarPedia is optional technical enrichment only."
+    },
+    {
+      "id": 80,
+      "reviewed_at": "2026-09-14T15:05:26.424911+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled exact cached evidence review",
+      "link_type": "shared_powertrain_group",
+      "alias_id": null,
+      "approved_year": 2018,
+      "approved_version": "SE Plus 2.0 automatico",
+      "target_change_reason": "",
+      "commercial_description": "Focus Fastback SE/SE PLUS 2.0 Flex Aut.",
+      "pbev_family": "Focus Fastback",
+      "fipe": {
+        "AnoModelo": 2018,
+        "CodigoFipe": "003417-7",
+        "Combustivel": "Flex",
+        "Marca": "Ford",
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "Focus Fastback SE/SE PLUS 2.0 Flex Aut.",
+        "SiglaCombustivel": "F",
+        "TipoVeiculo": 1,
+        "Valor": "R$ 57.921,00"
+      },
+      "year_code": "2018-5",
+      "pbev": {
+        "brand_name": "FORD",
+        "model_name": "Focus Fastback",
+        "version_name": "SE / Titanium",
+        "motor_description": "2.0-16V",
+        "transmission_code": "DCT-6",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "9.7",
+        "fossil_highway_km_l": "13.0",
+        "category_name": "Grande",
+        "raw": {
+          "cycle_year": 2018,
+          "page_number": 13,
+          "row_number": 28,
+          "row_hash": "097e5bae5457ce368abf7ea77be2c88aa52a1a9f703cbb7f8d0f1920cb1a3184"
+        }
+      },
+      "powertrain": [
+        "2.0",
+        16,
+        false,
+        "automatic",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "FORD",
+          "model_name": "Focus Fastback",
+          "version_name": "SE / Titanium",
+          "motor_description": "2.0-16V",
+          "transmission_code": "DCT-6",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "9.7",
+          "fossil_highway_km_l": "13.0",
+          "category_name": "Grande",
+          "raw": {
+            "cycle_year": 2018,
+            "page_number": 13,
+            "row_number": 28,
+            "row_hash": "097e5bae5457ce368abf7ea77be2c88aa52a1a9f703cbb7f8d0f1920cb1a3184"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/22/modelos/7284/anos/2018-5",
+          "sha256": "dd2756bca4e9208425214a038a49291454f33fc467f9b9d2294ca628c39ce417",
+          "cache_file": "raw-response-08.json",
+          "collected_at": "2026-09-14T15:05:26.424911+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2018/@@download/file",
+          "sha256": "73b4213fc9821eaf50eeb2142f0eff539a43fae9856e63ccfe2ee72d4fb5d5d4",
+          "cache_file": "veiculos_leves_2018.pdf",
+          "collected_at": "2026-09-07T01:02:37.462160+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a5d41bda1c51a87be9b7ee936a9e691583709472a03d15d1ac5d45ce5565ca1c",
+      "fipe_family_inventory_sha256": "84d80eca26caa1d70ebe1d929d742bd25d26b7ded560314d05f7a4ae5e5c5704",
+      "shared_group": "SE / Titanium",
+      "shared_trims_as_published": "SE / Titanium",
+      "shared_group_explanation": "PBEV publishes this exact engine/transmission line for the named trim group; no metric is transferred outside that literal published scope.",
+      "source_role_notes": "FIPE fixes commercial identity and September 2026 price; PBEV fixes official fuel, transmission and consumption. CarPedia is optional technical enrichment only."
+    },
+    {
+      "id": 91,
+      "reviewed_at": "2026-09-14T15:05:26.509199+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled exact cached evidence review",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "Zen 1.6 CVT",
+      "target_change_reason": "",
+      "commercial_description": "CAPTUR Zen 1.6 16V Flex 5p Aut.",
+      "pbev_family": "Captur",
+      "fipe": {
+        "AnoModelo": 2020,
+        "CodigoFipe": "025261-1",
+        "Combustivel": "Flex",
+        "Marca": "Renault",
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "CAPTUR Zen 1.6 16V Flex 5p Aut.",
+        "SiglaCombustivel": "F",
+        "TipoVeiculo": 1,
+        "Valor": "R$ 72.930,00"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "RENAULT",
+        "model_name": "Captur",
+        "version_name": "Zen",
+        "motor_description": "1.6-16V",
+        "transmission_code": "CVT",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "10.5",
+        "fossil_highway_km_l": "11.7",
+        "category_name": "UTILITÁRIO ESPORTIVO COMPACTO",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 19,
+          "row_number": 19,
+          "row_hash": "9bb9c6dbba4e0fdfba6f98707d5dd037dba9d96de905c60b1e21edbc5a742e33"
+        }
+      },
+      "powertrain": [
+        "1.6",
+        16,
+        false,
+        "cvt",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "RENAULT",
+          "model_name": "Captur",
+          "version_name": "Zen",
+          "motor_description": "1.6-16V",
+          "transmission_code": "CVT",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "10.5",
+          "fossil_highway_km_l": "11.7",
+          "category_name": "UTILITÁRIO ESPORTIVO COMPACTO",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 19,
+            "row_number": 19,
+            "row_hash": "9bb9c6dbba4e0fdfba6f98707d5dd037dba9d96de905c60b1e21edbc5a742e33"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/48/modelos/7991/anos/2020-5",
+          "sha256": "3eb489ae2455b31a6d6d92fcce254c4096d5e8477fce741e6b2bae04ca9afa16",
+          "cache_file": "raw-response-09.json",
+          "collected_at": "2026-09-14T15:05:26.509199+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "fa9e71caa4441dc3fbc5209e4f19de645f66c6bc724da1e81975cf7fa430d4b5",
+      "shared_group": "Zen",
+      "shared_trims_as_published": "Zen",
+      "shared_group_explanation": null,
+      "source_role_notes": "FIPE fixes commercial identity and September 2026 price; PBEV fixes official fuel, transmission and consumption. CarPedia is optional technical enrichment only."
+    },
+    {
+      "id": 92,
+      "reviewed_at": "2026-09-14T15:05:26.549851+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled exact cached evidence review",
+      "link_type": "exact_trim_powertrain",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "Allure 1.6 automatico",
+      "target_change_reason": "",
+      "commercial_description": "2008 Allure 1.6 Flex 16V 5p Aut.",
+      "pbev_family": "2008",
+      "fipe": {
+        "AnoModelo": 2020,
+        "CodigoFipe": "024211-0",
+        "Combustivel": "Flex",
+        "Marca": "Peugeot",
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "2008 Allure 1.6 Flex 16V 5p Aut.",
+        "SiglaCombustivel": "F",
+        "TipoVeiculo": 1,
+        "Valor": "R$ 61.825,00"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "PEUGEOT",
+        "model_name": "2008",
+        "version_name": "Allure",
+        "motor_description": "1.6-16V",
+        "transmission_code": "A-6",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "10.5",
+        "fossil_highway_km_l": "12.8",
+        "category_name": "UTILITÁRIO ESPORTIVO COMPACTO",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 18,
+          "row_number": 9,
+          "row_hash": "4ffa1c5c865cfa3b1c92dbcbe0042082ad687df63a1b1ff379d852586d37d069"
+        }
+      },
+      "powertrain": [
+        "1.6",
+        16,
+        false,
+        "automatic",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "PEUGEOT",
+          "model_name": "2008",
+          "version_name": "Allure",
+          "motor_description": "1.6-16V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "10.5",
+          "fossil_highway_km_l": "12.8",
+          "category_name": "UTILITÁRIO ESPORTIVO COMPACTO",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 18,
+            "row_number": 9,
+            "row_hash": "4ffa1c5c865cfa3b1c92dbcbe0042082ad687df63a1b1ff379d852586d37d069"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/44/modelos/7201/anos/2020-5",
+          "sha256": "c7dfd788563c06cc964a74a88e9faaf1471c7889564985de3a7045c88328880e",
+          "cache_file": "raw-response-10.json",
+          "collected_at": "2026-09-14T15:05:26.549851+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "96ff597705654cfc1dd70b381831d4f72709d782c1dfafe60c9287b32b503c81",
+      "shared_group": "Allure",
+      "shared_trims_as_published": "Allure",
+      "shared_group_explanation": null,
+      "source_role_notes": "FIPE fixes commercial identity and September 2026 price; PBEV fixes official fuel, transmission and consumption. CarPedia is optional technical enrichment only."
+    },
+    {
+      "id": 93,
+      "reviewed_at": "2026-09-14T15:05:26.598221+00:00",
+      "reviewed_by": "SIGRA batch-2 controlled exact cached evidence review",
+      "link_type": "shared_powertrain_group",
+      "alias_id": null,
+      "approved_year": 2020,
+      "approved_version": "Feel 1.6 automatico",
+      "target_change_reason": "",
+      "commercial_description": "C4 CACTUS FEEL 1.6 16V Flex Aut.",
+      "pbev_family": "C4 Cactus",
+      "fipe": {
+        "AnoModelo": 2020,
+        "CodigoFipe": "011198-8",
+        "Combustivel": "Flex",
+        "Marca": "Citroën",
+        "MesReferencia": "setembro de 2026",
+        "Modelo": "C4 CACTUS FEEL 1.6 16V Flex Aut.",
+        "SiglaCombustivel": "F",
+        "TipoVeiculo": 1,
+        "Valor": "R$ 67.229,00"
+      },
+      "year_code": "2020-5",
+      "pbev": {
+        "brand_name": "CITROEN",
+        "model_name": "C4 Cactus",
+        "version_name": null,
+        "motor_description": "1.6-16V",
+        "transmission_code": "A-6",
+        "fuel_type": "flex",
+        "propulsion_type": null,
+        "fossil_city_km_l": "10.4",
+        "fossil_highway_km_l": "13.0",
+        "category_name": "UTILITÁRIO ESPORTIVO COMPACTO",
+        "raw": {
+          "cycle_year": 2020,
+          "page_number": 18,
+          "row_number": 16,
+          "row_hash": "a2b6280049aba7613c5a9e427710fbf449c59a16bca535a255dfa2d309c71d43"
+        }
+      },
+      "powertrain": [
+        "1.6",
+        16,
+        false,
+        "automatic",
+        "flex"
+      ],
+      "applicable_pbev_rows": [
+        {
+          "brand_name": "CITROEN",
+          "model_name": "C4 Cactus",
+          "version_name": null,
+          "motor_description": "1.6-16V",
+          "transmission_code": "A-6",
+          "fuel_type": "flex",
+          "propulsion_type": null,
+          "fossil_city_km_l": "10.4",
+          "fossil_highway_km_l": "13.0",
+          "category_name": "UTILITÁRIO ESPORTIVO COMPACTO",
+          "raw": {
+            "cycle_year": 2020,
+            "page_number": 18,
+            "row_number": 16,
+            "row_hash": "a2b6280049aba7613c5a9e427710fbf449c59a16bca535a255dfa2d309c71d43"
+          }
+        }
+      ],
+      "source_references": [
+        {
+          "url": "https://parallelum.com.br/fipe/api/v1/carros/marcas/13/modelos/8466/anos/2020-5",
+          "sha256": "d094ce927a58299f6c9178a4bbfba10f6dc6f4b7b0096a22aca87548c0f6c837",
+          "cache_file": "raw-response-11.json",
+          "collected_at": "2026-09-14T15:05:26.598221+00:00"
+        },
+        {
+          "url": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/veiculos-leves-2020/@@download/file",
+          "sha256": "b68ec4d79993badc6e89f9b19e99f19695b365e840b33321326beed7f7ed03a7",
+          "cache_file": "veiculos_leves_2020.pdf",
+          "collected_at": "2026-09-07T01:03:10.213253+00:00"
+        }
+      ],
+      "pbev_parse_snapshot_sha256": "a7563ab29a7c600efaa4dea2e7caabd3f5804203de266b0ffad5190a653cce88",
+      "fipe_family_inventory_sha256": "5e6fb64e03b8fe8ce4cab8b3010cd4eff82d0c96bd7f175901bd8d5f91f4a317",
+      "shared_group": "C4 Cactus 1.6-16V A-6",
+      "shared_trims_as_published": null,
+      "shared_group_explanation": "PBEV publishes this exact engine/transmission line for the named trim group; no metric is transferred outside that literal published scope.",
+      "source_role_notes": "FIPE fixes commercial identity and September 2026 price; PBEV fixes official fuel, transmission and consumption. CarPedia is optional technical enrichment only."
+    }
+  ]
+}

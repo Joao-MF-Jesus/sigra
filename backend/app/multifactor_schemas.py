@@ -5,7 +5,7 @@ from datetime import date
 from decimal import Decimal
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.multifactor_recommendation import MULTIFACTOR_COMPONENTS
 from data_platform.integrated_vehicle_cost.simulation_contracts import (
@@ -138,6 +138,20 @@ class MultifactorScenario(MultifactorHttpModel):
 
 class MultifactorRecommendationProfile(MultifactorHttpModel):
     enabled: Literal[True]
-    allow_budget_above_200k: StrictBool = False
+    policy_version: Literal["user-profile-multifactor-v1", "academic-derived-seven-v1"] = "user-profile-multifactor-v1"
+    configuration_id: Literal["academic-derived-base-five-v1", "academic-derived-expanded-seven-v1"] | None = None
     scenario: MultifactorScenario
     weights: MultifactorWeights = Field(default_factory=MultifactorWeights)
+
+    @model_validator(mode="before")
+    @classmethod
+    def explicit_configuration(cls, value):
+        if isinstance(value, dict) and value.get("configuration_id") is not None:
+            from app.academic_cohort.derived_configurations import preset, KEYS
+            if value.get("policy_version") != "academic-derived-seven-v1":
+                raise ValueError("Configuração acadêmica exige a alternativa derivada explícita")
+            selected = preset(value["configuration_id"])
+            if "weights" in value and (not isinstance(value["weights"], dict) or set(value["weights"]) != set(KEYS)):
+                raise ValueError("Envie os sete pesos explícitos, incluindo zeros, ou omita o vetor para aplicar o preset selecionado")
+            return {**value, "weights": value.get("weights", selected["weights"])}
+        return value

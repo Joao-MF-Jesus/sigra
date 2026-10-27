@@ -23,33 +23,42 @@ from data_platform.contracts.carpedia_vehicle_specs import (
 
 _ATTRIBUTE_CODES = {
     "POTENCIA": "power",
+    "POTENCIA MAXIMA MOTOR A COMBUSTAO": "power",
     "TORQUE": "torque",
+    "TORQUE MAXIMO MOTOR A COMBUSTAO": "torque",
     "CILINDRADA": "engine_displacement",
     "MOTOR": "engine",
     "MOTORIZACAO": "engine",
     "COMBUSTIVEL": "fuel_type",
     "TRANSMISSAO": "transmission",
     "CAMBIO": "transmission",
+    "CAMBIO TIPO": "transmission",
     "TRACAO": "drivetrain",
     "CARROCERIA": "body_style",
+    "CARROCERIA CONFIGURACAO": "body_style",
     "PORTAS": "doors",
     "NUMERO DE PORTAS": "doors",
     "LUGARES": "seats",
+    "NUMERO DE LUGARES": "seats",
     "ASSENTOS": "seats",
     "COMPRIMENTO": "length",
     "LARGURA": "width",
     "ALTURA": "height",
     "ENTRE EIXOS": "wheelbase",
+    "DISTANCIA ENTRE EIXOS": "wheelbase",
     "PESO": "curb_weight",
+    "CARGA UTIL": "payload_capacity",
     "PORTA MALAS": "cargo_capacity",
     "CAPACIDADE DO PORTA MALAS": "cargo_capacity",
+    "VOLUME DO PORTA MALAS": "cargo_capacity",
     "CAPACIDADE DO TANQUE": "fuel_tank_capacity",
     "TANQUE": "fuel_tank_capacity",
+    "TANQUE DE COMBUSTIVEL": "fuel_tank_capacity",
     "PNEUS": "tires",
 }
 _NUMERIC_ATTRIBUTES = frozenset({
     "power", "torque", "engine_displacement", "doors", "seats", "length",
-    "width", "height", "wheelbase", "curb_weight", "cargo_capacity",
+    "width", "height", "wheelbase", "curb_weight", "payload_capacity", "cargo_capacity",
     "fuel_tank_capacity", "city_consumption", "highway_consumption", "range_km",
 })
 _UNIT_RULES = {
@@ -92,21 +101,31 @@ def _code_text(value: str) -> str:
     return normalize_text(value).upper()
 
 
-def _attribute_code(section: str, label: str) -> str:
+def _attribute_identity(section: str, label: str) -> tuple[str, str | None]:
     section_code = _code_text(section)
     label_code = _code_text(label)
     if section_code == "CONSUMO":
         if "CIDADE" in label_code or "URBANO" in label_code:
-            return "city_consumption"
+            return "city_consumption", None
         if "ESTRADA" in label_code or "RODOVIARIO" in label_code:
-            return "highway_consumption"
+            return "highway_consumption", None
     if section_code == "AUTONOMIA":
-        return "range_km"
+        return "range_km", None
     known = _ATTRIBUTE_CODES.get(label_code)
     if known:
-        return known
+        return known, None
+    suffix = re.search(r"\(([^()]*)\)\s*$", label)
+    if suffix:
+        base_code = _code_text(label[:suffix.start()])
+        known = _ATTRIBUTE_CODES.get(base_code)
+        if known:
+            return known, suffix.group(1).strip() or None
     slug = "_".join(part for part in (normalize_text(section), normalize_text(label)) if part)
-    return slug[:100] or "unclassified_attribute"
+    return slug[:100] or "unclassified_attribute", None
+
+
+def _attribute_code(section: str, label: str) -> str:
+    return _attribute_identity(section, label)[0]
 
 
 def _source_decimal(value: str) -> tuple[Decimal, int, str | None] | None:
@@ -149,7 +168,7 @@ def _unit_code(value: str | None) -> str | None:
 
 
 def normalize_attribute(attribute: CarpediaAttribute) -> CarpediaAttribute:
-    code = _attribute_code(attribute.source_section, attribute.source_label)
+    code, label_unit = _attribute_identity(attribute.source_section, attribute.source_label)
     if code not in _NUMERIC_ATTRIBUTES:
         return replace(
             attribute,
@@ -170,7 +189,26 @@ def normalize_attribute(attribute: CarpediaAttribute) -> CarpediaAttribute:
             unit_status="unrecognized",
             provenance={**attribute.provenance, "normalizer_version": CARPEDIA_NORMALIZER_VERSION},
         )
-    value, precision, source_unit = parsed
+    value, precision, value_unit = parsed
+    declared_unit = attribute.source_unit or label_unit
+    value_unit_code = _unit_code(value_unit)
+    declared_unit_code = _unit_code(declared_unit)
+    if value_unit and declared_unit and value_unit_code != declared_unit_code:
+        return replace(
+            attribute,
+            attribute_code=code,
+            source_unit=value_unit,
+            normalized_value=None,
+            normalized_unit=None,
+            precision=precision,
+            unit_status="unrecognized",
+            provenance={
+                **attribute.provenance,
+                "normalizer_version": CARPEDIA_NORMALIZER_VERSION,
+                "unit_conflict": {"source_value": value_unit, "source_label": declared_unit},
+            },
+        )
+    source_unit = value_unit or declared_unit
     if code in {"doors", "seats"} and source_unit is None:
         return replace(
             attribute,
@@ -208,6 +246,7 @@ def normalize_attribute(attribute: CarpediaAttribute) -> CarpediaAttribute:
             **attribute.provenance,
             "normalizer_version": CARPEDIA_NORMALIZER_VERSION,
             "conversion_multiplier": str(multiplier),
+            "unit_locator": "source_value" if value_unit else "source_label",
         },
     )
 

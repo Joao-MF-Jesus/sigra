@@ -32,7 +32,7 @@ def _decimal_price(value, field_name: str) -> Decimal:
     try:
         result = Decimal(str(value))
     except (InvalidOperation, TypeError, ValueError) as error:
-        raise HTTPException(status_code=422, detail=f"{field_name} nao possui valor numerico valido") from error
+        raise HTTPException(status_code=422, detail=f"{field_name} não possui valor numérico válido") from error
     if not result.is_finite() or result <= 0:
         raise HTTPException(status_code=422, detail=f"{field_name} deve ser maior que zero")
     return result
@@ -48,7 +48,7 @@ def _resolve_price(payload: DirectFinancingRequest, db: Session) -> dict:
             "price_source": "manual",
             "vehicle": None,
             "is_demonstration_data": False,
-            "warnings": ["Preco informado manualmente pelo usuario."],
+            "warnings": ["Preço informado manualmente pelo usuário."],
         }
 
     if payload.vehicle_type == VehicleType.CAR:
@@ -56,9 +56,9 @@ def _resolve_price(payload: DirectFinancingRequest, db: Session) -> dict:
         if record is None:
             if db.query(models.Motorcycle).filter(models.Motorcycle.id == payload.vehicle_id).first():
                 raise HTTPException(status_code=422, detail="o ID informado pertence a uma motocicleta")
-            raise HTTPException(status_code=404, detail="automovel nao encontrado")
+            raise HTTPException(status_code=404, detail="automóvel não encontrado")
         metadata = price_metadata(record.id)
-        catalog_price = _decimal_price(effective_price(record.id, record.price), "preco do automovel")
+        catalog_price = _decimal_price(effective_price(record.id, record.price), "preço do automóvel")
         vehicle = {
             "id": record.id,
             "vehicle_type": "car",
@@ -69,7 +69,7 @@ def _resolve_price(payload: DirectFinancingRequest, db: Session) -> dict:
         demonstration = not bool(metadata.get("is_fipe"))
         warnings = []
         if demonstration:
-            warnings.append("O preco do catalogo automotivo e uma referencia demonstrativa ou ainda nao sincronizada.")
+            warnings.append("O preço do catálogo automotivo é uma referência demonstrativa ou ainda não sincronizada.")
     else:
         record = (
             db.query(models.Motorcycle)
@@ -82,8 +82,8 @@ def _resolve_price(payload: DirectFinancingRequest, db: Session) -> dict:
         if record is None:
             if get_car(db, payload.vehicle_id) is not None:
                 raise HTTPException(status_code=422, detail="o ID informado pertence a um automovel")
-            raise HTTPException(status_code=404, detail="motocicleta nao encontrada")
-        catalog_price = _decimal_price(record.price, "preco da motocicleta")
+            raise HTTPException(status_code=404, detail="motocicleta não encontrada")
+        catalog_price = _decimal_price(record.price, "preço da motocicleta")
         vehicle = {
             "id": record.id,
             "vehicle_type": "motorcycle",
@@ -94,7 +94,7 @@ def _resolve_price(payload: DirectFinancingRequest, db: Session) -> dict:
         demonstration = record.data_source == "demonstration"
         warnings = []
         if demonstration:
-            warnings.append("O preco da motocicleta pertence a uma base demonstrativa.")
+            warnings.append("O preço da motocicleta pertence a uma base demonstrativa.")
 
     used_price = payload.negotiated_price or catalog_price
     return {

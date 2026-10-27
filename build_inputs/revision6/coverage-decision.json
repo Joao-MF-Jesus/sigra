@@ -1,0 +1,24 @@
+{
+  "schema": "sigra-documentary-coverage-decision-v1",
+  "recorded_at": "2026-10-08T19:05:33.101219+00:00",
+  "source": "Current direct user instruction",
+  "candidate_reference": "SIGRA_Seguranca_V6_Revision6",
+  "candidate_zip_sha256": "6b5bc897167b676f6a19bee4d89536e42b5184413ac69d0d7e449c9f26d7daa7",
+  "original_target": {
+    "familia": 10,
+    "estrada": 10
+  },
+  "achieved": {
+    "familia": 9,
+    "estrada": 9
+  },
+  "original_target_met": false,
+  "user_accepts_proceeding_with_nine": true,
+  "tenth_inventory_search_closed": true,
+  "revision7_requested": false,
+  "evidence_policy_changed": false,
+  "candidate_approved": false,
+  "candidate_activation_authorized": false,
+  "database_write_authorized": false,
+  "publication_authorized": false
+}

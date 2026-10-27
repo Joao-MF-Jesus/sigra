@@ -1,0 +1,797 @@
+{
+  "version": "batch4-academic-v4-evidence-v1",
+  "records": [
+    {
+      "id": 44,
+      "identity": {
+        "fipe_code": "003351-0",
+        "year_code": "2018-5",
+        "commercial_identity": "Fiesta SE 1.6 16V Flex 5p",
+        "reference_month": "2026-09",
+        "fuel": "flex",
+        "transmission": "manual"
+      },
+      "crosswalk_fingerprint": "65454fd7fb39f9d0c8f6beefe280e61eedf75c500031b7758afdb2ebbe1032b6",
+      "source_identity": {
+        "id": 33510,
+        "nome": "Fiesta SE 1.6 16V Flex 5p",
+        "marca": "Ford",
+        "modelo": "Fiesta"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Flex"
+        },
+        {
+          "section": "Geral",
+          "label": "Código do motor",
+          "value": "Sigma"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "1597"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Natural"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Manual"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "5"
+        }
+      ],
+      "source": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/33510/2018",
+        "sha256": "8a801ce924fcf070026f76648fd31a95fdfb3e64b1767f48ff74f75716e05db4",
+        "cache_file": "carpedia-44.json",
+        "document": "CarPedia exact ficha 33510/2018",
+        "collected_at": "2026-09-27T02:22:50.510708+00:00"
+      },
+      "fields": [
+        {
+          "attribute_code": "seats",
+          "source_section": "Geral",
+          "source_label": "Número de lugares",
+          "source_value": "5",
+          "source_unit": null,
+          "normalized_unit": "count",
+          "normalized_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "attribute_code": "length",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Comprimento (mm)",
+          "source_value": "3969",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "3969.000000",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "attribute_code": "width",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Largura (mm)",
+          "source_value": "1722",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "1722.000000",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "attribute_code": "wheelbase",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_value": "2489",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "2489.000000",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "attribute_code": "payload_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Carga útil (kg)",
+          "source_value": "482",
+          "source_unit": "kg",
+          "normalized_unit": "kg",
+          "normalized_value": "482.000000",
+          "locator": "secoes[2].itens[4]"
+        },
+        {
+          "attribute_code": "cargo_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Volume do porta-malas (l)",
+          "source_value": "281",
+          "source_unit": "l",
+          "normalized_unit": "L",
+          "normalized_value": "281.000000",
+          "locator": "secoes[2].itens[5]"
+        }
+      ],
+      "limitations": [
+        "Technical source assertions, not independent physical measurements",
+        "FIPE/PBEV remain authoritative for price, fuel, transmission and consumption",
+        "No safety inventory admitted",
+        "Body width is not width with mirrors",
+        "Academic habitability proxy is not measured interior space",
+        "No operational publication"
+      ]
+    },
+    {
+      "id": 45,
+      "identity": {
+        "fipe_code": "018094-7",
+        "year_code": "2021-5",
+        "commercial_identity": "RIO EX 1.6 Flex Aut.",
+        "reference_month": "2026-09",
+        "fuel": "flex",
+        "transmission": "automatic"
+      },
+      "crosswalk_fingerprint": "e25e9389e29e6d22f1ed6d0034f32ad927ce7c252c39db3ab2248d2fbbb5a9fd",
+      "source_identity": {
+        "id": 180947,
+        "nome": "RIO EX 1.6 Flex Aut.",
+        "marca": "Kia Motors",
+        "modelo": "RIO"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Flex"
+        },
+        {
+          "section": "Geral",
+          "label": "Código do motor",
+          "value": "Gamma"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "1591"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Natural"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Automático"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "6"
+        }
+      ],
+      "source": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/180947/2021",
+        "sha256": "3e566812e5fc999d2228bc51d02686d82ef04aa9a7c878a6b07efbefa84e0531",
+        "cache_file": "carpedia-45.json",
+        "document": "CarPedia exact ficha 180947/2021",
+        "collected_at": "2026-09-27T02:21:30.836148+00:00"
+      },
+      "fields": [
+        {
+          "attribute_code": "seats",
+          "source_section": "Geral",
+          "source_label": "Número de lugares",
+          "source_value": "5",
+          "source_unit": null,
+          "normalized_unit": "count",
+          "normalized_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "attribute_code": "length",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Comprimento (mm)",
+          "source_value": "4065",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "4065.000000",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "attribute_code": "width",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Largura (mm)",
+          "source_value": "1725",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "1725.000000",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "attribute_code": "wheelbase",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_value": "2580",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "2580.000000",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "attribute_code": "payload_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Carga útil (kg)",
+          "source_value": "469",
+          "source_unit": "kg",
+          "normalized_unit": "kg",
+          "normalized_value": "469.000000",
+          "locator": "secoes[2].itens[5]"
+        },
+        {
+          "attribute_code": "cargo_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Volume do porta-malas (l)",
+          "source_value": "325",
+          "source_unit": "l",
+          "normalized_unit": "L",
+          "normalized_value": "325.000000",
+          "locator": "secoes[2].itens[6]"
+        }
+      ],
+      "limitations": [
+        "Technical source assertions, not independent physical measurements",
+        "FIPE/PBEV remain authoritative for price, fuel, transmission and consumption",
+        "No safety inventory admitted",
+        "Body width is not width with mirrors",
+        "Academic habitability proxy is not measured interior space",
+        "No operational publication"
+      ]
+    },
+    {
+      "id": 51,
+      "identity": {
+        "fipe_code": "001481-8",
+        "year_code": "2020-5",
+        "commercial_identity": "Grand Siena ATTRACTIVE 1.0 Flex 8V 4p",
+        "reference_month": "2026-09",
+        "fuel": "flex",
+        "transmission": "manual"
+      },
+      "crosswalk_fingerprint": "46910c563cfcd5eb261d8a9228a359ffac1354dc1a7ba08b68c1106bafcbb698",
+      "source_identity": {
+        "id": 14818,
+        "nome": "Grand Siena ATTRACTIVE 1.0 Flex 8V 4p",
+        "marca": "Fiat",
+        "modelo": "Grand Siena"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Flex"
+        },
+        {
+          "section": "Geral",
+          "label": "Código do motor",
+          "value": "Fire"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "999"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Natural"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Manual"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "5"
+        }
+      ],
+      "source": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/14818/2020",
+        "sha256": "6a9fe0486a2b3ccad36719d07fb07bdb71e6b2978dd43a28b8b4d7b320da61ed",
+        "cache_file": "carpedia-51.json",
+        "document": "CarPedia exact ficha 14818/2020",
+        "collected_at": "2026-09-27T02:21:48.738688+00:00"
+      },
+      "fields": [
+        {
+          "attribute_code": "seats",
+          "source_section": "Geral",
+          "source_label": "Número de lugares",
+          "source_value": "5",
+          "source_unit": null,
+          "normalized_unit": "count",
+          "normalized_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "attribute_code": "length",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Comprimento (mm)",
+          "source_value": "4290",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "4290.000000",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "attribute_code": "width",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Largura (mm)",
+          "source_value": "1700",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "1700.000000",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "attribute_code": "wheelbase",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_value": "2511",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "2511.000000",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "attribute_code": "payload_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Carga útil (kg)",
+          "source_value": "400",
+          "source_unit": "kg",
+          "normalized_unit": "kg",
+          "normalized_value": "400.000000",
+          "locator": "secoes[2].itens[5]"
+        },
+        {
+          "attribute_code": "cargo_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Volume do porta-malas (l)",
+          "source_value": "520",
+          "source_unit": "l",
+          "normalized_unit": "L",
+          "normalized_value": "520.000000",
+          "locator": "secoes[2].itens[6]"
+        }
+      ],
+      "limitations": [
+        "Technical source assertions, not independent physical measurements",
+        "FIPE/PBEV remain authoritative for price, fuel, transmission and consumption",
+        "No safety inventory admitted",
+        "Body width is not width with mirrors",
+        "Academic habitability proxy is not measured interior space",
+        "No operational publication"
+      ]
+    },
+    {
+      "id": 52,
+      "identity": {
+        "fipe_code": "073021-1",
+        "year_code": "2020-5",
+        "commercial_identity": "ARRIZO 5 RXT 1.5 16V Turbo Flex Aut.",
+        "reference_month": "2026-09",
+        "fuel": "flex",
+        "transmission": "cvt"
+      },
+      "crosswalk_fingerprint": "0dbba96a92aaf1e59c2f3a31b04f9f085b05bb5438c6797c8c1b057dfbf5e822",
+      "source_identity": {
+        "id": 730211,
+        "nome": "ARRIZO 5 RXT 1.5 16V Turbo Flex Aut.",
+        "marca": "Caoa Chery",
+        "modelo": "Arrizo 5"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Flex"
+        },
+        {
+          "section": "Geral",
+          "label": "Código do motor",
+          "value": "SQRE4T15B"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "1499"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Turbocompressor"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Automático (CVT)"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "7"
+        }
+      ],
+      "source": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/730211/2020",
+        "sha256": "5c13b4574a248fa6a19a0fe6b583d06f9d6058d7043f8e5802e2d060ec2e5a42",
+        "cache_file": "carpedia-52.json",
+        "document": "CarPedia exact ficha 730211/2020",
+        "collected_at": "2026-09-27T02:21:58.921860+00:00"
+      },
+      "fields": [
+        {
+          "attribute_code": "seats",
+          "source_section": "Geral",
+          "source_label": "Número de lugares",
+          "source_value": "5",
+          "source_unit": null,
+          "normalized_unit": "count",
+          "normalized_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "attribute_code": "length",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Comprimento (mm)",
+          "source_value": "4532",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "4532.000000",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "attribute_code": "width",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Largura (mm)",
+          "source_value": "1814",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "1814.000000",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "attribute_code": "wheelbase",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_value": "2650",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "2650.000000",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "attribute_code": "payload_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Carga útil (kg)",
+          "source_value": "399",
+          "source_unit": "kg",
+          "normalized_unit": "kg",
+          "normalized_value": "399.000000",
+          "locator": "secoes[2].itens[5]"
+        },
+        {
+          "attribute_code": "cargo_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Volume do porta-malas (l)",
+          "source_value": "430",
+          "source_unit": "l",
+          "normalized_unit": "L",
+          "normalized_value": "430.000000",
+          "locator": "secoes[2].itens[6]"
+        }
+      ],
+      "limitations": [
+        "Technical source assertions, not independent physical measurements",
+        "FIPE/PBEV remain authoritative for price, fuel, transmission and consumption",
+        "No safety inventory admitted",
+        "Body width is not width with mirrors",
+        "Academic habitability proxy is not measured interior space",
+        "No operational publication"
+      ]
+    },
+    {
+      "id": 54,
+      "identity": {
+        "fipe_code": "018093-9",
+        "year_code": "2020-5",
+        "commercial_identity": "Cerato EX 2.0 16V Flex Aut.",
+        "reference_month": "2026-09",
+        "fuel": "flex",
+        "transmission": "automatic"
+      },
+      "crosswalk_fingerprint": "e0fef68aa87dcc7726a53f3a059a9eee8349dee2c323a15f675111b6b6e6939b",
+      "source_identity": {
+        "id": 180939,
+        "nome": "Cerato EX 2.0 16V Flex Aut.",
+        "marca": "Kia Motors",
+        "modelo": "Cerato"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Flex"
+        },
+        {
+          "section": "Geral",
+          "label": "Código do motor",
+          "value": "Nu"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "1999"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Natural"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Automático"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "6"
+        }
+      ],
+      "source": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/180939/2020",
+        "sha256": "3a5d34f490e2cc0d8fbcbfcaa0491477f7a76bf5ca83a35ad594a3a106979fbe",
+        "cache_file": "carpedia-54.json",
+        "document": "CarPedia exact ficha 180939/2020",
+        "collected_at": "2026-09-27T02:22:10.163988+00:00"
+      },
+      "fields": [
+        {
+          "attribute_code": "seats",
+          "source_section": "Geral",
+          "source_label": "Número de lugares",
+          "source_value": "5",
+          "source_unit": null,
+          "normalized_unit": "count",
+          "normalized_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "attribute_code": "length",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Comprimento (mm)",
+          "source_value": "4640",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "4640.000000",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "attribute_code": "width",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Largura (mm)",
+          "source_value": "1800",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "1800.000000",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "attribute_code": "wheelbase",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_value": "2700",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "2700.000000",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "attribute_code": "payload_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Carga útil (kg)",
+          "source_value": "447",
+          "source_unit": "kg",
+          "normalized_unit": "kg",
+          "normalized_value": "447.000000",
+          "locator": "secoes[2].itens[5]"
+        },
+        {
+          "attribute_code": "cargo_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Volume do porta-malas (l)",
+          "source_value": "520",
+          "source_unit": "l",
+          "normalized_unit": "L",
+          "normalized_value": "520.000000",
+          "locator": "secoes[2].itens[6]"
+        }
+      ],
+      "limitations": [
+        "Technical source assertions, not independent physical measurements",
+        "FIPE/PBEV remain authoritative for price, fuel, transmission and consumption",
+        "No safety inventory admitted",
+        "Body width is not width with mirrors",
+        "Academic habitability proxy is not measured interior space",
+        "No operational publication"
+      ]
+    },
+    {
+      "id": 56,
+      "identity": {
+        "fipe_code": "073028-9",
+        "year_code": "2021-5",
+        "commercial_identity": "ARRIZO 6 GSX 1.5 Turbo Flex Aut.",
+        "reference_month": "2026-09",
+        "fuel": "flex",
+        "transmission": "cvt"
+      },
+      "crosswalk_fingerprint": "d50cb6657db60ab5e6b2c42f8e1f4a6d15c66d6e7b979fbd8e62bf2c073c597a",
+      "source_identity": {
+        "id": 730289,
+        "nome": "ARRIZO 6 GSX 1.5 Turbo Flex Aut.",
+        "marca": "Caoa Chery",
+        "modelo": "Arrizo 6"
+      },
+      "upstream_source": {
+        "fonte": "checktudo-ficha-tecnica-2026-07",
+        "em": "2026-07-13"
+      },
+      "mechanical_evidence": [
+        {
+          "section": "Geral",
+          "label": "Combustível",
+          "value": "Flex"
+        },
+        {
+          "section": "Geral",
+          "label": "Código do motor",
+          "value": "SQRE4T15B"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Cilindrada (cm³)",
+          "value": "1499"
+        },
+        {
+          "section": "Motor a combustão",
+          "label": "Aspiração",
+          "value": "Turbocompressor"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Câmbio (tipo)",
+          "value": "Automático (CVT)"
+        },
+        {
+          "section": "Transmissão e tração",
+          "label": "Número de marchas",
+          "value": "9"
+        }
+      ],
+      "source": {
+        "provider": "carpedia",
+        "url": "https://www.carpedia.com.br/api/v1/ficha/730289/2021",
+        "sha256": "afb504c70428b6a0ddc307a3af77ff68029455c823c36fb441ed6179ab87fff6",
+        "cache_file": "carpedia-56.json",
+        "document": "CarPedia exact ficha 730289/2021",
+        "collected_at": "2026-09-27T02:22:20.143363+00:00"
+      },
+      "fields": [
+        {
+          "attribute_code": "seats",
+          "source_section": "Geral",
+          "source_label": "Número de lugares",
+          "source_value": "5",
+          "source_unit": null,
+          "normalized_unit": "count",
+          "normalized_value": "5",
+          "locator": "secoes[0].itens[2]"
+        },
+        {
+          "attribute_code": "length",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Comprimento (mm)",
+          "source_value": "4675",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "4675.000000",
+          "locator": "secoes[2].itens[0]"
+        },
+        {
+          "attribute_code": "width",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Largura (mm)",
+          "source_value": "1814",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "1814.000000",
+          "locator": "secoes[2].itens[1]"
+        },
+        {
+          "attribute_code": "wheelbase",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Distância entre-eixos (mm)",
+          "source_value": "2650",
+          "source_unit": "mm",
+          "normalized_unit": "mm",
+          "normalized_value": "2650.000000",
+          "locator": "secoes[2].itens[3]"
+        },
+        {
+          "attribute_code": "payload_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Carga útil (kg)",
+          "source_value": "391",
+          "source_unit": "kg",
+          "normalized_unit": "kg",
+          "normalized_value": "391.000000",
+          "locator": "secoes[2].itens[5]"
+        },
+        {
+          "attribute_code": "cargo_capacity",
+          "source_section": "Dimensões e pesos",
+          "source_label": "Volume do porta-malas (l)",
+          "source_value": "570",
+          "source_unit": "l",
+          "normalized_unit": "L",
+          "normalized_value": "570.000000",
+          "locator": "secoes[2].itens[6]"
+        }
+      ],
+      "limitations": [
+        "Technical source assertions, not independent physical measurements",
+        "FIPE/PBEV remain authoritative for price, fuel, transmission and consumption",
+        "No safety inventory admitted",
+        "Body width is not width with mirrors",
+        "Academic habitability proxy is not measured interior space",
+        "No operational publication"
+      ]
+    }
+  ]
+}

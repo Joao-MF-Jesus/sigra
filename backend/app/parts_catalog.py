@@ -34,7 +34,7 @@ def get_parts_catalog(brand: str, model: str = "") -> dict:
             "url": f"{base_url}{model_path}",
             "available": True,
             "target_level": "model",
-            "note": "Catalogo tecnico aberto direto na pagina do modelo.",
+            "note": "Catálogo técnico aberto direto na página do modelo.",
         }
 
     return {
@@ -44,5 +44,5 @@ def get_parts_catalog(brand: str, model: str = "") -> dict:
         "url": f"{base_url}cross/{slug}/" if slug else base_url,
         "available": slug is not None,
         "target_level": "brand" if slug else "catalog",
-        "note": "Catalogo tecnico por marca. Modelo especifico ainda nao mapeado.",
+        "note": "Catálogo técnico por marca. Modelo específico ainda não mapeado.",
     }

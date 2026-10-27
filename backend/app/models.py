@@ -1,7 +1,7 @@
 from datetime import date, datetime, timezone
 from decimal import Decimal
 
-from sqlalchemy import Boolean, CheckConstraint, Date, DateTime, Float, ForeignKey, Index, Integer, Numeric, String, Text, UniqueConstraint, func, text
+from sqlalchemy import Boolean, CheckConstraint, Date, DateTime, Float, ForeignKey, Index, Integer, JSON, Numeric, String, Text, UniqueConstraint, func, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 
 from app.database import Base
@@ -16,14 +16,85 @@ def utc_now() -> datetime:
 
 class User(Base):
     __tablename__ = "users"
+    __table_args__ = (CheckConstraint("role IN ('participant', 'admin')", name="ck_users_role"),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     email: Mapped[str] = mapped_column(String(160), unique=True, nullable=False)
+    normalized_email: Mapped[str | None] = mapped_column(String(160), unique=True, nullable=True)
+    password_hash: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    role: Mapped[str] = mapped_column(String(20), default="participant", server_default="participant", nullable=False)
 
     expenses: Mapped[list["Expense"]] = relationship(back_populates="user")
     maintenances: Mapped[list["Maintenance"]] = relationship(back_populates="user")
     user_vehicles: Mapped[list["UserVehicle"]] = relationship(back_populates="user")
+
+
+class AuthSession(Base):
+    __tablename__ = "auth_sessions"
+    token_digest: Mapped[str] = mapped_column(String(64), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class ParticipantTestRun(Base):
+    __tablename__ = "participant_test_runs"
+    __table_args__ = (
+        CheckConstraint("feedback_rating IS NULL OR feedback_rating BETWEEN 1 AND 5", name="ck_test_run_rating"),
+        Index("ix_test_runs_owner_created", "user_id", "created_at", "id"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="RESTRICT"), nullable=False)
+    kind: Mapped[str] = mapped_column(String(40), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now, nullable=False)
+    system_version: Mapped[str] = mapped_column(String(80), nullable=False)
+    method_version: Mapped[str] = mapped_column(String(160), nullable=False)
+    snapshot_version: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    snapshot_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    parameters: Mapped[dict] = mapped_column(JSON, nullable=False)
+    presented_results: Mapped[dict] = mapped_column(JSON, nullable=False)
+    request_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    result_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    feedback_rating: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    feedback_comment: Mapped[str | None] = mapped_column(Text, nullable=True)
+    feedback_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    study_session_id: Mapped[str | None] = mapped_column(ForeignKey("participant_study_sessions.id", ondelete="RESTRICT"), nullable=True)
+    technical_record: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+
+
+class ParticipantStudySession(Base):
+    __tablename__ = "participant_study_sessions"
+    __table_args__ = (
+        CheckConstraint("scenario_id IN ('A','B','C','D','E')", name="ck_study_scenario"),
+        CheckConstraint("familiarity IN ('none','low','medium','high')", name="ck_study_familiarity"),
+        Index("ix_study_owner_auth_created", "user_id", "auth_session_digest", "created_at"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="RESTRICT"), nullable=False)
+    auth_session_digest: Mapped[str] = mapped_column(ForeignKey("auth_sessions.token_digest", ondelete="RESTRICT"), nullable=False)
+    scenario_id: Mapped[str] = mapped_column(String(1), nullable=False)
+    familiarity: Mapped[str] = mapped_column(String(10), nullable=False)
+    priorities: Mapped[list] = mapped_column(JSON, nullable=False)
+    protocol_version: Mapped[str] = mapped_column(String(80), nullable=False)
+    presentation_version: Mapped[str] = mapped_column(String(80), nullable=False)
+    environment_tag: Mapped[str] = mapped_column(String(40), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now, nullable=False)
+
+
+class ParticipantQuestionnaire(Base):
+    __tablename__ = "participant_questionnaires"
+    __table_args__ = tuple(CheckConstraint(f"{name} BETWEEN 1 AND 5", name=f"ck_questionnaire_{name}")
+                           for name in ("interface_clarity", "first_vehicle_explanation", "scenario_coherence", "influential_criteria"))
+    run_id: Mapped[str] = mapped_column(ForeignKey("participant_test_runs.id", ondelete="RESTRICT"), primary_key=True)
+    version: Mapped[str] = mapped_column(String(80), nullable=False)
+    interface_clarity: Mapped[int] = mapped_column(Integer, nullable=False)
+    first_vehicle_explanation: Mapped[int] = mapped_column(Integer, nullable=False)
+    scenario_coherence: Mapped[int] = mapped_column(Integer, nullable=False)
+    influential_criteria: Mapped[int] = mapped_column(Integer, nullable=False)
+    comment: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    answered_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now, nullable=False)
 
 
 class SigraSchemaMigration(Base):
