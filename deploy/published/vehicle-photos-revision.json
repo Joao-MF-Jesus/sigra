@@ -1,0 +1,85 @@
+{
+  "schema": "sigra-vehicle-photos-revision-v1",
+  "parent_candidate": "sigra-710d5e8c13a8b665a00fe658",
+  "parent_main": "ebb0f886a18c658f963ce633d74b839447cc3129",
+  "changes": {
+    "deploy/build_vercel.mjs": {
+      "before": "f1caf1047f52acbe87e591a9a3e2c21f164c372023ee1f22fc14adfe6af4c1c7",
+      "after": "af92721baa788871a9385d6f7255a742eede7f257bdcade6f02bd3e99d5f339a",
+      "reason": "Vehicle photo identity/rendering or bounded static-asset packaging; no recommendation or data-method change."
+    },
+    "frontend/src/App.jsx": {
+      "before": "6ec2dd8e806432fb8c8147b8c1a197e2a860579aed69d1f203ceae4fa77b7449",
+      "after": "c254f3349b0a6f8e81eb65901e10c716ba04da12d09397bfd928b994c0892499",
+      "reason": "Vehicle photo identity/rendering or bounded static-asset packaging; no recommendation or data-method change."
+    },
+    "frontend/src/features/recommendations/CohortVehicleDetails.jsx": {
+      "before": "2a448f6fe97c8e0e5128aedac02aae51e63abf45e7f068bc8345645e98330862",
+      "after": "14de68be7039fc6e6fb04e29fc66f05ab4b9bea78315e94a1591e35c2b87a04b",
+      "reason": "Vehicle photo identity/rendering or bounded static-asset packaging; no recommendation or data-method change."
+    },
+    "frontend/src/features/recommendations/RecommendationDetails.jsx": {
+      "before": "29859e7ef017a25d441eac50536d407b8d72b237b58b5212fdb68004783c9575",
+      "after": "367b7d68e026df1df67fc7f3462680213fef55a8e4e1618b9ca4c20ed3a9e5bc",
+      "reason": "Vehicle photo identity/rendering or bounded static-asset packaging; no recommendation or data-method change."
+    },
+    "frontend/src/features/recommendations/VehicleCard.jsx": {
+      "before": "adfa8c0f43c607af498ad5ea1eb710c7b2e8dc8d284150dd78dafb9d76bfef62",
+      "after": "c3b111b9de4e3e7d7e747c6860b2ad07a991a379abbbcfd6625e12748912e3a1",
+      "reason": "Vehicle photo identity/rendering or bounded static-asset packaging; no recommendation or data-method change."
+    },
+    "scripts/release_packaging.py": {
+      "before": "39cc7a9bb39770db4996527458c9034378605539a91070507a783b7bb846a974",
+      "after": "b3348ad22b3c5b0a0f04c5dc0821daf704cb4fc8744db1051c1ad208e9796485",
+      "reason": "Vehicle photo identity/rendering or bounded static-asset packaging; no recommendation or data-method change."
+    }
+  },
+  "additions": [
+    {
+      "repository_path": "frontend/src/features/vehicle-images/VehiclePhoto.jsx",
+      "application_path": "frontend/src/features/vehicle-images/VehiclePhoto.jsx",
+      "repository_sha256": "bca555798ffa189f581955d6357e4aea1dbd569086349ca24a88a7e16eef23a1"
+    },
+    {
+      "repository_path": "frontend/src/features/vehicle-images/vehiclePhotoModel.js",
+      "application_path": "frontend/src/features/vehicle-images/vehiclePhotoModel.js",
+      "repository_sha256": "361b058c2202e7aa0483b3a1018f54087318df7071c41bec831f80598ac32a1e"
+    },
+    {
+      "repository_path": "frontend/src/features/vehicle-images/vehiclePhotos.css",
+      "application_path": "frontend/src/features/vehicle-images/vehiclePhotos.css",
+      "repository_sha256": "18853f9e2eb9d18162092c00b16c173bd5cf8a5b3c50a4307d553b4213ca52c7"
+    },
+    {
+      "repository_path": "frontend/src/features/vehicle-images/vehiclePhotos.json",
+      "application_path": "frontend/src/features/vehicle-images/vehiclePhotos.json",
+      "repository_sha256": "cb07482d7f135f980f84fc8b8467859cff20df492e3cf54386d11ad37d8e5b18"
+    },
+    {
+      "repository_path": "frontend/tests/vehicle-photos.test.mjs",
+      "application_path": "frontend/tests/vehicle-photos.test.mjs",
+      "repository_sha256": "1be3b15c60176c6f80064f3a936fb3b9e39822fcd7bc50251f47dc9ccd158f5a"
+    },
+    {
+      "repository_path": "deploy/vehicle_photo_assets.mjs",
+      "application_path": "deploy/vehicle_photo_assets.mjs",
+      "repository_sha256": "bafc10a5782c9f0f5592c1cdee2b34b65a63ac1f9213305feb2c86dd164234f3"
+    },
+    {
+      "repository_path": "docs/vehicle-photos/ADMITTED20.json",
+      "application_path": "docs/vehicle-photos/ADMITTED20.json",
+      "repository_sha256": "b9279f6f29c07dd6eb110fae5bcf8bc8470cea0e12f14ac1678e12c127231b93"
+    }
+  ],
+  "outer_changes": {
+    "deploy/published/project/vercel.json": {
+      "before": "13189e0531a8b566bf0be6b2938f33b9b6a32a5cba56cf1a96abe9cd754c80ae",
+      "after": "f2a8c50060e2c6b9ed7eebefd170fac6137be7fe88945b1b90e956aa20d5c4bc",
+      "reason": "Exclude only generated static vehicle photographs from Python Function; includeFiles string unchanged."
+    }
+  },
+  "candidate": {
+    "release_id": "sigra-a6987bc66a8feb330f1db740",
+    "application_files": 469
+  }
+}

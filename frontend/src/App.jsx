@@ -16,6 +16,7 @@ import { SessionContext } from "./features/session/SessionContext.jsx";
 import "./features/session/participants.css";
 import AppHeader from "./AppHeader.jsx";
 import RecommendationDetails from "./features/recommendations/RecommendationDetails.jsx";
+import VehiclePhoto from "./features/vehicle-images/VehiclePhoto.jsx";
 import RecommendationForm from "./features/recommendations/RecommendationForm.jsx";
 import RecommendationPage from "./features/recommendations/RecommendationPage.jsx";
 import FinancingPage from "./features/financing/FinancingPage.jsx";
@@ -806,9 +807,10 @@ function App() {
             </div>
             {comparedVehicles.map((vehicle) => (
               <div className="table-row" role="row" key={vehicle.id}>
-                <span>
+                <div className="vehicle-comparison-cell" role="cell">
                   {vehicle.brand} {vehicle.model}
-                </span>
+                  <VehiclePhoto vehicle={vehicle} variant="comparison" />
+                </div>
                 <span>{formatCurrency(vehicle.price)}</span>
                 <span>{vehicle.fuel_efficiency_km_l} km/l</span>
                 <span>{formatCurrency(vehicle.annual_maintenance_cost)}</span>

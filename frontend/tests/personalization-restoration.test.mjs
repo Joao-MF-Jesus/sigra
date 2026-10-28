@@ -66,6 +66,9 @@ test("same form, cards and modal classes are reused without academic report UI",
 
 const modules = new Map();
 function loadComponentModule(url) {
+  // SSR reads JSON as data; CSS is exercised by the real browser suite.
+  if (url.pathname.endsWith(".json")) return JSON.parse(readFileSync(url, "utf8"));
+  if (url.pathname.endsWith(".css")) { readFileSync(url, "utf8"); return {}; }
   if (modules.has(url.href)) return modules.get(url.href).exports;
   const { code } = transformSync(readFileSync(url, "utf8"), { loader: "jsx", format: "cjs", define: { "import.meta.env": "{}" } });
   const module = { exports: {} };

@@ -1,0 +1,2876 @@
+{
+  "prisma": {
+    "slug": "prisma",
+    "catalog_ids": [
+      2
+    ],
+    "source_title": "File:Chevrolet Prisma 1.4 LT 2018 (31667382197).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Chevrolet_Prisma_1.4_LT_2018_(31667382197).jpg",
+    "source_revision": {
+      "revid": 1056213990,
+      "parentid": 919613581,
+      "timestamp": "2025-07-12T02:33:23Z"
+    },
+    "artist": "RL GNZLZ from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Chevrolet Prisma 1.4 LT 2018",
+    "categories": "Photographs by order 242|Flickr images reviewed by FlickreviewR 2|Chevrolet Prisma MkII",
+    "original_sha1": "2d645283345069f9a129d76d27983c69bfd3a9b7",
+    "original_sha256": "0198670f49309c8285fc79d4218d4131e4f02936fc74ab5cd27f5819b9c9de70",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "prisma-480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 27378,
+        "sha256": "0861a320cbb5c75541b5569127aac2ed1f1c94bbdffcf5fbf74273b1ef4c3804"
+      },
+      {
+        "file": "prisma-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 92192,
+        "sha256": "8da452a6b5caa707691af276354396fead1216834d37d75f22757119fbe7078f"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/prisma-480-0861a320cbb5.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 27378,
+        "sha256": "0861a320cbb5c75541b5569127aac2ed1f1c94bbdffcf5fbf74273b1ef4c3804"
+      },
+      {
+        "src": "/assets/vehicle-photos/prisma-960-8da452a6b5ca.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 92192,
+        "sha256": "8da452a6b5caa707691af276354396fead1216834d37d75f22757119fbe7078f"
+      }
+    ]
+  },
+  "cobalt": {
+    "slug": "cobalt",
+    "catalog_ids": [
+      3
+    ],
+    "source_title": "File:2018 Chevrolet Cobalt 1.8 LTZ.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2018_Chevrolet_Cobalt_1.8_LTZ.jpg",
+    "source_revision": {
+      "revid": 1221212262,
+      "parentid": 1030564711,
+      "timestamp": "2026-05-27T14:27:09Z"
+    },
+    "artist": "Just a Man",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2018 Chevrolet Cobalt 1.8 LTZ (built in Brazil). Photographed in Villa Real, Buenos Aires, Argentina.",
+    "categories": "Self-published work|Silver Chevrolet sedans|2018 Chevrolet automobiles|Chevrolet Cobalt LTZ (Gamma II)",
+    "original_sha1": "70fa5396098e86549eaca24b6f38f90248419377",
+    "original_sha256": "070359ff3cfacc3aa1483d986f299a704458bfcc0e45c41d57c2f3fb4cc206f8",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "cobalt-480.webp",
+        "width": 480,
+        "height": 267,
+        "bytes": 19610,
+        "sha256": "cf2d1d349965d3582f2265e1e96a77e04e9690655a89b58d54aaa48daf2b8400"
+      },
+      {
+        "file": "cobalt-960.webp",
+        "width": 960,
+        "height": 534,
+        "bytes": 68382,
+        "sha256": "632fd2ba0845d410b07ecdb334703426d898dbc0cfe461c82dce84f417769fd1"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/cobalt-480-cf2d1d349965.webp",
+        "width": 480,
+        "height": 267,
+        "bytes": 19610,
+        "sha256": "cf2d1d349965d3582f2265e1e96a77e04e9690655a89b58d54aaa48daf2b8400"
+      },
+      {
+        "src": "/assets/vehicle-photos/cobalt-960-632fd2ba0845.webp",
+        "width": 960,
+        "height": 534,
+        "bytes": 68382,
+        "sha256": "632fd2ba0845d410b07ecdb334703426d898dbc0cfe461c82dce84f417769fd1"
+      }
+    ]
+  },
+  "spin": {
+    "slug": "spin",
+    "catalog_ids": [
+      4
+    ],
+    "source_title": "File:2019 Chevrolet Spin 1.8 LTZ (facelift), front view.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2019_Chevrolet_Spin_1.8_LTZ_(facelift),_front_view.jpg",
+    "source_revision": {
+      "revid": 978584866,
+      "parentid": 964011795,
+      "timestamp": "2025-01-02T15:38:24Z"
+    },
+    "artist": "Maxi-Napo-99",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2019 Chevrolet Spin 1.8 LTZ, facelift. Photographed in Villa Devoto, Buenos Aires City, Argentina.",
+    "categories": "Chevrolet Spin|Self-published work|Grey Chevrolet station wagons|2019 Chevrolet automobiles",
+    "original_sha1": "b74d75d48c7beb7bb436993f1dcf9a7ac9682767",
+    "original_sha256": "b8582076d048ba7325fe5ac7f8543327054af5370cabeead26dba0053f1d9f9b",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "spin-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 31396,
+        "sha256": "b9612186bdd16b464c049c16f36421130e119ba70ceb7c030864969faa0c4bb7"
+      },
+      {
+        "file": "spin-960.webp",
+        "width": 960,
+        "height": 639,
+        "bytes": 102644,
+        "sha256": "f626ddb638777eb1e69c1230c97873121b7ca7180b372f2e19f38d2d3d0c24a2"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/spin-480-b9612186bdd1.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 31396,
+        "sha256": "b9612186bdd16b464c049c16f36421130e119ba70ceb7c030864969faa0c4bb7"
+      },
+      {
+        "src": "/assets/vehicle-photos/spin-960-f626ddb63877.webp",
+        "width": 960,
+        "height": 639,
+        "bytes": 102644,
+        "sha256": "f626ddb638777eb1e69c1230c97873121b7ca7180b372f2e19f38d2d3d0c24a2"
+      }
+    ]
+  },
+  "tracker": {
+    "slug": "tracker",
+    "catalog_ids": [
+      5
+    ],
+    "source_title": "File:Chevrolet Tracker 2021 (front) (cropped).png",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Chevrolet_Tracker_2021_(front)_(cropped).png",
+    "source_revision": {
+      "revid": 999972097,
+      "parentid": 855835859,
+      "timestamp": "2025-02-18T21:18:49Z"
+    },
+    "artist": "Autosdeprimera",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "description": "Chevrolet Tracker 2021 (front)",
+    "categories": "Media from YouTube|Chevrolet Tracker (4th generation)|Extracted images|Chevrolet automobiles in Brazil|Blue Chevrolet SUVs",
+    "original_sha1": "1507e5b83f1873a4de27faea22fe269971e033b2",
+    "original_sha256": "4a8fc764ebb64bf777312a741977e8325c89bfbbd11918d70a483765c80225af",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "tracker-480.webp",
+        "width": 480,
+        "height": 240,
+        "bytes": 16026,
+        "sha256": "91e002be3aa79a55f6993b511f2951aaf329ccda06b39c6b6c0291b4aa3b3d7e"
+      },
+      {
+        "file": "tracker-960.webp",
+        "width": 960,
+        "height": 480,
+        "bytes": 42034,
+        "sha256": "ad1f5108035c032ee1f0f624709301ac120b3148bc92cb9229ae308a77013596"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/tracker-480-91e002be3aa7.webp",
+        "width": 480,
+        "height": 240,
+        "bytes": 16026,
+        "sha256": "91e002be3aa79a55f6993b511f2951aaf329ccda06b39c6b6c0291b4aa3b3d7e"
+      },
+      {
+        "src": "/assets/vehicle-photos/tracker-960-ad1f5108035c.webp",
+        "width": 960,
+        "height": 480,
+        "bytes": 42034,
+        "sha256": "ad1f5108035c032ee1f0f624709301ac120b3148bc92cb9229ae308a77013596"
+      }
+    ]
+  },
+  "creta": {
+    "slug": "creta",
+    "catalog_ids": [
+      8
+    ],
+    "source_title": "File:Hyundai Creta 1.6 GL 2019.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Hyundai_Creta_1.6_GL_2019.jpg",
+    "source_revision": {
+      "revid": 892477493,
+      "parentid": 662452581,
+      "timestamp": "2024-07-05T11:37:40Z"
+    },
+    "artist": "RL GNZLZ from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Hyundai Creta 1.6 GL 2019",
+    "categories": "Blue Hyundai SUVs|Flickr images reviewed by FlickreviewR 2|Hyundai Creta (GS)",
+    "original_sha1": "f1ed36b38efb7ec944dd9935d335a32e9f0fbb83",
+    "original_sha256": "324cc39970f91a2497ab469332d8957e0a0aeeb05b280227a19eb37af11d4844",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "creta-480.webp",
+        "width": 480,
+        "height": 238,
+        "bytes": 18788,
+        "sha256": "eb0d60caf59ad2cf677b05cd8c350b7aaf10562a84e038f83b26425cc3f570c6"
+      },
+      {
+        "file": "creta-960.webp",
+        "width": 960,
+        "height": 477,
+        "bytes": 54486,
+        "sha256": "83cae1249d35f8ba627e222a259853ed7930982c0a9a08245ccb64775e774723"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/creta-480-eb0d60caf59a.webp",
+        "width": 480,
+        "height": 238,
+        "bytes": 18788,
+        "sha256": "eb0d60caf59ad2cf677b05cd8c350b7aaf10562a84e038f83b26425cc3f570c6"
+      },
+      {
+        "src": "/assets/vehicle-photos/creta-960-83cae1249d35.webp",
+        "width": 960,
+        "height": 477,
+        "bytes": 54486,
+        "sha256": "83cae1249d35f8ba627e222a259853ed7930982c0a9a08245ccb64775e774723"
+      }
+    ]
+  },
+  "etios": {
+    "slug": "etios",
+    "catalog_ids": [
+      10
+    ],
+    "source_title": "File:2018 Toyota Etios 1.5 XLS 5-door.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2018_Toyota_Etios_1.5_XLS_5-door.jpg",
+    "source_revision": {
+      "revid": 898992251,
+      "parentid": 852173847,
+      "timestamp": "2024-07-15T09:15:38Z"
+    },
+    "artist": "Maxi-Napo-99",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2018 Toyota Etios 1.5 XLS 5-door hatchback built in Brazil. Photographed in Villa Raffo, Buenos Aires Province, Argentina.",
+    "categories": "Self-published work|White Toyota hatchbacks|2018 Toyota automobiles|Toyota Etios hatchback",
+    "original_sha1": "1668e498a26ab31707c3bb3e290284112fb9103c",
+    "original_sha256": "3845f6315188c2cd41d5b4618fe378eb44061d0c44fc84372e7dda6990be79f7",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "etios-480.webp",
+        "width": 480,
+        "height": 326,
+        "bytes": 23564,
+        "sha256": "8e7f6e7c611327ddbd71602bd9b4b89de678a1ba5041f3c7d417f1a4915218e3"
+      },
+      {
+        "file": "etios-960.webp",
+        "width": 960,
+        "height": 653,
+        "bytes": 75074,
+        "sha256": "ca3c297cc1f8992326995f5999989613340d8f13576431e05edafe2c80bd0227"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/etios-480-8e7f6e7c6113.webp",
+        "width": 480,
+        "height": 326,
+        "bytes": 23564,
+        "sha256": "8e7f6e7c611327ddbd71602bd9b4b89de678a1ba5041f3c7d417f1a4915218e3"
+      },
+      {
+        "src": "/assets/vehicle-photos/etios-960-ca3c297cc1f8.webp",
+        "width": 960,
+        "height": 653,
+        "bytes": 75074,
+        "sha256": "ca3c297cc1f8992326995f5999989613340d8f13576431e05edafe2c80bd0227"
+      }
+    ]
+  },
+  "corolla-cross": {
+    "slug": "corolla-cross",
+    "catalog_ids": [
+      12
+    ],
+    "source_title": "File:2022 Toyota Corolla Cross L FWD, Front Left, 11-21-2021.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2022_Toyota_Corolla_Cross_L_FWD,_Front_Left,_11-21-2021.jpg",
+    "source_revision": {
+      "revid": 1059383200,
+      "parentid": 1059381464,
+      "timestamp": "2025-07-19T11:34:53Z"
+    },
+    "artist": "Elise240SX",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2022 Toyota Corolla Cross L FWD photographed in Sault Ste. Marie, Ontario, Canada",
+    "categories": "Toyota Corolla Cross|Self-published work|2022 Toyota automobiles|Silver Toyota SUVs|Toyota automobiles in Canada|Automobiles in Sault Ste. Marie, Ontario",
+    "original_sha1": "a9109535e993cd91cc3b051367b93ca7e1721af3",
+    "original_sha256": "b744da3717bfb9e2f3bc534ef9acaaa20a16103b480d40c1b0af5ecb554aa75a",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "corolla-cross-480.webp",
+        "width": 480,
+        "height": 297,
+        "bytes": 24734,
+        "sha256": "2958c03767dca8b3da83c10aa43536b1fd1d8d4d36224b88cc5117a98733c66b"
+      },
+      {
+        "file": "corolla-cross-960.webp",
+        "width": 960,
+        "height": 593,
+        "bytes": 77854,
+        "sha256": "bff4193428e5e4acbed84ab8c09af7467d0c5933c511836670875cfe2eeae64d"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/corolla-cross-480-2958c03767dc.webp",
+        "width": 480,
+        "height": 297,
+        "bytes": 24734,
+        "sha256": "2958c03767dca8b3da83c10aa43536b1fd1d8d4d36224b88cc5117a98733c66b"
+      },
+      {
+        "src": "/assets/vehicle-photos/corolla-cross-960-bff4193428e5.webp",
+        "width": 960,
+        "height": 593,
+        "bytes": 77854,
+        "sha256": "bff4193428e5e4acbed84ab8c09af7467d0c5933c511836670875cfe2eeae64d"
+      }
+    ]
+  },
+  "civic": {
+    "slug": "civic",
+    "catalog_ids": [
+      15
+    ],
+    "source_title": "File:2017 Honda Civic VTi-S sedan (2018-10-29) 01.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2017_Honda_Civic_VTi-S_sedan_(2018-10-29)_01.jpg",
+    "source_revision": {
+      "revid": 812526163,
+      "parentid": 787831220,
+      "timestamp": "2023-10-17T08:22:17Z"
+    },
+    "artist": "EurovisionNim",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2017 Honda Civic VTi-S sedan. Photographed in Fremantle, Western Australia, Australia.",
+    "categories": "Self-published work|White Honda sedans|Honda Civic (2015) sedan|Honda automobiles in Australia",
+    "original_sha1": "2a3ec798b936ffbd32d335df6b6cc57dea1eaada",
+    "original_sha256": "d306f8b09a054f5a1219ce92cb20158a75285d8997d4abbbcb1aa098a8698eef",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "civic-480.webp",
+        "width": 480,
+        "height": 242,
+        "bytes": 20878,
+        "sha256": "224402f1bac4b92a48cd18ae11f3c23354a0fc207fafd2b26ea8bd54aebeaf91"
+      },
+      {
+        "file": "civic-960.webp",
+        "width": 960,
+        "height": 484,
+        "bytes": 68860,
+        "sha256": "f8e040f951ef92b2e36e429fa363507cb9704233adb846e6be76f7efb972bb1f"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/civic-480-224402f1bac4.webp",
+        "width": 480,
+        "height": 242,
+        "bytes": 20878,
+        "sha256": "224402f1bac4b92a48cd18ae11f3c23354a0fc207fafd2b26ea8bd54aebeaf91"
+      },
+      {
+        "src": "/assets/vehicle-photos/civic-960-f8e040f951ef.webp",
+        "width": 960,
+        "height": 484,
+        "bytes": 68860,
+        "sha256": "f8e040f951ef92b2e36e429fa363507cb9704233adb846e6be76f7efb972bb1f"
+      }
+    ]
+  },
+  "mobi": {
+    "slug": "mobi",
+    "catalog_ids": [
+      22
+    ],
+    "source_title": "File:Fiat Mobi 1.0 Like 2021.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Fiat_Mobi_1.0_Like_2021.jpg",
+    "source_revision": {
+      "revid": 1251994981,
+      "parentid": 888676648,
+      "timestamp": "2026-07-25T18:30:55Z"
+    },
+    "artist": "RL GNZLZ",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Fiat Mobi",
+    "categories": "Fiat Mobi|Flickr images reviewed by FlickreviewR 2",
+    "original_sha1": "3e8cfba7090198cc68096155a630ad79b801451f",
+    "original_sha256": "7925ab3a3bdbd3c2423d43cf533e3bd591db61c29fc30e67e80352c09f515fcc",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "mobi-480.webp",
+        "width": 480,
+        "height": 300,
+        "bytes": 28112,
+        "sha256": "fc59a172815dd5dc7c762daa6023b9d3e2e58b986b8d0f7841c257895a4e3bd7"
+      },
+      {
+        "file": "mobi-960.webp",
+        "width": 960,
+        "height": 600,
+        "bytes": 86632,
+        "sha256": "e70fe55816daed00396eb9125ecc987cce31f75bd714d63e916a9dfa537360af"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/mobi-480-fc59a172815d.webp",
+        "width": 480,
+        "height": 300,
+        "bytes": 28112,
+        "sha256": "fc59a172815dd5dc7c762daa6023b9d3e2e58b986b8d0f7841c257895a4e3bd7"
+      },
+      {
+        "src": "/assets/vehicle-photos/mobi-960-e70fe55816da.webp",
+        "width": 960,
+        "height": 600,
+        "bytes": 86632,
+        "sha256": "e70fe55816daed00396eb9125ecc987cce31f75bd714d63e916a9dfa537360af"
+      }
+    ]
+  },
+  "captur": {
+    "slug": "captur",
+    "catalog_ids": [
+      91
+    ],
+    "source_title": "File:2019 Renault Captur 1.6 Intens CVT.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2019_Renault_Captur_1.6_Intens_CVT.jpg",
+    "source_revision": {
+      "revid": 1100606767,
+      "parentid": 1010768081,
+      "timestamp": "2025-10-17T03:12:50Z"
+    },
+    "artist": "Just a Man",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2019 Renault Captur 1.6 K4M Intens CVT (built in Brazil).",
+    "categories": "Self-published work|White Renault SUVs|Renault Captur GA|2019 Renault automobiles",
+    "original_sha1": "b3aa497fc2c8a9d7caebcde6fcb96d51b62d283d",
+    "original_sha256": "7554746b390536cd8b52cbfc18c066e4d93a6d4afac3b3e6504d5bf949b8c630",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "captur-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 26504,
+        "sha256": "f2ac5aba06d8af3a12f960a9da0dd4278260f494d2d5e5d22081552cda3f2f5c"
+      },
+      {
+        "file": "captur-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 91040,
+        "sha256": "72610a091a09f2263b3dc0d75b0d689a48fb17942a52e5823f97d97cee45224e"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/captur-480-f2ac5aba06d8.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 26504,
+        "sha256": "f2ac5aba06d8af3a12f960a9da0dd4278260f494d2d5e5d22081552cda3f2f5c"
+      },
+      {
+        "src": "/assets/vehicle-photos/captur-960-72610a091a09.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 91040,
+        "sha256": "72610a091a09f2263b3dc0d75b0d689a48fb17942a52e5823f97d97cee45224e"
+      }
+    ]
+  },
+  "hr-v": {
+    "slug": "hr-v",
+    "catalog_ids": [
+      16
+    ],
+    "source_title": "File:2018 Honda HR-V (MY18) VTi wagon (2018-11-27) 01.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2018_Honda_HR-V_(MY18)_VTi_wagon_(2018-11-27)_01.jpg",
+    "source_revision": {
+      "revid": 963252099,
+      "parentid": 787831215,
+      "timestamp": "2024-11-29T14:57:06Z"
+    },
+    "artist": "EurovisionNim",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2018 Honda HR-V (MY18) VTi wagon. Photographed in Perth, Western Australia, Australia.",
+    "categories": "Self-published work|Honda HR-V (2nd generation)|Red Honda SUVs|Honda automobiles in Australia",
+    "original_sha1": "700d197146bdfa9fa1236a522c6c606d63da2b5c",
+    "original_sha256": "5663fb599a04814c1b840741abddd3a37bc740f579d6f69ec962350cb4eec5d7",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "hr-v-480.webp",
+        "width": 480,
+        "height": 236,
+        "bytes": 19382,
+        "sha256": "c016fa87ab48002d6167817f7bfd3d293718005acf824f8c94f0005f83654ac9"
+      },
+      {
+        "file": "hr-v-960.webp",
+        "width": 960,
+        "height": 472,
+        "bytes": 59266,
+        "sha256": "a505d26e2f68fcb7b674d138ee304d643feec9cc8b9d470f203a5f0cd791f988"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/hr-v-480-c016fa87ab48.webp",
+        "width": 480,
+        "height": 236,
+        "bytes": 19382,
+        "sha256": "c016fa87ab48002d6167817f7bfd3d293718005acf824f8c94f0005f83654ac9"
+      },
+      {
+        "src": "/assets/vehicle-photos/hr-v-960-a505d26e2f68.webp",
+        "width": 960,
+        "height": 472,
+        "bytes": 59266,
+        "sha256": "a505d26e2f68fcb7b674d138ee304d643feec9cc8b9d470f203a5f0cd791f988"
+      }
+    ]
+  },
+  "versa": {
+    "slug": "versa",
+    "catalog_ids": [
+      30
+    ],
+    "source_title": "File:19 Nissan Versa SV.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:19_Nissan_Versa_SV.jpg",
+    "source_revision": {
+      "revid": 954532540,
+      "parentid": 872251655,
+      "timestamp": "2024-11-09T06:42:06Z"
+    },
+    "artist": "HJUdall",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "description": "19 Nissan Versa SV - Shot at Premier Auto Center in Gilbert AZ",
+    "categories": "CC-Zero|Self-published work|Nissan Versa (N17)",
+    "original_sha1": "2c0a2f82409ca642ec23d70312c0910157e24579",
+    "original_sha256": "5527817e73f91e8de00c808989dd0b254fd44bb75344674d24c2a6cb8718db8e",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "versa-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 31772,
+        "sha256": "95d453e8441c39aa2f44b85675f437f007bd087907c381c1a087a783b4228814"
+      },
+      {
+        "file": "versa-960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 138194,
+        "sha256": "1b6dbb1577cf4f7137fd293230ab30d285182f9c45cc0a66a38b1b7d3cc0733b"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/versa-480-95d453e8441c.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 31772,
+        "sha256": "95d453e8441c39aa2f44b85675f437f007bd087907c381c1a087a783b4228814"
+      },
+      {
+        "src": "/assets/vehicle-photos/versa-960-1b6dbb1577cf.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 138194,
+        "sha256": "1b6dbb1577cf4f7137fd293230ab30d285182f9c45cc0a66a38b1b7d3cc0733b"
+      }
+    ]
+  },
+  "kicks": {
+    "slug": "kicks",
+    "catalog_ids": [
+      31,
+      123,
+      124
+    ],
+    "source_title": "File:Nissan Kicks 1.6 Advance 2019 (48856741862).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Nissan_Kicks_1.6_Advance_2019_(48856741862).jpg",
+    "source_revision": {
+      "revid": 1118323340,
+      "parentid": 914166249,
+      "timestamp": "2025-11-19T09:14:27Z"
+    },
+    "artist": "RL GNZLZ from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Nissan Kicks 1.6 Advance 2019",
+    "categories": "Red Nissan SUVs|Flickr images reviewed by FlickreviewR 2|Nissan Kicks (P15)",
+    "original_sha1": "addf10a676989b1a62c2a21a45d04060f8e5b5ef",
+    "original_sha256": "881fbb9a911e71fde9a887e150f921b714ea57e35023cfa0098311945e22ab9f",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "kicks-480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 29964,
+        "sha256": "a1b753f5a980b21caf89559eb830a5f26c8730bb040d185c9b4db04683af87fe"
+      },
+      {
+        "file": "kicks-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 98846,
+        "sha256": "3540461c6d58f427a5556dd0ecb53614fb1dfe7c583eea7545a95809978519e7"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/kicks-480-a1b753f5a980.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 29964,
+        "sha256": "a1b753f5a980b21caf89559eb830a5f26c8730bb040d185c9b4db04683af87fe"
+      },
+      {
+        "src": "/assets/vehicle-photos/kicks-960-3540461c6d58.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 98846,
+        "sha256": "3540461c6d58f427a5556dd0ecb53614fb1dfe7c583eea7545a95809978519e7"
+      }
+    ]
+  },
+  "wr-v": {
+    "slug": "wr-v",
+    "catalog_ids": [
+      96,
+      106
+    ],
+    "source_title": "File:Honda WR-V 1.5 LX 2018 (32516992488).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Honda_WR-V_1.5_LX_2018_(32516992488).jpg",
+    "source_revision": {
+      "revid": 878225267,
+      "parentid": 674656310,
+      "timestamp": "2024-05-21T13:57:40Z"
+    },
+    "artist": "RL GNZLZ from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Honda WR-V 1.5 LX 2018",
+    "categories": "Honda WR-V (first generation)|2018 Honda automobiles|Black Honda SUVs|Photographs by order 242|Flickr images reviewed by FlickreviewR 2",
+    "original_sha1": "2c4db2e4ce3841228e9fadc63745121a33a6e484",
+    "original_sha256": "474fb945da0ffbffab653f9c6022a6f73c15968e5e76da505feab8174c1b5687",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "wr-v-480.webp",
+        "width": 480,
+        "height": 288,
+        "bytes": 37048,
+        "sha256": "83b072999f95271d3d2b9fe17a6715d545c22c65b0bcc272cb75479cbfadbba1"
+      },
+      {
+        "file": "wr-v-960.webp",
+        "width": 960,
+        "height": 576,
+        "bytes": 115068,
+        "sha256": "4cf78cb151860802204c02050c78fb6517d5ef0007584349298e00c9d78b79de"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/wr-v-480-83b072999f95.webp",
+        "width": 480,
+        "height": 288,
+        "bytes": 37048,
+        "sha256": "83b072999f95271d3d2b9fe17a6715d545c22c65b0bcc272cb75479cbfadbba1"
+      },
+      {
+        "src": "/assets/vehicle-photos/wr-v-960-4cf78cb15186.webp",
+        "width": 960,
+        "height": 576,
+        "bytes": 115068,
+        "sha256": "4cf78cb151860802204c02050c78fb6517d5ef0007584349298e00c9d78b79de"
+      }
+    ]
+  },
+  "rio": {
+    "slug": "rio",
+    "catalog_ids": [
+      45,
+      102
+    ],
+    "source_title": "File:2019 Kia Rio EX, Front Right, 09-06-2020.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2019_Kia_Rio_EX,_Front_Right,_09-06-2020.jpg",
+    "source_revision": {
+      "revid": 758626637,
+      "parentid": 697878304,
+      "timestamp": "2023-05-03T16:07:24Z"
+    },
+    "artist": "SsmIntrigue",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2019 Kia Rio EX photographed in Sault Ste. Marie, Ontario, Canada",
+    "categories": "Self-published work|Kia automobiles in Canada|Automobiles in Sault Ste. Marie, Ontario|Kia Rio (YB)",
+    "original_sha1": "09dd21a5174921155f6f6e60e6d13b5cb0aaf575",
+    "original_sha256": "a3d1d178bab77c7c19de4f49cec2fef83e805e1e4f4a73d8f22a8075e46a5d10",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "rio-480.webp",
+        "width": 480,
+        "height": 305,
+        "bytes": 25094,
+        "sha256": "a2ae52cd1173c7362d69402e6787a594ba38a6d978dc3ce8f2e26844b026f9ca"
+      },
+      {
+        "file": "rio-960.webp",
+        "width": 960,
+        "height": 609,
+        "bytes": 78132,
+        "sha256": "ae836fbde3599e6b4830eb66b58cc5a3cfc9c52b59865a1e59cda3e856528673"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/rio-480-a2ae52cd1173.webp",
+        "width": 480,
+        "height": 305,
+        "bytes": 25094,
+        "sha256": "a2ae52cd1173c7362d69402e6787a594ba38a6d978dc3ce8f2e26844b026f9ca"
+      },
+      {
+        "src": "/assets/vehicle-photos/rio-960-ae836fbde359.webp",
+        "width": 960,
+        "height": 609,
+        "bytes": 78132,
+        "sha256": "ae836fbde3599e6b4830eb66b58cc5a3cfc9c52b59865a1e59cda3e856528673"
+      }
+    ]
+  },
+  "cronos": {
+    "slug": "cronos",
+    "catalog_ids": [
+      125
+    ],
+    "source_title": "File:2021 Fiat Cronos 1.8 16v Precision (front view).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2021_Fiat_Cronos_1.8_16v_Precision_(front_view).jpg",
+    "source_revision": {
+      "revid": 966031360,
+      "parentid": 837064280,
+      "timestamp": "2024-12-05T08:24:27Z"
+    },
+    "artist": "Maxi-Napo-99",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2021 Fiat Cronos 1.8 16v Precision.",
+    "categories": "Fiat Cronos|Self-published work|White Fiat sedans|2021 Fiat automobiles",
+    "original_sha1": "c772e022ffe584ad2e28c429b9ad53820caa805e",
+    "original_sha256": "34db48f915716a4b05c3f2958b86a605e8f84951047fe0ed8507442ba60e808f",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "cronos-480.webp",
+        "width": 480,
+        "height": 340,
+        "bytes": 34220,
+        "sha256": "96d2214ec26d19f11c78f5eac1398ca43fe5d4d2e9b54c7255730d03ba36ab98"
+      },
+      {
+        "file": "cronos-960.webp",
+        "width": 960,
+        "height": 679,
+        "bytes": 119380,
+        "sha256": "ebbac03b73daab5513934b483e59f8770fe1934b23b1d46a69cdd97326198847"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/cronos-480-96d2214ec26d.webp",
+        "width": 480,
+        "height": 340,
+        "bytes": 34220,
+        "sha256": "96d2214ec26d19f11c78f5eac1398ca43fe5d4d2e9b54c7255730d03ba36ab98"
+      },
+      {
+        "src": "/assets/vehicle-photos/cronos-960-ebbac03b73da.webp",
+        "width": 960,
+        "height": 679,
+        "bytes": 119380,
+        "sha256": "ebbac03b73daab5513934b483e59f8770fe1934b23b1d46a69cdd97326198847"
+      }
+    ]
+  },
+  "aircross": {
+    "slug": "aircross",
+    "catalog_ids": [
+      59
+    ],
+    "source_title": "File:2019 Citröen Aircross 1.6 VTi Feel.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2019_Citr%C3%B6en_Aircross_1.6_VTi_Feel.jpg",
+    "source_revision": {
+      "revid": 964013563,
+      "parentid": 914086059,
+      "timestamp": "2024-12-01T04:16:34Z"
+    },
+    "artist": "Maxi-Napo-99",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2019 Citröen Aircross 1.6 VTi Feel (facelift) pictured in Villa General Mitre, Buenos Aires City. In 2016, the Brazilian version of the 2nd generation C3 Aircross was rebranded as 'Citröen Aircross'.",
+    "categories": "Self-published work|Silver Citroën hatchbacks|2019 Citroën automobiles|Citroën C3 Aircross (2010)",
+    "original_sha1": "7a9dbaf2ba9dccf5551db9783a905174365c6161",
+    "original_sha256": "490ad6168c0835a8f31a6b4f80acbcc8d6602c3285ef15c6dcf46b51d8a238ef",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "aircross-480.webp",
+        "width": 480,
+        "height": 311,
+        "bytes": 25788,
+        "sha256": "fb3f169833211207188e6aebe923ee0b88ef5d8312490e772fdc45fc3a0ac57b"
+      },
+      {
+        "file": "aircross-960.webp",
+        "width": 960,
+        "height": 623,
+        "bytes": 79964,
+        "sha256": "fcb66d819db7b011861630e3833f253d5f4505212b1e0391158e8d2d4f933f4c"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/aircross-480-fb3f16983321.webp",
+        "width": 480,
+        "height": 311,
+        "bytes": 25788,
+        "sha256": "fb3f169833211207188e6aebe923ee0b88ef5d8312490e772fdc45fc3a0ac57b"
+      },
+      {
+        "src": "/assets/vehicle-photos/aircross-960-fcb66d819db7.webp",
+        "width": 960,
+        "height": 623,
+        "bytes": 79964,
+        "sha256": "fcb66d819db7b011861630e3833f253d5f4505212b1e0391158e8d2d4f933f4c"
+      }
+    ]
+  },
+  "ecosport": {
+    "slug": "ecosport",
+    "catalog_ids": [
+      34
+    ],
+    "source_title": "File:2018 Ford EcoSport SE 4WD, Front Right, 09-25-2020.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2018_Ford_EcoSport_SE_4WD,_Front_Right,_09-25-2020.jpg",
+    "source_revision": {
+      "revid": 861555029,
+      "parentid": 756885765,
+      "timestamp": "2024-03-18T13:00:27Z"
+    },
+    "artist": "SsmIntrigue",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2018 Ford EcoSport SE 4WD photographed in Sault Ste. Marie, Ontario, Canada",
+    "categories": "Ford EcoSport (2nd generation)|Self-published work|Ford automobiles in Canada|2018 Ford automobiles|Automobiles in Sault Ste. Marie, Ontario",
+    "original_sha1": "e0ba278ebc9e768aeac249051a0cde055fa7cd95",
+    "original_sha256": "88d810f702568757f580d7b10afd266ad7ed66c30f4b40c7e98267acb953ca78",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "ecosport-480.webp",
+        "width": 480,
+        "height": 339,
+        "bytes": 28132,
+        "sha256": "3b6fabb4ea9e723bf9f6382c313f4297efb467417a40edd6d9c65f5ab75c8562"
+      },
+      {
+        "file": "ecosport-960.webp",
+        "width": 960,
+        "height": 678,
+        "bytes": 95704,
+        "sha256": "9ecd87879d27f459e492488de970c7048c23267b2972732b7c5e3e61a2bd21ef"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/ecosport-480-3b6fabb4ea9e.webp",
+        "width": 480,
+        "height": 339,
+        "bytes": 28132,
+        "sha256": "3b6fabb4ea9e723bf9f6382c313f4297efb467417a40edd6d9c65f5ab75c8562"
+      },
+      {
+        "src": "/assets/vehicle-photos/ecosport-960-9ecd87879d27.webp",
+        "width": 960,
+        "height": 678,
+        "bytes": 95704,
+        "sha256": "9ecd87879d27f459e492488de970c7048c23267b2972732b7c5e3e61a2bd21ef"
+      }
+    ]
+  },
+  "fluence": {
+    "slug": "fluence",
+    "catalog_ids": [
+      47
+    ],
+    "source_title": "File:Renault Fluence 2.0 Privilege 2016 (28539849181).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Renault_Fluence_2.0_Privilege_2016_(28539849181).jpg",
+    "source_revision": {
+      "revid": 894114087,
+      "parentid": 743460119,
+      "timestamp": "2024-07-07T20:51:54Z"
+    },
+    "artist": "RL GNZLZ from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Renault Fluence 2.0 Privilege 2016",
+    "categories": "Renault Fluence|Flickr images reviewed by FlickreviewR 2",
+    "original_sha1": "144408f570dd8943bc55f967f726047364e556d4",
+    "original_sha256": "6ad8516d1d8e90e52d008ecf4984a53e8e53f91074ef6927d8c649d4fd3c173a",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "fluence-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 37504,
+        "sha256": "c2f4f50ee13bf6fa20a49010c77d9ccfc4a345b022a03404250add7c76e963ef"
+      },
+      {
+        "file": "fluence-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 122006,
+        "sha256": "e0cc6736a7257c196c3e485eb96c228e9f0e83c903b85772f079986ba54b0ca8"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/fluence-480-c2f4f50ee13b.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 37504,
+        "sha256": "c2f4f50ee13bf6fa20a49010c77d9ccfc4a345b022a03404250add7c76e963ef"
+      },
+      {
+        "src": "/assets/vehicle-photos/fluence-960-e0cc6736a725.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 122006,
+        "sha256": "e0cc6736a7257c196c3e485eb96c228e9f0e83c903b85772f079986ba54b0ca8"
+      }
+    ]
+  },
+  "fit": {
+    "slug": "fit",
+    "catalog_ids": [
+      108
+    ],
+    "source_title": "File:2017–2020 Honda Fit 13G·F in Lunar Silver Metallic, front left.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2017%E2%80%932020_Honda_Fit_13G%C2%B7F_in_Lunar_Silver_Metallic,_front_left.jpg",
+    "source_revision": {
+      "revid": 1234150930,
+      "parentid": 1203216572,
+      "timestamp": "2026-06-19T16:39:00Z"
+    },
+    "artist": "Mr.choppers",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2017–2020 Honda Fit 13G·F in Lunar Silver Metallic.",
+    "categories": "Self-published work|Honda Fit (3rd generation)|Silver Honda hatchbacks|Files with coordinates missing SDC location of creation|Own work - files by User:Mr.choppers 2024",
+    "original_sha1": "2660b009cb3564807d914d89610cc5c8ae9b0952",
+    "original_sha256": "c9f8fee581c5bce0d6fcd91b5d1ecc946b63274e52b2179fcf366a507273fcf2",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "fit-480.webp",
+        "width": 480,
+        "height": 294,
+        "bytes": 20398,
+        "sha256": "5f553ce10ad170d985c6334ae2a23c71bd74aae1282023a2fb80c9251faa838a"
+      },
+      {
+        "file": "fit-960.webp",
+        "width": 960,
+        "height": 587,
+        "bytes": 63228,
+        "sha256": "d81fe7c7040eacb06bd08fb7f3829bdc47f63c4140c51e8b4b781c813ca7f345"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/fit-480-5f553ce10ad1.webp",
+        "width": 480,
+        "height": 294,
+        "bytes": 20398,
+        "sha256": "5f553ce10ad170d985c6334ae2a23c71bd74aae1282023a2fb80c9251faa838a"
+      },
+      {
+        "src": "/assets/vehicle-photos/fit-960-d81fe7c7040e.webp",
+        "width": 960,
+        "height": 587,
+        "bytes": 63228,
+        "sha256": "d81fe7c7040eacb06bd08fb7f3829bdc47f63c4140c51e8b4b781c813ca7f345"
+      }
+    ]
+  },
+  "city": {
+    "slug": "city",
+    "catalog_ids": [
+      14,
+      109,
+      122
+    ],
+    "source_title": "File:2018 Honda City Hybrid (5).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2018_Honda_City_Hybrid_(5).jpg",
+    "source_revision": {
+      "revid": 963251681,
+      "parentid": 756895930,
+      "timestamp": "2024-11-29T14:55:55Z"
+    },
+    "artist": "Bindydad123",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "Taken at Gurney Plaza, Penang, Malaysia on the 1st of March 2019 of a 2018 Honda City 1.5 Hybrid.",
+    "categories": "Self-published work|Grey Honda sedans|Honda City (6th generation) hybrid",
+    "original_sha1": "bdaab059c789f460a54606a276b397e3254c09e8",
+    "original_sha256": "f9d054d3af202fd8a8c4582f3395b6714906236f14964f9f85fcd961950667ed",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "city-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 26684,
+        "sha256": "8606f7c4548f04a62a2c75fb7ef5c584ef3ca538a3a54d0f5a3525f8a6579f33"
+      },
+      {
+        "file": "city-960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 70206,
+        "sha256": "dd2059074bb440fa92953707b9bfa62f64b61e459ae6ac09bea57d7be294eb2b"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/city-480-8606f7c4548f.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 26684,
+        "sha256": "8606f7c4548f04a62a2c75fb7ef5c584ef3ca538a3a54d0f5a3525f8a6579f33"
+      },
+      {
+        "src": "/assets/vehicle-photos/city-960-dd2059074bb4.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 70206,
+        "sha256": "dd2059074bb440fa92953707b9bfa62f64b61e459ae6ac09bea57d7be294eb2b"
+      }
+    ],
+    "correspondence_note": "Foto de versão híbrida estrangeira da mesma carroceria GM6; não representa a motorização flex do catálogo."
+  },
+  "voyage": {
+    "slug": "voyage",
+    "catalog_ids": [
+      20
+    ],
+    "source_title": "File:Volkswagen Voyage 1.6 Power 2014 (12664254193).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Volkswagen_Voyage_1.6_Power_2014_(12664254193).jpg",
+    "source_revision": {
+      "revid": 1193608979,
+      "parentid": 1126719441,
+      "timestamp": "2026-04-08T03:46:10Z"
+    },
+    "artist": "order_242 from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Volkswagen Voyage 1.6 Power 2014",
+    "categories": "Taken with Canon PowerShot A630|Flickr images reviewed by FlickreviewR|Volkswagen Voyage Mk3|Photographs by order 242",
+    "original_sha1": "ce553c0072884420ddf794e2a6a5a8a50cb81a53",
+    "original_sha256": "ffe1d6836477f5c7294ef707e202bfe289bdbdff561a48c722175eddcf2d8f37",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "voyage-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 29180,
+        "sha256": "144ad9704f25f608a8d8eb1882fb8698750830c6eb09ea37a0f540092c0a2331"
+      },
+      {
+        "file": "voyage-960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 96428,
+        "sha256": "dcdc36c4efaf7f402c3cdc38b9a8d32853d85dbfb902aca644e117201ddb6fb2"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/voyage-480-144ad9704f25.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 29180,
+        "sha256": "144ad9704f25f608a8d8eb1882fb8698750830c6eb09ea37a0f540092c0a2331"
+      },
+      {
+        "src": "/assets/vehicle-photos/voyage-960-dcdc36c4efaf.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 96428,
+        "sha256": "dcdc36c4efaf7f402c3cdc38b9a8d32853d85dbfb902aca644e117201ddb6fb2"
+      }
+    ]
+  },
+  "march": {
+    "slug": "march",
+    "catalog_ids": [
+      29
+    ],
+    "source_title": "File:Nissan March Sport 1.6 Drive 2017 (25862399768).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Nissan_March_Sport_1.6_Drive_2017_(25862399768).jpg",
+    "source_revision": {
+      "revid": 1123507528,
+      "parentid": 918576381,
+      "timestamp": "2025-11-30T18:43:00Z"
+    },
+    "artist": "RL GNZLZ from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Nissan March Sport 1.6 Drive 2017",
+    "categories": "Nissan March (K13)|Photographs by order 242|Flickr images reviewed by FlickreviewR 2",
+    "original_sha1": "4b1dd83729923e1354586afe2fe6bdf84e8ba454",
+    "original_sha256": "0385e062309e5eefbf2573690314534be8817f9db5613a0eee0789e73d5881d4",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "march-480.webp",
+        "width": 480,
+        "height": 297,
+        "bytes": 33220,
+        "sha256": "b9e1c78b569bc2b75970e3a81a798d1e5f36e6ad356a05bf5db8803b93df493a"
+      },
+      {
+        "file": "march-960.webp",
+        "width": 960,
+        "height": 594,
+        "bytes": 116950,
+        "sha256": "940b0d7f641cd81ff5fdb3135f387c3c7cbf539687a327decdcbb742aee1060c"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/march-480-b9e1c78b569b.webp",
+        "width": 480,
+        "height": 297,
+        "bytes": 33220,
+        "sha256": "b9e1c78b569bc2b75970e3a81a798d1e5f36e6ad356a05bf5db8803b93df493a"
+      },
+      {
+        "src": "/assets/vehicle-photos/march-960-940b0d7f641c.webp",
+        "width": 960,
+        "height": 594,
+        "bytes": 116950,
+        "sha256": "940b0d7f641cd81ff5fdb3135f387c3c7cbf539687a327decdcbb742aee1060c"
+      }
+    ]
+  },
+  "renegade": {
+    "slug": "renegade",
+    "catalog_ids": [
+      32
+    ],
+    "source_title": "File:Jeep Renegade 1.6 Multijet (2019) (53511776466).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Jeep_Renegade_1.6_Multijet_(2019)_(53511776466).jpg",
+    "source_revision": {
+      "revid": 1166114345,
+      "parentid": 1163459932,
+      "timestamp": "2026-02-15T08:38:19Z"
+    },
+    "artist": "Charles from Port Chester, New York",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "description": "Production: 2014 -\nEngine: 1,6 litre turbo R4 (diesel)\nPower: 120 PS\nGearbox: 6 speed manual\n\nLayout: front engine, all front drive",
+    "categories": "Jeep Renegade|Files with coordinates missing SDC location of creation|Flickr images reviewed by FlickreviewR 2|Flickr images missing SDC published in",
+    "original_sha1": "c801315fa8b2e74fae8b610b58d95c0d85a31c84",
+    "original_sha256": "5a596ed703a63a581e2b732c0822ae6780153f298ec8f30c95543b01fc39bb94",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "renegade-480.webp",
+        "width": 480,
+        "height": 327,
+        "bytes": 24278,
+        "sha256": "3a07bc0164277471bac91e7c29aaab2fbbac61066006914e5caf10de475de64c"
+      },
+      {
+        "file": "renegade-960.webp",
+        "width": 960,
+        "height": 654,
+        "bytes": 68430,
+        "sha256": "1bc799c1acb9c1efda769a44f547e651380ca47decc4839d6ce0b08960065b2c"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/renegade-480-3a07bc016427.webp",
+        "width": 480,
+        "height": 327,
+        "bytes": 24278,
+        "sha256": "3a07bc0164277471bac91e7c29aaab2fbbac61066006914e5caf10de475de64c"
+      },
+      {
+        "src": "/assets/vehicle-photos/renegade-960-1bc799c1acb9.webp",
+        "width": 960,
+        "height": 654,
+        "bytes": 68430,
+        "sha256": "1bc799c1acb9c1efda769a44f547e651380ca47decc4839d6ce0b08960065b2c"
+      }
+    ]
+  },
+  "up": {
+    "slug": "up",
+    "catalog_ids": [
+      36
+    ],
+    "source_title": "File:2018 Volkswagen Up! Pepper 1.0 TSi.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2018_Volkswagen_Up!_Pepper_1.0_TSi.jpg",
+    "source_revision": {
+      "revid": 1258996835,
+      "parentid": 1247497591,
+      "timestamp": "2026-08-09T19:41:03Z"
+    },
+    "artist": "Just a Man",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2018 Volkswagen Up! Pepper 1.0 TSi photographed in Villa Crespo, Buenos Aires, Argentina.",
+    "categories": "Self-published work|Creative Commons Attribution 4.0 missing SDC copyright license|Creative Commons Attribution missing SDC copyright status|Self-published work missing SDC copyright license|White Volkswagen hatchbacks|2018 Volkswagen automobiles|Volkswagen up! (2017, Brazil)",
+    "original_sha1": "31d44d950738056bf6ab5a3fceb88729f706800c",
+    "original_sha256": "14e8a14f11767f212ad88ad3ab2fba5a4c1df0c6f83117810c33091d1a5c486e",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "up-480.webp",
+        "width": 480,
+        "height": 319,
+        "bytes": 26886,
+        "sha256": "3b458cf225178b36d0c8fdd023810f7d64d692f44ce515cb9bb165435637ce23"
+      },
+      {
+        "file": "up-960.webp",
+        "width": 960,
+        "height": 638,
+        "bytes": 90586,
+        "sha256": "22cdf089a89f2f87849819b46962e4eb19716161456c39396a31781b5a8373f1"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/up-480-3b458cf22517.webp",
+        "width": 480,
+        "height": 319,
+        "bytes": 26886,
+        "sha256": "3b458cf225178b36d0c8fdd023810f7d64d692f44ce515cb9bb165435637ce23"
+      },
+      {
+        "src": "/assets/vehicle-photos/up-960-22cdf089a89f.webp",
+        "width": 960,
+        "height": 638,
+        "bytes": 90586,
+        "sha256": "22cdf089a89f2f87849819b46962e4eb19716161456c39396a31781b5a8373f1"
+      }
+    ]
+  },
+  "fox": {
+    "slug": "fox",
+    "catalog_ids": [
+      37
+    ],
+    "source_title": "File:Volkswagen Fox 2015 in Punta del Este 01.JPG",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Volkswagen_Fox_2015_in_Punta_del_Este_01.JPG",
+    "source_revision": {
+      "revid": 1182239997,
+      "parentid": 1018254635,
+      "timestamp": "2026-03-16T17:53:45Z"
+    },
+    "artist": "NaBUru38",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "Volkswagen Fox 2015 (second restyle) photographed in Punta del Este",
+    "categories": "Self-published work|Images with extracted images|Automobiles in Maldonado Department|Files with coordinates missing SDC location of creation|Volkswagen automobiles in Uruguay|2015 in Maldonado Department|Volkswagen Fox (2015)",
+    "original_sha1": "1be6f6fc7b2a5eb3a6f70cdd65fd0a6059dc1773",
+    "original_sha256": "c4119df6713182ef170dcddb00890346a14c3c57ecb277d76dfd1091b399ca63",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "fox-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 28520,
+        "sha256": "dd6588cce4c11fde0dbd59fe849c3f71f6662f7317ddc0689d44ec7b3a561427"
+      },
+      {
+        "file": "fox-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 94284,
+        "sha256": "767d7598b21160a304456c11c07da255c5c3dc4c5999709ce364a2c6640a29c2"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/fox-480-dd6588cce4c1.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 28520,
+        "sha256": "dd6588cce4c11fde0dbd59fe849c3f71f6662f7317ddc0689d44ec7b3a561427"
+      },
+      {
+        "src": "/assets/vehicle-photos/fox-960-767d7598b211.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 94284,
+        "sha256": "767d7598b21160a304456c11c07da255c5c3dc4c5999709ce364a2c6640a29c2"
+      }
+    ]
+  },
+  "208": {
+    "slug": "208",
+    "catalog_ids": [
+      38
+    ],
+    "source_title": "File:2019 Peugeot 208 Signature.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2019_Peugeot_208_Signature.jpg",
+    "source_revision": {
+      "revid": 1114319668,
+      "parentid": 1013435709,
+      "timestamp": "2025-11-12T23:04:19Z"
+    },
+    "artist": "RL GNZLZ",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "The Signature replaced the Allure trim level in the last years of the first generation of the 208",
+    "categories": "White Peugeot hatchbacks|Flickr images reviewed by FlickreviewR 2|2019 Peugeot automobiles|Peugeot 208 A facelift",
+    "original_sha1": "8ac5b0642543bb46da59ae100956e808e8911132",
+    "original_sha256": "fe718943d16c3c109d81af49f6fa9ea1cc7881bc5da8fee0f42e5fd4e08f0b63",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "208-480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 21118,
+        "sha256": "c4698df89de430bd3aa2e97e3a7c81609a087b4f97d0018538c1b37feee7dda3"
+      },
+      {
+        "file": "208-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 58652,
+        "sha256": "e2967a9a6963f46f4a4caf24d0e88b9229eb07c6c5402ede4d9a6beaf97d73ef"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/208-480-c4698df89de4.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 21118,
+        "sha256": "c4698df89de430bd3aa2e97e3a7c81609a087b4f97d0018538c1b37feee7dda3"
+      },
+      {
+        "src": "/assets/vehicle-photos/208-960-e2967a9a6963.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 58652,
+        "sha256": "e2967a9a6963f46f4a4caf24d0e88b9229eb07c6c5402ede4d9a6beaf97d73ef"
+      }
+    ]
+  },
+  "c3": {
+    "slug": "c3",
+    "catalog_ids": [
+      39
+    ],
+    "source_title": "File:Citroen C3 1.4 Seduction 2013 (14368605614).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Citroen_C3_1.4_Seduction_2013_(14368605614).jpg",
+    "source_revision": {
+      "revid": 1193573892,
+      "parentid": 1026260091,
+      "timestamp": "2026-04-08T02:04:25Z"
+    },
+    "artist": "order_242 from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Citroen C3 1.4 Seduction 2013",
+    "categories": "Taken with Canon PowerShot A630|Citroën C3 (2009)|Flickr images reviewed by FlickreviewR|Silver Citroën hatchbacks|Photographs by order 242",
+    "original_sha1": "0b6931851f83c6f02ee9c72c8599bf0563b95191",
+    "original_sha256": "1a087db1d3ed4a15270a9e6ab3260a733215741f84b83d7696c42d01c21ea9b2",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "c3-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 24978,
+        "sha256": "3f2884019929af6a0cdf16efb2953717c645f6b762e56343aefd9b6c06d1dada"
+      },
+      {
+        "file": "c3-960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 76400,
+        "sha256": "9f94cc6a85552cf30623f1e47fc076eb8578fb30fe2ce51f6cc566b44906bf50"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/c3-480-3f2884019929.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 24978,
+        "sha256": "3f2884019929af6a0cdf16efb2953717c645f6b762e56343aefd9b6c06d1dada"
+      },
+      {
+        "src": "/assets/vehicle-photos/c3-960-9f94cc6a8555.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 76400,
+        "sha256": "9f94cc6a85552cf30623f1e47fc076eb8578fb30fe2ce51f6cc566b44906bf50"
+      }
+    ]
+  },
+  "palio": {
+    "slug": "palio",
+    "catalog_ids": [
+      42
+    ],
+    "source_title": "File:2017 Fiat Palio 1.4 Attractive.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2017_Fiat_Palio_1.4_Attractive.jpg",
+    "source_revision": {
+      "revid": 959746260,
+      "parentid": 840493417,
+      "timestamp": "2024-11-21T01:36:33Z"
+    },
+    "artist": "Maxi-Napo-99",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2017 Fiat Palio 1.4 Attractive, built in Brazil. Photographed in Villa Real, Buenos Aires City, Argentina.",
+    "categories": "Self-published work|White Fiat hatchbacks|2017 Fiat automobiles|Fiat Palio II",
+    "original_sha1": "2c9b47495d75e91b21532ebd7c888bb9d7889555",
+    "original_sha256": "12f9a73703072edf10ccb6df90ed004d9e7243d54148f60c50626551018bcdfd",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "palio-480.webp",
+        "width": 480,
+        "height": 318,
+        "bytes": 25402,
+        "sha256": "9c31b253424eb94dedd3d44f41dd0c6293058de319503a83dcf3e7b4ce05f7d2"
+      },
+      {
+        "file": "palio-960.webp",
+        "width": 960,
+        "height": 636,
+        "bytes": 86220,
+        "sha256": "2c5c4d4ff5511d337aa4d650af50b4bd653944a9b1b9858c9cf7d493fc2bdb79"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/palio-480-9c31b253424e.webp",
+        "width": 480,
+        "height": 318,
+        "bytes": 25402,
+        "sha256": "9c31b253424eb94dedd3d44f41dd0c6293058de319503a83dcf3e7b4ce05f7d2"
+      },
+      {
+        "src": "/assets/vehicle-photos/palio-960-2c5c4d4ff551.webp",
+        "width": 960,
+        "height": 636,
+        "bytes": 86220,
+        "sha256": "2c5c4d4ff5511d337aa4d650af50b4bd653944a9b1b9858c9cf7d493fc2bdb79"
+      }
+    ]
+  },
+  "500": {
+    "slug": "500",
+    "catalog_ids": [
+      43
+    ],
+    "source_title": "File:2015 Fiat 500 Pop hatchback (2018-09-03) 01.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2015_Fiat_500_Pop_hatchback_(2018-09-03)_01.jpg",
+    "source_revision": {
+      "revid": 971963478,
+      "parentid": 971958995,
+      "timestamp": "2024-12-18T14:21:25Z"
+    },
+    "artist": "EurovisionNim",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2015 Fiat 500 Pop hatchback. Photographed in Fremantle, Western Australia, Australia.",
+    "categories": "Self-published work|Blue Fiat hatchbacks|2015 Fiat automobiles|Fiat 500 (2007–2015)",
+    "original_sha1": "ed3d81f6d0ebb01f80cf6704cd641f37e453468e",
+    "original_sha256": "389b0cc8ea8b7ac38486fc2653fcbef02e6b82a0d9eb9b9647243365425885c1",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "500-480.webp",
+        "width": 480,
+        "height": 277,
+        "bytes": 22242,
+        "sha256": "bda429ee7c868ad4049c614fc22dd0a45e1ce663723a0793fb64a3787d702b59"
+      },
+      {
+        "file": "500-960.webp",
+        "width": 960,
+        "height": 553,
+        "bytes": 69148,
+        "sha256": "b262d7b32ecb6fa432db52a6c82efe5ae6c35ad0fe6ca2363dfc3dc2e2c0eb5d"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/500-480-bda429ee7c86.webp",
+        "width": 480,
+        "height": 277,
+        "bytes": 22242,
+        "sha256": "bda429ee7c868ad4049c614fc22dd0a45e1ce663723a0793fb64a3787d702b59"
+      },
+      {
+        "src": "/assets/vehicle-photos/500-960-b262d7b32ecb.webp",
+        "width": 960,
+        "height": 553,
+        "bytes": 69148,
+        "sha256": "b262d7b32ecb6fa432db52a6c82efe5ae6c35ad0fe6ca2363dfc3dc2e2c0eb5d"
+      }
+    ]
+  },
+  "fiesta": {
+    "slug": "fiesta",
+    "catalog_ids": [
+      44
+    ],
+    "source_title": "File:2018 Ford Fiesta SE hatchback in Blue, front left2.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2018_Ford_Fiesta_SE_hatchback_in_Blue,_front_left2.jpg",
+    "source_revision": {
+      "revid": 756886000,
+      "parentid": 672902206,
+      "timestamp": "2023-05-01T01:18:31Z"
+    },
+    "artist": "Mr.choppers",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "description": "2018 Ford Fiesta SE hatchback. 1.6-liter Ti-VCT engine with 120 hp, built in Cuautitlan, Mexico.",
+    "categories": "GFDL|Ford Fiesta MK6|License migration redundant|Self-published work|Own work - files by User:Mr.choppers 2020|2018 Ford automobiles|Files with coordinates missing SDC location of creation",
+    "original_sha1": "33de37f182c26b27a63b7607d648d74f0992a5d6",
+    "original_sha256": "5ab8b61ab6a5e9b39194924d8223187d2dbd63d55170baebad860d52e78d3e5b",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "fiesta-480.webp",
+        "width": 480,
+        "height": 317,
+        "bytes": 43340,
+        "sha256": "efa83d7a23b5c7320948327538083f8b7f4b70f0f735db3c68fc3bfdfe69da6b"
+      },
+      {
+        "file": "fiesta-960.webp",
+        "width": 960,
+        "height": 635,
+        "bytes": 156154,
+        "sha256": "004526b3edac202731f228654e14ddabae613aa746504ba00e4a309ec7491bc9"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/fiesta-480-efa83d7a23b5.webp",
+        "width": 480,
+        "height": 317,
+        "bytes": 43340,
+        "sha256": "efa83d7a23b5c7320948327538083f8b7f4b70f0f735db3c68fc3bfdfe69da6b"
+      },
+      {
+        "src": "/assets/vehicle-photos/fiesta-960-004526b3edac.webp",
+        "width": 960,
+        "height": 635,
+        "bytes": 156154,
+        "sha256": "004526b3edac202731f228654e14ddabae613aa746504ba00e4a309ec7491bc9"
+      }
+    ]
+  },
+  "cruze": {
+    "slug": "cruze",
+    "catalog_ids": [
+      46
+    ],
+    "source_title": "File:2019 Chevrolet Cruze LT USDM rear.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2019_Chevrolet_Cruze_LT_USDM_rear.jpg",
+    "source_revision": {
+      "revid": 891127690,
+      "parentid": 812648921,
+      "timestamp": "2024-07-02T06:20:23Z"
+    },
+    "artist": "Rutger van der Maar",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "description": "Wiesbaden",
+    "categories": "United States specification automobiles in Germany|Chevrolet Cruze (J400, second generation)|Flickr images reviewed by FlickreviewR 2",
+    "original_sha1": "867c57fdcb5abe4708838f5704d92617325da63e",
+    "original_sha256": "c698813101df70948e9689719b5e80e185b3b56751fae7389498cf4fdaf9447a",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "cruze-480.webp",
+        "width": 480,
+        "height": 332,
+        "bytes": 58968,
+        "sha256": "c64840dbcd7bf8732d0c423c9a522fe80c8dfb309990f1a8e116d5b1e1f35efd"
+      },
+      {
+        "file": "cruze-960.webp",
+        "width": 960,
+        "height": 663,
+        "bytes": 200716,
+        "sha256": "addee6e1fcc25a5e955e345b2ba05bee4dd364998951ac98605183902084dc8c"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/cruze-480-c64840dbcd7b.webp",
+        "width": 480,
+        "height": 332,
+        "bytes": 58968,
+        "sha256": "c64840dbcd7bf8732d0c423c9a522fe80c8dfb309990f1a8e116d5b1e1f35efd"
+      },
+      {
+        "src": "/assets/vehicle-photos/cruze-960-addee6e1fcc2.webp",
+        "width": 960,
+        "height": 663,
+        "bytes": 200716,
+        "sha256": "addee6e1fcc25a5e955e345b2ba05bee4dd364998951ac98605183902084dc8c"
+      }
+    ]
+  },
+  "408": {
+    "slug": "408",
+    "catalog_ids": [
+      49
+    ],
+    "source_title": "File:2018 Peugeot 408 1.6 Feline.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2018_Peugeot_408_1.6_Feline.jpg",
+    "source_revision": {
+      "revid": 963314970,
+      "parentid": 844507751,
+      "timestamp": "2024-11-29T17:32:35Z"
+    },
+    "artist": "Maxi-Napo-99",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2018 Peugeot 408 1.6 Feline facelift.",
+    "categories": "Self-published work|White Peugeot sedans|2018 Peugeot automobiles|Cobblestone streets in Buenos Aires|Peugeot 408 (Argentina)",
+    "original_sha1": "6db1fa8a0fea473c5a09a02f5b8c7f409d14b122",
+    "original_sha256": "2e110f4cebbf9bc238f06bfb4bc09114f79971e56bf3fd0c4e657ea2536a1a98",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "408-480.webp",
+        "width": 480,
+        "height": 380,
+        "bytes": 32608,
+        "sha256": "e061f6794c32902cfa5f33d25b215fc820e9ec823bbefd0cee3157a33daacb2e"
+      },
+      {
+        "file": "408-960.webp",
+        "width": 960,
+        "height": 760,
+        "bytes": 107824,
+        "sha256": "38ca748b85856244557df16c6ae330efb2d9a0663b1888872ae478a24a2ba8a9"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/408-480-e061f6794c32.webp",
+        "width": 480,
+        "height": 380,
+        "bytes": 32608,
+        "sha256": "e061f6794c32902cfa5f33d25b215fc820e9ec823bbefd0cee3157a33daacb2e"
+      },
+      {
+        "src": "/assets/vehicle-photos/408-960-38ca748b8585.webp",
+        "width": 960,
+        "height": 760,
+        "bytes": 107824,
+        "sha256": "38ca748b85856244557df16c6ae330efb2d9a0663b1888872ae478a24a2ba8a9"
+      }
+    ]
+  },
+  "grand-siena": {
+    "slug": "grand-siena",
+    "catalog_ids": [
+      51
+    ],
+    "source_title": "File:Fiat Grand Siena in Maldonado - front.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Fiat_Grand_Siena_in_Maldonado_-_front.jpg",
+    "source_revision": {
+      "revid": 1196598738,
+      "parentid": 1015304335,
+      "timestamp": "2026-04-13T07:12:00Z"
+    },
+    "artist": "NaBUru38",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "A Fiat Grand Siena in Maldonado Department, Uruguay",
+    "categories": "Fiat Grand Siena|Self-published work|Automobiles in Maldonado Department|Fiat automobiles in Uruguay|2022 in Maldonado Department",
+    "original_sha1": "7efab6865391ce74c9994e55986f5b7441712896",
+    "original_sha256": "6d9eb4121934546935ef1818d5d19a69212aa018822df200049b172950f7970c",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "grand-siena-480.webp",
+        "width": 480,
+        "height": 251,
+        "bytes": 28116,
+        "sha256": "623553d50157fc5c87b3bdd1ad845eef50849766b8b25de8f8d637bdf9c00984"
+      },
+      {
+        "file": "grand-siena-960.webp",
+        "width": 960,
+        "height": 503,
+        "bytes": 100276,
+        "sha256": "4d040b83d25784f777449a9b0261321b72869de00dff1e27616ef210cb3b8bc8"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/grand-siena-480-623553d50157.webp",
+        "width": 480,
+        "height": 251,
+        "bytes": 28116,
+        "sha256": "623553d50157fc5c87b3bdd1ad845eef50849766b8b25de8f8d637bdf9c00984"
+      },
+      {
+        "src": "/assets/vehicle-photos/grand-siena-960-4d040b83d257.webp",
+        "width": 960,
+        "height": 503,
+        "bytes": 100276,
+        "sha256": "4d040b83d25784f777449a9b0261321b72869de00dff1e27616ef210cb3b8bc8"
+      }
+    ]
+  },
+  "arrizo-5": {
+    "slug": "arrizo-5",
+    "catalog_ids": [
+      52,
+      104
+    ],
+    "source_title": "File:Arrizo 5 RXT.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Arrizo_5_RXT.jpg",
+    "source_revision": {
+      "revid": 803943905,
+      "parentid": 673307648,
+      "timestamp": "2023-09-23T18:51:33Z"
+    },
+    "artist": "VicBarr",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "Arrizo 5, versão RXT, ano/modelo 2019/2020, no pátio da concessionária Caoa Chery Premium, em Fortaleza-CE.",
+    "categories": "Chery Arrizo 5|Self-published work|Black sedans|Files with coordinates missing SDC location of creation|Brazil photographs taken on 2019-11-16|Chery automobiles in Brazil",
+    "original_sha1": "23d6523da8ad2020ecfd5b2206d8b4ca52ec443b",
+    "original_sha256": "892b20c296575cffa1da5dcc3ee4a4a44b5d8d763a8958e1513ccd4ca786d831",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "arrizo-5-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 30024,
+        "sha256": "3f5b0436bdb41d70c9ed6206d624a80354dd822fbb1c2e58dc13e5502ab4ff96"
+      },
+      {
+        "file": "arrizo-5-960.webp",
+        "width": 960,
+        "height": 719,
+        "bytes": 87970,
+        "sha256": "0b8c026aed898b74119e2bc94e2f96d03f35281eee3f41abad86180a146d044f"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/arrizo-5-480-3f5b0436bdb4.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 30024,
+        "sha256": "3f5b0436bdb41d70c9ed6206d624a80354dd822fbb1c2e58dc13e5502ab4ff96"
+      },
+      {
+        "src": "/assets/vehicle-photos/arrizo-5-960-0b8c026aed89.webp",
+        "width": 960,
+        "height": 719,
+        "bytes": 87970,
+        "sha256": "0b8c026aed898b74119e2bc94e2f96d03f35281eee3f41abad86180a146d044f"
+      }
+    ]
+  },
+  "cerato": {
+    "slug": "cerato",
+    "catalog_ids": [
+      54
+    ],
+    "source_title": "File:2021 Kia Cerato sedan base silver front view in Brunei.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2021_Kia_Cerato_sedan_base_silver_front_view_in_Brunei.jpg",
+    "source_revision": {
+      "revid": 762486313,
+      "parentid": 711033058,
+      "timestamp": "2023-05-12T21:58:06Z"
+    },
+    "artist": "AIMHO'S REBELLION 8490s",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2021 Kia Cerato sedan base silver front view. Photographed at Grand Motors Kia showroom, Beribi, Brunei.",
+    "categories": "Kia Cerato (BD)|Self-published work",
+    "original_sha1": "99f6994976ce5de8c68e3bfead21410c52d37747",
+    "original_sha256": "830537670b768cc24b9cba4ac861ef8d4f580b3cba2f8f5762ac039805de874d",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "cerato-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 29686,
+        "sha256": "36a151b2ab4b95f479c9ea059e7af9b4aa9624d86857fed20a8aa398a266e200"
+      },
+      {
+        "file": "cerato-960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 107004,
+        "sha256": "7e91492d190ee009db0371c8ab4f38cb4b11630c9e761646883153180dcd251c"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/cerato-480-36a151b2ab4b.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 29686,
+        "sha256": "36a151b2ab4b95f479c9ea059e7af9b4aa9624d86857fed20a8aa398a266e200"
+      },
+      {
+        "src": "/assets/vehicle-photos/cerato-960-7e91492d190e.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 107004,
+        "sha256": "7e91492d190ee009db0371c8ab4f38cb4b11630c9e761646883153180dcd251c"
+      }
+    ]
+  },
+  "sentra": {
+    "slug": "sentra",
+    "catalog_ids": [
+      55
+    ],
+    "source_title": "File:2018 Nissan Sentra (facelift), front 7.7,19.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2018_Nissan_Sentra_(facelift),_front_7.7,19.jpg",
+    "source_revision": {
+      "revid": 756938145,
+      "parentid": 728197218,
+      "timestamp": "2023-05-01T03:40:34Z"
+    },
+    "artist": "Kevauto",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "A 2018 Nissan Sentra photographed in Flushing, Queens, New York, USA",
+    "categories": "Self-published work|White Nissan sedans|2010s white sedans|Nissan Sentra (B17)|2018 Nissan automobiles|Automobiles in Queens, New York City",
+    "original_sha1": "32fda6c6088e1a9d337685438d43a25f4cd4c037",
+    "original_sha256": "cae4a3ecd913b08d79fe856b0855f0e27cb7951360953dd57f88f21d18281f7e",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "sentra-480.webp",
+        "width": 480,
+        "height": 251,
+        "bytes": 20142,
+        "sha256": "f3f56669b593b0f279c43b3e5779202f103762c4c08e33e566f3f2647245f435"
+      },
+      {
+        "file": "sentra-960.webp",
+        "width": 960,
+        "height": 502,
+        "bytes": 58774,
+        "sha256": "adeb57cb31570625b4d12ee180a875980f8f6d4d9c07daa911cb4e8782d50c55"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/sentra-480-f3f56669b593.webp",
+        "width": 480,
+        "height": 251,
+        "bytes": 20142,
+        "sha256": "f3f56669b593b0f279c43b3e5779202f103762c4c08e33e566f3f2647245f435"
+      },
+      {
+        "src": "/assets/vehicle-photos/sentra-960-adeb57cb3157.webp",
+        "width": 960,
+        "height": 502,
+        "bytes": 58774,
+        "sha256": "adeb57cb31570625b4d12ee180a875980f8f6d4d9c07daa911cb4e8782d50c55"
+      }
+    ]
+  },
+  "arrizo-6": {
+    "slug": "arrizo-6",
+    "catalog_ids": [
+      56
+    ],
+    "source_title": "File:Chery Arrizo GX 001.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Chery_Arrizo_GX_001.jpg",
+    "source_revision": {
+      "revid": 1122042543,
+      "parentid": 1007692315,
+      "timestamp": "2025-11-27T08:16:35Z"
+    },
+    "artist": "Jengtingchen",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "Chery Arrizo GX front",
+    "categories": "Chery Arrizo GX|Self-published work|Chery automobiles in China|Blue Chery sedans|Files with coordinates missing SDC location of creation|2018 photographs of Shanghai|2018 Shanghai Pudong International Automotive Exhibition",
+    "original_sha1": "d89f668dd1a90314b04aed46398e45a63a96c452",
+    "original_sha256": "e96f1204b346aac77e258e7f1e3eee7dc0eb9e2d967f6e450e3b28ace5434897",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "arrizo-6-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 31408,
+        "sha256": "76db89b2e18989f2785fec5b6f27a4137d974adb418a3a0e866b99d7a4c0a0dc"
+      },
+      {
+        "file": "arrizo-6-960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 89418,
+        "sha256": "02361fa457f20e57b008ac2ef9cb2b9c91e7a47250cc5bca6a3d3b8d676a17b2"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/arrizo-6-480-76db89b2e189.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 31408,
+        "sha256": "76db89b2e18989f2785fec5b6f27a4137d974adb418a3a0e866b99d7a4c0a0dc"
+      },
+      {
+        "src": "/assets/vehicle-photos/arrizo-6-960-02361fa457f2.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 89418,
+        "sha256": "02361fa457f20e57b008ac2ef9cb2b9c91e7a47250cc5bca6a3d3b8d676a17b2"
+      }
+    ],
+    "correspondence_note": "Fotografado como Arrizo GX na China: nome do Arrizo 6 original, anterior ao Pro; versão ilustrativa.",
+    "identity_source": "https://quatrorodas.abril.com.br/noticias/chery-arrizo-6-qual-e-a-do-seda-que-sera-nacional-para-peitar-o-corolla/"
+  },
+  "spacefox": {
+    "slug": "spacefox-2018",
+    "catalog_ids": [
+      58
+    ],
+    "source_title": "File:2018 Volkswagen Suran 1.6 Highline (2nd facelift).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2018_Volkswagen_Suran_1.6_Highline_(2nd_facelift).jpg",
+    "source_revision": {
+      "revid": 1278881639,
+      "parentid": 963362448,
+      "timestamp": "2026-09-20T16:18:55Z"
+    },
+    "artist": "Maxi-Napo-99",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2018 Volkswagen Surán 1.6 Highline, second facelift. Photographed in Villa Pueyrredón, Buenos Aires City, Argentina",
+    "categories": "Self-published work|Beige Volkswagen station wagons|2018 Volkswagen automobiles|Volkswagen Suran (2015)",
+    "original_sha1": "2794952f3b4ce9a24d7f5935885487c7f4977dd1",
+    "original_sha256": "e8308d25c9b5d31f153c65724390e1b2f0c5a4627a056a7898879e40eaca3fa1",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "spacefox-2018-480.webp",
+        "width": 480,
+        "height": 290,
+        "bytes": 26804,
+        "sha256": "3fbfde9268f4ee7c5c7675843d7e5a5dc49e4f84fb863520385f1a528c9db640"
+      },
+      {
+        "file": "spacefox-2018-960.webp",
+        "width": 960,
+        "height": 580,
+        "bytes": 89526,
+        "sha256": "53bf989de58b7a43b77345047af4f41a2ce7e448752a2ee77194bf0be708dec9"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/spacefox-2018-480-3fbfde9268f4.webp",
+        "width": 480,
+        "height": 290,
+        "bytes": 26804,
+        "sha256": "3fbfde9268f4ee7c5c7675843d7e5a5dc49e4f84fb863520385f1a528c9db640"
+      },
+      {
+        "src": "/assets/vehicle-photos/spacefox-2018-960-53bf989de58b.webp",
+        "width": 960,
+        "height": 580,
+        "bytes": 89526,
+        "sha256": "53bf989de58b7a43b77345047af4f41a2ce7e448752a2ee77194bf0be708dec9"
+      }
+    ],
+    "correspondence_note": "Fotografada como Suran Highline na Argentina: nome local da SpaceFox; versão ilustrativa.",
+    "identity_source": "https://www.globalncap.org/news/three-stars-for-volkswagen-suranfox"
+  },
+  "golf": {
+    "slug": "golf",
+    "catalog_ids": [
+      62
+    ],
+    "source_title": "File:2017 Volkswagen Golf (5G MY17) 110TSI Comfortline hatchback (2018-10-08) 01.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2017_Volkswagen_Golf_(5G_MY17)_110TSI_Comfortline_hatchback_(2018-10-08)_01.jpg",
+    "source_revision": {
+      "revid": 959803774,
+      "parentid": 755877552,
+      "timestamp": "2024-11-21T05:26:24Z"
+    },
+    "artist": "EurovisionNim",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2017 Volkswagen Golf (5G MY17) 110TSI Comfortline hatchback. Photographed in Fremantle, Western Australia, Australia.",
+    "categories": "Self-published work|Grey Volkswagen hatchbacks|Volkswagen Golf VII (2016)",
+    "original_sha1": "47de0f21c84aefc79ff4be75c60db7d44bd678ae",
+    "original_sha256": "527e65bc5a8ece23e5cacd4d12cb42bb53dfc22419aca3ac0559d0abf77bf27a",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "golf-480.webp",
+        "width": 480,
+        "height": 279,
+        "bytes": 30500,
+        "sha256": "33cff97b049bd56a65efd12e04569d8cabdd03cbfd0a159a39d10ac86d53d6a8"
+      },
+      {
+        "file": "golf-960.webp",
+        "width": 960,
+        "height": 558,
+        "bytes": 105666,
+        "sha256": "19452b533a775dcb80c96a6b421bfe376ff23b0381c16d9a062bc3d801b00074"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/golf-480-33cff97b049b.webp",
+        "width": 480,
+        "height": 279,
+        "bytes": 30500,
+        "sha256": "33cff97b049bd56a65efd12e04569d8cabdd03cbfd0a159a39d10ac86d53d6a8"
+      },
+      {
+        "src": "/assets/vehicle-photos/golf-960-19452b533a77.webp",
+        "width": 960,
+        "height": 558,
+        "bytes": 105666,
+        "sha256": "19452b533a775dcb80c96a6b421bfe376ff23b0381c16d9a062bc3d801b00074"
+      }
+    ]
+  },
+  "punto": {
+    "slug": "punto",
+    "catalog_ids": [
+      65
+    ],
+    "source_title": "File:2014 Fiat Punto Sporting 1.6.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2014_Fiat_Punto_Sporting_1.6.jpg",
+    "source_revision": {
+      "revid": 1182217807,
+      "parentid": 1067119292,
+      "timestamp": "2026-03-16T17:05:06Z"
+    },
+    "artist": "Just a Man",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "description": "2014 Fiat Punto Sporting 1.6 (built in Brazil).",
+    "categories": "Fiat Punto (2012)|Self-published work|Black Fiat hatchbacks|2014 Fiat automobiles",
+    "original_sha1": "bfd3c6d68fecf93078043bf14c18b06829a6c003",
+    "original_sha256": "6c19caaccb403bab82b2a4f8d79ec702841d64cb863749c0587a476260a65098",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "punto-480.webp",
+        "width": 480,
+        "height": 310,
+        "bytes": 35618,
+        "sha256": "1607046f52d7c7a9c40c2337e614ed618296373a00c9ca806015adf582cbf8aa"
+      },
+      {
+        "file": "punto-960.webp",
+        "width": 960,
+        "height": 619,
+        "bytes": 125922,
+        "sha256": "54fc82977c25588bcd9c55e364bdc2473e982cafdde049534bc24dca1f35220a"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/punto-480-1607046f52d7.webp",
+        "width": 480,
+        "height": 310,
+        "bytes": 35618,
+        "sha256": "1607046f52d7c7a9c40c2337e614ed618296373a00c9ca806015adf582cbf8aa"
+      },
+      {
+        "src": "/assets/vehicle-photos/punto-960-54fc82977c25.webp",
+        "width": 960,
+        "height": 619,
+        "bytes": 125922,
+        "sha256": "54fc82977c25588bcd9c55e364bdc2473e982cafdde049534bc24dca1f35220a"
+      }
+    ]
+  },
+  "doblo": {
+    "slug": "doblo",
+    "catalog_ids": [
+      68
+    ],
+    "source_title": "File:Fiat Doblò Adventure 20150828-DSC 0167.JPG",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Fiat_Dobl%C3%B2_Adventure_20150828-DSC_0167.JPG",
+    "source_revision": {
+      "revid": 1079729102,
+      "parentid": 998305606,
+      "timestamp": "2025-09-01T15:36:17Z"
+    },
+    "artist": "Matti Blume",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "Fiat Doblò Adventure",
+    "categories": "GFDL|License migration redundant|CC-BY-SA-4.0,3.0,2.5,2.0,1.0|Self-published work|Black minivans|Uploaded with LrMediaWiki|User MB-one supported by Wikimedia Deutschland/Lightroom|Files with coordinates missing SDC location of creation|Taken with Samsung GT-I9505|Brazil photographs taken on 2015-08-28|Fiat automobiles in Brazil|Pictures by MB-one rejected|Fiat Doblò Adventure",
+    "original_sha1": "cbf28fa7ad3c64ae84e39e02856bdc299b3fdc02",
+    "original_sha256": "d85fafd43e70a4dc616a46ea5457ba8394c7a16e343762023225b3c38fbea1c2",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "doblo-480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 17048,
+        "sha256": "2b036c2a7f56e0e27da3aa94640ed4f18a4913aa0abb195d1af335ffccdbaa01"
+      },
+      {
+        "file": "doblo-960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 54738,
+        "sha256": "30302251709aa17893569a4f6277472e5d2f818d28d803b7b895b9623c991542"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/doblo-480-2b036c2a7f56.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 17048,
+        "sha256": "2b036c2a7f56e0e27da3aa94640ed4f18a4913aa0abb195d1af335ffccdbaa01"
+      },
+      {
+        "src": "/assets/vehicle-photos/doblo-960-30302251709a.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 54738,
+        "sha256": "30302251709aa17893569a4f6277472e5d2f818d28d803b7b895b9623c991542"
+      }
+    ]
+  },
+  "c4-picasso": {
+    "slug": "c4-picasso",
+    "catalog_ids": [
+      69
+    ],
+    "source_title": "File:2017 Citroen C4 Picasso Flair Puretech facelift 1.2.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2017_Citroen_C4_Picasso_Flair_Puretech_facelift_1.2.jpg",
+    "source_revision": {
+      "revid": 1088333564,
+      "parentid": 959737396,
+      "timestamp": "2025-09-20T14:45:32Z"
+    },
+    "artist": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2017 Citroen C4 Picasso Flair Puretech facelift 1.2 Taken in Leamington Spa",
+    "categories": "Citroën C4 Picasso (2nd generation)|Self-published work|Citroën automobiles in the United Kingdom|Photographs by Vauxford — 2017",
+    "original_sha1": "394dd3994eb937f2750cbffce68058493a9cf1db",
+    "original_sha256": "1faeab249fc1b181ec79279bb70d441d85217ff87661f567dda1c3ab9b904ecd",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "c4-picasso-480.webp",
+        "width": 480,
+        "height": 231,
+        "bytes": 16890,
+        "sha256": "40b2d72b48936ad72752b22a3113ed2a4329d00fe7ad9b4a419a2e1c8504492f"
+      },
+      {
+        "file": "c4-picasso-960.webp",
+        "width": 960,
+        "height": 461,
+        "bytes": 45500,
+        "sha256": "5ef6e7bebd2bea54c39417fc037511fd98bb82fd88c6f27b09b8b3c58f0be47f"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/c4-picasso-480-40b2d72b4893.webp",
+        "width": 480,
+        "height": 231,
+        "bytes": 16890,
+        "sha256": "40b2d72b48936ad72752b22a3113ed2a4329d00fe7ad9b4a419a2e1c8504492f"
+      },
+      {
+        "src": "/assets/vehicle-photos/c4-picasso-960-5ef6e7bebd2b.webp",
+        "width": 960,
+        "height": 461,
+        "bytes": 45500,
+        "sha256": "5ef6e7bebd2bea54c39417fc037511fd98bb82fd88c6f27b09b8b3c58f0be47f"
+      }
+    ]
+  },
+  "tiguan-allspace": {
+    "slug": "tiguan-allspace",
+    "catalog_ids": [
+      70
+    ],
+    "source_title": "File:2019 Volkswagen Tiguan Allspace 1.4 TSI (20201028) 01.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2019_Volkswagen_Tiguan_Allspace_1.4_TSI_(20201028)_01.jpg",
+    "source_revision": {
+      "revid": 1089140207,
+      "parentid": 964123852,
+      "timestamp": "2025-09-21T22:41:30Z"
+    },
+    "artist": "オーバードライブ83",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2019 Volkswagen Tiguan Allspace 1.4 TSI",
+    "categories": "Taken with Sony DSC-W810|Volkswagen Tiguan Allspace|Self-published work|White Volkswagen SUVs|2019 Volkswagen automobiles",
+    "original_sha1": "49cbef8d5f6db56e744c2c23c766f871b49d1442",
+    "original_sha256": "e0bb0c43bd58faa458d2c8a5ae565de7ecb6cb0721c19da28ea0038c464151b2",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "tiguan-allspace-480.webp",
+        "width": 480,
+        "height": 283,
+        "bytes": 21950,
+        "sha256": "c7bb0f39df16802c03fee5f121843c07f86528cabe11a31f8dff62ffac9fc137"
+      },
+      {
+        "file": "tiguan-allspace-960.webp",
+        "width": 960,
+        "height": 567,
+        "bytes": 68646,
+        "sha256": "5fbdea087abaca2b311776544d67e23549c7ff6c6649240d4eda696f8102c976"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/tiguan-allspace-480-c7bb0f39df16.webp",
+        "width": 480,
+        "height": 283,
+        "bytes": 21950,
+        "sha256": "c7bb0f39df16802c03fee5f121843c07f86528cabe11a31f8dff62ffac9fc137"
+      },
+      {
+        "src": "/assets/vehicle-photos/tiguan-allspace-960-5fbdea087aba.webp",
+        "width": 960,
+        "height": 567,
+        "bytes": 68646,
+        "sha256": "5fbdea087abaca2b311776544d67e23549c7ff6c6649240d4eda696f8102c976"
+      }
+    ]
+  },
+  "cr-v": {
+    "slug": "cr-v",
+    "catalog_ids": [
+      72
+    ],
+    "source_title": "File:2019 Honda CR-V EX i-VTEC 1.5.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2019_Honda_CR-V_EX_i-VTEC_1.5.jpg",
+    "source_revision": {
+      "revid": 758602217,
+      "parentid": 676240597,
+      "timestamp": "2023-05-03T15:10:09Z"
+    },
+    "artist": "Vauxford",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2019 Honda CR-V EX i-VTEC 1.5 Taken in Leamington Spa",
+    "categories": "Self-published work|Red Honda SUVs|Photographs by Vauxford — 2019|Honda CR-V (5th generation)",
+    "original_sha1": "8057f278b9d5ed7f9d22762b12f18c785a2b140c",
+    "original_sha256": "2177c3765a881d1cd5c3784ec4d04faa373b91d8cf06c125e021e8da5c4d70c8",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "cr-v-480.webp",
+        "width": 480,
+        "height": 262,
+        "bytes": 26226,
+        "sha256": "9d8ed15f038040d5542abe29c029e2524dd31368a19a682edd000bd935782d81"
+      },
+      {
+        "file": "cr-v-960.webp",
+        "width": 960,
+        "height": 525,
+        "bytes": 80590,
+        "sha256": "aebbc7f0cc706e207161bc7b4d445a9bc0c5ac007e9c78e94f8c30dcce0548d2"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/cr-v-480-9d8ed15f0380.webp",
+        "width": 480,
+        "height": 262,
+        "bytes": 26226,
+        "sha256": "9d8ed15f038040d5542abe29c029e2524dd31368a19a682edd000bd935782d81"
+      },
+      {
+        "src": "/assets/vehicle-photos/cr-v-960-aebbc7f0cc70.webp",
+        "width": 960,
+        "height": 525,
+        "bytes": 80590,
+        "sha256": "aebbc7f0cc706e207161bc7b4d445a9bc0c5ac007e9c78e94f8c30dcce0548d2"
+      }
+    ]
+  },
+  "5008": {
+    "slug": "5008",
+    "catalog_ids": [
+      76
+    ],
+    "source_title": "File:Peugeot 5008 BlueHDi 180 EAT8 GT (II) – f 01092019.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Peugeot_5008_BlueHDi_180_EAT8_GT_(II)_%E2%80%93_f_01092019.jpg",
+    "source_revision": {
+      "revid": 1225357329,
+      "parentid": 1212438830,
+      "timestamp": "2026-06-03T18:45:58Z"
+    },
+    "artist": "© M 93",
+    "license": "CC BY-SA 3.0 de",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "description": "Peugeot 5008 BlueHDi 180 EAT8 GT (II)",
+    "categories": "Taken with Nikon Coolpix P7000|Peugeot 5008 B|Self-published work|Images with extracted images|Information field template with formatting",
+    "original_sha1": "194dcb42a4561d250399cd98e8ce085261ebd3a1",
+    "original_sha256": "ce093a0f455ea4fb8353dca976c0abfff7b3ea8105814e6eee91ab2b2fe28c94",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "5008-480.webp",
+        "width": 480,
+        "height": 267,
+        "bytes": 19332,
+        "sha256": "1faa749f63214d49f4287af25144626a5868f89ad7d8489de05826da63344024"
+      },
+      {
+        "file": "5008-960.webp",
+        "width": 960,
+        "height": 533,
+        "bytes": 59980,
+        "sha256": "abfb334f6b06759af41290dcaff55eb1f618946c99a434098cd769c72e1938fc"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/5008-480-1faa749f6321.webp",
+        "width": 480,
+        "height": 267,
+        "bytes": 19332,
+        "sha256": "1faa749f63214d49f4287af25144626a5868f89ad7d8489de05826da63344024"
+      },
+      {
+        "src": "/assets/vehicle-photos/5008-960-abfb334f6b06.webp",
+        "width": 960,
+        "height": 533,
+        "bytes": 59980,
+        "sha256": "abfb334f6b06759af41290dcaff55eb1f618946c99a434098cd769c72e1938fc"
+      }
+    ]
+  },
+  "trailblazer": {
+    "slug": "trailblazer",
+    "catalog_ids": [
+      77
+    ],
+    "source_title": "File:Chevrolet Trailblazer LTZ 2.8 TD 4x4 2019.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Chevrolet_Trailblazer_LTZ_2.8_TD_4x4_2019.jpg",
+    "source_revision": {
+      "revid": 1057486850,
+      "parentid": 855836220,
+      "timestamp": "2025-07-14T23:04:49Z"
+    },
+    "artist": "RL GNZLZ",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Chevrolet Trailblazer LTZ 2.8 TD 4x4 2019",
+    "categories": "Chevrolet TrailBlazer (2nd generation)|Flickr images reviewed by FlickreviewR 2",
+    "original_sha1": "9edf6471f580ab2641c689a2aa22273bd50ab3a5",
+    "original_sha256": "793fc1a50c7a945bbedf30b0377ea589c78b037b121ae5e5a99649f3779de672",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "trailblazer-480.webp",
+        "width": 480,
+        "height": 240,
+        "bytes": 16938,
+        "sha256": "f3d65506546a35ab6d68614e7c13b8793f20fb0cb29e5d0b7abfb6def1d662fc"
+      },
+      {
+        "file": "trailblazer-960.webp",
+        "width": 960,
+        "height": 480,
+        "bytes": 44850,
+        "sha256": "943d25423d8b8e77b7842561520c4e35e837d7bb1aff3b7192b86454fd1e6c2e"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/trailblazer-480-f3d65506546a.webp",
+        "width": 480,
+        "height": 240,
+        "bytes": 16938,
+        "sha256": "f3d65506546a35ab6d68614e7c13b8793f20fb0cb29e5d0b7abfb6def1d662fc"
+      },
+      {
+        "src": "/assets/vehicle-photos/trailblazer-960-943d25423d8b.webp",
+        "width": 960,
+        "height": 480,
+        "bytes": 44850,
+        "sha256": "943d25423d8b8e77b7842561520c4e35e837d7bb1aff3b7192b86454fd1e6c2e"
+      }
+    ]
+  },
+  "jetta": {
+    "slug": "jetta",
+    "catalog_ids": [
+      79
+    ],
+    "source_title": "File:2019 Volkswagen Jetta, front 2.24.20.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2019_Volkswagen_Jetta,_front_2.24.20.jpg",
+    "source_revision": {
+      "revid": 758757139,
+      "parentid": 699384558,
+      "timestamp": "2023-05-03T21:00:56Z"
+    },
+    "artist": "Kevauto",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "A 2019 Volkswagen Jetta photographed in Kew Gardens Hills, Queens, New York, USA",
+    "categories": "Volkswagen Jetta VII|Self-published work|Automobiles in Queens, New York City",
+    "original_sha1": "06a1a864eb9260250c14ab482605f037925b251f",
+    "original_sha256": "fd46ca164445c03db0f6024defbae5113b480922330109b614b2c2d99e49e74e",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "jetta-480.webp",
+        "width": 480,
+        "height": 277,
+        "bytes": 22402,
+        "sha256": "f7a524ad6ce25a4ece884c31de3c3cb3aa93b3cce0093fbb55d0bdf5f4d0fb28"
+      },
+      {
+        "file": "jetta-960.webp",
+        "width": 960,
+        "height": 555,
+        "bytes": 61560,
+        "sha256": "f57db14b2bc443619162c0f85cbbc20b73b1c37608d2643f31c8ac34f5ec80fa"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/jetta-480-f7a524ad6ce2.webp",
+        "width": 480,
+        "height": 277,
+        "bytes": 22402,
+        "sha256": "f7a524ad6ce25a4ece884c31de3c3cb3aa93b3cce0093fbb55d0bdf5f4d0fb28"
+      },
+      {
+        "src": "/assets/vehicle-photos/jetta-960-f57db14b2bc4.webp",
+        "width": 960,
+        "height": 555,
+        "bytes": 61560,
+        "sha256": "f57db14b2bc443619162c0f85cbbc20b73b1c37608d2643f31c8ac34f5ec80fa"
+      }
+    ]
+  },
+  "focus": {
+    "slug": "focus",
+    "catalog_ids": [
+      80
+    ],
+    "source_title": "File:2017 Ford Focus (LZ) Trend sedan (2018-03-23).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2017_Ford_Focus_(LZ)_Trend_sedan_(2018-03-23).jpg",
+    "source_revision": {
+      "revid": 1209140581,
+      "parentid": 959747944,
+      "timestamp": "2026-05-05T23:24:04Z"
+    },
+    "artist": "EurovisionNim",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2017 Ford Focus (LZ) Trend sedan. Photographed in Fremantle, Western Australia, Australia.",
+    "categories": "Self-published work|White Ford sedans|Files with coordinates missing SDC location of creation|Ford Focus Mk III sedan (facelift)",
+    "original_sha1": "3d50e85656aed7f70b3b15c78d90ee2e6e1aba9c",
+    "original_sha256": "e4f32d14ca7009f6c95f01c350da72697491d96d0dcb3c9ec652cfb074ffdaf8",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "focus-480.webp",
+        "width": 480,
+        "height": 268,
+        "bytes": 20334,
+        "sha256": "c76159107ae7711ca2645c92e0c1208843b89a06a11af11cedc4753d845ef713"
+      },
+      {
+        "file": "focus-960.webp",
+        "width": 960,
+        "height": 536,
+        "bytes": 54224,
+        "sha256": "757db15562506b71c379432f7c768c0d39f0221b660d63084f3778dbee796bf0"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/focus-480-c76159107ae7.webp",
+        "width": 480,
+        "height": 268,
+        "bytes": 20334,
+        "sha256": "c76159107ae7711ca2645c92e0c1208843b89a06a11af11cedc4753d845ef713"
+      },
+      {
+        "src": "/assets/vehicle-photos/focus-960-757db1556250.webp",
+        "width": 960,
+        "height": 536,
+        "bytes": 54224,
+        "sha256": "757db15562506b71c379432f7c768c0d39f0221b660d63084f3778dbee796bf0"
+      }
+    ]
+  },
+  "accord": {
+    "slug": "accord",
+    "catalog_ids": [
+      88
+    ],
+    "source_title": "File:2020 Honda Accord Touring in Platinum White Pearl, Front Left, 09-03-2022.jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:2020_Honda_Accord_Touring_in_Platinum_White_Pearl,_Front_Left,_09-03-2022.jpg",
+    "source_revision": {
+      "revid": 1258084272,
+      "parentid": 958391691,
+      "timestamp": "2026-08-07T23:20:18Z"
+    },
+    "artist": "Elise240SX",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "description": "2020 Honda Accord Touring photographed in Brampton, Ontario, Canada.",
+    "categories": "Honda Accord (2017)|Self-published work|White Honda sedans|2020 Honda automobiles|2020s white sedans|September 2022 in Brampton, Ontario|Automobiles in Brampton, Ontario",
+    "original_sha1": "861c5c9210c60b62347382c62e3be69e5591fcdf",
+    "original_sha256": "9e6e07f327d3fba993121c47edb06e613ebcbeb231d1448e827e6d1a2dd2fbb6",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "accord-480.webp",
+        "width": 480,
+        "height": 221,
+        "bytes": 14700,
+        "sha256": "a5db85106ac5a23d2bfe34c420de813ea8f5f921a6e8004ff11c26e41ad2b2e4"
+      },
+      {
+        "file": "accord-960.webp",
+        "width": 960,
+        "height": 442,
+        "bytes": 41542,
+        "sha256": "3b952f675e8c63c1bf2d8493ff0e7d942aeec8c39f06c4f86431f8eb0f8fae30"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/accord-480-a5db85106ac5.webp",
+        "width": 480,
+        "height": 221,
+        "bytes": 14700,
+        "sha256": "a5db85106ac5a23d2bfe34c420de813ea8f5f921a6e8004ff11c26e41ad2b2e4"
+      },
+      {
+        "src": "/assets/vehicle-photos/accord-960-3b952f675e8c.webp",
+        "width": 960,
+        "height": 442,
+        "bytes": 41542,
+        "sha256": "3b952f675e8c63c1bf2d8493ff0e7d942aeec8c39f06c4f86431f8eb0f8fae30"
+      }
+    ]
+  },
+  "2008": {
+    "slug": "2008",
+    "catalog_ids": [
+      92
+    ],
+    "source_title": "File:Peugeot 2008 Allure 2018 (44491428482).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Peugeot_2008_Allure_2018_(44491428482).jpg",
+    "source_revision": {
+      "revid": 1024113171,
+      "parentid": 978174216,
+      "timestamp": "2025-04-23T23:27:57Z"
+    },
+    "artist": "RL GNZLZ from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Peugeot 2008 Allure 2018",
+    "categories": "Photographs by order 242|Flickr images reviewed by FlickreviewR 2|Peugeot 2008 A Facelift",
+    "original_sha1": "e3da5b1975b9ee3085f30ee42c5d4618a2c4fb87",
+    "original_sha256": "27752046e0c40ecc1db351c516783bb7bdccaf1e18201890fe3b30cf09fa5d55",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "2008-480.webp",
+        "width": 480,
+        "height": 288,
+        "bytes": 32184,
+        "sha256": "e0ec765e12f3b5767fac2020b3d7473f147b8d0d9dd6ac4f43bf52adaaf67b61"
+      },
+      {
+        "file": "2008-960.webp",
+        "width": 960,
+        "height": 576,
+        "bytes": 100910,
+        "sha256": "ce0521233017d817631c82d4d3feecc2d6bf713427a69e7efd3c4308e8716667"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/2008-480-e0ec765e12f3.webp",
+        "width": 480,
+        "height": 288,
+        "bytes": 32184,
+        "sha256": "e0ec765e12f3b5767fac2020b3d7473f147b8d0d9dd6ac4f43bf52adaaf67b61"
+      },
+      {
+        "src": "/assets/vehicle-photos/2008-960-ce0521233017.webp",
+        "width": 960,
+        "height": 576,
+        "bytes": 100910,
+        "sha256": "ce0521233017d817631c82d4d3feecc2d6bf713427a69e7efd3c4308e8716667"
+      }
+    ]
+  },
+  "c4-cactus": {
+    "slug": "c4-cactus",
+    "catalog_ids": [
+      93
+    ],
+    "source_title": "File:Citroen C4 Cactus Shine 2019 (44544533580).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Citroen_C4_Cactus_Shine_2019_(44544533580).jpg",
+    "source_revision": {
+      "revid": 1026237619,
+      "parentid": 893094919,
+      "timestamp": "2025-04-30T19:13:57Z"
+    },
+    "artist": "RL GNZLZ from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Citroen C4 Cactus Shine 2019",
+    "categories": "Photographs by order 242|Flickr images reviewed by FlickreviewR 2|Citroën C4 Cactus (2018)|2019 Citroën automobiles",
+    "original_sha1": "f4e6f3bdccacc0dec9b93fef35b15d0bb37e3a07",
+    "original_sha256": "3e701d6edb256817e737d05c14ac853134c5467883e81bb3537d3dc1ceee7ce2",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "c4-cactus-480.webp",
+        "width": 480,
+        "height": 300,
+        "bytes": 24738,
+        "sha256": "fc59d29b636b61053a19aedc229e31dd60e4ddeb978161e52705a8ef4252f2fb"
+      },
+      {
+        "file": "c4-cactus-960.webp",
+        "width": 960,
+        "height": 600,
+        "bytes": 65016,
+        "sha256": "ab0dac903f971a3938c56d73480985e7cdef0973db435a18447f030474458214"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/c4-cactus-480-fc59d29b636b.webp",
+        "width": 480,
+        "height": 300,
+        "bytes": 24738,
+        "sha256": "fc59d29b636b61053a19aedc229e31dd60e4ddeb978161e52705a8ef4252f2fb"
+      },
+      {
+        "src": "/assets/vehicle-photos/c4-cactus-960-ab0dac903f97.webp",
+        "width": 960,
+        "height": 600,
+        "bytes": 65016,
+        "sha256": "ab0dac903f971a3938c56d73480985e7cdef0973db435a18447f030474458214"
+      }
+    ]
+  },
+  "tiggo-2": {
+    "slug": "tiggo-2",
+    "catalog_ids": [
+      94
+    ],
+    "source_title": "File:Chery Tiggo2 1.5 GLS 2018 (31232587678).jpg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Chery_Tiggo2_1.5_GLS_2018_(31232587678).jpg",
+    "source_revision": {
+      "revid": 1093927743,
+      "parentid": 885647305,
+      "timestamp": "2025-10-02T03:18:00Z"
+    },
+    "artist": "RL GNZLZ from Chile",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "description": "Chery Tiggo2 1.5 GLS 2018",
+    "categories": "Red SUVs|Photographs by order 242|Chery Tiggo 2|Flickr images reviewed by FlickreviewR 2|Chery automobiles in Chile",
+    "original_sha1": "aa442747956736960d8a48da459d3741fb022239",
+    "original_sha256": "c945b2cc7e6ad6874cab1337b919ed98f1bddf563353f2de24ca2886c6c5b9f7",
+    "transformations": "EXIF orientation; proportional downsize; WebP conversion; no crop; metadata removed",
+    "reviewed_correspondence": "Model/body/generation reviewed; illustrative, not a promise of pictured trim",
+    "derivatives": [
+      {
+        "file": "tiggo-2-480.webp",
+        "width": 480,
+        "height": 288,
+        "bytes": 31020,
+        "sha256": "f9d34e66f8c4bb032ca4fb745428de7b39cb992fa4fbded53d0af28a21fbf0c6"
+      },
+      {
+        "file": "tiggo-2-960.webp",
+        "width": 960,
+        "height": 576,
+        "bytes": 105808,
+        "sha256": "084bff58947ff2384baed472a3ab3ff3b4f3d8071c11f86ff168201522bc7548"
+      }
+    ],
+    "admitted_variants": [
+      {
+        "src": "/assets/vehicle-photos/tiggo-2-480-f9d34e66f8c4.webp",
+        "width": 480,
+        "height": 288,
+        "bytes": 31020,
+        "sha256": "f9d34e66f8c4bb032ca4fb745428de7b39cb992fa4fbded53d0af28a21fbf0c6"
+      },
+      {
+        "src": "/assets/vehicle-photos/tiggo-2-960-084bff58947f.webp",
+        "width": 960,
+        "height": 576,
+        "bytes": 105808,
+        "sha256": "084bff58947ff2384baed472a3ab3ff3b4f3d8071c11f86ff168201522bc7548"
+      }
+    ]
+  }
+}

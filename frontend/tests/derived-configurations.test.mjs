@@ -17,6 +17,9 @@ const original = { vehicle_type: "car", use_case: "app", budget: "1000000", mont
 const metadata = { candidate_source: "academic_v6", strategies: ["cost_benefit", "lowest_cost"], snapshot_id: "00000000-0000-0000-0000-000000000060", profiles: Object.fromEntries(["cidade","app","trabalho","suv","familia","estrada"].map((key) => [key,{weights:{price:"1"}}])), alternative_personalization: { available: true, configuration_registry: registry } };
 const modules = new Map();
 function load(url) {
+  // SSR reads JSON as data; CSS is exercised by the real browser suite.
+  if (url.pathname.endsWith(".json")) return JSON.parse(readFileSync(url, "utf8"));
+  if (url.pathname.endsWith(".css")) { readFileSync(url, "utf8"); return {}; }
   if (modules.has(url.href)) return modules.get(url.href).exports;
   const { code } = transformSync(readFileSync(url,"utf8"),{loader:"jsx",format:"cjs",define:{"import.meta.env":"{}"}});
   const module = {exports:{}}; modules.set(url.href,module);

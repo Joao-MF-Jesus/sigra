@@ -2,6 +2,7 @@ import React from "react";
 import { formatCurrency, formatScore } from "./recommendationModel.js";
 import { COST_LABELS, TECHNICAL_LABELS, readableValue, referenceMonth, recommendationReasons, criterionCoverage } from "./cohortPresentation.js";
 import SevenCriteriaBreakdown from "./SevenCriteriaBreakdown.jsx";
+import VehiclePhoto from "../vehicle-images/VehiclePhoto.jsx";
 
 function DetailGrid({ items }) {
   return <dl className="spec-list modal-spec-list">{items.map(([name, value]) => <div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}</dl>;
@@ -19,6 +20,7 @@ export default function CohortVehicleDetails({ item, onClose, dialogRef, closeBu
     <section ref={dialogRef} className="details-modal" role="dialog" aria-modal="true" aria-labelledby="vehicle-details-title" aria-describedby="vehicle-details-description">
       <div className="modal-header"><div><p className="eyebrow">Detalhes da recomendação</p><h2 id="vehicle-details-title">{item.vehicle.label}</h2><p id="vehicle-details-description">Dados do veículo e composição do custo mensal estimado</p></div><button ref={closeButtonRef} className="ghost-button modal-close" type="button" onClick={onClose}>Fechar</button></div>
       <div className="modal-body" data-testid="vehicle-details-scroll">
+        <VehiclePhoto vehicle={item.vehicle} variant="details" />
         {detail?.loading && <p role="status">Carregando ficha técnica…</p>}
         {detail?.error && <div role="alert"><p>{detail.error}</p><button type="button" onClick={detail.onRetry}>Tentar novamente</button></div>}
         <DetailGrid items={[["Preço FIPE", formatCurrency(item.vehicle.purchase_price_brl)], ["Referência FIPE", referenceMonth(item.vehicle.price_reference_month)], ...Object.entries(TECHNICAL_LABELS).map(([key, label]) => [label, readableValue(fields[key])])]} />

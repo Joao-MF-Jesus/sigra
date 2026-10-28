@@ -466,3 +466,11 @@ backend/tests/test_registration_mounted_contract.py -text
 backend/tests/test_trial_receipt_projection.py -text
 docs/NEON_TRANSFER_REDUCTION_REVIEW.md -text
 frontend/tests/personalization-method-review.test.mjs -text
+
+# Vehicle photos: preserve reviewed source/asset bytes across Windows and Linux.
+frontend/src/features/vehicle-images/** -text
+frontend/tests/vehicle-photos.test.mjs -text
+deploy/vehicle_photo_assets.mjs -text
+deploy/published/vehicle-photos-revision.json -text
+frontend/public/assets/vehicle-photos/*.webp -text
+docs/vehicle-photos/ADMITTED20.json -text

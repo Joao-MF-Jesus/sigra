@@ -1,0 +1,1273 @@
+{
+  "schema": "sigra-static-vehicle-photos-v1",
+  "identityNamespace": "academic_v6",
+  "catalogPlanSha256": "cb70ff5298ffc4c52fc74e44588b2e34a39584b4cacfa6146981670737f3be97",
+  "vehicles": [
+    {
+      "catalogId": 2,
+      "label": "Chevrolet Prisma LT 2018",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "9884ce806717d4121baf811c6a4f41094010967e7b1687472d0a1b6343b1de64",
+      "payloadFingerprint": "6109d398404b2c604485814539a217233378e2b8ce1c5c9417dd1a5af0975bdf",
+      "imageGroup": "prisma"
+    },
+    {
+      "catalogId": 3,
+      "label": "Chevrolet Cobalt LTZ 2018",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "e8e334b0b3656f195089e311a914915d79ea76df91f0a9b866976f387a5985d2",
+      "payloadFingerprint": "0c412f82ea4b4c02251cf78425a303028ca8a607db1b2774245c97d98ef0354a",
+      "imageGroup": "cobalt"
+    },
+    {
+      "catalogId": 4,
+      "label": "Chevrolet Spin LT 2019",
+      "yearCode": "2019-5",
+      "canonicalIdentityKey": "91190ad3e2ba5a43a2d674a6f2921cbd6dc7d0c2fb3523f4703fdd67730cf374",
+      "payloadFingerprint": "072ac24ee36025c308b7b4b79eec7dc88bd732b3315c35ad54ff80f911b40371",
+      "imageGroup": "spin"
+    },
+    {
+      "catalogId": 5,
+      "label": "Chevrolet Tracker LT 2021",
+      "yearCode": "2021-5",
+      "canonicalIdentityKey": "9469bc6fd6a62802fd507e3ef4ed5ee20a6a82ddc0526d7bfe7644e92686b106",
+      "payloadFingerprint": "10a93f54ef04ea822d00cd82e07a1a636c16188e1738c6d10f6d3d2fd650c0f3",
+      "imageGroup": "tracker"
+    },
+    {
+      "catalogId": 8,
+      "label": "Hyundai Creta Attitude 2019",
+      "yearCode": "2019-5",
+      "canonicalIdentityKey": "536fa0e2d5bf8d93975850ad7be173a7fce99839afb6f4c99de87306a21c5353",
+      "payloadFingerprint": "04544fb533802b69256ed7e01fb406e7aac599f79f93ce26f7b659831237c3b2",
+      "imageGroup": "creta"
+    },
+    {
+      "catalogId": 10,
+      "label": "Toyota Etios XLS 2018",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "cbf1640783398309e51ea8268ccc3bab40b57e41dfa675011271ae447a676c6c",
+      "payloadFingerprint": "6eeb48bc5013c7440327fc6459df88bcba26c7a8d48e749b93d2573d51c3130e",
+      "imageGroup": "etios"
+    },
+    {
+      "catalogId": 12,
+      "label": "Toyota Corolla Cross XR 2022",
+      "yearCode": "2022-5",
+      "canonicalIdentityKey": "94a760149eaa98cd0f7be76560e49597ed4a3a5f2fcb8be4d3f33ed548c9f416",
+      "payloadFingerprint": "c08de78c099b19139511a6bb32780522c11795480527ece1e279d2b1b4de682c",
+      "imageGroup": "corolla-cross"
+    },
+    {
+      "catalogId": 14,
+      "label": "Honda City LX 2018",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "9e7dccb0d43dfded6b4ad82dce6f1d537833417685ea230e208c368edb529809",
+      "payloadFingerprint": "29d8d2cab3a5cd2b7d9d6975039ee94e2904181281652ee904edccec0b4bcc65",
+      "imageGroup": "city"
+    },
+    {
+      "catalogId": 15,
+      "label": "Honda Civic EX 2017",
+      "yearCode": "2017-5",
+      "canonicalIdentityKey": "78418b5e31063c5c5312dd91425a7dc86b72d6076e9f90ba7fbea3fc5efbab76",
+      "payloadFingerprint": "e2670ea0e7f661753f451fe32681100ba02d9de8f6b09eb3a5ecb321dfdb21ff",
+      "imageGroup": "civic"
+    },
+    {
+      "catalogId": 16,
+      "label": "Honda HR-V LX 2018",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "356caa3ebdb0cd9d58acf7f12b828be8f309968174dc842b1bb0b9e1f7af7c09",
+      "payloadFingerprint": "2707720b8bbf7bc7d7911080ce63c3eadc5b77892f4a26307a1d46492207d320",
+      "imageGroup": "hr-v"
+    },
+    {
+      "catalogId": 20,
+      "label": "Volkswagen Voyage Comfortline 2018",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "bfac3ebf3568052e444653d40133665f6dfd7c82fa4e3b89c2a463e33394ad5d",
+      "payloadFingerprint": "1b2b4ef3fde4e55644f6a46fcbc48e8e276924c2527cf56d38cd631a8a3c6bd9",
+      "imageGroup": "voyage"
+    },
+    {
+      "catalogId": 22,
+      "label": "Fiat Mobi Like 2021",
+      "yearCode": "2021-5",
+      "canonicalIdentityKey": "e0bfbabde6fa4c63c37f5a4e661ed9b4c73a196c1458f5586ae7746343390df5",
+      "payloadFingerprint": "91e095bba43a266a7b8ef49e38181f1a7002ce49616dc24f9804d666f93d597a",
+      "imageGroup": "mobi"
+    },
+    {
+      "catalogId": 29,
+      "label": "Nissan March SV 2018",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "d13ce70d63ccbdcfd85ef53057631b1a3c25d421333f593f503a4718f0241116",
+      "payloadFingerprint": "0969e6f3900c04b7f78160db4b8f9dd6efcd08b7ae315d66f93330272d062267",
+      "imageGroup": "march"
+    },
+    {
+      "catalogId": 30,
+      "label": "Nissan Versa SV 2019",
+      "yearCode": "2019-5",
+      "canonicalIdentityKey": "ae861da079eecce13dadf24e533e8bc31aacfa026be88eadb960dacc94dfbd9a",
+      "payloadFingerprint": "3c2c9f93b1c1376483a0d1a185b4a01c0512f7beaf1270ec00d1179ec5fa03a8",
+      "imageGroup": "versa"
+    },
+    {
+      "catalogId": 31,
+      "label": "Nissan Kicks S 2020",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "d8d8239ebdfedd117bcdde60c8278ca32b32a292576a2dcb6f711b964d72c8c2",
+      "payloadFingerprint": "1e7695c012ac87f9cab63304b713ee56cab683dc8019e0af4a8299d29dd0ec0b",
+      "imageGroup": "kicks"
+    },
+    {
+      "catalogId": 32,
+      "label": "Jeep Renegade Sport 2019",
+      "yearCode": "2019-5",
+      "canonicalIdentityKey": "91cc9f4831c4c978e45069b5eea3f6be487017d311078a952e34e71325166e94",
+      "payloadFingerprint": "da8b86ed306d4a7e7f8362128c964575df65729ae036dffdca3171697ce62861",
+      "imageGroup": "renegade"
+    },
+    {
+      "catalogId": 34,
+      "label": "Ford EcoSport SE 2018",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "6344be16ddc4e399f73c06804c67de56d991331a12b0b4f2108b955278b3a68f",
+      "payloadFingerprint": "1cafa91901072e8102cf7699d2f0d3408953dfe9d10ca4aa10ac4c0a57adf63c",
+      "imageGroup": "ecosport"
+    },
+    {
+      "catalogId": 36,
+      "label": "up! move 1.0 Total Flex 12V 5p",
+      "yearCode": "2019-5",
+      "canonicalIdentityKey": "f63f37ac584775eaadcdd1360d591717936a622670e13a48e64d0499a060a340",
+      "payloadFingerprint": "ea79aefd17fe06e5b8e3c1f251b98bec93acf7be6e895124e0cab60d9bada1f0",
+      "imageGroup": "up"
+    },
+    {
+      "catalogId": 37,
+      "label": "Fox Connect 1.6 Flex 8V 5p",
+      "yearCode": "2019-5",
+      "canonicalIdentityKey": "e57f49d163a48be1e7cf7bc426c7185b857a667f62c9043c6f55b105355d1e74",
+      "payloadFingerprint": "32f9d31bdf371d28d770cb4c339632dbe50a18b23d68b5cb8742ce9ce64a8b00",
+      "imageGroup": "fox"
+    },
+    {
+      "catalogId": 38,
+      "label": "208 Active 1.2 Flex 12V 5p Mec.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "a14730dafddfa147d119526c7db97e390712e7919b1f2a9a4f8c6c80e2f4b101",
+      "payloadFingerprint": "55e770b74be35009fa4d36f323d93318065d28cae904149fca2b4ee58bb2eefa",
+      "imageGroup": "208"
+    },
+    {
+      "catalogId": 39,
+      "label": "C3 Attraction Pure Tech 1.2 Flex 12V Mec",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "60fc609e473b81c0bf3cc3bc028f3d49425e068b4f3752888b8b0cb87b40b140",
+      "payloadFingerprint": "40c791a157e0a153015077436e0af3bd3d7f2df94bbbc72a6581e95f56460ff2",
+      "imageGroup": "c3"
+    },
+    {
+      "catalogId": 42,
+      "label": "Palio ATTRACTIVE 1.0 EVO Fire Flex 8v 5p",
+      "yearCode": "2017-5",
+      "canonicalIdentityKey": "3b357ee9558d7526ca7c9d643a43802ec43e02597b204ad932f39f228ff80c13",
+      "payloadFingerprint": "12d6a62a94fef65ace06932a92e51047b5a7de7c5e11e0c24b3323ade609650a",
+      "imageGroup": "palio"
+    },
+    {
+      "catalogId": 43,
+      "label": "500 Cult 1.4 Flex 8V EVO Mec.",
+      "yearCode": "2017-5",
+      "canonicalIdentityKey": "4e9e1d1f67ad3634c6d7b3f236069991e727e55a1a2045a28be570c2990d54b4",
+      "payloadFingerprint": "32ba32c4390cedd3f2aefc05aa79e3984ee64c170c56848e26f6b508988f9e7e",
+      "imageGroup": "500"
+    },
+    {
+      "catalogId": 44,
+      "label": "Fiesta SE 1.6 16V Flex 5p",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "3d710c1d3258fd60a368740a8e867b38e8b7f80bf4edbec82add8ad289a93426",
+      "payloadFingerprint": "fae3471b29b8fcc21ee9b86c8da648b849c246471f4a52e26b8406156d4b0612",
+      "imageGroup": "fiesta"
+    },
+    {
+      "catalogId": 45,
+      "label": "RIO EX 1.6 Flex Aut.",
+      "yearCode": "2021-5",
+      "canonicalIdentityKey": "9e1ef11c98d08b7fe885a92d85c7a54957c1a46b5bb97964a42993b1a1ff8abb",
+      "payloadFingerprint": "2a3ed67db09136cd0bdc851043155e7049f52e1bfcd38e883f2c182630eadee9",
+      "imageGroup": "rio"
+    },
+    {
+      "catalogId": 46,
+      "label": "CRUZE LT 1.4 16V Turbo Flex 4p Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "ecec63e93b56ebff5438ab7ad845bb9c855e58b66951c5e1016b66a1c5595ea8",
+      "payloadFingerprint": "928cb0fdc9dcc552cb295c9582e5dc35b18172fb3ce4e9a3634bc41fe16d33dd",
+      "imageGroup": "cruze"
+    },
+    {
+      "catalogId": 47,
+      "label": "FLUENCE Sed. Dynamique 2.0 16V FLEX Aut.",
+      "yearCode": "2017-5",
+      "canonicalIdentityKey": "4a5bc443cf66a7df3af2def5e106db3aa798a54237e38b045e5155b9ad72f7a7",
+      "payloadFingerprint": "b7c9f5ca30ed9cf922e142668b670dbcbd43ea12198e2d94e82c22841dfce238",
+      "imageGroup": "fluence"
+    },
+    {
+      "catalogId": 49,
+      "label": "408 Sed. Bus./Allure 1.6 TB Flex 16V Aut",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "9a7f63caea6a5800dbd69f1f4867e62c357e725aa3bff3264fd663bb126e5a19",
+      "payloadFingerprint": "a7cc210452afbb1a2f370e364a2e2344f370ac93247e20c67f4dcd21170e40e4",
+      "imageGroup": "408"
+    },
+    {
+      "catalogId": 51,
+      "label": "Grand Siena ATTRACTIVE 1.0 Flex 8V 4p",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "1bd72fba486bbe0734ac52a504f67a04d955c85a5e2832e2ff40a3f1a40ed08c",
+      "payloadFingerprint": "7d1722ae5ff3ba5f84215c8e9d79016a11bf563f024c6919baab44cb6172a986",
+      "imageGroup": "grand-siena"
+    },
+    {
+      "catalogId": 52,
+      "label": "ARRIZO 5 RXT 1.5 16V Turbo Flex Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "39022239467cd3db2d02c15ae2077b896c79919c734c35174aada8c93735d1a0",
+      "payloadFingerprint": "3ea47bb58bf9a77600d2a937f2cf5da7c8e69a59a940128eb4df0a20036109a3",
+      "imageGroup": "arrizo-5"
+    },
+    {
+      "catalogId": 54,
+      "label": "Cerato EX 2.0 16V Flex Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "60197ccfbfe75d5a9f050670587fe5766f544971b98b7accd22ea6b60032b1d7",
+      "payloadFingerprint": "7372cd5891e20667ad2acf8993dce6352358e7fea96c9947293652ed26427640",
+      "imageGroup": "cerato"
+    },
+    {
+      "catalogId": 55,
+      "label": "Sentra SV 2.0 FlexStart 16V Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "e2bc9e5fd9b6bc4ab04638d973c9632ccfadb932b96fae9b312cd2da019ee950",
+      "payloadFingerprint": "7fe0a02dd3b4844e0d0dc1f183acd4d863ce9c350dd9968092fec007e03b2c9c",
+      "imageGroup": "sentra"
+    },
+    {
+      "catalogId": 56,
+      "label": "ARRIZO 6 GSX 1.5 Turbo Flex Aut.",
+      "yearCode": "2021-5",
+      "canonicalIdentityKey": "c866a633a62852ed08429a6e4dc2b46157d485233d07ef0a6837078af8299f7f",
+      "payloadFingerprint": "4d85314c5040f71dd43b40b5dfb7bbfe61eb6556ce1172a521bf90ce5ce7530b",
+      "imageGroup": "arrizo-6"
+    },
+    {
+      "catalogId": 58,
+      "label": "SPACEFOX 1.6 Trendline Total Flex 8v 5p",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "244d1895d006ba58dd3fb29bd29b62c040a3941687dc0e560f7c8053f9899cca",
+      "payloadFingerprint": "4c3b35eac61243621a3b4ff56bc3ba18b5c7b80944b24f5dbae743d69a7a91b8",
+      "imageGroup": "spacefox"
+    },
+    {
+      "catalogId": 59,
+      "label": "AIRCROSS Live 1.6 Flex 16V 5p Mec.",
+      "yearCode": "2019-5",
+      "canonicalIdentityKey": "efa14648de97ae9cc3be7d18ea55903ba388f63c66084dbd447f653a813069da",
+      "payloadFingerprint": "7356db19a96c80fd9dd19c71f2dd866b24e4d67fe931003d82d037854dc974cb",
+      "imageGroup": "aircross"
+    },
+    {
+      "catalogId": 62,
+      "label": "Golf Comfort. 200 TSI 1.0 Flex 12V Aut.",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "8cd7e68eb45e45756652a3fce73a7ab93708108c4d8953f691775be74faa040f",
+      "payloadFingerprint": "2bb04b8e29fad1bd16c3fa2e852f90f5058852c32ba316ec892301c589f4637f",
+      "imageGroup": "golf"
+    },
+    {
+      "catalogId": 65,
+      "label": "Punto ATTRACTIVE 1.4 Fire Flex 8V 5p",
+      "yearCode": "2017-5",
+      "canonicalIdentityKey": "c852a557f2b452cf95605a5ffa840159d3832cb6098e482eca6e8f68a2d858df",
+      "payloadFingerprint": "a5d40c280a31782d9028dc9f114ea722e305c534cc751340b26933e6dea350e0",
+      "imageGroup": "punto"
+    },
+    {
+      "catalogId": 68,
+      "label": "Doblo ESSENCE 1.8 Flex 16V 5p",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "c3c84a7cb2ec112030eacf303ccfba4385d1ec241abb59850b252dbca812872a",
+      "payloadFingerprint": "091e774ec2b8f17fe4ef325d69d458431a78451aa6ad174b8584af50256fb985",
+      "imageGroup": "doblo"
+    },
+    {
+      "catalogId": 69,
+      "label": "C4 Picasso Intensive 1.6 Turbo 16V Aut.",
+      "yearCode": "2018-1",
+      "canonicalIdentityKey": "bf76cd9f9e48488577e4b8efdff359fbdd87a7f0dc544558f1ee650b4b1ccaf5",
+      "payloadFingerprint": "a6fa2b53165df3498758c7119723d1ccda1e73e17326157b6f095639927d1c11",
+      "imageGroup": "c4-picasso"
+    },
+    {
+      "catalogId": 70,
+      "label": "TIGUAN Allspac Comf 250 TSI 1.4 Flex",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "4eb33e599d2385473511d4b190cfbdbde91a30f81899c8e58340edcf9ea54de3",
+      "payloadFingerprint": "3f552f4bd4d26d2796a5ba4b4048ac0837d9a74db55f44a5b7de46fb31c81c30",
+      "imageGroup": "tiguan-allspace"
+    },
+    {
+      "catalogId": 72,
+      "label": "CR-V Touring 1.5 16V 4WD 5p Aut.",
+      "yearCode": "2019-1",
+      "canonicalIdentityKey": "91df5b9b72a2637024d1b300c84a85a4d8495659c22a7c3087649dc3270ab805",
+      "payloadFingerprint": "9aad0c9636dacf5dcc0e825343577eef22786c08506c51ce02919898ead96d4d",
+      "imageGroup": "cr-v"
+    },
+    {
+      "catalogId": 76,
+      "label": "5008 Griffe 1.6 Turbo 16V 5p Aut.",
+      "yearCode": "2019-1",
+      "canonicalIdentityKey": "76617587c3b41051df0e286fd5204891d6ac3a78363ade87ae711545673e6f40",
+      "payloadFingerprint": "cae7bf96a4821904f8dbeecfb13626fa3d4ccc928df8924012a6141bde8df785",
+      "imageGroup": "5008"
+    },
+    {
+      "catalogId": 77,
+      "label": "TRAILBLAZER LTZ 3.6 V6  Aut.",
+      "yearCode": "2019-1",
+      "canonicalIdentityKey": "bea335bfbb821de36661030c8cfabd65c6227bb0155ca566739f67a6ca12b5a8",
+      "payloadFingerprint": "eae60649a4340fbe466db14e9abcb2d622c18601358faedf70134e2cad025cf5",
+      "imageGroup": "trailblazer"
+    },
+    {
+      "catalogId": 79,
+      "label": "JETTA Comfort. 250 TSI 1.4 Flex 16v Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "1d9e0911dfabbcab8e479625c1659b6bd7ae0f28300c7b9af0be325cd0e80fc0",
+      "payloadFingerprint": "86dfe7b79c010c2ccf1e5d4dc1b0536efa1cd25e7aaf9d0a68a49354af040169",
+      "imageGroup": "jetta"
+    },
+    {
+      "catalogId": 80,
+      "label": "Focus Fastback SE/SE PLUS 2.0 Flex Aut.",
+      "yearCode": "2018-5",
+      "canonicalIdentityKey": "41b6910c1ef8b21844655a9f647d2cffba2b03f9a74df82e720423d4cea0989f",
+      "payloadFingerprint": "0514af1ddf5b082b5eb31600e2b5f2eba00d94d7da486d838a0effeec9c9349f",
+      "imageGroup": "focus"
+    },
+    {
+      "catalogId": 88,
+      "label": "Accord Sedan Touring 2.0 TB 16V Aut.",
+      "yearCode": "2020-1",
+      "canonicalIdentityKey": "27ee6365defcfb8d2ccccde18c8ffa50cd75d989240aef1e6c17188a1e9f77de",
+      "payloadFingerprint": "40bdc3f134b188a7535cbd42202223acbe82c36eb9ff605049a690dbaf690bab",
+      "imageGroup": "accord"
+    },
+    {
+      "catalogId": 91,
+      "label": "CAPTUR Zen 1.6 16V Flex 5p Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "7377ed4f7ebb3721072e4a4456f68f36d5312258dbdbb024f397d915d62e3f93",
+      "payloadFingerprint": "55876cb922c8451b89d195e8fa080431a395e6060d3bd4f1aa26269bdc07714e",
+      "imageGroup": "captur"
+    },
+    {
+      "catalogId": 92,
+      "label": "2008 Allure 1.6 Flex 16V 5p Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "dd3a38ee58d72f510fe599fafb9399b96c49330138759a078617372d1c89811d",
+      "payloadFingerprint": "e1858d8e13411b057d38e0f2043bf5661dc057ac2281d4c8b863c020a29bdb02",
+      "imageGroup": "2008"
+    },
+    {
+      "catalogId": 93,
+      "label": "C4 CACTUS FEEL 1.6 16V Flex Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "91d1407c535bd5b1d2c6611f45853d42ff1d82b6530dab86d70cb4ee7e8498de",
+      "payloadFingerprint": "39ab1efb564e7d6455cf59e60297f95a008ee199a496fe83fb83a7da58ba97ba",
+      "imageGroup": "c4-cactus"
+    },
+    {
+      "catalogId": 94,
+      "label": "Tiggo 2 Look 1.5 16V Flex Aut.5p",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "2daf5db5e73365f34aff1d1f09819788cc9fc54c3061328a479fa94f220149d4",
+      "payloadFingerprint": "4a4254d21a315a380ee724655cb7f87d2e106d6f6495a0c27f6a9544b3b112a5",
+      "imageGroup": "tiggo-2"
+    },
+    {
+      "catalogId": 96,
+      "label": "WR-V EX 1.5 Flexone 16V 5p Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "a9ff7f2c4f3c684db281a82958542349e473c4ea5f9b735794d8acbd70146528",
+      "payloadFingerprint": "6a2d548d2cdb17a7d706386a047f5abe8ed9ad448bb7a25492eb2ada46fdefd2",
+      "imageGroup": "wr-v"
+    },
+    {
+      "catalogId": 102,
+      "label": "RIO LX 1.6 Flex Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "57fbf486782e67e07fa1e87c00498a89520c8fed1653c63e608ca46f8df8a1d1",
+      "payloadFingerprint": "74e3a6f1c8104b493f4608d8b17f069562811821f2844aabcfe876fbc2641b63",
+      "imageGroup": "rio"
+    },
+    {
+      "catalogId": 104,
+      "label": "ARRIZO 5 RX 1.5 16V Turbo Flex Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "2db003dc60132ae1ab02015a225e9c2a6f7108aaba74ff2a1da54b1e4e76e704",
+      "payloadFingerprint": "5eba86e5553efc03cdcf1dfd65a878c6498a6d914c44c5ffd57170713ea81195",
+      "imageGroup": "arrizo-5"
+    },
+    {
+      "catalogId": 106,
+      "label": "WR-V EXL 1.5 Flexone 16V 5p Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "d1787835d9bd252213b4d4b5017a5f4de98da2872ac7ef6964a02c2ee43b854a",
+      "payloadFingerprint": "fca4564c3a63a0d1d7603deab545c0cdda2a6c0b0c70303266e570048cbfedb3",
+      "imageGroup": "wr-v"
+    },
+    {
+      "catalogId": 108,
+      "label": "Fit LX 1.5 Flexone 16V 5p Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "9a3c4205673c6e6f2029ca15847c12a0e1eb45eea154ed88a474373d3e1e5613",
+      "payloadFingerprint": "3b82044d7243828a043dbb69775daa83dcc0c14765b3ffc766a75cb8ef1b9275",
+      "imageGroup": "fit"
+    },
+    {
+      "catalogId": 109,
+      "label": "CITY Sedan EX 1.5 Flex 16V 4p Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "06da55adf343a04b2b13a10fa23b0c3dd9db9ac356b6e1b057884c40607afdcd",
+      "payloadFingerprint": "565fe5a570c63d9a907a7c05c22873f9098721238a475f85161e2a60c9794c99",
+      "imageGroup": "city"
+    },
+    {
+      "catalogId": 122,
+      "label": "CITY Sedan Personal 1.5 Flex 16V Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "bba2c82e73f68b7dc7c0cfcf9f6bf94205a38a5cad071f75ac80228fa3bba556",
+      "payloadFingerprint": "ca5ab81f5d10497d55189f4e53a33621a29d1771206c711b61b4cd168e848c59",
+      "imageGroup": "city"
+    },
+    {
+      "catalogId": 123,
+      "label": "KICKS SV 1.6 16V FlexStar 5p Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "cad2c5fce22b9290605719b2bfe8e6edcaa4bdb0d1322d784c8eee8a29f941a1",
+      "payloadFingerprint": "2660925a0b32bbfbfec278199ad3222fcaf1d578f8880f462cb331bb8ab1e69f",
+      "imageGroup": "kicks"
+    },
+    {
+      "catalogId": 124,
+      "label": "KICKS SL 1.6 16V FlexStar 5p Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "bb33ec7c05104cbf8b2e726b262282b90babb7c59826a0d61bda38a68b98ab9c",
+      "payloadFingerprint": "9ddb894a49da751935fee91e5325c4b4e8fe22c68ac286729580f32708760407",
+      "imageGroup": "kicks"
+    },
+    {
+      "catalogId": 125,
+      "label": "CRONOS PRECISION 1.8 16V Flex Aut.",
+      "yearCode": "2020-5",
+      "canonicalIdentityKey": "e5a65e4f505458c5dbf2e0e3b714d4aef5a91f648cbfb908c2bf371a4686a553",
+      "payloadFingerprint": "9f3d1ea35d1d2e7150d15b01352e39c653dc09a35ad4b65b275af14dfd61c1e8",
+      "imageGroup": "cronos"
+    }
+  ],
+  "photos": {
+    "prisma": {
+      "subject": "Chevrolet Prisma, sedã, geração II reestilizado, ano ilustrado 2018",
+      "model": "Chevrolet Prisma",
+      "body": "sedã",
+      "generation": "II reestilizado",
+      "depictedModelYear": 2018,
+      "illustrative": true,
+      "artist": "RL GNZLZ from Chile",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Chevrolet_Prisma_1.4_LT_2018_(31667382197).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "originalSha1": "2d645283345069f9a129d76d27983c69bfd3a9b7",
+      "sourceRevision": {
+        "revid": 1056213990,
+        "parentid": 919613581,
+        "timestamp": "2025-07-12T02:33:23Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/prisma-480-0861a320cbb5.webp",
+          "width": 480,
+          "height": 270,
+          "bytes": 27378,
+          "sha256": "0861a320cbb5c75541b5569127aac2ed1f1c94bbdffcf5fbf74273b1ef4c3804"
+        },
+        {
+          "src": "/assets/vehicle-photos/prisma-960-8da452a6b5ca.webp",
+          "width": 960,
+          "height": 540,
+          "bytes": 92192,
+          "sha256": "8da452a6b5caa707691af276354396fead1216834d37d75f22757119fbe7078f"
+        }
+      ]
+    },
+    "cobalt": {
+      "subject": "Chevrolet Cobalt, sedã, geração I reestilizado, ano ilustrado 2018",
+      "model": "Chevrolet Cobalt",
+      "body": "sedã",
+      "generation": "I reestilizado",
+      "depictedModelYear": 2018,
+      "illustrative": true,
+      "artist": "Just a Man",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2018_Chevrolet_Cobalt_1.8_LTZ.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "originalSha1": "70fa5396098e86549eaca24b6f38f90248419377",
+      "sourceRevision": {
+        "revid": 1221212262,
+        "parentid": 1030564711,
+        "timestamp": "2026-05-27T14:27:09Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/cobalt-480-cf2d1d349965.webp",
+          "width": 480,
+          "height": 267,
+          "bytes": 19610,
+          "sha256": "cf2d1d349965d3582f2265e1e96a77e04e9690655a89b58d54aaa48daf2b8400"
+        },
+        {
+          "src": "/assets/vehicle-photos/cobalt-960-632fd2ba0845.webp",
+          "width": 960,
+          "height": 534,
+          "bytes": 68382,
+          "sha256": "632fd2ba0845d410b07ecdb334703426d898dbc0cfe461c82dce84f417769fd1"
+        }
+      ]
+    },
+    "spin": {
+      "subject": "Chevrolet Spin, monovolume, geração I reestilizado, ano ilustrado 2019",
+      "model": "Chevrolet Spin",
+      "body": "monovolume",
+      "generation": "I reestilizado",
+      "depictedModelYear": 2019,
+      "illustrative": true,
+      "artist": "Maxi-Napo-99",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2019_Chevrolet_Spin_1.8_LTZ_(facelift),_front_view.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "originalSha1": "b74d75d48c7beb7bb436993f1dcf9a7ac9682767",
+      "sourceRevision": {
+        "revid": 978584866,
+        "parentid": 964011795,
+        "timestamp": "2025-01-02T15:38:24Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/spin-480-b9612186bdd1.webp",
+          "width": 480,
+          "height": 320,
+          "bytes": 31396,
+          "sha256": "b9612186bdd16b464c049c16f36421130e119ba70ceb7c030864969faa0c4bb7"
+        },
+        {
+          "src": "/assets/vehicle-photos/spin-960-f626ddb63877.webp",
+          "width": 960,
+          "height": 639,
+          "bytes": 102644,
+          "sha256": "f626ddb638777eb1e69c1230c97873121b7ca7180b372f2e19f38d2d3d0c24a2"
+        }
+      ]
+    },
+    "tracker": {
+      "subject": "Chevrolet Tracker, SUV, geração geração 2020 brasileira, ano ilustrado 2021",
+      "model": "Chevrolet Tracker",
+      "body": "SUV",
+      "generation": "geração 2020 brasileira",
+      "depictedModelYear": 2021,
+      "illustrative": true,
+      "artist": "Autosdeprimera",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Chevrolet_Tracker_2021_(front)_(cropped).png",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "originalSha1": "1507e5b83f1873a4de27faea22fe269971e033b2",
+      "sourceRevision": {
+        "revid": 999972097,
+        "parentid": 855835859,
+        "timestamp": "2025-02-18T21:18:49Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/tracker-480-91e002be3aa7.webp",
+          "width": 480,
+          "height": 240,
+          "bytes": 16026,
+          "sha256": "91e002be3aa79a55f6993b511f2951aaf329ccda06b39c6b6c0291b4aa3b3d7e"
+        },
+        {
+          "src": "/assets/vehicle-photos/tracker-960-ad1f5108035c.webp",
+          "width": 960,
+          "height": 480,
+          "bytes": 42034,
+          "sha256": "ad1f5108035c032ee1f0f624709301ac120b3148bc92cb9229ae308a77013596"
+        }
+      ]
+    },
+    "creta": {
+      "subject": "Hyundai Creta, SUV, geração I, ano ilustrado 2019",
+      "model": "Hyundai Creta",
+      "body": "SUV",
+      "generation": "I",
+      "depictedModelYear": 2019,
+      "illustrative": true,
+      "artist": "RL GNZLZ from Chile",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Hyundai_Creta_1.6_GL_2019.jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "originalSha1": "f1ed36b38efb7ec944dd9935d335a32e9f0fbb83",
+      "sourceRevision": {
+        "revid": 892477493,
+        "parentid": 662452581,
+        "timestamp": "2024-07-05T11:37:40Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/creta-480-eb0d60caf59a.webp",
+          "width": 480,
+          "height": 238,
+          "bytes": 18788,
+          "sha256": "eb0d60caf59ad2cf677b05cd8c350b7aaf10562a84e038f83b26425cc3f570c6"
+        },
+        {
+          "src": "/assets/vehicle-photos/creta-960-83cae1249d35.webp",
+          "width": 960,
+          "height": 477,
+          "bytes": 54486,
+          "sha256": "83cae1249d35f8ba627e222a259853ed7930982c0a9a08245ccb64775e774723"
+        }
+      ]
+    },
+    "etios": {
+      "subject": "Toyota Etios, hatch de cinco portas, geração I reestilizado, ano ilustrado 2018",
+      "model": "Toyota Etios",
+      "body": "hatch de cinco portas",
+      "generation": "I reestilizado",
+      "depictedModelYear": 2018,
+      "illustrative": true,
+      "artist": "Maxi-Napo-99",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2018_Toyota_Etios_1.5_XLS_5-door.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "originalSha1": "1668e498a26ab31707c3bb3e290284112fb9103c",
+      "sourceRevision": {
+        "revid": 898992251,
+        "parentid": 852173847,
+        "timestamp": "2024-07-15T09:15:38Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/etios-480-8e7f6e7c6113.webp",
+          "width": 480,
+          "height": 326,
+          "bytes": 23564,
+          "sha256": "8e7f6e7c611327ddbd71602bd9b4b89de678a1ba5041f3c7d417f1a4915218e3"
+        },
+        {
+          "src": "/assets/vehicle-photos/etios-960-ca3c297cc1f8.webp",
+          "width": 960,
+          "height": 653,
+          "bytes": 75074,
+          "sha256": "ca3c297cc1f8992326995f5999989613340d8f13576431e05edafe2c80bd0227"
+        }
+      ]
+    },
+    "corolla-cross": {
+      "subject": "Toyota Corolla Cross, SUV, geração I, ano ilustrado 2022",
+      "model": "Toyota Corolla Cross",
+      "body": "SUV",
+      "generation": "I",
+      "depictedModelYear": 2022,
+      "illustrative": true,
+      "artist": "Elise240SX",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2022_Toyota_Corolla_Cross_L_FWD,_Front_Left,_11-21-2021.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "originalSha1": "a9109535e993cd91cc3b051367b93ca7e1721af3",
+      "sourceRevision": {
+        "revid": 1059383200,
+        "parentid": 1059381464,
+        "timestamp": "2025-07-19T11:34:53Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/corolla-cross-480-2958c03767dc.webp",
+          "width": 480,
+          "height": 297,
+          "bytes": 24734,
+          "sha256": "2958c03767dca8b3da83c10aa43536b1fd1d8d4d36224b88cc5117a98733c66b"
+        },
+        {
+          "src": "/assets/vehicle-photos/corolla-cross-960-bff4193428e5.webp",
+          "width": 960,
+          "height": 593,
+          "bytes": 77854,
+          "sha256": "bff4193428e5e4acbed84ab8c09af7467d0c5933c511836670875cfe2eeae64d"
+        }
+      ]
+    },
+    "civic": {
+      "subject": "Honda Civic, sedã, geração X, ano ilustrado 2017",
+      "model": "Honda Civic",
+      "body": "sedã",
+      "generation": "X",
+      "depictedModelYear": 2017,
+      "illustrative": true,
+      "artist": "EurovisionNim",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2017_Honda_Civic_VTi-S_sedan_(2018-10-29)_01.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "originalSha1": "2a3ec798b936ffbd32d335df6b6cc57dea1eaada",
+      "sourceRevision": {
+        "revid": 812526163,
+        "parentid": 787831220,
+        "timestamp": "2023-10-17T08:22:17Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/civic-480-224402f1bac4.webp",
+          "width": 480,
+          "height": 242,
+          "bytes": 20878,
+          "sha256": "224402f1bac4b92a48cd18ae11f3c23354a0fc207fafd2b26ea8bd54aebeaf91"
+        },
+        {
+          "src": "/assets/vehicle-photos/civic-960-f8e040f951ef.webp",
+          "width": 960,
+          "height": 484,
+          "bytes": 68860,
+          "sha256": "f8e040f951ef92b2e36e429fa363507cb9704233adb846e6be76f7efb972bb1f"
+        }
+      ]
+    },
+    "mobi": {
+      "subject": "Fiat Mobi, hatch, geração I, ano ilustrado 2021",
+      "model": "Fiat Mobi",
+      "body": "hatch",
+      "generation": "I",
+      "depictedModelYear": 2021,
+      "illustrative": true,
+      "artist": "RL GNZLZ",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Fiat_Mobi_1.0_Like_2021.jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "originalSha1": "3e8cfba7090198cc68096155a630ad79b801451f",
+      "sourceRevision": {
+        "revid": 1251994981,
+        "parentid": 888676648,
+        "timestamp": "2026-07-25T18:30:55Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/mobi-480-fc59a172815d.webp",
+          "width": 480,
+          "height": 300,
+          "bytes": 28112,
+          "sha256": "fc59a172815dd5dc7c762daa6023b9d3e2e58b986b8d0f7841c257895a4e3bd7"
+        },
+        {
+          "src": "/assets/vehicle-photos/mobi-960-e70fe55816da.webp",
+          "width": 960,
+          "height": 600,
+          "bytes": 86632,
+          "sha256": "e70fe55816daed00396eb9125ecc987cce31f75bd714d63e916a9dfa537360af"
+        }
+      ]
+    },
+    "captur": {
+      "subject": "Renault Captur, SUV, geração HHA brasileiro, ano ilustrado 2019",
+      "model": "Renault Captur",
+      "body": "SUV",
+      "generation": "HHA brasileiro",
+      "depictedModelYear": 2019,
+      "illustrative": true,
+      "artist": "Just a Man",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2019_Renault_Captur_1.6_Intens_CVT.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "originalSha1": "b3aa497fc2c8a9d7caebcde6fcb96d51b62d283d",
+      "sourceRevision": {
+        "revid": 1100606767,
+        "parentid": 1010768081,
+        "timestamp": "2025-10-17T03:12:50Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/captur-480-f2ac5aba06d8.webp",
+          "width": 480,
+          "height": 320,
+          "bytes": 26504,
+          "sha256": "f2ac5aba06d8af3a12f960a9da0dd4278260f494d2d5e5d22081552cda3f2f5c"
+        },
+        {
+          "src": "/assets/vehicle-photos/captur-960-72610a091a09.webp",
+          "width": 960,
+          "height": 640,
+          "bytes": 91040,
+          "sha256": "72610a091a09f2263b3dc0d75b0d689a48fb17942a52e5823f97d97cee45224e"
+        }
+      ]
+    },
+    "hr-v": {
+      "subject": "Honda HR-V, SUV, geração RU (primeira geração brasileira), ano ilustrado 2018",
+      "model": "Honda HR-V",
+      "body": "SUV",
+      "generation": "RU (primeira geração brasileira)",
+      "depictedModelYear": 2018,
+      "illustrative": true,
+      "artist": "EurovisionNim",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2018_Honda_HR-V_(MY18)_VTi_wagon_(2018-11-27)_01.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "originalSha1": "700d197146bdfa9fa1236a522c6c606d63da2b5c",
+      "sourceRevision": {
+        "revid": 963252099,
+        "parentid": 787831215,
+        "timestamp": "2024-11-29T14:57:06Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/hr-v-480-c016fa87ab48.webp",
+          "width": 480,
+          "height": 236,
+          "bytes": 19382,
+          "sha256": "c016fa87ab48002d6167817f7bfd3d293718005acf824f8c94f0005f83654ac9"
+        },
+        {
+          "src": "/assets/vehicle-photos/hr-v-960-a505d26e2f68.webp",
+          "width": 960,
+          "height": 472,
+          "bytes": 59266,
+          "sha256": "a505d26e2f68fcb7b674d138ee304d643feec9cc8b9d470f203a5f0cd791f988"
+        }
+      ]
+    },
+    "versa": {
+      "subject": "Nissan Versa, sedã, geração N17, ano ilustrado 2019",
+      "model": "Nissan Versa",
+      "body": "sedã",
+      "generation": "N17",
+      "depictedModelYear": 2019,
+      "illustrative": true,
+      "artist": "HJUdall",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:19_Nissan_Versa_SV.jpg",
+      "license": "CC0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "originalSha1": "2c0a2f82409ca642ec23d70312c0910157e24579",
+      "sourceRevision": {
+        "revid": 954532540,
+        "parentid": 872251655,
+        "timestamp": "2024-11-09T06:42:06Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/versa-480-95d453e8441c.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 31772,
+          "sha256": "95d453e8441c39aa2f44b85675f437f007bd087907c381c1a087a783b4228814"
+        },
+        {
+          "src": "/assets/vehicle-photos/versa-960-1b6dbb1577cf.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 138194,
+          "sha256": "1b6dbb1577cf4f7137fd293230ab30d285182f9c45cc0a66a38b1b7d3cc0733b"
+        }
+      ]
+    },
+    "kicks": {
+      "subject": "Nissan Kicks, SUV, geração P15 anterior à reestilização, ano ilustrado 2019",
+      "model": "Nissan Kicks",
+      "body": "SUV",
+      "generation": "P15 anterior à reestilização",
+      "depictedModelYear": 2019,
+      "illustrative": true,
+      "artist": "RL GNZLZ from Chile",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Nissan_Kicks_1.6_Advance_2019_(48856741862).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "originalSha1": "addf10a676989b1a62c2a21a45d04060f8e5b5ef",
+      "sourceRevision": {
+        "revid": 1118323340,
+        "parentid": 914166249,
+        "timestamp": "2025-11-19T09:14:27Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/kicks-480-a1b753f5a980.webp",
+          "width": 480,
+          "height": 270,
+          "bytes": 29964,
+          "sha256": "a1b753f5a980b21caf89559eb830a5f26c8730bb040d185c9b4db04683af87fe"
+        },
+        {
+          "src": "/assets/vehicle-photos/kicks-960-3540461c6d58.webp",
+          "width": 960,
+          "height": 540,
+          "bytes": 98846,
+          "sha256": "3540461c6d58f427a5556dd0ecb53614fb1dfe7c583eea7545a95809978519e7"
+        }
+      ]
+    },
+    "wr-v": {
+      "subject": "Honda WR-V, crossover, geração DG (primeira geração), ano ilustrado 2018",
+      "model": "Honda WR-V",
+      "body": "crossover",
+      "generation": "DG (primeira geração)",
+      "depictedModelYear": 2018,
+      "illustrative": true,
+      "artist": "RL GNZLZ from Chile",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Honda_WR-V_1.5_LX_2018_(32516992488).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "originalSha1": "2c4db2e4ce3841228e9fadc63745121a33a6e484",
+      "sourceRevision": {
+        "revid": 878225267,
+        "parentid": 674656310,
+        "timestamp": "2024-05-21T13:57:40Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/wr-v-480-83b072999f95.webp",
+          "width": 480,
+          "height": 288,
+          "bytes": 37048,
+          "sha256": "83b072999f95271d3d2b9fe17a6715d545c22c65b0bcc272cb75479cbfadbba1"
+        },
+        {
+          "src": "/assets/vehicle-photos/wr-v-960-4cf78cb15186.webp",
+          "width": 960,
+          "height": 576,
+          "bytes": 115068,
+          "sha256": "4cf78cb151860802204c02050c78fb6517d5ef0007584349298e00c9d78b79de"
+        }
+      ]
+    },
+    "rio": {
+      "subject": "Kia Rio, hatch de cinco portas, geração YB, ano ilustrado 2019",
+      "model": "Kia Rio",
+      "body": "hatch de cinco portas",
+      "generation": "YB",
+      "depictedModelYear": 2019,
+      "illustrative": true,
+      "artist": "SsmIntrigue",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2019_Kia_Rio_EX,_Front_Right,_09-06-2020.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "originalSha1": "09dd21a5174921155f6f6e60e6d13b5cb0aaf575",
+      "sourceRevision": {
+        "revid": 758626637,
+        "parentid": 697878304,
+        "timestamp": "2023-05-03T16:07:24Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/rio-480-a2ae52cd1173.webp",
+          "width": 480,
+          "height": 305,
+          "bytes": 25094,
+          "sha256": "a2ae52cd1173c7362d69402e6787a594ba38a6d978dc3ce8f2e26844b026f9ca"
+        },
+        {
+          "src": "/assets/vehicle-photos/rio-960-ae836fbde359.webp",
+          "width": 960,
+          "height": 609,
+          "bytes": 78132,
+          "sha256": "ae836fbde3599e6b4830eb66b58cc5a3cfc9c52b59865a1e59cda3e856528673"
+        }
+      ]
+    },
+    "cronos": {
+      "subject": "Fiat Cronos, sedã, geração I anterior à reestilização, ano ilustrado 2021",
+      "model": "Fiat Cronos",
+      "body": "sedã",
+      "generation": "I anterior à reestilização",
+      "depictedModelYear": 2021,
+      "illustrative": true,
+      "artist": "Maxi-Napo-99",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2021_Fiat_Cronos_1.8_16v_Precision_(front_view).jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "originalSha1": "c772e022ffe584ad2e28c429b9ad53820caa805e",
+      "sourceRevision": {
+        "revid": 966031360,
+        "parentid": 837064280,
+        "timestamp": "2024-12-05T08:24:27Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/cronos-480-96d2214ec26d.webp",
+          "width": 480,
+          "height": 340,
+          "bytes": 34220,
+          "sha256": "96d2214ec26d19f11c78f5eac1398ca43fe5d4d2e9b54c7255730d03ba36ab98"
+        },
+        {
+          "src": "/assets/vehicle-photos/cronos-960-ebbac03b73da.webp",
+          "width": 960,
+          "height": 679,
+          "bytes": 119380,
+          "sha256": "ebbac03b73daab5513934b483e59f8770fe1934b23b1d46a69cdd97326198847"
+        }
+      ]
+    },
+    "aircross": {
+      "subject": "Citroën Aircross, monovolume, geração brasileiro reestilizado, ano ilustrado 2019",
+      "model": "Citroën Aircross",
+      "body": "monovolume",
+      "generation": "brasileiro reestilizado",
+      "depictedModelYear": 2019,
+      "illustrative": true,
+      "artist": "Maxi-Napo-99",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2019_Citr%C3%B6en_Aircross_1.6_VTi_Feel.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "originalSha1": "7a9dbaf2ba9dccf5551db9783a905174365c6161",
+      "sourceRevision": {
+        "revid": 964013563,
+        "parentid": 914086059,
+        "timestamp": "2024-12-01T04:16:34Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/aircross-480-fb3f16983321.webp",
+          "width": 480,
+          "height": 311,
+          "bytes": 25788,
+          "sha256": "fb3f169833211207188e6aebe923ee0b88ef5d8312490e772fdc45fc3a0ac57b"
+        },
+        {
+          "src": "/assets/vehicle-photos/aircross-960-fcb66d819db7.webp",
+          "width": 960,
+          "height": 623,
+          "bytes": 79964,
+          "sha256": "fcb66d819db7b011861630e3833f253d5f4505212b1e0391158e8d2d4f933f4c"
+        }
+      ]
+    },
+    "ecosport": {
+      "subject": "Ford EcoSport, SUV, geração II reestilizado, ano ilustrado 2018",
+      "model": "Ford EcoSport",
+      "body": "SUV",
+      "generation": "II reestilizado",
+      "depictedModelYear": 2018,
+      "illustrative": true,
+      "artist": "SsmIntrigue",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2018_Ford_EcoSport_SE_4WD,_Front_Right,_09-25-2020.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "originalSha1": "e0ba278ebc9e768aeac249051a0cde055fa7cd95",
+      "sourceRevision": {
+        "revid": 861555029,
+        "parentid": 756885765,
+        "timestamp": "2024-03-18T13:00:27Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/ecosport-480-3b6fabb4ea9e.webp",
+          "width": 480,
+          "height": 339,
+          "bytes": 28132,
+          "sha256": "3b6fabb4ea9e723bf9f6382c313f4297efb467417a40edd6d9c65f5ab75c8562"
+        },
+        {
+          "src": "/assets/vehicle-photos/ecosport-960-9ecd87879d27.webp",
+          "width": 960,
+          "height": 678,
+          "bytes": 95704,
+          "sha256": "9ecd87879d27f459e492488de970c7048c23267b2972732b7c5e3e61a2bd21ef"
+        }
+      ]
+    },
+    "fluence": {
+      "subject": "Renault Fluence, sedã, geração I reestilizado, ano ilustrado 2016",
+      "model": "Renault Fluence",
+      "body": "sedã",
+      "generation": "I reestilizado",
+      "depictedModelYear": 2016,
+      "illustrative": true,
+      "artist": "RL GNZLZ from Chile",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Renault_Fluence_2.0_Privilege_2016_(28539849181).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "originalSha1": "144408f570dd8943bc55f967f726047364e556d4",
+      "sourceRevision": {
+        "revid": 894114087,
+        "parentid": 743460119,
+        "timestamp": "2024-07-07T20:51:54Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/fluence-480-c2f4f50ee13b.webp",
+          "width": 480,
+          "height": 320,
+          "bytes": 37504,
+          "sha256": "c2f4f50ee13bf6fa20a49010c77d9ccfc4a345b022a03404250add7c76e963ef"
+        },
+        {
+          "src": "/assets/vehicle-photos/fluence-960-e0cc6736a725.webp",
+          "width": 960,
+          "height": 640,
+          "bytes": 122006,
+          "sha256": "e0cc6736a7257c196c3e485eb96c228e9f0e83c903b85772f079986ba54b0ca8"
+        }
+      ]
+    },
+    "fit": {
+      "subject": "Honda Fit, hatch, geração GK reestilizado (terceira geração), ano ilustrado 2017–2020",
+      "model": "Honda Fit",
+      "body": "hatch",
+      "generation": "GK reestilizado (terceira geração)",
+      "depictedModelYear": "2017–2020",
+      "illustrative": true,
+      "artist": "Mr.choppers",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:2017%E2%80%932020_Honda_Fit_13G%C2%B7F_in_Lunar_Silver_Metallic,_front_left.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "originalSha1": "2660b009cb3564807d914d89610cc5c8ae9b0952",
+      "sourceRevision": {
+        "revid": 1234150930,
+        "parentid": 1203216572,
+        "timestamp": "2026-06-19T16:39:00Z"
+      },
+      "variants": [
+        {
+          "src": "/assets/vehicle-photos/fit-480-5f553ce10ad1.webp",
+          "width": 480,
+          "height": 294,
+          "bytes": 20398,
+          "sha256": "5f553ce10ad170d985c6334ae2a23c71bd74aae1282023a2fb80c9251faa838a"
+        },
+        {
+          "src": "/assets/vehicle-photos/fit-960-d81fe7c7040e.webp",
+          "width": 960,
+          "height": 587,
+          "bytes": 63228,
+          "sha256": "d81fe7c7040eacb06bd08fb7f3829bdc47f63c4140c51e8b4b781c813ca7f345"
+        }
+      ]
+    }
+  },
+  "operationalAliases": [
+    {
+      "brand": "Chevrolet",
+      "model": "Prisma LT",
+      "year": 2018,
+      "catalogId": 2
+    },
+    {
+      "brand": "Chevrolet",
+      "model": "Cobalt LTZ",
+      "year": 2018,
+      "catalogId": 3
+    },
+    {
+      "brand": "Chevrolet",
+      "model": "Spin LT",
+      "year": 2019,
+      "catalogId": 4
+    },
+    {
+      "brand": "Chevrolet",
+      "model": "Tracker LT",
+      "year": 2021,
+      "catalogId": 5
+    },
+    {
+      "brand": "Hyundai",
+      "model": "Creta Attitude",
+      "year": 2019,
+      "catalogId": 8
+    },
+    {
+      "brand": "Toyota",
+      "model": "Etios XLS",
+      "year": 2018,
+      "catalogId": 10
+    },
+    {
+      "brand": "Toyota",
+      "model": "Corolla Cross XR",
+      "year": 2022,
+      "catalogId": 12
+    },
+    {
+      "brand": "Honda",
+      "model": "City LX",
+      "year": 2018,
+      "catalogId": 14
+    },
+    {
+      "brand": "Honda",
+      "model": "Civic EX",
+      "year": 2017,
+      "catalogId": 15
+    },
+    {
+      "brand": "Honda",
+      "model": "HR-V LX",
+      "year": 2018,
+      "catalogId": 16
+    },
+    {
+      "brand": "Volkswagen",
+      "model": "Voyage Comfortline",
+      "year": 2018,
+      "catalogId": 20
+    },
+    {
+      "brand": "Fiat",
+      "model": "Mobi Like",
+      "year": 2021,
+      "catalogId": 22
+    },
+    {
+      "brand": "Nissan",
+      "model": "March SV",
+      "year": 2018,
+      "catalogId": 29
+    },
+    {
+      "brand": "Nissan",
+      "model": "Versa SV",
+      "year": 2019,
+      "catalogId": 30
+    },
+    {
+      "brand": "Nissan",
+      "model": "Kicks S",
+      "year": 2020,
+      "catalogId": 31
+    },
+    {
+      "brand": "Jeep",
+      "model": "Renegade Sport",
+      "year": 2019,
+      "catalogId": 32
+    },
+    {
+      "brand": "Ford",
+      "model": "EcoSport SE",
+      "year": 2018,
+      "catalogId": 34
+    }
+  ]
+}

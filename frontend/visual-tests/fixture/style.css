@@ -1,0 +1,7 @@
+.photo-fixture { max-width: 1280px; margin: auto; padding: 16px; }
+.photo-fixture h1 { overflow-wrap: anywhere; }
+.photo-fixture-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; align-items: start; }
+.photo-fixture-switch { max-width: 320px; margin-bottom: 24px; }
+.photo-fixture-switch button { margin: 4px; }
+@media (max-width: 900px) { .photo-fixture-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 560px) { .photo-fixture-grid { grid-template-columns: minmax(0,1fr); } }

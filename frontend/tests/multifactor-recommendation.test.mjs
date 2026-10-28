@@ -158,6 +158,9 @@ test("motivos diferenciam cobertura, identidade, campo obrigatório e evidência
 
 const renderedModules = new Map();
 function loadJsxModule(url) {
+  // SSR reads JSON as data; CSS is exercised by the real browser suite.
+  if (url.pathname.endsWith(".json")) return JSON.parse(readFileSync(url, "utf8"));
+  if (url.pathname.endsWith(".css")) { readFileSync(url, "utf8"); return {}; }
   if (renderedModules.has(url.href)) return renderedModules.get(url.href).exports;
   // Transform source in memory, without build artifacts or package-directory scans.
   const { code } = transformSync(readFileSync(url, "utf8"), {

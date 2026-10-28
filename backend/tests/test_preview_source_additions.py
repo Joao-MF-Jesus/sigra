@@ -30,8 +30,8 @@ class ReviewedSourceAdditionsTests(TestCase):
     def test_complete_reviewed_application_identity_is_reproduced(self):
         with TemporaryDirectory(dir=ROOT / 'backend/tests') as temporary:
             receipt = builder.assemble(Path(temporary) / 'project')
-            self.assertEqual(receipt['release_id'], 'sigra-710d5e8c13a8b665a00fe658')
-            self.assertEqual(receipt['application_files'], 462)
+            self.assertEqual(receipt['release_id'], 'sigra-a6987bc66a8feb330f1db740')
+            self.assertEqual(receipt['application_files'], 469)
             self.assertFalse(receipt['private_runtime_configuration_included'])
 
     def test_required_public_modules_and_tests_are_explicitly_mapped(self):
