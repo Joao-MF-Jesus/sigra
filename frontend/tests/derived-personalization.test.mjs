@@ -17,6 +17,9 @@ const profile = { vehicle_type: "car", use_case: "app", budget: "1000000", month
   ...Object.fromEntries(Object.entries(MULTIFACTOR_DEFAULT_WEIGHTS).map(([key, value]) => ["weight_" + key, value])) };
 const modules = new Map();
 function load(url) {
+  // SSR reads JSON as data; CSS is exercised by the real browser suite.
+  if (url.pathname.endsWith(".json")) return JSON.parse(readFileSync(url, "utf8"));
+  if (url.pathname.endsWith(".css")) { readFileSync(url, "utf8"); return {}; }
   if (modules.has(url.href)) return modules.get(url.href).exports;
   const { code } = transformSync(readFileSync(url, "utf8"), { loader: "jsx", format: "cjs", define: { "import.meta.env": "{}" } });
   const module = { exports: {} };

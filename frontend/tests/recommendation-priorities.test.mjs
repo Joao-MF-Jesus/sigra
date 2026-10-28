@@ -15,6 +15,9 @@ const metadata = { candidate_source: "academic_v6", snapshot_id: "00000000-0000-
   strategies: ["cost_benefit", "lowest_cost"], profiles: { cidade: { weights: { price: "1" } } } };
 const modules = new Map();
 function load(url) {
+  // SSR reads JSON as data; CSS is exercised by the real browser suite.
+  if (url.pathname.endsWith(".json")) return JSON.parse(readFileSync(url, "utf8"));
+  if (url.pathname.endsWith(".css")) { readFileSync(url, "utf8"); return {}; }
   if (modules.has(url.href)) return modules.get(url.href).exports;
   const { code } = transformSync(readFileSync(url, "utf8"), { loader: "jsx", format: "cjs", define: { "import.meta.env": "{}" } });
   const module = { exports: {} }; modules.set(url.href, module);

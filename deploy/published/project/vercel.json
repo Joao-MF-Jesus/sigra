@@ -10,8 +10,8 @@
   "functions": {
     "api/index.py": {
       "maxDuration": 300,
-      "includeFiles": "{application/{.python-version,pyproject.toml,requirements.txt,vercel.json},application/{api,backend,data_platform,deploy,docs,release,scripts}/**,application/frontend/{e2e,public,src,test-results,dist}/**,application/frontend/*}",
-      "excludeFiles": "{application/frontend/node_modules/**,application/**/__pycache__/**}"
+      "includeFiles": "{application/{.python-version,pyproject.toml,requirements.txt,vercel.json},application/{api,backend,data_platform,deploy,docs,release,scripts}/**,application/frontend/{e2e,public,src,test-results}/**,application/frontend/*}",
+      "excludeFiles": "{application/frontend/node_modules/**,application/**/__pycache__/**,application/frontend/dist/assets/vehicle-photos/**,public-assets/vehicle-photos/**}"
     }
   },
   "rewrites": [

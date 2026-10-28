@@ -162,6 +162,9 @@ jobs:
       - name: Run browser smoke tests
         working-directory: frontend
         run: npm run test:e2e
+      - name: Validate vehicle photo states in cards and details
+        working-directory: frontend
+        run: node node_modules/playwright/cli.js test --config=playwright.photos.config.js
       - name: Upload E2E diagnostics on failure
         if: failure()
         uses: actions/upload-artifact@v4

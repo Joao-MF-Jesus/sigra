@@ -157,6 +157,8 @@ def _skip_reason(path: Path, root: Path) -> str | None:
     relative = path.relative_to(root)
     if any(part in SKIP_DIRECTORIES for part in relative.parts):
         return "excluded_directory"
+    if relative.as_posix().startswith("frontend/public/assets/vehicle-photos/"):
+        return None if _is_reviewed_vehicle_photo(path, root) else "forbidden_photo_asset"
     if path.suffix.lower() in SKIP_EXTENSIONS:
         return "excluded_extension"
     if path.name == ".env.example" or (
@@ -166,6 +168,30 @@ def _skip_reason(path: Path, root: Path) -> str | None:
     if path.name == ".env" or path.name.startswith(".env."):
         return "forbidden_environment_file"
     return None
+
+
+def _is_reviewed_vehicle_photo(path: Path, root: Path) -> bool:
+    """Only bounded, hash-pinned WebP derivatives are admitted, not arbitrary media."""
+    prefix = "/assets/vehicle-photos/"
+    if path.relative_to(root).as_posix() != "frontend/public/assets/vehicle-photos/" + path.name:
+        return False
+    try:
+        manifest = json.loads((root / "frontend/src/features/vehicle-images/vehiclePhotos.json").read_text(encoding="utf-8"))
+        if manifest["schema"] != "sigra-static-vehicle-photos-v1":
+            return False
+        for photo in manifest["photos"].values():
+            for image in photo["variants"]:
+                if image["src"] != prefix + path.name:
+                    continue
+                if not re.fullmatch(r"[a-z0-9-]+-[a-f0-9]{12}\.webp", path.name):
+                    return False
+                data = path.read_bytes()
+                return (0 < len(data) == image["bytes"] <= 300_000
+                        and _sha256(path) == image["sha256"]
+                        and data[:4] == b"RIFF" and data[8:12] == b"WEBP")
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
+    return False
 
 
 def _is_obviously_synthetic_credential(value: str) -> bool:
@@ -370,6 +396,8 @@ def collect_release_files(root: Path) -> tuple[list[Path], int, list[dict]]:
         reason = _skip_reason(path, root)
         if reason:
             excluded_files += 1
+            if reason == "forbidden_photo_asset":
+                violations.append({"path": path.relative_to(root).as_posix(), "reason": reason})
             if reason == "forbidden_environment_file" and not any(
                 part in SKIP_DIRECTORIES for part in path.relative_to(root).parts
             ):

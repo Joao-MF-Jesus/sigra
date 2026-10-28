@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { createHash } from 'node:crypto';
+import { checkStaticPhotoSelection } from './check-static-photos.mjs';
 const require = createRequire(import.meta.url);
 const sdk = require('@vercel/build-utils');
 const { build } = require('@vercel/python');
@@ -13,6 +14,7 @@ if (fs.existsSync(output)) throw new Error('NEW_BUILDER_OUTPUT_REQUIRED');
 const config = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json')));
 const includeFiles = config.functions['api/index.py'].includeFiles;
 if (typeof includeFiles !== 'string' || includeFiles.length > 256) throw new Error('EFFECTIVE_INCLUDE_SCHEMA_DIFFERS');
+await checkStaticPhotoSelection(root);
 const files = await sdk.glob('**', { cwd: root, ignore: [
   'application/frontend/node_modules/**', '**/__pycache__/**',
 ] });

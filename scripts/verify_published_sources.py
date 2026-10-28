@@ -65,6 +65,47 @@ def current_mapping():
                 or type(reviewed.get('application_files')) is not int or reviewed['application_files'] < 1):
             raise ValueError('REVIEWED_CANDIDATE_IDENTITY_REQUIRED')
         mapping['reviewed_candidate'] = reviewed
+    # Preserve both historical mappings; the photo feature is a separate delta
+    # against the exact main/PR3 reviewed bytes, never a replacement baseline.
+    feature_file = ROOT / 'deploy/published/vehicle-photos-revision.json'
+    if feature_file.exists():
+        feature = json.loads(feature_file.read_text(encoding='utf-8'))
+        if (feature['schema'] != 'sigra-vehicle-photos-revision-v1'
+                or feature['parent_candidate'] != mapping['reviewed_candidate']['release_id']):
+            raise ValueError('PHOTO_REVISION_PARENT_DIFFERS')
+        for name, change in feature['changes'].items():
+            checked_path(name)
+            if name not in entries or entries[name]['repository_sha256'] != change['before']:
+                raise ValueError('PHOTO_REVISION_REFERENCE_DIFFERS')
+            if not isinstance(change['after'], str) or len(change['after']) != 64 or any(c not in '0123456789abcdef' for c in change['after']):
+                raise ValueError('PHOTO_REVISION_HASH_DIFFERS')
+            entries[name]['repository_sha256'] = change['after']
+        for entry in feature['additions']:
+            source, destination, expected = entry['repository_path'], entry['application_path'], entry['repository_sha256']
+            checked_path(source)
+            rel = PurePosixPath(destination)
+            if (set(entry) != {'repository_path', 'application_path', 'repository_sha256'}
+                    or source in entries or destination in destinations or not destination
+                    or destination != rel.as_posix() or rel.is_absolute() or '..' in rel.parts
+                    or '\\' in destination or ':' in destination or len(expected) != 64
+                    or any(c not in '0123456789abcdef' for c in expected)):
+                raise ValueError('PHOTO_ADDITION_DIFFERS')
+            mapping['application_files'].append(dict(entry))
+            entries[source] = entry
+            destinations.add(destination)
+        for name, change in feature['outer_changes'].items():
+            if name != 'deploy/published/project/vercel.json' or mapping['outer_project_files'].get(name) != change['before']:
+                raise ValueError('PHOTO_OUTER_REVISION_DIFFERS')
+            if len(change['after']) != 64 or any(c not in '0123456789abcdef' for c in change['after']):
+                raise ValueError('PHOTO_OUTER_HASH_DIFFERS')
+            mapping['outer_project_files'][name] = change['after']
+        candidate = feature['candidate']
+        identity = candidate.get('release_id', '')
+        if (not isinstance(identity, str) or len(identity) != 30 or not identity.startswith('sigra-')
+                or any(c not in '0123456789abcdef' for c in identity[6:])
+                or type(candidate.get('application_files')) is not int or candidate['application_files'] < 1):
+            raise ValueError('PHOTO_CANDIDATE_IDENTITY_REQUIRED')
+        mapping['reviewed_candidate'] = candidate
     return mapping
 
 

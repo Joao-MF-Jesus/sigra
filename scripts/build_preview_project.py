@@ -13,6 +13,7 @@ from app.packed_plan import APPROVED_SHA256, APPROVED_BYTES, STORAGE_FILE
 from app.deployment import ACCEPTANCE_SHA256 as FUNCTIONAL_PIN
 from app.neon_transport import ACCEPTANCE_SHA256 as TRANSPORT_PIN
 from verify_published_sources import verify, current_mapping, checked_path
+from vehicle_photo_assets import photo_assets, DIRECTORY
 
 
 def digest(path):
@@ -33,6 +34,7 @@ def safe_destination(root, name):
 def assemble(output):
     verify()
     mapping = current_mapping()
+    photos = photo_assets(ROOT)
     output = Path(output).resolve()
     if output.exists():
         raise ValueError('NEW_EMPTY_BUILD_DIRECTORY_REQUIRED')
@@ -52,6 +54,10 @@ def assemble(output):
         destination = safe_destination(output, relative.as_posix())
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(checked_path(name), destination)
+    for name in photos:
+        destination = output / 'public-assets/vehicle-photos' / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / DIRECTORY / name, destination)
     # The inner config is not used by the outer builder; include the same
     # effective string overlay rather than the obsolete internal array config.
     shutil.copyfile(output / 'vercel.json', application / 'vercel.json')

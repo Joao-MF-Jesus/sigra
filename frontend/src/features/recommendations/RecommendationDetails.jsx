@@ -4,6 +4,7 @@ import { formatCurrency, formatScore, getConfidence, getMaintenanceMetric, getPa
 import VehicleCostSimulationPanel from "../vehicle-cost-simulation/VehicleCostSimulationPanel.jsx";
 import MultifactorBreakdown from "./MultifactorBreakdown.jsx";
 import CohortVehicleDetails from "./CohortVehicleDetails.jsx";
+import VehiclePhoto from "../vehicle-images/VehiclePhoto.jsx";
 
 function DetailGrid({ items }) {
   return <dl className="spec-list modal-spec-list">{items.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>;
@@ -62,6 +63,7 @@ export default function RecommendationDetails({ item, metadata, profile, onClose
   return <div className="modal-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><section ref={dialogRef} className="details-modal" role="dialog" aria-modal="true" aria-labelledby="vehicle-details-title" aria-describedby="vehicle-details-description">
     <div className="modal-header"><div><p className="eyebrow">Detalhes da recomendação</p><h2 id="vehicle-details-title">{vehicle.brand} {vehicle.model}</h2><p id="vehicle-details-description">{vehicle.year} · evidências, custos e próximos passos</p></div><button ref={closeButtonRef} className="ghost-button modal-close" type="button" onClick={onClose}>Fechar</button></div>
     <div className="modal-body" data-testid="vehicle-details-scroll">
+    <VehiclePhoto vehicle={vehicle} variant="details" />
     <DetailGrid items={[["Ano", vehicle.year], ["Preço de referência", formatCurrency(vehicle.price)], ["Consumo", `${vehicle.fuel_efficiency_km_l} km/l`], [maintenance.label, maintenance.value], [parts.label, parts.value], ["Confiabilidade mecânica", formatScore(vehicle.reliability_score)]]} />
     <section className="modal-section"><h3>Detalhamento do TCO mensal</h3><DetailGrid items={[["Combustível", formatCurrency(tco.monthly_fuel_cost)], ["Manutenção", formatCurrency(tco.monthly_maintenance_cost)], ["IPVA", formatCurrency(tco.monthly_ipva_cost)], ["Seguro", formatCurrency(tco.monthly_insurance_cost)], ["Depreciação", formatCurrency(tco.monthly_depreciation_cost)], ["Total mensal", formatCurrency(tco.total_monthly_cost)]]} /></section>
     <div className="modal-summary-grid"><article><span>Status</span><strong>{getRecommendationStatusLabel(item.recommendation_status)}</strong></article><article><span>Nota SIGRA</span><strong>{formatScore(item.score)}</strong></article><article><span>Financeiro</span><strong>{formatScore(item.score_components?.financial_score)}</strong></article>{Number.isFinite(Number(item.decision_score)) && <article><span>Índice complementar de valor</span><strong>{formatScore(item.decision_score)}</strong></article>}</div>
