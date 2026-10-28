@@ -10,6 +10,50 @@ test.beforeEach(async({context})=>{
   });
 });
 for (const width of [320,1440]) {
+  test(`details photo frame keeps its width for loaded, unavailable and failed images at ${width}px`,async({page},testInfo)=>{
+    await page.setViewportSize({width,height:900});
+    const errors=[];page.on('pageerror',error=>errors.push(error.message));
+    await page.goto(fixture);
+    const openPhoto=page.locator('[data-catalog-id="2"]').getByRole('button',{name:'Detalhes',exact:true});
+    let expectedFrame;
+    for (const state of ['loaded','unavailable','failed']) {
+      if(state==='failed') await page.route('**/assets/vehicle-photos/prisma-*.webp',route=>route.abort('failed'));
+      const trigger=state==='unavailable' ? page.getByRole('button',{name:'Detalhes sem foto admitida',exact:true}) : openPhoto;
+      await trigger.click();
+      const dialog=page.getByRole('dialog');
+      await expect(dialog).toBeVisible();
+      const photo=dialog.locator('.vehicle-photo--details');
+      if(state==='loaded') {
+        await expect(photo.locator('img')).toHaveJSProperty('complete',true);
+        expect(await photo.locator('img').evaluate(el=>el.naturalWidth)).toBeGreaterThan(0);
+        await expect(photo.locator('.vehicle-photo__frame')).toHaveClass(/is-loaded/);
+        await expect(photo.locator('img')).toHaveAttribute('alt',new RegExp(manifest.photos.prisma.subject));
+        expect(await photo.locator('img').evaluate(el=>getComputedStyle(el).objectFit)).toBe('contain');
+      } else {
+        await expect(photo.locator('img')).toHaveCount(0);
+        await expect(photo.getByRole('img',{name:`Foto indisponível: ${state==='unavailable' ? 'Veículo de teste sem foto admitida' : manifest.vehicles.find(row=>row.catalogId===2).label}`})).toBeVisible();
+        await expect(photo.getByText('Foto verificada indisponível',{exact:false})).toBeVisible();
+      }
+      const audit=await dialog.evaluate(el=>{
+        const frame=el.querySelector('.vehicle-photo__frame').getBoundingClientRect();
+        const body=el.querySelector('.modal-body'),style=getComputedStyle(body);
+        return {frame:{width:frame.width,height:frame.height},available:body.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight),
+          overflow:[...el.querySelectorAll('*'),el,document.documentElement].filter(node=>node.clientWidth&&node.scrollWidth>node.clientWidth+1).map(node=>node.className||node.tagName)};
+      });
+      expect(audit.overflow).toEqual([]);
+      expect(audit.frame.width).toBeGreaterThan(240);
+      expect(Math.abs(audit.frame.width-Math.min(760,audit.available))).toBeLessThan(1);
+      expect(audit.frame.width/audit.frame.height).toBeCloseTo(16/10,2);
+      if(expectedFrame) expect(audit.frame).toEqual(expectedFrame); else expectedFrame=audit.frame;
+      await testInfo.attach(`details-${state}-${width}-geometry`,{body:JSON.stringify(audit,null,2),contentType:'application/json'});
+      await page.screenshot({path:testInfo.outputPath(`details-${state}-${width}.png`)});
+      await expect(dialog.getByRole('button',{name:'Fechar',exact:true})).toBeFocused();
+      await page.keyboard.press('Escape');
+      await expect(dialog).not.toBeVisible();
+      await expect(trigger).toBeFocused();
+    }
+    expect(errors).toEqual([]);
+  });
   test(`cards and accessible details at ${width}px`, async ({page},testInfo)=>{
     await page.setViewportSize({width,height:900});
     const errors=[]; page.on('pageerror',error=>errors.push(error.message));

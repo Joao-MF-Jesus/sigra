@@ -13,6 +13,9 @@ const items = manifest.vehicles.map((row) => ({
     year_code: row.yearCode, canonical_identity_key: row.canonicalIdentityKey },
   score: null, monthly_total_cost: null, evaluation: { scenario_costs: { components: {} } },
 }));
+const unavailableItem = { vehicle: { identity_namespace: 'academic_v6', catalog_id: 999,
+  label: 'Veículo de teste sem foto admitida' }, score: null,
+  evaluation: { scenario_costs: { components: {} } } };
 function Fixture() {
   const [detail, setDetail] = useState(null);
   const [single, setSingle] = useState(items[0]);
@@ -22,6 +25,7 @@ function Fixture() {
     <section aria-label="Recuperação da imagem" className="photo-fixture-switch">
       <button onClick={()=>setSingle(items[0])}>Mostrar Prisma</button>
       <button onClick={()=>setSingle(items[1])}>Mostrar Cobalt</button>
+      <button onClick={()=>setDetail(unavailableItem)}>Detalhes sem foto admitida</button>
       <div data-testid="switch-photo"><VehiclePhoto vehicle={single.vehicle} /></div>
     </section>
     <section className="recommendation-grid photo-fixture-grid" aria-label="Catálogo de 60 veículos">

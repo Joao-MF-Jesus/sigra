@@ -48,7 +48,7 @@
     {
       "repository_path": "frontend/src/features/vehicle-images/vehiclePhotos.css",
       "application_path": "frontend/src/features/vehicle-images/vehiclePhotos.css",
-      "repository_sha256": "18853f9e2eb9d18162092c00b16c173bd5cf8a5b3c50a4307d553b4213ca52c7"
+      "repository_sha256": "16cd43a0e3153dcc8ff5d220a897245bf42503140f78c58936c04e0478f90e8e"
     },
     {
       "repository_path": "frontend/src/features/vehicle-images/vehiclePhotos.json",
@@ -79,7 +79,7 @@
     }
   },
   "candidate": {
-    "release_id": "sigra-a6987bc66a8feb330f1db740",
+    "release_id": "sigra-d0886e069fab9fef82dd819f",
     "application_files": 469
   }
 }
